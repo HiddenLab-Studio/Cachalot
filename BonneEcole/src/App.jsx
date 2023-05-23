@@ -1,16 +1,30 @@
-import React from "react";
+// Important !
+import React, {useState} from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Import components
-import Home from "./components/Home/Home.jsx";
+// Scss
+import "./App.scss"
+
+// Functions
+
+// Components
+import { ThemeProvider } from "@emotion/react";
+import Home from "./components/home/Home.jsx"
+
+// Theme
+import { Theme, themeLight, themeDark } from "./assets/theme.js";
 
 function App(){
+    const [theme, setTheme] = useState(Theme.loadTheme() === "light" ? "light" : "dark");
+
     return (
         <BrowserRouter>
-            <Routes>
-                <Route path={"/"} element={<Home />}></Route>
-            </Routes>
+            <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
+                <Routes>
+                    <Route path={"/"} element={<Home setTheme={setTheme} />}></Route>
+                </Routes>
+            </ThemeProvider>
         </BrowserRouter>
     )
 }
