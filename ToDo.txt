@@ -2,8 +2,12 @@
 Déjà fait : 
 
 System de register avec firebase en html -> données en plus dans la database collection users
-System de login ok
+System de login ainsi que la recuperation de données dans l'autre database 
 
 A Faire : 
 
-Recuperer les données supplémentaire 
+Session system 
+Setting des compte (reset mdp ect)
+
+
+ 

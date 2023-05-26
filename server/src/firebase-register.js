@@ -42,7 +42,7 @@ function register(e) {
     createUserWithEmailAndPassword(auth, obj.email, obj.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        console.log(user.uid);
 
         //Ajout des informations supplémentaires dans la base de donnee
         //Ajout du document dans la collection users

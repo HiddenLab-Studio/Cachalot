@@ -6,6 +6,10 @@ const http = require('http');
 const app = express();
 const path = require('path');
 
+//recuperation token 
+//const { token } = require('./firebase-login.js');
+//console.log(token);
+
 const dotenv = require('dotenv')
 dotenv.config({path : "./.env"});
 const PORT = process.env.SERVER_PORT || 5000;
