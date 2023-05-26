@@ -12,11 +12,9 @@
 
 <body>
     <div id="exercise"></div>
-    <input type="text" id="valeurInput" placeholder="0">
-    <button onclick="getUserInputAndCheckSolution()">Récupérer</button>
+    <input type="text" id="valeurInput" placeholder="Réponse" onfocus="this.value=''">
+    <button id="ConfirmAnswerBtn" onclick="getUserInputAndCheckSolution()">Valider</button>
     <div id="result"></div>
-
-
 </body>
 <script src="./ExerciseGenerator.js"></script>
 

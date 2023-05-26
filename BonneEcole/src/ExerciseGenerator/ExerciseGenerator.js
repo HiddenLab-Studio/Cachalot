@@ -1,6 +1,28 @@
 
 
 
+
+//Lorsqu'on valide la réponse, on vient récupérer la valeur de l'input et on vérifie la solution
+document.getElementById("ConfirmAnswerBtn").addEventListener("click", function () {
+    getUserInputAndCheckSolution();
+
+    //Ensuite, on génère un bouton pour passer à l'exercice suivant
+    let nextExerciseBtn = document.createElement("button");
+    nextExerciseBtn.innerHTML = "Nouvel exercice";
+    nextExerciseBtn.id = "nouvelExerciceBtn";
+    document.getElementById("result").appendChild(nextExerciseBtn);
+
+    //Lorsqu'on clique sur le bouton "Nouvel exercice", on vient générer un nouvel exercice et on efface la valeur dans l'input
+    nextExerciseBtn.addEventListener("click", function () {
+        document.getElementById("valeurInput").value = "";
+        generateNewExerciseAndDisplay()
+        document.getElementById("result").innerHTML = "";
+        nextExerciseBtn.remove();
+    });
+});
+
+
+
 //Genere une valeur aléatoire entre min et max
 function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -25,10 +47,9 @@ function generateRandomExercise(operatorUsed = "all") {
     return firstNumber + " " + operator + " " + secondNumber;
 }
 
+var exercise;
 
-let exercise = generateRandomExercise();
-console.log(exercise);
-
+//On vient calculer la solution de l'exercice
 function findSolution(exercise) {
     return eval(exercise);//eval prend en paramètre une chaîne de caractères et l'exécute comme du code JavaScript, attention à la sécurité -> Ne pas utiliser avec des données provenant de l'utilisateur
 }
@@ -38,6 +59,7 @@ function AllowedSolution(solution) {
     return Math.round(solution * 100) / 100;
 }
 
+//On vient comparer la solution de l'exercice avec la réponse de l'utilisateur
 function checkSolution(solution, userSolution) {
     if (solution == userSolution || AllowedSolution(solution) == AllowedSolution(userSolution)) {
         return true;
@@ -47,12 +69,6 @@ function checkSolution(solution, userSolution) {
     }
 }
 
-console.log('Solution :');
-console.log(findSolution(exercise));
-
-//Afichage de l'opération sur la page HTML
-console.log(document.getElementById("exercise"));
-document.getElementById("exercise").innerHTML = exercise;
 
 /*Récupération de l'entrée utilisateur
 function getUserInput() {
@@ -61,7 +77,7 @@ function getUserInput() {
   }
 */
 
-  //Récupération de l'entrée utilisateur et vérification de la solution
+//Récupération de l'entrée utilisateur et vérification de la solution
 function getUserInputAndCheckSolution() {
     var valeur = document.getElementById("valeurInput").value;
     console.log("La valeur saisie est : " + valeur);
@@ -76,4 +92,16 @@ function getUserInputAndCheckSolution() {
         console.log("Mauvaise réponse");
     }
 }
-  
+
+//On génère un nouveau calcul et on l'affiche sur la page HTML
+function generateNewExerciseAndDisplay() {
+    //Génération d'un nouvel exercice
+    exercise = generateRandomExercise();
+
+    //Afichage de l'opération sur la page HTML
+    console.log(document.getElementById("exercise"));
+    document.getElementById("exercise").innerHTML = exercise;
+}
+
+generateNewExerciseAndDisplay();
+console.log(exercise);
