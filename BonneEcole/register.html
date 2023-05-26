@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="static/favicon.ico"/>
+
+    <!-- BoxIcon -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="text/css">
+
+    <title>Bonne Ecole</title>
+  </head>
+  <body>
+
+    <form onsubmit="register(event)">
+
+    
+      <div class="container">
+        <label for="email"><b>Email</b></label>
+        <input id="email" type="text" placeholder="Enter Email" name="email" required>
+    
+        <label for="psw"><b>Password</b></label>
+        <input id="password" type="password" placeholder="Enter Password" name="psw" required>
+
+        <label for="psw"><b>Confirm Password</b></label>
+        <input id="confirmPassword" type="password" placeholder="Confirm Password" name="psw" required>
+
+        <label for="age"><b>Age</b></label>
+        <input id="age" type="number" placeholder="Enter Age" name="age" required>
+
+        <label for="uname"><b>Username</b></label>
+        <input id="username" type="texte" placeholder="Enter Username" name="uname" required>
+    
+        <button type="submit">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+    
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
+    </form>
+
+    <div id="root"></div>
+    <script type="module" src="./src/firebase-register.js"></script>
+  </body>
+</html>

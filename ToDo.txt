@@ -1,0 +1,9 @@
+
+Déjà fait : 
+
+System de register avec firebase en html -> données en plus dans la database collection users
+System de login ok
+
+A Faire : 
+
+Recuperer les données supplémentaire 
