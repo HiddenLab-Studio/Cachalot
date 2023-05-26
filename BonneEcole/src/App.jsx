@@ -10,7 +10,8 @@ import "./App.scss"
 
 // Components
 import { ThemeProvider } from "@emotion/react";
-import Home from "./components/home/Home.jsx"
+import Home from "./components/home/Home.jsx";
+import CreateExercise from "./CreateExercise/CreateExercise.jsx";
 
 // Theme
 import { Theme, themeLight, themeDark } from "./assets/theme.js";
@@ -23,6 +24,7 @@ function App(){
             <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
                 <Routes>
                     <Route path={"/"} element={<Home setTheme={setTheme} />}></Route>
+                    <Route path={"/test"} element={<CreateExercise setTheme={setTheme} />}></Route>
                 </Routes>
             </ThemeProvider>
         </BrowserRouter>
