@@ -17,7 +17,20 @@ document.getElementById("ConfirmAnswerBtn").addEventListener("click", function (
         document.getElementById("valeurInput").value = "";
         generateNewExerciseAndDisplay()
         document.getElementById("result").innerHTML = "";
-        nextExerciseBtn.remove();
+        nextExerciseBtn.remove();//Suppression du bouton "Nouvel exercice"
+
+        //Test de communication avec le serveur
+        fetch('/api/getNewExercise')
+            .then(response => response.json())
+            .then(data => {
+                // Utilisez les données reçues ici
+                console.log(data.message);
+                console.log(data.exercise);
+            })
+            .catch(error => {
+                // Gérer les erreurs de requête
+                console.error('Une erreur s\'est produite:', error);
+            });
     });
 });
 
