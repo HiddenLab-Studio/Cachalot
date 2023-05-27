@@ -1,7 +1,6 @@
 
 
 
-
 //Lorsqu'on valide la réponse, on vient récupérer la valeur de l'input et on vérifie la solution
 document.getElementById("ConfirmAnswerBtn").addEventListener("click", function () {
     getUserInputAndCheckSolution();
@@ -15,52 +14,21 @@ document.getElementById("ConfirmAnswerBtn").addEventListener("click", function (
     //Lorsqu'on clique sur le bouton "Nouvel exercice", on vient générer un nouvel exercice et on efface la valeur dans l'input
     nextExerciseBtn.addEventListener("click", function () {
         document.getElementById("valeurInput").value = "";
-        generateNewExerciseAndDisplay()
+        getNewExerciseAndDisplay()
         document.getElementById("result").innerHTML = "";
         nextExerciseBtn.remove();//Suppression du bouton "Nouvel exercice"
 
-        //Test de communication avec le serveur
-        fetch('/api/getNewExercise')
-            .then(response => response.json())
-            .then(data => {
-                // Utilisez les données reçues ici
-                console.log(data.message);
-                console.log(data.exercise);
-            })
-            .catch(error => {
-                // Gérer les erreurs de requête
-                console.error('Une erreur s\'est produite:', error);
-            });
+
     });
 });
 
 
+/*à faire : Systeme pour vérifier la solution :
 
-//Genere une valeur aléatoire entre min et max
-function generateRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+Le client envoie son exercice actuel accompagné de sa réponse.
+Le serveur vérifie si c'est bon ou pas et envoie la réponse
 
-//Genere un opérateur aléatoire
-function generateRandomOperator() {
-    var operators = ["+", "-", "*", "/"];
-    return operators[generateRandomNumber(0, 3)];
-}
-
-//Genere un exercice aléatoire de calcul
-function generateRandomExercise(operatorUsed = "all") {
-    var firstNumber = generateRandomNumber(0, 10);
-    var secondNumber = generateRandomNumber(0, 10);
-
-    if (operatorUsed == "all") {
-        var operator = generateRandomOperator();
-    } else {
-        var operator = operatorUsed;
-    }
-    return firstNumber + " " + operator + " " + secondNumber;
-}
-
-var exercise;
+*/
 
 //On vient calculer la solution de l'exercice
 function findSolution(exercise) {
@@ -107,14 +75,26 @@ function getUserInputAndCheckSolution() {
 }
 
 //On génère un nouveau calcul et on l'affiche sur la page HTML
-function generateNewExerciseAndDisplay() {
-    //Génération d'un nouvel exercice
-    exercise = generateRandomExercise();
+function getNewExerciseAndDisplay() {
+    //Demande au serveur un nouvel exercice
+    fetch('/api/getNewExercise')
+        .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
+        .then(data => {
+            //Récupération des données et affichage sur la page si la requête est réussie
+            console.log(data.exercise);
+            let newExercise = data.exercise;
 
-    //Afichage de l'opération sur la page HTML
-    console.log(document.getElementById("exercise"));
-    document.getElementById("exercise").innerHTML = exercise;
+            //Afichage de l'opération sur la page HTML
+            console.log(document.getElementById("exercise"));
+            console.log(newExercise);
+            document.getElementById("exercise").innerHTML = newExercise;
+        })
+        .catch(error => {
+            // Gérer les erreurs de requête
+            console.error('Une erreur s\'est produite:', error);
+        });
+
+
 }
 
-generateNewExerciseAndDisplay();
-console.log(exercise);
+getNewExerciseAndDisplay();
