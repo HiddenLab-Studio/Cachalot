@@ -6,9 +6,6 @@ const http = require('http');
 const app = express();
 const path = require('path');
 
-//recuperation token 
-//const { token } = require('./firebase-login.js');
-//console.log(token);
 
 const dotenv = require('dotenv')
 dotenv.config({path : "./.env"});
@@ -16,12 +13,17 @@ const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "..")));
 
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, "../../BonneEcole/register.html"));
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/index.html"));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/register.html"));
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, "../../BonneEcole/login.html"));
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/login.html"));
 });
 
 app.listen(PORT, () => {
