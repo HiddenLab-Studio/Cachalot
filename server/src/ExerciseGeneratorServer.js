@@ -1,5 +1,5 @@
+//Partie serveur de la génération d'exercice de calcul aléatoire, on retrouve ici les fonctions qui permettent de générer un exercice aléatoire et de vérifier la solution
 
-//JE VAIS LE DEPLACER DANS UN AUTRE FICHIER DANS LE DOSSIER SERVER
 //Genere une valeur aléatoire entre min et max
 function generateRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -45,6 +45,21 @@ function checkSolution(solution, userSolution) {
 }
 
 
+//Récupération de l'entrée utilisateur et vérification de la solution
+function getUserInputAndCheckSolution(answer, exercise) {
+    var solution = findSolution(exercise);
+    if (checkSolution(solution, answer)) {
+        //Bonne réponse
+        return true;
+    }
+    else {
+        //Mauvaise réponse
+        return false;
+    }
+}
+
+
 module.exports = {
-    generateRandomExercise
+    generateRandomExercise,
+    getUserInputAndCheckSolution
 };
