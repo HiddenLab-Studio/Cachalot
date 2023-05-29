@@ -34,8 +34,8 @@ function generateRandomExercise(operatorUsed = "all") {
             var operator = "*";
             break;
         case "division":
-            firstNumber = generateRandomNumber(0, 50);
             secondNumber = generateRandomNumber(1, 10);
+            firstNumber = generateRandomNumber(0, 50)*secondNumber;
             var operator = "/";
             break;
         default:

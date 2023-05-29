@@ -36,9 +36,23 @@ body {
 }
 
 #selectExerciseTypeDiv{
+
     justify-content: center;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
     margin: 5px;
+}
+
+#classLevelSelectionDiv{
+    width: 10%;
+
+    justify-content:flex-start;
+    display: flex;
+    align-items: center;
+    border: black solid 1px;
+    flex-direction: column;
+    padding: 10px;
+    gap: 6px;
+    margin: 2px;
 }

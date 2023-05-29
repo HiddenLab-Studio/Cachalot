@@ -1,4 +1,6 @@
 //Partie client de la génération d'exercice de calcul aléatoire, on utilise le serveur pour générer les exercices et vérifier les réponses
+
+
 var currentExercise = undefined;//Variable qui contient l'exercice actuel
 var currentExerciseType = "all";//Variable qui contient le type d'exercice actuel (addition, soustraction, multiplication, division ou tout type d'opération)
 
@@ -39,24 +41,6 @@ document.getElementById("selectNimporte").addEventListener("click", function () 
 //On demande au serveur un nouveau calcul et on l'affiche sur la page HTML
 function getNewExerciseAndDisplay() {
     //Demande au serveur un nouvel exercice
-
-    /*
-    fetch('/api/getNewExercise')
-        .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
-        .then(data => {
-            //Récupération des données et affichage sur la page si la requête est réussie
-            let newExercise = data.exercise;
-            currentExercise = newExercise;
-
-            //Afichage de l'opération sur la page HTML
-            document.getElementById("exercise").innerHTML = newExercise;
-        })
-        .catch(error => {
-            // Gérer les erreurs de requête
-            console.error('Une erreur s\'est produite:', error);
-        });
-*/
-
 
     fetch('/api/getNewExercise', {
         method: 'POST',
