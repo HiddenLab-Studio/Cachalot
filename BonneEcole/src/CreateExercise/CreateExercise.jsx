@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-// Components
+// Scss
+import "./CreateExercise.scss"
 
 const CreateExercise = (props) => {
+    const [previewSource, setPreviewSource] = useState("");
+    const [answers, setAnswers] = useState([]);
+
+    useEffect(() => {
+        const uploadInput = document.getElementById('upload');
+
+        uploadInput.addEventListener('change', (event) => {
+            setPreviewSource(URL.createObjectURL(event.target.files[0]));
+        });
+    }, []);
+
     return (
-        <body>
+        <>
             <h1>Créer votre propre exercice</h1>
 
             <section>
                 <div>
                     <h3>Énoncé</h3>
-                    <textarea name="statement" rows="5" cols="33" required>Énoncé de l'exercice...</textarea>
+                    <textarea name="statement" className="statement" required defaultValue="Énoncé de l'exercice..."></textarea>
                 </div>
-                <div>
+                <div className="image">
                     <h3>Ajouter une image (optionnel)</h3>
                     <input type="file" id="upload" accept="image/*"></input>
-                    <img id="preview" src="#" alt="Aperçu de l'image"></img>
+                    <img className="preview" src={previewSource} alt="Image preview"></img>
                 </div>
             </section>
 
@@ -25,8 +37,10 @@ const CreateExercise = (props) => {
                 <button>Ajouter</button>
             </section>
 
-            <button>Créer l'exercice</button>
-        </body>
+            <section><li>{answers}</li></section>
+
+            <section><button>Créer l'exercice</button></section>
+        </>
     )
 };
 
