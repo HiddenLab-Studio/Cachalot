@@ -1,9 +1,20 @@
 body {
     background-color: #f1f1f1;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#exerciseAndAnswerDiv {
     position: absolute;
-    top: 35%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 #exercise {
@@ -15,11 +26,19 @@ body {
     font-size: 30px;
 }
 
-#result{
+#result {
     height: 40px;
     display: flex;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
     align-items: center;
     flex-direction: column;
+}
+
+#selectExerciseTypeDiv{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px;
 }

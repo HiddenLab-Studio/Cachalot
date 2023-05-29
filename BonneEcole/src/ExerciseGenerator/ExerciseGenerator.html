@@ -11,10 +11,21 @@
 
 
 <body>
-    <div id="exercise"></div>
-    <input type="text" id="valeurInput" placeholder="Réponse" onfocus="this.value=''">
-    <button id="ConfirmAnswerBtn">Valider</button>
-    <div id="result"></div>
+    <div id="selectExerciseTypeDiv">
+        <button id="selectAddition">Addition</button>
+        <button id="selectSoustraction">Soustraction</button>
+        <button id="selectMultiplication">Multiplication</button>
+        <button id="selectDivision"">Division</button>
+        <button id="selectNimporte">N'importe</button>
+    </div>
+
+    <div id="exerciseAndAnswerDiv">
+        <div id="exercise"></div>
+        <input type="text" id="valeurInput" placeholder="Réponse" onfocus="this.value=''">
+        <button id="ConfirmAnswerBtn">Valider</button>
+        <div id="result"></div>
+    </div>
+
 </body>
 <script src="./ExerciseGenerator.js"></script>
 

@@ -13,16 +13,46 @@ function generateRandomOperator() {
 
 //Genere un exercice aléatoire de calcul
 function generateRandomExercise(operatorUsed = "all") {
-    var firstNumber = generateRandomNumber(0, 10);
-    var secondNumber = generateRandomNumber(0, 10);
+    let firstNumber = generateRandomNumber(1, 51);
+    let secondNumber = generateRandomNumber(1, 51);
 
-    if (operatorUsed == "all") {
-        var operator = generateRandomOperator();
-    } else {
-        var operator = operatorUsed;
+    if(operatorUsed == "all"){
+        operatorUsed = selectRandomOperator();
     }
+
+
+    switch (operatorUsed) {
+        case "addition":
+            var operator = "+";
+            break;
+        case "soustraction":
+            var operator = "-";
+            break;
+        case "multiplication":
+            firstNumber = generateRandomNumber(2, 10);
+            secondNumber = generateRandomNumber(2, 10);
+            var operator = "*";
+            break;
+        case "division":
+            firstNumber = generateRandomNumber(0, 50);
+            secondNumber = generateRandomNumber(1, 10);
+            var operator = "/";
+            break;
+        default:
+            //Version par défaut : permet de protéger d'un crash serveur si le type d'opération n'est pas reconnu
+            var operator = generateRandomOperator();
+            break;
+    }
+
     return firstNumber + " " + operator + " " + secondNumber;
 }
+
+function selectRandomOperator() {
+    var operators = ["addition", "soustraction", "multiplication", "division"];
+    return operators[generateRandomNumber(0, 3)];
+}
+
+
 
 //On vient calculer la solution de l'exercice
 function findSolution(exercise) {

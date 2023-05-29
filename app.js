@@ -5,7 +5,6 @@ const port = 4000;
 const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/ExerciseGeneratorServer.js');
 
 
-
 //On défini le dossier indiqué comme dossier statique => on peut directement accéder aux fichiers du dossier côté client
 app.use(express.static('BonneEcole/src/ExerciseGenerator'));
 
@@ -17,8 +16,10 @@ app.get('/', (req, res) => {
 
 
 //On envoie un exercice aléatoire au client
-app.get('/api/getNewExercise', (req, res) => {
-  exercise = generateRandomExercise();
+app.post('/api/getNewExercise', (req, res) => {
+  const exerciseType = req.body.currentExerciseType;
+  console.log(exerciseType);
+  exercise = generateRandomExercise(exerciseType);
   // Données à envoyer au client
   const data = {
     exercise: exercise,
