@@ -14,17 +14,18 @@ export const Theme = {
     }
 }
 
-
-
 export const themeLight = {
     name: "light",
-    text: "#000",
-    background: "#fff",
-    buttonText: "#000",
-    buttonTextHover: "#fff",
-    buttonBorder: "#000",
-    buttonBg: "rgba(0, 0, 0, 0)",
-    buttonBgHover: "rgba(0, 0, 0, 1)",
+    text: "#3c3c3c",
+    background: "#fdfdfd",
+
+    // Navbar
+    navbarText: "#777777",
+    borderRightColor: "#e5e5e5",
+    buttonBgHover: "#f1f1f1",
+    buttonBgOnCurrent: "#ddf4ff",
+    buttonBorderOnCurrent: "#84d8ff",
+
 };
 
 export const themeDark = {

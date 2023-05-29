@@ -1,36 +1,120 @@
+// From React
 import React from "react";
-import styled from "@emotion/styled";
-import { useTheme } from "@emotion/react";
-import "twin.macro";
+import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
-// Functions
-import { Theme } from "../../assets/theme.js";
+// Context
+import { useAuth } from "../../context/AuthContext.js";
 
-// Icons
-import { BiMoon, BiSun } from "react-icons/bi";
+// Styled components
+import {
+    NavbarContainer,
+    ImgWrapper,
+    LinkContainer,
+    BeneathLinkContainer,
+    LinkDiv,
+    ProfileContainer,
+    ProfileElement,
+    XpBar,
+    XpBarContainer,
+    BarContainer,
+    LevelInformationContainer
+} from "./NavbarStyle.js";
 
-// Components
-// It's more reliable to put a styled component outside another component cause rerender don't recreate and render the component
-const Container = styled.div`
-  background-color: ${props => props.theme.name === "dark" ? "black" : "#121212"};
-`;
+// Main component
+const Navbar = () => {
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    const auth = useAuth();
 
-const Navbar = (props) => {
-    const theme = useTheme();
-
-    function toggleTheme(){
-        props.setTheme((theme) => theme === "light" ? "dark" : "light");
-        Theme.setTheme(theme.name === "light" ? "dark" : "light");
+    function handleClick(){
+        auth.setIsAuthenticated(!auth.isAuthenticated);
+        console.log("Current user: " + auth.currentUser);
+        console.log("Object auth user: " + auth.object.username);
     }
 
+    // Function to check if the current path is the same as the one in the URL
+    function isCurrent(pathname){ return pathname === window.location.pathname; }
+
     return (
-        <Container tw="absolute right-0 m-[25px]">
-            <div tw="flex flex-col gap-10 p-[25px]">
-                <div tw="hover:cursor-pointer">
-                    {theme.name === "light" ? <BiMoon onClick={() => toggleTheme()} tw="text-2xl text-white hover:cursor-pointer hover:opacity-80"></BiMoon> : <BiSun onClick={() => toggleTheme()} tw="text-2xl text-white hover:cursor-pointer hover:opacity-80"></BiSun> }
-                </div>
+        <React.Fragment>
+            <NavbarContainer>
+                <ImgWrapper>
+                    <img src="../../../static/img/logo.png" alt="Logo"/>
+                </ImgWrapper>
+
+                <LinkContainer>
+                    <Link to="/" onClick={() => console.log("redirected to home")}>
+                        <LinkDiv current={isCurrent("/") ? "true" : "false"}>
+                            <img src="../../../static/img/icons/home.png" alt="Home"/>
+                            <span>Dashboard</span>
+                        </LinkDiv>
+                    </Link>
+                    <Link to="/exercise" onClick={() => console.log("redirected to exercise")}>
+                        <LinkDiv current={isCurrent("/exercise") ? "true" : "false"}>
+                            <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
+                            <span>Entrainement</span>
+                        </LinkDiv>
+                    </Link>
+                    <Link to="/ranked" onClick={() => console.log("redirected to ranked")}>
+                        <LinkDiv current={isCurrent("/ranked") ? "true" : "false"}>
+                            <img src="../../../static/img/icons/sword.png" alt="Ranked"/>
+                            <span>Ligue</span>
+                        </LinkDiv>
+                    </Link>
+                    <Link to="/quest" onClick={() => console.log("redirected to quest")}>
+                        <LinkDiv current={isCurrent("/quest") ? "true" : "false"}>
+                            <img src="../../../static/img/icons/chest.png" alt="Quest"/>
+                            <span>Quêtes</span>
+                        </LinkDiv>
+                    </Link>
+                    <Link to="/profile" onClick={() => console.log("redirected to quest")}>
+                        <LinkDiv current={isCurrent("/profile") ? "true" : "false"}>
+                            <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
+                            <span>Profile</span>
+                        </LinkDiv>
+                    </Link>
+
+                    <BeneathLinkContainer>
+                        <Link to="/settings" onClick={() => console.log("redirected to settings")}>
+                            <LinkDiv current={isCurrent("/settings") ? "true" : "false"}>
+                                <img src="../../../static/img/icons/settings.png" alt="ProfilePicture"/>
+                                <span>Paramètres</span>
+                            </LinkDiv>
+                        </Link>
+                        <Link to="/about" onClick={() => console.log("redirected to about")}>
+                            <LinkDiv current={isCurrent("/about") ? "true" : "false"}>
+                                <img src="../../../static/img/icons/about.png" alt="About"/>
+                                <span>A propos</span>
+                            </LinkDiv>
+                        </Link>
+                    </BeneathLinkContainer>
+                </LinkContainer>
+
+                <ProfileContainer>
+                    <Link to="/profile" onClick={() => console.log("redirected to quest")}>
+                        <ProfileElement>
+                            <img src={auth.currentUser != null ? "../../../static/img/" + auth.object.profilePicture : "../../../static/img/icons/profile.png"} alt="ProfilePicture"/>
+                        </ProfileElement>
+                    </Link>
+                    <ProfileElement>
+                        <span>{auth.currentUser != null ? auth.currentUser : "Invité"}</span>
+                        <XpBarContainer>
+                            <BarContainer className="flex flex-row">
+                                <XpBar><div></div></XpBar>
+                                <span>Lv. 0</span>
+                            </BarContainer>
+                            <LevelInformationContainer>
+                                <span>100/1000</span>
+                            </LevelInformationContainer>
+                        </XpBarContainer>
+                    </ProfileElement>
+                </ProfileContainer>
+            </NavbarContainer>
+            <div className="flex gap-5 absolute bottom-0 right-0 text-black">
+                <button onClick={() => handleClick()}>isUserLoggedIn: {auth.currentUser}</button>
+                <span>{isTabletOrMobile ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
             </div>
-        </Container>
+        </React.Fragment>
     )
 }
 
