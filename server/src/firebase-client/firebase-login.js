@@ -1,35 +1,25 @@
 //Import the functions you need from the SDKs you need
-import { getAuth, signInWithEmailAndPassword, setPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-import { getFirestore, collection, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { signInWithEmailAndPassword, setPersistence, onAuthStateChanged, browserSessionPersistence, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getFirestore, collection, doc, updateDoc, setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
+const provider = new GoogleAuthProvider();
 
-//Fonction de vérification de l'état de la session utilisateur
-let isSessioncheck = false;
-
-function checkAuthState() {
-    if (isSessioncheck = true ){
-        return;
-    } 
+//On regarde si il veut rester connecté tout le temps ou pas 
+function checkRemember() {
+    //Recuperation de la valeur du checkbox
+    const remember = document.getElementById('remember').checked;
+    //Si check alors on laisse la valeur par defaut 
+    if (remember) {
+        return undefined
+    }
+    //Sinon on met la valeur à session, quand le navigateur est fermé la session est fermé
     else {
-        isSessioncheck = true;
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Utilisateur connecté :", user.uid);
-                window.location.href = "/";
-            } else {
-                // L'utilisateur n'est pas connecté
-                console.log("Utilisateur déconnecté")
-                window.location.href = "/login";
-            }
-        });
-        
+        return setPersistence(auth, browserSessionPersistence)
     }
 }
-
-checkAuthState(); // Vérifier l'état de la session utilisateur au chargement de la page
 
 //Login system
 function login(e) {
@@ -40,12 +30,13 @@ function login(e) {
         password: document.getElementById('password').value
     };
 
-
-    //fonction de login
+    //Set la persistence
+    checkRemember();
+    //Fonction firebase pour se connecter avec email et password
     signInWithEmailAndPassword(auth, obj.email, obj.password)
         .then((userCredential) => {
+            //On récupère lesinfos de l'utilisateur
             const user = userCredential.user;
-            console.log(user);
 
             //Recuperation de la date et l'heure de connexion 
             const dt = new Date();
@@ -55,24 +46,72 @@ function login(e) {
 
             //doc à chercher dans la collection users
             const userDocRef = doc(db, "users", user.uid);
-            //Recuperation des informations du document
-            getDoc(userDocRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
-                } else {
-                    console.log("No such document!");
-                }
-            })
+            //Mise à jour de la date de connexion
             updateDoc(userDocRef, {
                 lastLogin: dateTime
-            });
+            }).then(() => {
+                //On le redirige vers la page de principale
+                window.location.href = "/";
+            })
         })
         .catch(function (error) { console.log(error); });
-    
-}
+};
 
 
+
+
+function Google(e) {
+    e.preventDefault();
+    setPersistence(auth, browserSessionPersistence)
+
+    //Fonction firebase pour se connecter avec google
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            //Recuperation des informations de l'utilisateur
+            const user = result.user;
+            console.log(user.uid);
+            //doc à 'créer' dans la collection users
+            const docRef = doc(db, "users", user.uid);
+
+            //setup le doc avec les infos de l'utilisateur
+            getDoc(docRef).then((docSanp) => {
+                if (docSanp.exists()) {
+                    window.location.href = "/";
+                }
+                else {
+                    setDoc(docRef, {
+                        username: user.displayName,
+                        email: user.email,
+                    }).then(() => {
+                        window.location.href = "/";
+                    })
+
+                }
+            })
+
+        }).catch((error) => {
+            //Si il y a une erreur
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+        });
+};
+
+
+//Event listener pour le bouton google
+function clickGoogle() {
+    let clickGoogle = document.getElementById('google');
+    clickGoogle.addEventListener('click', function (e) {
+        Google(e);
+    });
+};
+
+
+
+//Quand on clique sur le bouton login on lance la fonction login
 window.login = function (e) {
     login(e);
-    window.location.href = "/";
 }
+
+clickGoogle();

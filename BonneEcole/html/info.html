@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="static/favicon.ico" />
+
+  <!-- BoxIcon -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="text/css">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+  <title>Bonne Ecole</title>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+  <form onsubmit="info(event)">
+    <div class="w-64 bg-white rounded-lg shadow-md p-8">
+      <label for="number" class="font-bold">Age</label>
+      <input id="ageMiss" type="number" placeholder="Age" name="age" required
+        class="w-full px-4 py-2 border border-gray-300 rounded-md mb-4">
+
+      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md w-full">C'est
+        Parti !</button>
+    </div>
+  </form>
+
+  <div id="root"></div>
+</body>
+
+<script type="module" src="./src/firebase-client/firebase-infoMiss.js"></script>
+
+</html>

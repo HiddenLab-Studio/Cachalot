@@ -9,7 +9,7 @@ const {auth, db } = firebaseConfigClient();
 
 function register(e) {
   e.preventDefault();
-  //Recuperation des element html dans un objet
+  //Recuperation des elements html dans un objet
   let obj = {
     email: document.getElementById('email').value,
     username: document.getElementById('username').value,
@@ -29,7 +29,7 @@ function register(e) {
     createUserWithEmailAndPassword(auth, obj.email, obj.password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user.uid);
+      
 
         //Ajout des informations supplémentaires dans la base de donnee
         //Ajout du document dans la collection users
@@ -39,6 +39,9 @@ function register(e) {
           username: obj.username,
           age: obj.age,
           email: obj.email,
+        }).then(() => {
+          //On le redirige vers la page de principale
+          window.location.href = "/";
         });
       })
       .catch((error) => {
@@ -51,11 +54,12 @@ function register(e) {
 };
 
 
+
+
 //Event listener pour le bouton register
 window.register = function (e) {
   register(e);
 };
-
 
 
 

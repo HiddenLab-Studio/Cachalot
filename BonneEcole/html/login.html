@@ -1,37 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="static/favicon.ico"/>
 
-    <!-- BoxIcon -->
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="text/css">
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="static/favicon.ico" />
 
-    <title>Bonne Ecole</title>
-  </head>
-  <body>
+  <!-- BoxIcon -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="text/css">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 
-    <form onsubmit="login(event)" class="flex items-center justify-center h-screen">
+  <title>Bonne Ecole</title>
+</head>
+
+<body>
+  <div class="flex items-center justify-center h-screen">
+    <div class="rounded-lg px-10 pt-6 pb-8 mb-4">
+      <button id='google'
+        class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow text-center flex items-center w-full">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo"
+          class="w-5 h-5 mr-2">
+        Connexion avec Google
+      </button>
+    </div>
+    <form onsubmit="login(event)">
       <div class="w-64 bg-white rounded-lg shadow-md p-8">
         <label for="email" class="font-bold">Username</label>
-        <input id="email" type="text" placeholder="Enter Email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md mb-4">
-    
+        <input id="email" type="text" placeholder="Enter Email" name="email" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md mb-4">
+
         <label for="password" class="font-bold">Password</label>
-        <input id="password" type="password" placeholder="Enter Password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-md mb-4">
-    
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md w-full">Login</button>
-    
+        <input id="password" type="password" placeholder="Enter Password" name="password" required
+          class="w-full px-4 py-2 border border-gray-300 rounded-md mb-4">
+
+        <button type="submit"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md w-full">Login</button>
+
         <label class="block">
-          <input type="checkbox" checked="checked" name="remember" class="mr-2">
+          <input id="remember" type="checkbox" checked="checked" name="remember" class="mr-2">
           Remember me
         </label>
+        <button onclick="window.location.href = '/passwordReset';" class="text-blue-500 px-4 py-2 rounded-md w-full">Mot de passe oublié ?</button>
       </div>
-    </form>
-    
 
-    <div id="root"></div>
-    <script type="module" src="./src/firebase-client/firebase-login.js"></script>
-  </body>
+    </form>
+  </div>
+
+
+  <div id="root"></div>
+  <script type="module" src="./src/firebase-client/firebase-login.js"></script>
+</body>
+
 </html>

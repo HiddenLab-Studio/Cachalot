@@ -1,47 +1,56 @@
 // Import des fonctions dont on a besoin
-import {signOut,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { signOut, updatePassword, deleteUser, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { getFirestore, collection, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
+
 //Firebase configuration
-const {auth, db } = firebaseConfigClient();
+const { auth, db } = firebaseConfigClient();
 
 
-async function getDataUser(user){
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-    }
-    else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
-}
-
-function clickSignOut(){
+function clickSignOut() {
+    //On recupere l'evenement du bouton signOut
     let clickSignout = document.getElementById('signOut');
     clickSignout.addEventListener('click', () => {
+        // Sign out fonction de firebase
         signOut(auth).then(() => {
-            // Sign-out successful.
+            // Youpi il est deco
             console.log('Sign-out successful.');
             window.location.href = "/login";
         }).catch((error) => {
-            // An error happened.
+            // On non une erreur
             console.log('An error happened.');
         });
     })
 }
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        console.log("Utilisateur connecté :", user.uid);
-        getDataUser(user);
-    } else {
-        // L'utilisateur n'est pas connecté
-        console.log("Utilisateur déconnecté")
-        window.location.href = "/login";
-    }
-});
+
+function clickDeleteAccount() {
+    //Event listener pour le bouton deleteAccount
+    let clickDeleteAccount = document.getElementById('deleteAccount');
+    clickDeleteAccount.addEventListener('click', () => {
+        //On recupére l'utilisateur connecté
+        const user = auth.currentUser;
+        //On récupère le document suppleémentaire de l'utilisateur
+        const docRef = doc(db, 'users', user.uid)
+        //On supprime le document supplémentaire de l'utilisateur
+        deleteDoc(docRef).then(() => {
+            //On supprime l'utilisateur
+            deleteUser(user).then(() => {
+                //On le redirige vers la page de login
+                window.location.href = "/login";
+            }).catch((error) => {
+                console.error("Pb supp Monsieur:",error);
+            }
+            );
+        }).catch((error) => {
+            console.error("Pb supp doc Monsieur",error);
+        });
+    })
+}
+
+
 
 
 clickSignOut();
+clickDeleteAccount();

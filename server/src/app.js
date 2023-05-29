@@ -26,9 +26,19 @@ app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, "../../BonneEcole/html/login.html"));
 });
 
+app.get('/info', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/info.html"));
+});
+
+app.get('/passwordReset', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/passwordReset.html"));
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
+
+
 
 //Recuperation des element html
 
