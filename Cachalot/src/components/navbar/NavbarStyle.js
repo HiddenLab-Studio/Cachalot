@@ -5,6 +5,7 @@ export const ImgWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-grow: 0;
+  padding-top: 15px; 
   img {
     width: 192px;
   }
@@ -58,7 +59,7 @@ export const ProfileElement = styled.div`
   width: 100%;
   
   img {
-    //border: 1px solid ${props => props.theme.navbarText};
+    border: 1px solid ${props => props.theme.navbarText};
     border-radius: 50%;
     width: 64px;
   }
@@ -128,7 +129,43 @@ export const NavbarContainer = styled.nav`
   display: flex;
   flex-direction: column;
   border-right: 2px solid ${props => props.theme.borderRightColor};
+  gap: 20px;
   
   padding: 10px 16px;
-  width: 256px;
+  //width: 256px;
+  
+  @media (min-width: 768px) and (max-width: 1200px) {
+    padding: 8px;
+    
+    ${ProfileContainer} {
+      display: none;
+    }
+    
+    ${ImgWrapper} {
+      img {
+        width: 96px;
+      }
+    }
+    
+    ${LinkContainer} {
+        align-items: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 5px;
+    ${LinkContainer} {
+      justify-content: space-evenly;
+      flex-direction: row;
+      padding: 10px 5px;
+    } 
+    
+    ${LinkDiv} {
+      padding: 5px;
+      img {
+        width: 48px;
+        height: 48px;
+      }
+    }
+  }
 `

@@ -8,7 +8,7 @@ const Container = styled.main`
   background-color: ${props => props.theme.background};
   
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 `;
 
@@ -16,7 +16,7 @@ const Home = () => {
     return (
         <Container>
             <Navbar />
-            <section className="grow bg-[#fdfdfd]">
+            <section className="grow bg-gray-800 -bg-[#fdfdfd]">
                 <h1>main content</h1>
             </section>
         </Container>
