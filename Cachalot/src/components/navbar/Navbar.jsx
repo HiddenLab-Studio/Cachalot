@@ -51,7 +51,7 @@ const Navbar = () => {
                                 {isOnTablet ? "" : <span>Dashboard</span>}
                             </LinkDiv>
                         </Link>
-                        <Link to="/exercise" onClick={() => console.log("redirected to exercise")}>
+                        <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
                             <LinkDiv current={isCurrent("/exercise") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                                 {isOnTablet ? "" : <span>Entrainement</span>}
@@ -125,8 +125,8 @@ const Navbar = () => {
                                 <img src="../../../static/img/icons/home.png" alt="Home"/>
                             </LinkDiv>
                         </Link>
-                        <Link to="/exercise" onClick={() => console.log("redirected to exercise")}>
-                            <LinkDiv current={isCurrent("/exercise") ? "true" : "false"}>
+                        <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
+                            <LinkDiv current={isCurrent("/cards") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                             </LinkDiv>
                         </Link>

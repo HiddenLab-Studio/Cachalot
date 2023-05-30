@@ -1,5 +1,4 @@
-import React from "react";
-import tw, { styled } from "twin.macro";
+import { styled } from "twin.macro";
 
 export const ImgWrapper = styled.div`
   display: flex;
