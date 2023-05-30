@@ -17,9 +17,8 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
     let secondNumber = generateRandomNumber(1, 51);
 
     if (operatorUsed == "all") {
-        operatorUsed = selectRandomOperator();
+        operatorUsed = selectRandomOperator(levelSelected);
     }
-    console.log("levelSelected : " + levelSelected);
 
     switch (operatorUsed) {
         case "addition":
@@ -75,6 +74,13 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
                     secondNumber = generateRandomNumber(1, 150);
                     break;
             }
+
+            if (secondNumber > firstNumber) {
+                let tmp = firstNumber;
+                firstNumber = secondNumber;
+                secondNumber = tmp;
+                console.log("Inversion de nombre")
+            }
             break;
 
         case "multiplication":
@@ -110,22 +116,22 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
             break;
         case "division":
 
-        switch (levelSelected) {
-            case "CM1":
-                secondNumber = generateRandomNumber(2, 4);
-                secondNumber == 3 ? firstNumber = 5 : firstNumber;//On veut permettre de s'exercer sur les divisions par 5 aussi
-                secondNumber == 4 ? firstNumber = 10 : firstNumber;//On veut permettre de s'exercer sur les divisions par 10 aussi
-                firstNumber = generateRandomNumber(1, 25) * secondNumber;
-                break;
-            case "CM2":
-                secondNumber = generateRandomNumber(1, 12);
-                firstNumber = generateRandomNumber(1, 50) * secondNumber;
-                break;
-            default:
-                secondNumber = generateRandomNumber(1, 12);
-                firstNumber = generateRandomNumber(1, 50) * secondNumber;
-                break;
-        }
+            switch (levelSelected) {
+                case "CM1":
+                    secondNumber = generateRandomNumber(2, 4);
+                    secondNumber == 3 ? firstNumber = 5 : firstNumber;//On veut permettre de s'exercer sur les divisions par 5 aussi
+                    secondNumber == 4 ? firstNumber = 10 : firstNumber;//On veut permettre de s'exercer sur les divisions par 10 aussi
+                    firstNumber = generateRandomNumber(1, 25) * secondNumber;
+                    break;
+                case "CM2":
+                    secondNumber = generateRandomNumber(1, 12);
+                    firstNumber = generateRandomNumber(1, 50) * secondNumber;
+                    break;
+                default:
+                    secondNumber = generateRandomNumber(1, 12);
+                    firstNumber = generateRandomNumber(1, 50) * secondNumber;
+                    break;
+            }
             var operator = "/";
             break;
         default:
@@ -139,9 +145,19 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
 
 
 
-function selectRandomOperator() {
+function selectRandomOperator(levelSelected) {
     var operators = ["addition", "soustraction", "multiplication", "division"];
-    return operators[generateRandomNumber(0, 3)];
+    switch (levelSelected) {
+        case "CP":
+            return operators[generateRandomNumber(0, 1)];
+        case "CE1":
+            return operators[generateRandomNumber(0, 2)];
+        case "CE2":
+            return operators[generateRandomNumber(0, 2)];
+        default: //CM1, CM2 et n'importe
+            return operators[generateRandomNumber(0, 3)];
+
+    }
 }
 
 

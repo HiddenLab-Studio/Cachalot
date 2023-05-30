@@ -60,18 +60,23 @@ buttonsExerciseTypeContainer.forEach(function (button) {
 //Ajout des listeners sur chacun des boutons d'opérateurs
 document.getElementById("selectAddition").addEventListener("click", function () {
     currentExerciseType = "addition";
+    getNewExerciseAndDisplay();
 });
 document.getElementById("selectSoustraction").addEventListener("click", function () {
     currentExerciseType = "soustraction";
+    getNewExerciseAndDisplay();
 });
 document.getElementById("selectMultiplication").addEventListener("click", function () {
     currentExerciseType = "multiplication";
+    getNewExerciseAndDisplay();
 });
 document.getElementById("selectDivision").addEventListener("click", function () {
     currentExerciseType = "division";
+    getNewExerciseAndDisplay();
 });
 document.getElementById("selectNimporte").addEventListener("click", function () {
     currentExerciseType = "all";
+    getNewExerciseAndDisplay();
 });
 
 
