@@ -78,7 +78,7 @@ const test = [
     }
 ]
 
-const TrendingExercise = (props) => {
+const TrendingExercise = () => {
 
     return (
         <TrendingExerciseContainer>
