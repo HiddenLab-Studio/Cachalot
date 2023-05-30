@@ -16,7 +16,12 @@ const CreateExercise = (props) => {
             setInputAnswer(
                 <ul>
                   {answers.map((answer, index) => (
-                    <li key={index}>{answer}</li>
+                    <li key={index}>{answer}
+                    <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
+                        answers.splice(index, 1);
+                        displayList();
+                    }}>
+                    </img></li>
                   ))}
                 </ul>
             );
@@ -39,9 +44,11 @@ const CreateExercise = (props) => {
 
         // Add a new answer to the list
         addAswerInput.addEventListener('click', (event) => {
-            answers.push(answerInput.value);
             // annuler l'ajout si la réponse est vide
             // annuler l'ajout si la réponse est déjà dans la liste
+            if (answerInput.value != "" && !answers.includes(answerInput.value)) {
+                answers.push(answerInput.value);
+            }
             displayList();
         });
 

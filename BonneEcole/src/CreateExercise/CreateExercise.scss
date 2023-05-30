@@ -58,3 +58,8 @@ button{
 button:hover{
     background-color: #999;
 }
+
+li{
+    display: flex;
+    flex-direction: row;
+}
