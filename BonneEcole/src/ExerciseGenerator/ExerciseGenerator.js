@@ -19,6 +19,35 @@ document.getElementById("valeurInput").addEventListener("keydown", function (eve
 });
 
 
+//Ajout des listeners sur chacun des boutons de niveau
+document.getElementById("selectCP").addEventListener("click", function () {
+    currentLevel = "CP";
+    if(currentExerciseType != "addition" ){
+        currentExerciseType = "addition";
+    }
+});
+document.getElementById("selectCE1").addEventListener("click", function () {
+    currentLevel = "CE1";
+    if(currentExerciseType == "division" ){
+        currentExerciseType = "all";
+    }
+});
+document.getElementById("selectCE2").addEventListener("click", function () {
+    currentLevel = "CE2";
+    if(currentExerciseType == "division" ){
+        currentExerciseType = "all";
+    }
+});
+document.getElementById("selectCM1").addEventListener("click", function () {
+    currentLevel = "CM1";
+});
+document.getElementById("selectCM2").addEventListener("click", function () {
+    currentLevel = "CM2";
+});
+document.getElementById("selectLevelNimporte").addEventListener("click", function () {
+    currentLevel = "all";
+});
+
 //Ajout des listeners sur chacun des boutons d'opérateurs
 document.getElementById("selectAddition").addEventListener("click", function () {
     currentExerciseType = "addition";
