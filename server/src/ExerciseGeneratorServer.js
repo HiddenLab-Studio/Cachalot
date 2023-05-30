@@ -79,7 +79,6 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
                 let tmp = firstNumber;
                 firstNumber = secondNumber;
                 secondNumber = tmp;
-                console.log("Inversion de nombre")
             }
             break;
 
