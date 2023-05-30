@@ -35,7 +35,7 @@ body {
     flex-direction: column;
 }
 
-#selectExerciseTypeDiv{
+.selectExerciseTypeDiv{
 
     justify-content: center;
     display: flex;
@@ -44,7 +44,7 @@ body {
     margin: 5px;
 }
 
-#classLevelSelectionDiv{
+.classLevelSelectionDiv{
     width: 10%;
 
     justify-content:flex-start;
@@ -56,3 +56,11 @@ body {
     gap: 6px;
     margin: 2px;
 }
+
+.classLevelSelectionDiv .activeLevel {
+    background-color: #f00; /* Couleur différente pour le bouton actif */
+  }
+
+  .selectExerciseTypeDiv .activeExerciseType {
+    background-color: #00ff00; /* Couleur différente pour le bouton actif */
+  }

@@ -18,8 +18,9 @@ app.get('/', (req, res) => {
 //On envoie un exercice aléatoire au client
 app.post('/api/getNewExercise', (req, res) => {
   const exerciseType = req.body.currentExerciseType;
-  console.log(exerciseType);
-  exercise = generateRandomExercise(exerciseType);
+  const exerciseLevel = req.body.currentLevel;
+
+  exercise = generateRandomExercise(exerciseType, exerciseLevel);
   // Données à envoyer au client
   const data = {
     exercise: exercise,

@@ -11,31 +11,121 @@ function generateRandomOperator() {
     return operators[generateRandomNumber(0, 3)];
 }
 
-//Genere un exercice aléatoire de calcul
-function generateRandomExercise(operatorUsed = "all") {
+//Genere un exercice aléatoire de calcul (la fonction est très grande à cause de tous les cas particuliers pour les différents niveaux, j'ai pas trouvé plus optimisé)
+function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
     let firstNumber = generateRandomNumber(1, 51);
     let secondNumber = generateRandomNumber(1, 51);
 
-    if(operatorUsed == "all"){
+    if (operatorUsed == "all") {
         operatorUsed = selectRandomOperator();
     }
-
+    console.log("levelSelected : " + levelSelected);
 
     switch (operatorUsed) {
         case "addition":
             var operator = "+";
+            switch (levelSelected) {
+                case "CP":
+                    firstNumber = generateRandomNumber(1, 10);
+                    secondNumber = generateRandomNumber(1, 10);
+                    break;
+                case "CE1":
+                    firstNumber = generateRandomNumber(1, 20);
+                    secondNumber = generateRandomNumber(1, 20);
+                    break;
+                case "CE2":
+                    firstNumber = generateRandomNumber(1, 40);
+                    secondNumber = generateRandomNumber(1, 40);
+                    break;
+                case "CM1":
+                    firstNumber = generateRandomNumber(1, 75);
+                    secondNumber = generateRandomNumber(1, 75);
+                    break;
+                case "CM2":
+                    firstNumber = generateRandomNumber(1, 150);
+                    secondNumber = generateRandomNumber(1, 150);
+                    break;
+                default:
+                    firstNumber = generateRandomNumber(1, 150);
+                    secondNumber = generateRandomNumber(1, 150);
+                    break;
+            }
             break;
         case "soustraction":
             var operator = "-";
+            switch (levelSelected) {
+                case "CE1":
+                    firstNumber = generateRandomNumber(1, 10);
+                    secondNumber = generateRandomNumber(1, 10);
+                    break;
+                case "CE2":
+                    firstNumber = generateRandomNumber(1, 40);
+                    secondNumber = generateRandomNumber(1, 40);
+                    break;
+                case "CM1":
+                    firstNumber = generateRandomNumber(1, 75);
+                    secondNumber = generateRandomNumber(1, 75);
+                    break;
+                case "CM2":
+                    firstNumber = generateRandomNumber(1, 150);
+                    secondNumber = generateRandomNumber(1, 150);
+                    break;
+                default:
+                    firstNumber = generateRandomNumber(1, 150);
+                    secondNumber = generateRandomNumber(1, 150);
+                    break;
+            }
             break;
+
         case "multiplication":
-            firstNumber = generateRandomNumber(2, 10);
-            secondNumber = generateRandomNumber(2, 10);
+            switch (levelSelected) {
+                case "CE1":
+                    firstNumber = generateRandomNumber(3, 5);
+                    secondNumber = generateRandomNumber(1, 10);
+                    break;
+                case "CE2":
+                    firstNumber = generateRandomNumber(3, 10);
+                    firstNumber == 10 ? firstNumber = 100 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 100 aussi
+                    secondNumber = generateRandomNumber(1, 10);
+                    break;
+                case "CM1":
+                    firstNumber = generateRandomNumber(3, 13);
+                    firstNumber == 11 ? firstNumber = 25 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 25 aussi
+                    firstNumber == 12 ? firstNumber = 50 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 50 aussi
+                    firstNumber == 13 ? firstNumber = 100 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 100 aussi
+                    secondNumber = generateRandomNumber(1, 25);
+                    break;
+                case "CM2":
+                    firstNumber = generateRandomNumber(1, 27);
+                    firstNumber == 26 ? firstNumber = 50 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 50 aussi
+                    firstNumber == 27 ? firstNumber = 100 : firstNumber;//On veut permettre de s'exercer sur les multiplications par 100 aussi
+                    secondNumber = generateRandomNumber(1, 50);
+                    break;
+                default:
+                    firstNumber = generateRandomNumber(1, 27);
+                    secondNumber = generateRandomNumber(1, 50);
+                    break;
+            }
             var operator = "*";
             break;
         case "division":
-            secondNumber = generateRandomNumber(1, 10);
-            firstNumber = generateRandomNumber(0, 50)*secondNumber;
+
+        switch (levelSelected) {
+            case "CM1":
+                secondNumber = generateRandomNumber(2, 4);
+                secondNumber == 3 ? firstNumber = 5 : firstNumber;//On veut permettre de s'exercer sur les divisions par 5 aussi
+                secondNumber == 4 ? firstNumber = 10 : firstNumber;//On veut permettre de s'exercer sur les divisions par 10 aussi
+                firstNumber = generateRandomNumber(1, 25) * secondNumber;
+                break;
+            case "CM2":
+                secondNumber = generateRandomNumber(1, 12);
+                firstNumber = generateRandomNumber(1, 50) * secondNumber;
+                break;
+            default:
+                secondNumber = generateRandomNumber(1, 12);
+                firstNumber = generateRandomNumber(1, 50) * secondNumber;
+                break;
+        }
             var operator = "/";
             break;
         default:
@@ -46,6 +136,8 @@ function generateRandomExercise(operatorUsed = "all") {
 
     return firstNumber + " " + operator + " " + secondNumber;
 }
+
+
 
 function selectRandomOperator() {
     var operators = ["addition", "soustraction", "multiplication", "division"];
