@@ -63,3 +63,25 @@ li{
     display: flex;
     flex-direction: row;
 }
+
+.switchWindow{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+
+    button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        margin: 0 10px;
+        cursor: pointer;
+      }
+      
+    .button:hover {
+        background-color: #2980b9;
+    }
+}
