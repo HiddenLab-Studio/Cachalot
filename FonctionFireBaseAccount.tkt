@@ -3,7 +3,7 @@ updatePassword(auth.currentUser, "string")
 
 //Envoyer le mail de confimation
 if(auth.currentUser.emailVerified == false){
-    console.log(auth.currentUser.email);
+    
     sendEmailVerification(auth.currentUser); 
     }
 else{

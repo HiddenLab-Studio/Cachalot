@@ -1,13 +1,6 @@
 
-Déjà fait : 
-
-System de register avec firebase en html -> données en plus dans la database collection users
-System de login ainsi que la recuperation de données dans l'autre database 
-
 A Faire : 
-
-Session system 
-Setting des compte (reset mdp ect)
+Catches les bonnes erreurs => Vraiment rapide à faire 
 
 
  

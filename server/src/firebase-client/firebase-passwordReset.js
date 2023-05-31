@@ -1,5 +1,4 @@
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-import { getFirestore, collection, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
 

@@ -1,30 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="static/favicon.ico"/>
 
-    <!-- BoxIcon -->
-    <link href="https://unpkg.com/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="static/favicon.ico" />
 
-    <title>Bonne Ecole</title>
-  </head>
-  <body class="bg-gray-100">
-    <div class="flex justify-center items-center h-screen">
-      <div class="text-center">
-        <h1 class="text-3xl font-bold mb-4">Account Set</h1>
-        <button id="signOut" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Sign Out
+  <!-- BoxIcon -->
+  <link href="https://unpkg.com/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+
+  <title>Bonne Ecole</title>
+  <style>
+    .message {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .message__user {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .message__content {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .message__date {
+      font-size: 12px;
+      color: #888;
+    }
+
+    #messageList {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <div class="flex justify-center items-center h-screen">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold mb-4">Account Set</h1>
+      <button id="signOut"
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Sign Out
+      </button>
+      <button id="deleteAccount"
+        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+        Delete
+      </button>
+
+      <div class="w-full px-5 flex flex-col justify-between">
+        <div class="flex flex-col mt-5">
+          <ul id="messageList" class="max-h-96 overflow-y-auto"></ul>
+        </div>
+        <form onsubmit="message(event)">
+          <div class="py-5">
+            <input id="inputMessage" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text"
+              placeholder="Message" />
+          </div>
+          <button type="submit" id="sendMessage"
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Envoyer
         </button>
-        <button id="deleteAccount" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Delete
-        </button>
+        </form>
+        <div class="relative">
+          <div class="w-full">
+            <select onchange="room(event)" id="room" name="room" required class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+              <option value="Général">Général</option>
+              <option value="Mathématiques">Mathématiques</option>
+              <option value="Français">Français</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path
+                  d="M14.646 7.354a.5.5 0 0 1 0 .707l-4 4a.5.5 0 0 1-.707 0l-4-4a.5.5 0 0 1 .707-.707L10 10.293l3.646-3.647a.5.5 0 0 1 .708 0z" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+  </div>
+  <div id="root"></div>
+  <script type="module" src="./src/firebase-client/firebase-accountSet.js"></script>
+  <script type="module" src="./src/firebase-client/firebase-session.js"></script>
+</body>
 
-    <div id="root"></div>
-    <script type="module" src="./src/firebase-client/firebase-accountSet.js"></script>
-    <script type="module" src="./src/firebase-client/firebase-session.js"></script>
-  </body>
 </html>

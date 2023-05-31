@@ -1,6 +1,6 @@
 //Import the functions you need from the SDKs you need
-import { signInWithEmailAndPassword, setPersistence, onAuthStateChanged, browserSessionPersistence, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-import { getFirestore, collection, doc, updateDoc, setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { doc, updateDoc, setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
 //Firebase configuration
@@ -69,7 +69,6 @@ function Google(e) {
         .then((result) => {
             //Recuperation des informations de l'utilisateur
             const user = result.user;
-            console.log(user.uid);
             //doc à 'créer' dans la collection users
             const docRef = doc(db, "users", user.uid);
 
@@ -82,6 +81,8 @@ function Google(e) {
                     setDoc(docRef, {
                         username: user.displayName,
                         email: user.email,
+                        photo : user.photoURL,
+
                     }).then(() => {
                         window.location.href = "/";
                     })
