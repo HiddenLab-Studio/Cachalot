@@ -17,7 +17,8 @@ export const Theme = {
 export const themeLight = {
     name: "light",
     text: "#3c3c3c",
-    background: "#fdfdfd",
+    //background: "#fdfdfd",
+    background: "#121212",
 
     // Navbar
     navbarText: "#777777",
@@ -38,3 +39,4 @@ export const themeDark = {
     buttonBg: "rgba(255, 255, 255, 0)",
     buttonBgHover: "rgba(255, 255, 255, 1)",
 };
+

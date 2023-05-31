@@ -21,23 +21,22 @@ const App = () => {
     const [theme, setTheme] = useState(Theme.loadTheme() === "light" ? "light" : "dark");
 
     return (
-        <React.StrictMode>
-            <AuthProvider value={{}}>
-                <BrowserRouter>
-                    <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
-                        <Routes>
-                            <Route path={"/"} element={<Home setTheme={setTheme} />}></Route>
-                            <Route path={"/exercise"} element={<Exercise setTheme={setTheme} />}></Route>
-                            <Route path={"/ranked"} element={<Home setTheme={setTheme} />}></Route>
-                            <Route path={"/quest"} element={<Home setTheme={setTheme} />}></Route>
-                            <Route path={"/profile"} element={<Home setTheme={setTheme} />}></Route>
-                            <Route path={"/settings"} element={<Home setTheme={setTheme} />}></Route>
-                            <Route path={"/about"} element={<Home setTheme={setTheme} />}></Route>
-                        </Routes>
-                    </ThemeProvider>
-                </BrowserRouter>
-            </AuthProvider>
-        </React.StrictMode>
+        <AuthProvider value={{}}>
+            <BrowserRouter>
+                <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
+                    <Routes>
+                        <Route path={"/"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/exercise"} element={<Exercise setTheme={setTheme}/>}></Route>
+                        <Route path={"/ranked"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/quest"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/profile"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/settings"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/about"} element={<Home setTheme={setTheme}/>}></Route>
+                        <Route path={"/exercise/:id"} element={<Exercise setTheme={setTheme}/>}></Route>
+                    </Routes>
+                </ThemeProvider>
+            </BrowserRouter>
+        </AuthProvider>
     )
 }
 

@@ -1,85 +1,39 @@
-import { styled } from "twin.macro";
-
-// Styled Components
-export const TrendingTitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  h1 {
-    padding: 0;
-    margin: 0;
-    font-family: "Din_Round_Med", sans-serif;
-    font-size: var(--fs-m);
-    letter-spacing: 0.05rem;
-    color: ${props => props.theme.text};
-  }
-  span {
-    font-family: "Din_Round", sans-serif;
-    font-size: var(--fs-ss);
-    letter-spacing: 0.05rem;
-  }
-`
-
-export const ExerciseDiv = styled.div`
-  width: 256px;
-  height: 64px;
-  background-color: ${props => props.bgColor};
-  border-radius: 5px;
-  padding: 5px;
-  
-  h1 {
-    padding: 0;
-    margin: 0;
-    font-family: "Din_Round_Med", sans-serif;
-    font-size: var(--fs-ss);
-    letter-spacing: 0.05rem;
-    color: ${props => props.theme.text};
-  }
-`
-
-export const ExerciseDivTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  img {
-    width: 32px;
-    height: 32px;
-  }
-`
-
-export const ExerciseContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`
-
-export const TrendingExerciseContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 20px;
-  
-  background-color: ${props => props.theme.buttonBgHover};
-  border-radius: 12px;
-`
+import { Link } from "react-router-dom";
+import {
+    ExerciseContainer,
+    ExerciseDiv,
+    ExerciseDivInfo,
+    ExerciseDivRank,
+    ExerciseStatsContainer,
+    TrendingExerciseContainer,
+    TrendingTitleContainer
+} from "./styles/TrendingExerciseStyle.js";
 
 const test = [
     {
-        id: 1,
-        name: "Additions, soustractions et multiplication",
+        id: 1458,
+        name: "Les bases en mathématiques",
         views: 1206,
-        like: 541
+        like: 541,
+        pathName: "/exercise/1458",
     },
     {
-        id: 2,
+        id: 2146,
         name: "Des mots et des couleurs",
         views: 240,
-        like: 75
+        like: 75,
+        pathName: "/exercise/1206",
+    },
+    {
+        id: 6964,
+        name: "Des mots et des couleurs",
+        views: 100,
+        like: 21,
+        pathName: "/exercise/6964",
     }
 ]
 
 const TrendingExercise = () => {
-
     return (
         <TrendingExerciseContainer>
             <TrendingTitleContainer>
@@ -90,12 +44,51 @@ const TrendingExercise = () => {
                 </div>
             </TrendingTitleContainer>
             <ExerciseContainer>
-                <ExerciseDiv bgColor="#fff">
-                    <ExerciseDivTitle>
-                        <img src="../../../static/img/icons/2.png" alt="No2"/>
-                        <h1>{test[1].name}</h1>
-                    </ExerciseDivTitle>
-                </ExerciseDiv>
+                <Link to={test[1].pathName}>
+                    <ExerciseDiv bgColor="#fff">
+                        <ExerciseDivRank className="flex items-center">
+                            <img src="../../../static/img/icons/2.png" alt="No2"/>
+                        </ExerciseDivRank>
+                        <ExerciseDivInfo>
+                            <h1>No. 2</h1>
+                            <span>{test[1].name}</span>
+                            <ExerciseStatsContainer>
+                                <span>👁️ {test[1].views}</span>
+                                <span>👍 {test[1].like}</span>
+                            </ExerciseStatsContainer>
+                        </ExerciseDivInfo>
+                    </ExerciseDiv>
+                </Link>
+                <Link to={test[0].pathName}>
+                    <ExerciseDiv bgColor="#fff">
+                        <ExerciseDivRank className="flex items-center">
+                            <img src="../../../static/img/icons/1.png" alt="No1"/>
+                        </ExerciseDivRank>
+                        <ExerciseDivInfo>
+                            <h1>No. 1</h1>
+                            <span>{test[0].name}</span>
+                            <ExerciseStatsContainer>
+                                <span>👁️ {test[0].views}</span>
+                                <span>👍 {test[0].like}</span>
+                            </ExerciseStatsContainer>
+                        </ExerciseDivInfo>
+                    </ExerciseDiv>
+                </Link>
+                <Link to={test[2].pathName}>
+                    <ExerciseDiv bgColor="#fff">
+                        <ExerciseDivRank className="flex items-center">
+                            <img src="../../../static/img/icons/3.png" alt="No3"/>
+                        </ExerciseDivRank>
+                        <ExerciseDivInfo>
+                            <h1>No. 3</h1>
+                            <span>{test[2].name}</span>
+                            <ExerciseStatsContainer>
+                                <span>👁️ {test[2].views}</span>
+                                <span>👍 {test[2].like}</span>
+                            </ExerciseStatsContainer>
+                        </ExerciseDivInfo>
+                    </ExerciseDiv>
+                </Link>
             </ExerciseContainer>
         </TrendingExerciseContainer>
     )

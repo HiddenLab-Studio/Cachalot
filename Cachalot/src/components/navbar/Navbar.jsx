@@ -35,6 +35,8 @@ const Navbar = () => {
 
     // Function to check if the current path is the same as the one in the URL
     function isCurrent(pathname){ return pathname === window.location.pathname; }
+    const firstPath = location.pathname.split('/')[1];
+    console.log(firstPath)
 
     return (
         <React.Fragment>
