@@ -99,7 +99,7 @@ function getNewExerciseAndDisplay() {
 }
 
 //Affichage du résultat de la réponse de l'utilisateur
-//Pourrait aller dans le viewExerciseGenerator.js mais il correspond aussi à une partie fonctionnelle du code
+//Pourrait aller dans le viewMathExerciseGenerator.js mais il correspond aussi à une partie fonctionnelle du code
 function displayResult(isCorrect) {
     if (isCorrect) {
         document.getElementById("result").innerHTML = "Bonne réponse";

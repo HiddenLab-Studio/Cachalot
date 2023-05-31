@@ -2,16 +2,16 @@ const express = require('express');
 const app = express();
 const port = 4000;
 
-const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/ExerciseGeneratorServer.js');
+const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/MathExerciseGeneratorServer.js');
 
 
 //On défini le dossier indiqué comme dossier statique => on peut directement accéder aux fichiers du dossier côté client
-app.use(express.static('BonneEcole/src/ExerciseGenerator'));
+app.use(express.static('BonneEcole/src/MathExerciseGenerator'));
 
 app.use(express.json()); // Middleware express.json() pour parser le JSON des requêtes POST (essentiel pour récupérer les données envoyées par le client avec une requête POST)
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/BonneEcole/src/ExerciseGenerator/ExerciseGenerator.html');
+  res.sendFile(__dirname + '/BonneEcole/src/MathExerciseGenerator/MathExerciseGenerator.html');
 });
 
 
