@@ -5,63 +5,10 @@ body{
 }
 
 h1{
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     text-align: center;
     margin-top: 20px;
-    margin-bottom: 40px;
-}
-
-h3{
-    font-size: 1.5rem;
-    text-align: center;
     margin-bottom: 20px;
-}
-
-section{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-bottom: 50px;
-
-    .statement{
-        width: 400px;
-        height: 160px;
-    }
-
-    .preview{
-        max-width: 200px;
-        max-height: 200px;
-        margin-top: 20px;
-    }
-
-    .image{
-        margin-left: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-button{
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #ccc;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover{
-    background-color: #999;
-}
-
-li{
-    display: flex;
-    flex-direction: row;
 }
 
 .switchWindow{
@@ -71,17 +18,24 @@ li{
     margin-bottom: 40px;
 
     button {
-        padding: 10px 20px;
-        background-color: #3498db;
+        width: 250px;
+        background-color: #bbbbbb;
         color: white;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        margin: 0 10px;
+        font-size: 1.1rem;
+        border: solid black 1px;
+        border-radius: 5px 0px 0px 5px;
         cursor: pointer;
       }
       
-    .button:hover {
-        background-color: #2980b9;
+    button:hover {
+        background-color: #888888;
+    }
+
+    .StatementButton{
+        background-color: #888888;
+    }
+
+    .QCMButton{
+        border-radius: 0px 5px 5px 0px;
     }
 }

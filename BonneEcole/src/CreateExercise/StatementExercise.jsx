@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+// Scss
+import "./StatementExercise.scss";
+
 const StatementExercise = (props) => {
     const [previewSource, setPreviewSource] = useState(""); // Preview image when uploded
     let answers = []; // Answers list
@@ -11,13 +14,15 @@ const StatementExercise = (props) => {
             setInputAnswer(
                 <ul>
                     {answers.map((answer, index) => (
-                    <li key={index}>{answer}
-                    <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
-                        // Delete an answer from the list
-                        answers.splice(index, 1);
-                        displayList();
-                    }}>
-                    </img></li>
+                    <li key={index}>
+                        <div className="row">{answer}
+                        <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
+                            // Delete an answer from the list
+                            answers.splice(index, 1);
+                            displayList();
+                        }}>
+                        </img>
+                        </div></li>
                     ))}
                 </ul>
             );
@@ -38,14 +43,27 @@ const StatementExercise = (props) => {
             setPreviewSource(URL.createObjectURL(event.target.files[0]));
         });
 
-        // Add a new answer to the list
+        // Add a new answer to the list when the button is clicked
         addAswerInput.addEventListener('click', (event) => {
-            // annuler l'ajout si la réponse est vide
-            // annuler l'ajout si la réponse est déjà dans la liste
+            // Cancel if the answer is empty or already in the list
             if (answerInput.value != "" && !answers.includes(answerInput.value)) {
                 answers.push(answerInput.value);
+                answerInput.value = '';
             }
             displayList();
+        });
+
+        // Add a new answer to the list when the enter key is pressed
+        answerInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                // Cancel if the answer is empty or already in the list
+                if (answerInput.value != "" && !answers.includes(answerInput.value)) {
+                    answers.push(answerInput.value);
+                    answerInput.value = '';
+                }
+                displayList();
+            }
         });
 
         // Add the exercise to the database
@@ -54,7 +72,7 @@ const StatementExercise = (props) => {
     }, []);
 
     return (
-        <>
+        <div className="StatementExercice">
             <section>
                 <div>
                     <h3>Énoncé</h3>
@@ -69,16 +87,16 @@ const StatementExercise = (props) => {
 
             <hr/>
 
-            <section>
+            <section className="answers">
                 <h3>Réponses possibles</h3>
                 <input type="text" id="answer"></input>
                 <button id="addAnswer">Ajouter</button>
             </section>
 
-            <section>{inputAnswer}</section>
+            <section className="answers">{inputAnswer}</section>
 
-            <section><button id="addExercise">Créer l'exercice</button></section>
-        </>
+            <div className="submit"><button id="addExercise">Créer l'exercice</button></div>
+        </div>
     );
 };
 
