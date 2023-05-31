@@ -64,6 +64,10 @@ div.StatementExercice{
             .row{
                 display: flex;
                 flex-direction: row;
+
+                img{
+                    margin-left: 20px;
+                }
             }
         }
     }

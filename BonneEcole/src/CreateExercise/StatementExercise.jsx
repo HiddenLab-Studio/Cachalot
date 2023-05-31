@@ -69,6 +69,9 @@ const StatementExercise = (props) => {
         // Add the exercise to the database
         addExerciseInput.addEventListener('click', () => {
         });
+
+        // Display the answers list for the first time
+        displayList();
     }, []);
 
     return (
@@ -76,7 +79,7 @@ const StatementExercise = (props) => {
             <section>
                 <div>
                     <h3>Énoncé</h3>
-                    <textarea name="statement" className="statement" required defaultValue="Énoncé de l'exercice..."></textarea>
+                    <textarea className="statement" required defaultValue="Énoncé de l'exercice..."></textarea>
                 </div>
                 <div className="image">
                     <h3>Ajouter une image (optionnel)</h3>
