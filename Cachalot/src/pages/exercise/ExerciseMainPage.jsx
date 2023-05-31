@@ -21,17 +21,13 @@ const ExerciseContainer = styled.div`
   color: white;
 `
 
-const Exercise = () => {
-    const data = {
-        id: window.location.pathname.split('/')[2],
-    }
-    console.log(data.id);
+const ExerciseMainPage = () => {
 
     return (
         <Container>
             <Navbar />
             <ExerciseContainer>
-                <h1>Exercice #{data.id} </h1>
+                <h1>Exercice Main Page</h1>
             </ExerciseContainer>
         </Container>
     )
@@ -39,4 +35,4 @@ const Exercise = () => {
 
 //<ThemeChanger setTheme={props.setTheme} />
 
-export default Exercise;
+export default ExerciseMainPage;

@@ -34,9 +34,8 @@ const Navbar = () => {
     }
 
     // Function to check if the current path is the same as the one in the URL
-    function isCurrent(pathname){ return pathname === window.location.pathname; }
-    const firstPath = location.pathname.split('/')[1];
-    console.log(firstPath)
+    function isCurrent(pathname = ""){ return pathname === window.location.pathname.split('/')[1]; }
+    console.log(window.location.pathname.split('/')[1]);
 
     return (
         <React.Fragment>
@@ -48,32 +47,32 @@ const Navbar = () => {
 
                     <LinkContainer>
                         <Link to="/" onClick={() => console.log("redirected to home")}>
-                            <LinkDiv current={isCurrent("/") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/home.png" alt="Home"/>
+                            <LinkDiv current={isCurrent() ? "true" : "false"}>
+                                <img src="../../../static/img/icons/home.png" alt="HomePage"/>
                                 {isOnTablet ? "" : <span>Dashboard</span>}
                             </LinkDiv>
                         </Link>
                         <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
-                            <LinkDiv current={isCurrent("/exercise") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("exercise") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                                 {isOnTablet ? "" : <span>Entrainement</span>}
                             </LinkDiv>
                         </Link>
                         <Link to="/ranked" onClick={() => console.log("redirected to ranked")}>
-                            <LinkDiv current={isCurrent("/ranked") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("ranked") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/sword.png" alt="Ranked"/>
                                 {isOnTablet ? "" : <span>Ligue</span>}
                             </LinkDiv>
                         </Link>
                         <Link to="/quest" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("/quest") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("quest") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/chest.png" alt="Quest"/>
                                 {isOnTablet ? "" : <span>Quêtes</span>}
                             </LinkDiv>
                         </Link>
                         {(auth.currentUser === null || isOnTablet) ?
                             <Link to="/profile" onClick={() => console.log("redirected to quest")}>
-                                <LinkDiv current={isCurrent("/profile") ? "true" : "false"}>
+                                <LinkDiv current={isCurrent("profile") ? "true" : "false"}>
                                     <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
                                     {isOnTablet ? "" : <span>Profile</span>}
                                 </LinkDiv>
@@ -81,13 +80,13 @@ const Navbar = () => {
                             : ""}
                         <BeneathLinkContainer>
                             <Link to="/settings" onClick={() => console.log("redirected to settings")}>
-                                <LinkDiv current={isCurrent("/settings") ? "true" : "false"}>
+                                <LinkDiv current={isCurrent("settings") ? "true" : "false"}>
                                     <img src="../../../static/img/icons/settings.png" alt="ProfilePicture"/>
                                     {isOnTablet ? "" : <span>Paramètres</span>}
                                 </LinkDiv>
                             </Link>
                             <Link to="/about" onClick={() => console.log("redirected to about")}>
-                                <LinkDiv current={isCurrent("/about") ? "true" : "false"}>
+                                <LinkDiv current={isCurrent("about") ? "true" : "false"}>
                                     <img src="../../../static/img/icons/about.png" alt="About"/>
                                     {isOnTablet ? "" : <span>A propos</span>}
                                 </LinkDiv>
@@ -124,7 +123,7 @@ const Navbar = () => {
                     <LinkContainer>
                         <Link to="/" onClick={() => console.log("redirected to home")}>
                             <LinkDiv current={isCurrent("/") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/home.png" alt="Home"/>
+                                <img src="../../../static/img/icons/home.png" alt="HomePage"/>
                             </LinkDiv>
                         </Link>
                         <Link to="/exercise" onClick={() => console.log("redirected to cards")}>

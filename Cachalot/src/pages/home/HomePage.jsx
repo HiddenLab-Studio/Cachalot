@@ -7,7 +7,7 @@ import TrendingExercise from "../../components/cards/TrendingExercise.jsx";
 
 
 
-const Home = () => {
+const HomePage = () => {
 
     return (
         <MainContainer>
@@ -26,4 +26,4 @@ const Home = () => {
 
 //<ThemeChanger setTheme={props.setTheme} />
 
-export default Home;
+export default HomePage;
