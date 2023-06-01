@@ -5,6 +5,7 @@ import "./StatementExercise.scss";
 
 const StatementExercise = (props) => {
     const [previewSource, setPreviewSource] = useState(""); // Preview image when uploded
+    let imageUrl = ""; // Image url
     let answers = []; // Answers list
     const [inputAnswer, setInputAnswer] = useState(""); // Input answer
 
@@ -14,15 +15,15 @@ const StatementExercise = (props) => {
             setInputAnswer(
                 <ul>
                     {answers.map((answer, index) => (
-                    <li key={index}>
-                        <div className="row">{answer}
-                        <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
-                            // Delete an answer from the list
-                            answers.splice(index, 1);
-                            displayList();
-                        }}>
-                        </img>
-                        </div></li>
+                        <li key={index}>
+                            <div className="row">{answer}
+                                <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
+                                    // Delete an answer from the list
+                                    answers.splice(index, 1);
+                                    displayList();
+                                }}>
+                                </img>
+                            </div></li>
                     ))}
                 </ul>
             );
@@ -41,6 +42,7 @@ const StatementExercise = (props) => {
         // Change the preview image when a new image is uploaded
         uploadInput.addEventListener('change', (event) => {
             setPreviewSource(URL.createObjectURL(event.target.files[0]));
+            imageUrl = URL.createObjectURL(event.target.files[0]);
         });
 
         // Add a new answer to the list when the button is clicked
@@ -68,6 +70,12 @@ const StatementExercise = (props) => {
 
         // Add the exercise to the database
         addExerciseInput.addEventListener('click', () => {
+            const data = {
+                statement: document.querySelector('.statement').value,
+                image: imageUrl,
+                answers: answers
+            };
+            console.log(data);
         });
 
         // Display the answers list for the first time
@@ -88,7 +96,7 @@ const StatementExercise = (props) => {
                 </div>
             </section>
 
-            <hr/>
+            <hr />
 
             <section className="answers">
                 <h3>Réponses possibles</h3>

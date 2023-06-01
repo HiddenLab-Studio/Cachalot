@@ -7,6 +7,9 @@ const QCMExercise = (props) => {
     const [previewSource, setPreviewSource] = useState(""); // Preview image when uploded
     let answers = []; // Answers list
     const [inputAnswer, setInputAnswer] = useState(""); // Input answer
+    
+    const trueAnswer = document.getElementById('true'); // True radio button
+    const falseAnswer = document.getElementById('false'); // False radio button
 
     // Display the answers list
     const displayList = () => {
@@ -36,11 +39,19 @@ const QCMExercise = (props) => {
         }
     };
 
+    const getAnswers = () => {
+        if (trueAnswer.checked) {
+            console.log("true");
+        }
+    };
+
+    // When the component is loaded
     useEffect(() => {
         const uploadInput = document.getElementById('upload'); // Upload button
         const answerInput = document.getElementById('answer'); // Answer input
         const addAswerInput = document.getElementById('addAnswer'); // Add answer button
         const addExerciseInput = document.getElementById('addExercise'); // Add exercise button
+        const newQuestionInput = document.getElementById('newQuestion'); // Add new question button
 
         // Change the preview image when a new image is uploaded
         uploadInput.addEventListener('change', (event) => {
@@ -102,7 +113,7 @@ const QCMExercise = (props) => {
 
             <div className="newQuestion"><button id="newQuestion">Ajouter une question</button></div>
 
-            <div className="submit"><button id="addExercise">Créer l'exercice</button></div>
+            <div className="submit"><button id="addExercise" onClick={getAnswers}>Créer l'exercice</button></div>
         </div>
     );
 };
