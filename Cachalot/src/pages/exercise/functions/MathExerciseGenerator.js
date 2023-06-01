@@ -11,12 +11,14 @@ export let data = {
 export const mathFunctions = {
     getExercise: (isNew = false) => {
         console.log("Request to back server to get exercise\nisNew: " + isNew);
+        // TODO
+        //  - Faire la requête au serveur pour récupérer un exercice nouveau ou spécifique
+        //  - Afficher l'exercice sur la page
     },
 
     selectExerciseType: (type) => {
         if(data.validExerciseType.includes(type)){
             data.currentExerciseType = type;
-            console.log(data.currentExerciseType);
             //getNewExerciseAndDisplay();
             mathFunctions.getExercise();
             return true;
@@ -27,7 +29,6 @@ export const mathFunctions = {
     selectClassType: (level) => {
         if(data.validClassType.includes(level)){
             data.currentLevel = level;
-            console.log(data.currentLevel);
             //getNewExerciseAndDisplay();
             return true;
         }
@@ -35,6 +36,11 @@ export const mathFunctions = {
     },
 
     confirmAnswer: () => {
+        // TODO
+        //  - Récupérer la réponse de l'utilisateur
+        //  - Envoyer la réponse au serveur
+        //  - Afficher le résultat de la réponse
+        //  - Générer un bouton pour passer à l'exercice suivant
        // getSolution(data.currentExercise);
     }
 
