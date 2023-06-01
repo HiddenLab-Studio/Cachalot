@@ -2,6 +2,7 @@ import tw, { styled } from "twin.macro";
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx"
+import {Button} from "@mui/material";
 
 const Container = styled.main`
   ${tw`flex flex-row min-h-[100vh]`};
@@ -25,12 +26,12 @@ const Exercise = () => {
     const data = {
         id: window.location.pathname.split('/')[2],
     }
-    console.log(data.id);
 
     return (
         <Container>
             <Navbar />
             <ExerciseContainer>
+                <Button>Ok</Button>
                 <h1>Exercice #{data.id} </h1>
             </ExerciseContainer>
         </Container>

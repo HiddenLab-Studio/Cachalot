@@ -3,7 +3,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import HomePage from "../pages/home/HomePage.jsx";
-import ExerciseMainPage from "../pages/exercise/ExerciseMainPage.jsx";
+import ExerciseHomePage from "../pages/exercise/ExerciseHomePage.jsx";
 import Exercise from "../pages/exercise/Exercise.jsx";
 
 // 3️⃣ Router singleton created
@@ -11,7 +11,7 @@ const router = createBrowserRouter([
     // HomePage
     { path: "/", element: <HomePage /> },
     // Exercise Main Page and Exercise by id
-    { path: "/exercise", element: <ExerciseMainPage/> },
+    { path: "/exercise", element: <ExerciseHomePage/> },
     { path: "/exercise/:id",  element: <Exercise /> },
     // Ranked Page
     { path: "/ranked", element: <HomePage /> },

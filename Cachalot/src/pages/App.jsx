@@ -27,5 +27,11 @@ const App = () => {
     )
 }
 
+/*
+            <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
+                <BrowserRouter />
+            </ThemeProvider>
+ */
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(<App />);
