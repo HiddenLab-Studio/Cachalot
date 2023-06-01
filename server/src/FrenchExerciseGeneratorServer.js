@@ -1,29 +1,39 @@
 
-//Test création exercice
-var exercice = {
-    question: "Quel est le verbe dans la phrase suivante ?",
-    phrase: "Le chat mange une souris.",
-    reponse: "mange"
-  };
-  
-  
-  
-  const fs = require('fs');
-  
-  function createExerciseJSON(exercise) {
-      //On le convertit en JSON
-      var exerciceJSON = JSON.stringify(exercise);
-  
-      //On l'enregistre dans un fichier
-      fs.writeFile('exercise.json', exerciceJSON, 'utf8', function(err) {
-          if (err) {
-              console.log('Une erreur s\'est produite lors de l\'écriture du fichier.');
-              return console.log(err);
-          }
-  
-          console.log('Le fichier JSON a été enregistré avec succès.');
-      });
-  }
-  
-  
-  createExerciseJSON(exercice);
+//Pour la lecture du fichier JSON
+const path = require('path');
+const fs = require('fs');
+
+
+
+function loadExercisesFromJSON() {
+    const filePath = path.join(__dirname, 'exercise.json');
+    const data = fs.readFileSync(filePath, 'utf-8');
+    const exercises = JSON.parse(data);
+
+    // Utilisez les données JSON ici
+    console.log(exercises);
+    console.log("Exercice 1");
+    console.log(exercises[0]);
+
+    return exercises;
+}
+
+
+function getRandomExerciseFromJSON(){
+    const exercises = loadExercisesFromJSON();
+    const randomIndex = Math.floor(Math.random() * exercises.length);
+    const randomExercise = exercises[randomIndex];
+    return randomExercise;
+}
+
+
+
+
+
+
+
+
+
+module.exports = {
+    getRandomExerciseFromJSON
+};

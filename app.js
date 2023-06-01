@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const port = 4000;
 
-const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/MathExerciseGeneratorServer.js');
 
+
+const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/MathExerciseGeneratorServer.js');
+const { getRandomExerciseFromJSON } = require('./server/src/FrenchExerciseGeneratorServer.js');
 
 
 
@@ -22,6 +24,8 @@ app.get('/FrenchExercise', (req, res) => {
 });
 
 
+
+//MATHS
 //On envoie un exercice aléatoire au client
 app.post('/api/getNewExercise', (req, res) => {
   const exerciseType = req.body.currentExerciseType;
@@ -46,39 +50,20 @@ app.post('/api/getSolution', (req, res) => {
   let isCorrect2 = getUserInputAndCheckSolution(answer, exercise);
 
   // Données à envoyer au client
-  res.json({isCorrect: isCorrect2});
+  res.json({ isCorrect: isCorrect2 });
+});
+
+
+
+//FRANCAIS
+//On envoie un exercice aléatoire au client
+app.post('/api/getNewFrenchExercise', (req, res) => {
+
+  data = getRandomExerciseFromJSON();
+  
+  res.send(data);
 });
 
 app.listen(port, () => {
   console.log(`Le serveur écoute sur le port ${port}`);
 });
-
-
-//Test création exercice
-var exercice = {
-  question: "Quel est le verbe dans la phrase suivante ?",
-  phrase: "Le chat mange une souris.",
-  reponse: "mange"
-};
-
-
-
-const fs = require('fs');
-
-function createExerciseJSON(exercise) {
-    //On le convertit en JSON
-    var exerciceJSON = JSON.stringify(exercise);
-
-    //On l'enregistre dans un fichier
-    fs.writeFile('exercise.json', exerciceJSON, 'utf8', function(err) {
-        if (err) {
-            console.log('Une erreur s\'est produite lors de l\'écriture du fichier.');
-            return console.log(err);
-        }
-
-        console.log('Le fichier JSON a été enregistré avec succès.');
-    });
-}
-
-
-createExerciseJSON(exercice);

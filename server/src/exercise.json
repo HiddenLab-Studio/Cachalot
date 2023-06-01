@@ -1,0 +1,21 @@
+[
+    {
+      "id": 0,
+      "question": "Quel est le verbe de cette phrase ?",
+      "phrase": "Le chat mange la souris.",
+      "reponse": "mange"
+    },
+    {
+      "id": 1,
+      "question": "Quel est le verbe de cette phrase ?",
+      "phrase": "Le chien aboie fort.",
+      "reponse": "aboie"
+    },
+    {
+      "id": 2,
+      "question": "Quel est le verbe de cette phrase ?",
+      "phrase": "Les oiseaux volent haut dans le ciel.",
+      "reponse": "volent"
+    }
+  ]
+  
