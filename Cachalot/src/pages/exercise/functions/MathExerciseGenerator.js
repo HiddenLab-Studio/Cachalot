@@ -1,16 +1,30 @@
-//Partie client de la génération d'exercice de calcul aléatoire, on utilise le serveur pour générer les exercices et vérifier les réponses
+import axios from "axios";
 
 export let data = {
     validExerciseType: ["addition", "soustraction", "multiplication", "division", "all"], //Tableau contenant les types d'exercices valides
-    validClassType: ["CP", "CE1", "CE2", "CM1", "CM2", "all"], //Tableau contenant les niveaux valides
-    currentExercise: undefined, //Variable qui contient l'exercice actuel
-    currentExerciseType: "all", //Variable qui contient le type d'exercice actuel (addition, soustraction, multiplication, division ou tout type d'opération)
-    currentLevel: "all", //Variable qui contient le niveau actuel (CP, CE1, CE2, CM1, CM2 ou tout niveau)
+    validClassType: ["CP", "CE1", "CE2", "CM1", "CM2", "all"],                            //Tableau contenant les niveaux valides
+    currentExercise: undefined,                                                           //Variable qui contient l'exercice actuel
+    currentExerciseType: "all",                                                           //Variable qui contient le type d'exercice actuel
+    currentLevel: "all",                                                                  //Variable qui contient le niveau actuel (classe)
 }
 
 export const mathFunctions = {
     getExercise: (isNew = false) => {
-        console.log("Request to back server to get exercise\nisNew: " + isNew);
+        //console.log("Request to back server to get exercise\nisNew: " + isNew);
+        /*axios.get("http://localhost:4000/test", {}
+        ).then((response) => { //On récupère la réponse du serveur
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });*/
+        axios.post("http://localhost:4000/api/getExercise", {
+            headers: "Content-Type: application/json",
+            body: {test: "salut"}
+        }).then((response) => {
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        });
         // TODO
         //  - Faire la requête au serveur pour récupérer un exercice nouveau ou spécifique
         //  - Afficher l'exercice sur la page
