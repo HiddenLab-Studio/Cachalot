@@ -22,19 +22,19 @@ document.getElementById("valeurInput").addEventListener("keydown", function (eve
 //Ajout des listeners sur chacun des boutons de niveau
 document.getElementById("selectCP").addEventListener("click", function () {
     currentLevel = "CP";
-    if(currentExerciseType != "addition" ){
+    if (currentExerciseType != "addition") {
         currentExerciseType = "addition";
     }
 });
 document.getElementById("selectCE1").addEventListener("click", function () {
     currentLevel = "CE1";
-    if(currentExerciseType == "division" ){
+    if (currentExerciseType == "division") {
         currentExerciseType = "all";
     }
 });
 document.getElementById("selectCE2").addEventListener("click", function () {
     currentLevel = "CE2";
-    if(currentExerciseType == "division" ){
+    if (currentExerciseType == "division") {
         currentExerciseType = "all";
     }
 });
@@ -95,7 +95,6 @@ function getNewExerciseAndDisplay() {
             // Gérer les erreurs de requête
             console.error('Une erreur s\'est produite:', error);
         });
-
 }
 
 //Affichage du résultat de la réponse de l'utilisateur

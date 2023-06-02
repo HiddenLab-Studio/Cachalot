@@ -5,7 +5,7 @@ const port = 4000;
 
 
 const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/MathExerciseGeneratorServer.js');
-const { getRandomExerciseFromJSON } = require('./server/src/FrenchExerciseGeneratorServer.js');
+const { getRandomExerciseFromJSON, getUserInputAndCheckSolutionFrench } = require('./server/src/FrenchExerciseGeneratorServer.js');
 
 
 
@@ -59,9 +59,27 @@ app.post('/api/getSolution', (req, res) => {
 //On envoie un exercice aléatoire au client
 app.post('/api/getNewFrenchExercise', (req, res) => {
 
-  data = getRandomExerciseFromJSON();
+  exercise = getRandomExerciseFromJSON();
+
+  const data = {
+    exerciseId: exercise.id,
+    exerciseQuestion: exercise.question,
+    exerciseSentence: exercise.phrase,
+  }
   
   res.send(data);
+});
+
+//On récupère la réponse du client et on vérifie si elle est correcte
+app.post('/api/getSolutionFrench', (req, res) => {
+  const exerciseId = req.body.exerciseId;
+  const answer = req.body.answer;
+
+  //On verifie la solution
+  let isCorrect2 = getUserInputAndCheckSolutionFrench(answer, exerciseId);
+
+  // Données à envoyer au client
+  res.json({ isCorrect: isCorrect2 });
 });
 
 app.listen(port, () => {

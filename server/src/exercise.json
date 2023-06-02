@@ -1,21 +1,80 @@
 [
-    {
-      "id": 0,
-      "question": "Quel est le verbe de cette phrase ?",
-      "phrase": "Le chat mange la souris.",
-      "reponse": "mange"
-    },
-    {
-      "id": 1,
-      "question": "Quel est le verbe de cette phrase ?",
-      "phrase": "Le chien aboie fort.",
-      "reponse": "aboie"
-    },
-    {
-      "id": 2,
-      "question": "Quel est le verbe de cette phrase ?",
-      "phrase": "Les oiseaux volent haut dans le ciel.",
-      "reponse": "volent"
-    }
-  ]
-  
+  {
+    "id": 0,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le chat mange la souris.",
+    "reponse": "mange"
+  },
+  {
+    "id": 1,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le chien aboie fort.",
+    "reponse": "aboie"
+  },
+  {
+    "id": 2,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les oiseaux volent haut dans le ciel.",
+    "reponse": "volent"
+  },
+  {
+    "id": 3,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le garçon court vite.",
+    "reponse": "court"
+  },
+  {
+    "id": 4,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "La fille danse joyeusement.",
+    "reponse": "danse"
+  },
+  {
+    "id": 5,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le soleil brille intensément.",
+    "reponse": "brille"
+  },
+  {
+    "id": 6,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les fleurs fleurissent au printemps.",
+    "reponse": "fleurissent"
+  },
+  {
+    "id": 7,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le vent souffle doucement.",
+    "reponse": "souffle"
+  },
+  {
+    "id": 8,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les enfants jouent dans le parc.",
+    "reponse": "jouent"
+  },
+  {
+    "id": 9,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "La voiture roule rapidement.",
+    "reponse": "roule"
+  },
+  {
+    "id": 10,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le professeur enseigne avec passion.",
+    "reponse": "enseigne"
+  },
+  {
+    "id": 11,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le bébé dort paisiblement.",
+    "reponse": "dort"
+  },
+  {
+    "id": 12,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les vagues s'écrasent sur la plage.",
+    "reponse": "écrasent"
+  }
+]
