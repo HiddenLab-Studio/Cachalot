@@ -35,7 +35,7 @@ const Navbar = () => {
 
     // Function to check if the current path is the same as the one in the URL
     function isCurrent(pathname = ""){ return pathname === window.location.pathname.split('/')[1]; }
-    console.log(window.location.pathname.split('/')[1]);
+    //console.log(window.location.pathname.split('/')[1]);
 
     return (
         <React.Fragment>
@@ -122,27 +122,27 @@ const Navbar = () => {
                 <NavbarContainer>
                     <LinkContainer>
                         <Link to="/" onClick={() => console.log("redirected to home")}>
-                            <LinkDiv current={isCurrent("/") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent() ? "true" : "false"}>
                                 <img src="../../../static/img/icons/home.png" alt="HomePage"/>
                             </LinkDiv>
                         </Link>
                         <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
-                            <LinkDiv current={isCurrent("/cards") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("exercise") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                             </LinkDiv>
                         </Link>
                         <Link to="/ranked" onClick={() => console.log("redirected to ranked")}>
-                            <LinkDiv current={isCurrent("/ranked") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("ranked") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/sword.png" alt="Ranked"/>
                             </LinkDiv>
                         </Link>
                         <Link to="/quest" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("/quest") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("quest") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/chest.png" alt="Quest"/>
                             </LinkDiv>
                         </Link>
                         <Link to="/profile" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("/profile") ? "true" : "false"}>
+                            <LinkDiv current={isCurrent("profile") ? "true" : "false"}>
                                 <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
                             </LinkDiv>
                         </Link>

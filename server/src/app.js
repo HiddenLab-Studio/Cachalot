@@ -9,6 +9,7 @@ const path = require("path");
 const dotenv = require("dotenv").config({path: "./.env"});
 //const compression = require("compression");
 const bodyParser = require("body-parser");
+const {generateRandomExercise, getUserInputAndCheckSolution} = require("./functions/math/MathExerciseGenerator");
 
 // Configuration du serveur
 app.use(express.static(path.join(__dirname, "..")));
@@ -41,9 +42,19 @@ app.get('/test', (req, res) => {
 })
 
 app.post('/api/getExercise', (req, res) => {
-    console.log("[REQUEST] user post data from client!")
-    console.log(req.body);
-    res.send(JSON.stringify("request processed successfully!"))
+    console.log("[POST] user send data to the server !")
+    let currentExerciseType = req.body.currentExerciseType;
+    let currentLevel = req.body.currentLevel;
+    const exercise = generateRandomExercise(currentExerciseType, currentLevel);
+    res.send({exercise: exercise});
+})
+
+app.post('/api/getSolution', (req, res) => {
+    console.log("[POST] user send data to the server !")
+    let currentExercise = req.body.exercise;
+    let answer = req.body.answer;
+    let isCorrect = getUserInputAndCheckSolution(answer, currentExercise);
+    res.send({isCorrect: isCorrect});
 })
 
 // Lancement du serveur

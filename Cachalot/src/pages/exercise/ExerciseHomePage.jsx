@@ -1,5 +1,5 @@
 import tw from "twin.macro";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx"
@@ -13,34 +13,40 @@ import {
     data, mathFunctions
 } from "./functions/MathExerciseGenerator.js";
 
+
 const ExerciseHomePage = () => {
-    console.log(data);
+    const [isLoading, setIsLoading] = useState(true);
+    const [exercise, setExercise] = useState(undefined);
 
-    useEffect(() => {
-        mathFunctions.getExercise();
-        window.addEventListener('keydown', (event) => {
-            // ...
+    useEffect( () => {
+        mathFunctions.init().then(() => {
+            console.log("Init done (result: " + data.currentExercise + " )");
+            setExercise(data.currentExercise);
+            setIsLoading(false);
         });
+
+        document.addEventListener("keydown", async (event) => {
+            if (event.key === "Enter") {
+                await mathFunctions.getSolution();
+                setExercise(data.currentExercise);
+            }
+        });
+
+
     }, []);
-
-    function updateView(event){
-        console.log("updateView");
-        event.target.parentElement.childNodes.forEach(element => {
-            element.style.backgroundColor = "";
-        });
-        event.target.style.backgroundColor = "grey";
-    }
 
     return (
         <Container>
-            <Navbar />
+            <Navbar/>
             <ExerciseContainer>
                 <div className="selectClassType">
                     {data.validClassType.map(type => {
                         return (
-                            <button key={type} onClick={(event) => {
-                                mathFunctions.selectClassType(type);
-                                updateView(event);
+                            <button id={type} key={type} onClick={(event) => {
+                                mathFunctions.selectClassType(type).then(() => {
+                                    mathFunctions.updateView(event);
+                                    setExercise(data.currentExercise);
+                                });
                             }}>
                                 {type === "all" ? "Tout" : type}
                             </button>
@@ -52,9 +58,11 @@ const ExerciseHomePage = () => {
                     <div className="selectExerciseType">
                         {data.validExerciseType.map(type => {
                             return (
-                                <button key={type} onClick={(event) => {
-                                    mathFunctions.selectExerciseType(type);
-                                    updateView(event);
+                                <button id={type} key={type} onClick={ (event) => {
+                                    mathFunctions.selectExerciseType(type).then(() => {
+                                        mathFunctions.updateView(event);
+                                        setExercise(data.currentExercise);
+                                    });
                                 }}>
                                     {type === "all" ? "Tout" : type === "addition" ? "Addition" : type === "soustraction" ? "Soustraction" : type === "multiplication" ? "Multiplication" : type === "division" ? "Division" : "Error"}
                                 </button>
@@ -63,18 +71,19 @@ const ExerciseHomePage = () => {
                     </div>
 
                     <div className="exercise">
-                        <div id="exercise"></div>
-                        <input type="text" id="valeurInput" placeholder="Réponse"/>
-                        <button id="ConfirmAnswerBtn">Valider</button>
+                        {isLoading ? <h1>Loading exercise...</h1> : <div id="exercise">{exercise}</div>}
+                        <input type="text" id="value" placeholder="Réponse"/>
+                        <button onClick={async () => {
+                            let result = await mathFunctions.getSolution();
+                            console.log(result, data.currentExercise);
+                            if(result) setExercise(data.currentExercise);
+                        }}>Valider</button>
                         <div id="result"></div>
                     </div>
                 </div>
-
             </ExerciseContainer>
         </Container>
     )
 }
-
-//<ThemeChanger setTheme={props.setTheme} />
 
 export default ExerciseHomePage;

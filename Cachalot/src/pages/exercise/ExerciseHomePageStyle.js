@@ -1,20 +1,20 @@
 import tw, { styled } from "twin.macro";
 
 export const Container = styled.main`
-  ${tw`flex flex-row min-h-[100vh]`};
-  background-color: ${props => props.theme.background};
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
   
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
-
-
-  
 `;
 
-export const ExerciseContainer = styled.div`
+export const ExerciseContainer = styled.section`
   display: flex;
+  flex-direction: row;
   flex-grow: 1;
+  gap: 20px;
   padding: 25px;
   
   .selectExerciseType {
@@ -23,9 +23,9 @@ export const ExerciseContainer = styled.div`
     flex-direction: row;
     gap: 10px;
     button {
-      color: white;
+      color: black;
       padding: 5px 10px;
-      border: 1px solid white;
+      border: 1px solid black;
       border-radius: 5px;
       background-color: ${props => props.current === "true" ? props.theme.buttonBgOnCurrent : "transparent"};
       &:hover {
@@ -40,9 +40,9 @@ export const ExerciseContainer = styled.div`
     position: absolute;
     gap: 10px;
     button {
-      color: white;
+      color: black;
       padding: 5px 10px;
-      border: 1px solid white;
+      border: 1px solid black;
       border-radius: 5px;
       &:hover {
         opacity: .5;
@@ -57,13 +57,15 @@ export const ExerciseContainer = styled.div`
     font-size: 30px;
     flex-grow: 2;
     gap: 10px;
+    color: black;
     input {
       outline: none;
+      border: 1px solid black;
     }
     button {
-      color: white;
+      color: black;
       padding: 5px 10px;
-      border: 1px solid white;
+      border: 1px solid black;
       border-radius: 5px;
       &:hover {
         opacity: .5;

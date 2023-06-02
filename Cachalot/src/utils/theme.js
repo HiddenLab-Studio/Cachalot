@@ -17,8 +17,8 @@ export const Theme = {
 export const themeLight = {
     name: "light",
     text: "#3c3c3c",
-    //background: "#fdfdfd",
-    background: "#121212",
+    background: "#fdfdfd",
+    //background: "#121212",
 
     // Navbar
     navbarText: "#777777",

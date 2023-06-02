@@ -5,8 +5,6 @@ import Navbar from "../../components/navbar/Navbar.jsx"
 import {AsideContainer, ContentContainer, MainContainer, MainSection} from "./HomeStyle.js";
 import TrendingExercise from "../../components/cards/TrendingExercise.jsx";
 
-
-
 const HomePage = () => {
 
     return (
