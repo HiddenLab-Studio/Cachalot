@@ -1,5 +1,5 @@
 import tw from "twin.macro";
-import { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx"
@@ -12,13 +12,19 @@ import {
 import {
     data, mathFunctions
 } from "./functions/MathExerciseGenerator.js";
+import ExerciseType from "./components/ExerciseType.jsx";
+import ExerciseLevel from "./components/ExerciseLevel.jsx";
 
 
 const ExerciseHomePage = () => {
+    // States
     const [isLoading, setIsLoading] = useState(true);
-    const [exercise, setExercise] = useState(undefined);
+    const [exercise, setExercise] = useState(data.currentExercise);
 
+    // useEffect
     useEffect( () => {
+        //document.getElementById("all_exercise").style.backgroundColor = "grey";
+        //document.getElementById("all_class").style.backgroundColor = "grey";
         mathFunctions.init().then(() => {
             console.log("Init done (result: " + data.currentExercise + " )");
             setExercise(data.currentExercise);
@@ -27,47 +33,47 @@ const ExerciseHomePage = () => {
 
         document.addEventListener("keydown", async (event) => {
             if (event.key === "Enter") {
-                await mathFunctions.getSolution();
-                setExercise(data.currentExercise);
+                let result = await mathFunctions.getSolution();
+                document.getElementById("value").value = "";
+                if (result) {
+                    await mathFunctions.getExercise();
+                    setExercise(data.currentExercise)
+                }
             }
         });
-
-
     }, []);
 
+    // Functions
+    function handleState(type, d){
+        switch (type) {
+            case "exercise":
+                setExercise(d);
+                break;
+            case "exerciseType":
+                mathFunctions.selectExerciseType(d).then(() => {
+                    setExercise(data.currentExercise);
+                });
+                break;
+            default:
+                console.log("Error: handleState() type not found");
+                break;
+        }
+    }
+
+    /* TODO:
+    *   - Revoir les composants et le css
+    */
     return (
         <Container>
             <Navbar/>
             <ExerciseContainer>
                 <div className="selectClassType">
-                    {data.validClassType.map(type => {
-                        return (
-                            <button id={type} key={type} onClick={(event) => {
-                                mathFunctions.selectClassType(type).then(() => {
-                                    mathFunctions.updateView(event);
-                                    setExercise(data.currentExercise);
-                                });
-                            }}>
-                                {type === "all" ? "Tout" : type}
-                            </button>
-                        )
-                    })}
+                    <ExerciseLevel setState={handleState} />
                 </div>
 
                 <div tw="flex flex-col items-center w-[100%]">
                     <div className="selectExerciseType">
-                        {data.validExerciseType.map(type => {
-                            return (
-                                <button id={type} key={type} onClick={ (event) => {
-                                    mathFunctions.selectExerciseType(type).then(() => {
-                                        mathFunctions.updateView(event);
-                                        setExercise(data.currentExercise);
-                                    });
-                                }}>
-                                    {type === "all" ? "Tout" : type === "addition" ? "Addition" : type === "soustraction" ? "Soustraction" : type === "multiplication" ? "Multiplication" : type === "division" ? "Division" : "Error"}
-                                </button>
-                            )
-                        })}
+                        <ExerciseType setState={handleState} exerciseType={data.currentExerciseType} />
                     </div>
 
                     <div className="exercise">
@@ -75,8 +81,11 @@ const ExerciseHomePage = () => {
                         <input type="text" id="value" placeholder="Réponse"/>
                         <button onClick={async () => {
                             let result = await mathFunctions.getSolution();
-                            console.log(result, data.currentExercise);
-                            if(result) setExercise(data.currentExercise);
+                            document.getElementById("value").value = "";
+                            if (result) {
+                                await mathFunctions.getExercise();
+                                setExercise(data.currentExercise)
+                            }
                         }}>Valider</button>
                         <div id="result"></div>
                     </div>
@@ -85,5 +94,17 @@ const ExerciseHomePage = () => {
         </Container>
     )
 }
+
+/*
+
+                            if(currentLevel === "CP" && type === "addition"){
+                                console.log(type);
+                                return <ExerciseType type="addition" setState={handleState}/>
+                            } else {
+                                return <ExerciseType type={type} setState={handleState}/>
+                            }
+
+
+ */
 
 export default ExerciseHomePage;

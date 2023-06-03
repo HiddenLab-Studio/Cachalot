@@ -53,6 +53,7 @@ app.post('/api/getSolution', (req, res) => {
     console.log("[POST] user send data to the server !")
     let currentExercise = req.body.exercise;
     let answer = req.body.answer;
+    console.log(currentExercise);
     let isCorrect = getUserInputAndCheckSolution(answer, currentExercise);
     res.send({isCorrect: isCorrect});
 })
