@@ -1,6 +1,6 @@
 // Import des fonctions dont on a besoin
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy,limit} from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import { ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
@@ -54,14 +54,14 @@ function clickDeleteAccount() {
 /**GET CANNAL */
 function room() {
     const room = document.getElementById('room').value;
-    const messageList = document.getElementById('messageList');
-    messageList.innerHTML = "";
     return room;
 }
 
 window.room = async function (e) {
+    const messageList = document.getElementById('messageList');
+    messageList.innerHTML = "";
     room()
-    await getMessage();   
+    await getMessage();
 }
 
 /***** SEND MESSAGE */
@@ -79,7 +79,7 @@ function sendMessage(e) {
         //On prend la date 
         const date = new Date();
         //On recupere l'heure et la date  
-        const hour = date.getHours() + ":" + date.getMinutes() + " | " + date.getDate() + "/" + (date.getMonth() + 1);
+        const hour =  date.toLocaleDateString() + " | " + date.toLocaleTimeString();
         //On ajoute les info dans un objet
         const data = {
             message: message,
@@ -87,7 +87,9 @@ function sendMessage(e) {
             date: hour
         }
         //On ajoute le message dans la collection messages
-        addDoc(collection(db, room()), data);
+        addDoc(collection(db, room()), data).then(() => {
+            document.getElementById('inputMessage').value = "";
+        })
 
     }).catch((error) => {
         console.error("Error adding document: ", error);
@@ -100,26 +102,25 @@ window.message = function (e) {
 }
 
 
-/***** GET MESSAGE SEND */
 function getMessage() {
-    //On recupere la collection messages
     const messagesCollection = collection(db, room());
-    //On recupere les messages de la collection quand il y a un changement
-    onSnapshot(messagesCollection, (snapshot) => {
-        //On parcours les changements
+    const message = query(messagesCollection, orderBy("date", 'asc'));
+    onSnapshot(message, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-            //Si le changement est un ajout
             if (change.type === "added") {
-                //On recupere les données du message ajouté
                 const data = change.doc.data();
-                //On recupere le message, l'utilisateur et la date
                 const message = data.message;
                 const user = data.user;
                 const date = data.date;
-                //On ajoute le message dans la liste des messages
+
                 const messageList = document.getElementById('messageList');
                 const li = document.createElement('li');
-                li.innerHTML = `<div class="message"><p class="message__user">${user}</p><p class="message__content">${message}</p><p class="message__date">${date}</p></div>`;
+                li.innerHTML = `
+                    <div class="message">
+                        <p class="message__user">${user}</p>
+                        <p class="message__content">${message}</p>
+                        <p class="message__date">${date}</p>
+                    </div>`;
                 messageList.appendChild(li);
             }
         });
