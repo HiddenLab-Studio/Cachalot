@@ -141,7 +141,7 @@ function getMessage() {
 }
 
 /***** LIKE */
-window.like = function (id) {
+function like(id) {
     //On recupere l'id du message avec le split qui prend le deuxieme element du "tableau"
     const idMessage = id.split('+')[1];
     const user = auth.currentUser;
@@ -152,36 +152,73 @@ window.like = function (id) {
     const docRef = doc(db, room(), idMessage);
     //On recupere le document de l'utilisateur
     const userDocRef = doc(db, room() + "/" + idMessage + "/like", user.uid);
-
     //On regarde si l'utilisateur a deja like
-    if (userDocRef != null) {
-        console.log("Il a deja like");
-        return;
-    }
-    else {
-        //On uopdate le document
-        getDoc(docRef).then((doc) => {
-            //On recupere les likes
-            const like = doc.data().like;
-            //On update le document avec 1 like en plus 
-            updateDoc(docRef, {
-                like: like + 1,
-                //On update la collection des différene utilisateur qui ont like
-            }).then(() => {
-                console.log("Perfecto");
-                setDoc(userDocRef, {
-                    like: 1,
-                })
+    getDoc(userDocRef).then((doc) => {
+        if (doc.exists()) {
+            console.log("Il a deja like");
+            return;
+        }
+        //Sinon on push le like avec l'utilisteur qui a like dans la collection like
+        else {
+            getDoc(docRef).then((doc) => {
+                //On recupere les likes
+                const like = doc.data().like;
+                //On update le document avec 1 like en plus 
+                updateDoc(docRef, {
+                    like: like + 1,
+                    //On update la collection des différene utilisateur qui ont like
+                }).then(() => {
+                    console.log("Perfecto");
+                    setDoc(userDocRef, {
+                        like: 1,
+                    })
+                }).catch((error) => {
+                    console.error("Error getting document:", error);
+                });
             }).catch((error) => {
                 console.error("Error getting document:", error);
             });
-        }).catch((error) => {
-            console.error("Error getting document:", error);
-        });
+        }
+    })
+}
+
+
+window.like = function (id) {
+    like(id);
+}
+
+
+/*** CREATE ROOM */
+
+function createRoom() {
+    const user = auth.currentUser;
+    //On crée une chaine de caractères aléatoire de 5 caractères
+    const room = Math.random().toString(36).substring(2, 7).toUpperCase();
+    //On ajoute la room dans la collection rooms
+    console.log(room);
+    const docRef = doc(db, "rooms", room);
+    const data = {
+        admin: user.uid,
+        date : new Date(),
     }
+
+    setDoc(docRef, {
+        admin: data.admin,
+        date : data.date,
+    })
+
+}
+
+
+function clickCreateRoom() {
+    const createRoomButton = document.getElementById('createRoom');
+    createRoomButton.addEventListener('click', () => {
+        createRoom();
+    })
 }
 
 
 getMessage();
 clickSignOut();
 clickDeleteAccount();
+clickCreateRoom();
