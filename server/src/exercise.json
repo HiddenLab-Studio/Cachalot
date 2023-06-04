@@ -76,5 +76,113 @@
     "question": "Quel est le verbe de cette phrase ?",
     "phrase": "Les vagues s'écrasent sur la plage.",
     "reponse": "écrasent"
+  },
+  {
+    "id": 13,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le lion rugit féroce.",
+    "reponse": "rugit"
+  },
+  {
+    "id": 14,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le ventre gargouille bruyamment.",
+    "reponse": "gargouille"
+  },
+  {
+    "id": 15,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les étoiles scintillent dans le ciel nocturne.",
+    "reponse": "scintillent"
+  },
+  {
+    "id": 16,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le train siffle à l'approche du passage à niveau.",
+    "reponse": "siffle"
+  },
+  {
+    "id": 17,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les feuilles tombent lentement en automne.",
+    "reponse": "tombent"
+  },
+  {
+    "id": 18,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le bébé gazouille joyeusement.",
+    "reponse": "gazouille"
+  },
+  {
+    "id": 19,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les abeilles butinent les fleurs.",
+    "reponse": "butinent"
+  },
+  {
+    "id": 20,
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le téléphone sonne brusquement.",
+    "reponse": "sonne"
+  },
+  {
+    "id": 21,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chat miaule doucement.",
+    "reponse": "miauler"
+  },
+  {
+    "id": 22,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chien aboie fort.",
+    "reponse": "aboyer"
+  },
+  {
+    "id": 23,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les oiseaux chantent joyeusement.",
+    "reponse": "chanter"
+  },
+  {
+    "id": 24,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le bébé gazouille doucement.",
+    "reponse": "gazouiller"
+  },
+  {
+    "id": 25,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les enfants jouent dans le parc.",
+    "reponse": "jouer"
+  },
+  {
+    "id": 26,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chien creuse un trou dans le jardin.",
+    "reponse": "creuser"
+  },
+  {
+    "id": 27,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le vent souffle doucement.",
+    "reponse": "souffler"
+  },
+  {
+    "id": 28,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les abeilles butinent les fleurs.",
+    "reponse": "butiner"
+  },
+  {
+    "id": 29,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "La plante pousse lentement.",
+    "reponse": "pousser"
+  },
+  {
+    "id": 30,
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le cheval galope rapidement sur la plage.",
+    "reponse": "galoper"
   }
 ]

@@ -5,7 +5,7 @@ const port = 4000;
 
 
 const { generateRandomExercise, getUserInputAndCheckSolution } = require('./server/src/MathExerciseGeneratorServer.js');
-const { getRandomExerciseFromJSON, getUserInputAndCheckSolutionFrench } = require('./server/src/FrenchExerciseGeneratorServer.js');
+const { getExercicesFromJSON, getUserInputAndCheckSolutionFrench } = require('./server/src/FrenchExerciseGeneratorServer.js');
 
 
 
@@ -58,8 +58,9 @@ app.post('/api/getSolution', (req, res) => {
 //FRANCAIS
 //On envoie un exercice aléatoire au client
 app.post('/api/getNewFrenchExercise', (req, res) => {
+  const exerciseLevel = req.body.currentLevel;
 
-  exercise = getRandomExerciseFromJSON();
+  exercise = getExercicesFromJSON(exerciseLevel);
 
   const data = {
     exerciseId: exercise.id,

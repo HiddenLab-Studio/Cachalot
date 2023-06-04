@@ -35,6 +35,26 @@ body {
     font-size: 30px;
 }
 
+
+.classLevelSelectionDiv{
+    width: 10%;
+
+    justify-content:flex-start;
+    display: flex;
+    align-items: center;
+    border: black solid 1px;
+    flex-direction: column;
+    padding: 10px;
+    gap: 6px;
+    margin: 2px;
+}
+
+
+.classLevelSelectionDiv .activeLevel {
+    background-color: #f00; /* Couleur différente pour le bouton actif */
+  }
+
+
 #result {
     height: 40px;
     display: flex;

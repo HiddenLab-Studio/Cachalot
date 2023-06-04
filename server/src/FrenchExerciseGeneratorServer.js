@@ -11,15 +11,15 @@ function loadExercisesFromJSON() {
     const data = fs.readFileSync(filePath, 'utf-8');
     const exercises = JSON.parse(data);
 
-    // Utilisez les données JSON ici
     exercisesJSON = exercises
 
     return exercises;
 }
 
 
-function getRandomExerciseFromJSON() {
-    const exercises = loadExercisesFromJSON();
+function getExercicesFromJSON(Level) {
+    loadExercisesFromJSON();
+    const exercises = getExerciseByLevel(Level);
     const randomIndex = Math.floor(Math.random() * exercises.length);
     const randomExercise = exercises[randomIndex];
     return randomExercise;
@@ -61,12 +61,43 @@ function getUserInputAndCheckSolutionFrench(answer, exerciseId) {
     }
 }
 
+//Système de niveau : chaque niveau a un emplacement différent dans le JSON et il se suivent -> d'abord cp, puis ce1, puis ce2, puis cm1, puis cm2
+//Ainsi, on créé une fonction qui va retourner uniquement la partie du JSON correspondant au niveau demandé
+function getExerciseByLevel(level) {
+    const exercises = exercisesJSON;//On récupère le JSON (je ne répète pas la fonction loadExercisesFromJSON() car elle est déjà appelée dans getExercicesFromJSON())
+    
+    let exercisesByLevel = undefined;
+    //On sélectionne la partie du JSON qui nous intéresse en fonction du niveau (slice permet de prendre uniquement entre le premier index inclus et le deuxième index exclus)
+    switch (level) {
+        case "CP":
+            exercisesByLevel = exercises.slice(0, 21);
+            break;
+        case "CE1":
+            exercisesByLevel = exercises.slice(21, 31);
+            break;
+        case "CE2":
+            exercisesByLevel = exercises.slice(0, 31);
+            break;
+        case "CM1":
+            exercisesByLevel = exercises.slice(0, 31);
+            break;
+        case "CM2":
+            exercisesByLevel = exercises.slice(0, 31);
+            break;
+        default:
+            exercisesByLevel = exercises.slice(0, 31);
+            break;
+    }
+
+
+    return exercisesByLevel;
+}
 
 
 
 
 
 module.exports = {
-    getRandomExerciseFromJSON,
+    getExercicesFromJSON,
     getUserInputAndCheckSolutionFrench
 };

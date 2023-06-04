@@ -1,5 +1,6 @@
 
 var currentExerciseId = undefined;//Variable contenant l'id de l'exercice actuel
+var currentLevel = "all";//Variable qui contient le niveau actuel (CP, CE1, CE2, CM1, CM2)
 
 
 //Lorsqu'on valide la réponse, on vient récupérer la valeur de l'input et on vérifie la solution
@@ -15,6 +16,29 @@ document.getElementById("valeurInput").addEventListener("keydown", function (eve
 });
 
 
+//Ajout des listeners sur chacun des boutons de niveau
+document.getElementById("selectCP").addEventListener("click", function () {
+    currentLevel = "CP";
+    getNewExerciseAndDisplay();
+});
+document.getElementById("selectCE1").addEventListener("click", function () {
+    currentLevel = "CE1";
+    getNewExerciseAndDisplay();
+});
+document.getElementById("selectCE2").addEventListener("click", function () {
+    currentLevel = "CE2";
+    getNewExerciseAndDisplay();
+});
+document.getElementById("selectCM1").addEventListener("click", function () {
+    currentLevel = "CM1";
+    getNewExerciseAndDisplay();
+});
+document.getElementById("selectCM2").addEventListener("click", function () {
+    currentLevel = "CM2";
+    getNewExerciseAndDisplay();
+});
+
+
 //On demande au serveur un nouveau calcul et on l'affiche sur la page HTML
 function getNewExerciseAndDisplay() {
     //Demande au serveur un nouvel exercice
@@ -23,6 +47,7 @@ function getNewExerciseAndDisplay() {
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify({ currentLevel })
     })
         .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
         .then(data => {
