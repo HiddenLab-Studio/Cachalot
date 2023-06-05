@@ -11,21 +11,23 @@ import {
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx";
 import SignInUp from "./components/SignInUp.jsx";
+import HomePage from "../home/HomePage.jsx";
 import Profile from "./components/Profile.jsx";
 
 
+const ProfileHomePage = (props) => {
+    const auth = useAuth();
 
-const SignInUpHomePage = () => {
-    // userData is an object that contains all the data of the user if he is connected
-    // by default this object is provided by firebase, this is for testing purposes
-    const userData = useAuth();
+    // DEBUG
+    console.log(auth.currentUser);
+    console.log(auth.userData);
 
     return (
         <Container>
             <Navbar />
-            {!userData.isAuthenticated ? <Profile /> : <SignInUp />}
+            {auth.currentUser !== null ? <Profile /> : <SignInUp />}
         </Container>
     )
 }
 
-export default SignInUpHomePage;
+export default ProfileHomePage;

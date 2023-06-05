@@ -1,6 +1,6 @@
 import tw, { styled } from 'twin.macro';
 
-export const SignInUpGoogleButton = styled.div`
+export const GoogleButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   height: 48px;

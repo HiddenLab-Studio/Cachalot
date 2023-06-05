@@ -25,12 +25,10 @@ import {
 const Navbar = () => {
     const isOnTablet = useMediaQuery({ query: '(max-width: 1200px)' });
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const auth = useAuth();
+    const test = useAuth();
 
     function handleClick(){
-        auth.setIsAuthenticated(!auth.isAuthenticated);
-        console.log("Current user: " + auth.currentUser);
-        console.log("Object auth user: " + auth.object.username);
+        console.log("Current user: " + test);
     }
 
     // Function to check if the current path is the same as the one in the URL
@@ -38,7 +36,7 @@ const Navbar = () => {
     //console.log(window.location.pathname.split('/')[1]);
 
     return (
-        <React.Fragment>
+        <>
             {!isOnMobile ?
                 <NavbarContainer>
                     <ImgWrapper>
@@ -70,7 +68,7 @@ const Navbar = () => {
                                 {isOnTablet ? "" : <span>Quêtes</span>}
                             </LinkDiv>
                         </Link>
-                        {(auth.currentUser === null || isOnTablet) ?
+                        {isOnTablet ?
                             <Link to="/profile" onClick={() => console.log("redirected to quest")}>
                                 <LinkDiv current={isCurrent("profile") ? "true" : "false"}>
                                     <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
@@ -97,11 +95,11 @@ const Navbar = () => {
                     <ProfileContainer>
                         <Link to="/profile" onClick={() => console.log("redirected to quest")}>
                             <ProfileElement>
-                                <img src={auth.currentUser != null ? "../../../static/img/" + auth.object.profilePicture : "../../../static/img/icons/profile.png"} alt="ProfilePicture"/>
+                                <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
                             </ProfileElement>
                         </Link>
                         <ProfileElement>
-                            <span>{auth.currentUser != null ? auth.currentUser : "Invité"}</span>
+                            <span>Invité</span>
                             <XpBarContainer>
                                 <BarContainer className="flex flex-row">
                                     <XpBar><div></div></XpBar>
@@ -114,7 +112,7 @@ const Navbar = () => {
                         </ProfileElement>
                     </ProfileContainer>
                     <div className="flex gap-5 absolute bottom-0 right-0 text-black">
-                        <button onClick={() => handleClick()}>isUserLoggedIn: {auth.currentUser}</button>
+                        <button onClick={() => handleClick()}>isUserLoggedIn: </button>
                         <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
                     </div>
                 </NavbarContainer>
@@ -148,12 +146,12 @@ const Navbar = () => {
                         </Link>
                     </LinkContainer>
                     <div className="flex gap-5 absolute bottom-0 right-0 text-black">
-                        <button onClick={() => handleClick()}>isUserLoggedIn: {auth.currentUser}</button>
+                        <button onClick={() => handleClick()}>isUserLoggedIn: </button>
                         <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
                     </div>
                 </NavbarContainer>
             }
-        </React.Fragment>
+        </>
     )
 }
 

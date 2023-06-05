@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {forwardRef, useImperativeHandle, useRef, useState} from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useMediaQuery } from "react-responsive";
 
@@ -8,16 +8,20 @@ import {
     LineWrapper,
     SignInUpButton,
     SignInUpContainer,
-    SignInUpGoogleButton,
 } from "../styles/SignInUpPageStyle.js";
 
 // SubComponents
 import SignUpFields from "./subComponents/SignUpFields.jsx";
 import SignInFields from "./subComponents/SignInFields.jsx";
 import SwitchButton from "./subComponents/SwitchButton.jsx";
+import SignInUpGoogleButton from "./subComponents/SignInUpGoogleButton.jsx";
+
+// JS
+import { firebaseRegister, firebaseLogin, firebaseGoogleLogin } from "../functions/signInUp.js";
 
 const SignInUp = () => {
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
     // State
     const [signInOverlay, setSignInOverlay] = useState(true);
 
@@ -31,11 +35,22 @@ const SignInUp = () => {
                 {signInOverlay ? <h1>Connexion</h1> : <h1>Créer un compte</h1>}
                 {signInOverlay ? <SignInFields ref={signInFieldRef} /> : <SignUpFields ref={signUpFieldRef} />}
                 <SignInUpButton width="inherit">
-                    <button onClick={() => {
-                        if(signInFieldRef.current !== null) console.log(signInFieldRef.current.getState());
-                        if(signUpFieldRef.current !== null) console.log(signUpFieldRef.current.getState());
+                    <button onClick={async (e) => {
+                        if (signInFieldRef.current !== null) {
+                            console.log(signInFieldRef.current.getState())
+                            e.target.textContent = "Connexion...";
+                            let result = await firebaseLogin(signInFieldRef.current.getState());
+                            console.log(result);
+                            if(!result) e.target.textContent = "Se connecter";
+                        } else if (signUpFieldRef.current !== null) {
+                            console.log(signUpFieldRef.current.getState());
+                            e.target.textContent = "Création...";
+                            let result = await firebaseRegister(signUpFieldRef.current.getState());
+                            if(!result) e.target.textContent = "S'inscrire";
+
+                        }
                     }}>
-                        Se connecter
+                        {signInOverlay ? "Se connecter" : "S'inscrire"}
                     </button>
                 </SignInUpButton>
                 <LineWrapper>
@@ -43,15 +58,10 @@ const SignInUp = () => {
                     <div className="where">ou</div>
                     <div className="line"></div>
                 </LineWrapper>
-                <SignInUpGoogleButton width="50%">
-                    <button>
-                        <FcGoogle/>
-                        Google
-                    </button>
-                </SignInUpGoogleButton>
-                    <SwitchButton state={signInOverlay} setState={setSignInOverlay}>
-                        {signInOverlay ? "S'inscrire" : "Connexion"}
-                    </SwitchButton>
+                <SignInUpGoogleButton width="inherit"></SignInUpGoogleButton>
+                <SwitchButton state={signInOverlay} setState={setSignInOverlay}>
+                    {signInOverlay ? "S'inscrire" : "Connexion"}
+                </SwitchButton>
             </SignInUpContainer>
         </Container>
     )
