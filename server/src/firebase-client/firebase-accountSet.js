@@ -50,6 +50,17 @@ function clickDeleteAccount() {
     })
 }
 
+function addXPToUser() {
+    const user = auth.currentUser;
+    const docRef = doc(db, 'users', user.uid)
+    getDoc(docRef).then((doc) => {
+        const xp = doc.data().xp;
+        updateDoc(docRef, {
+            xp: xp + 1,
+        })
+    })
+}             
+
 
 /**GET CANNAL */
 function room() {
@@ -71,8 +82,11 @@ function sendMessage(e) {
     const user = auth.currentUser;
     //On recupere le username de l'utilisateur
     let username = "Anonymous";
+    let xp = 0;
     getDoc(doc(db, "users", user.uid)).then((doc) => {
         username = doc.data().username;
+        //On recupere l'xp de l'utilisateur
+        xp = doc.data().xp;
     }).then(() => {
         //On recupere le message
         const message = document.getElementById('inputMessage').value;
@@ -80,17 +94,20 @@ function sendMessage(e) {
         const date = new Date();
         //On recupere l'heure et la date  
         const hour = date.toLocaleDateString() + " | " + date.toLocaleTimeString();
+
         //On ajoute les info dans un objet
         const data = {
             message: message,
             user: username,
             date: hour,
             like: 0,
+            xp: xp,
         }
         //On ajoute le message dans la collection messages
         addDoc(collection(db, room()), data).then(() => {
             document.getElementById('inputMessage').value = "";
         })
+        addXPToUser();
 
     }).catch((error) => {
         console.error("Error adding document: ", error);
@@ -199,12 +216,12 @@ function createRoom() {
     const docRef = doc(db, "rooms", room);
     const data = {
         admin: user.uid,
-        date : new Date(),
+        date: new Date(),
     }
 
     setDoc(docRef, {
         admin: data.admin,
-        date : data.date,
+        date: data.date,
     })
 
 }
