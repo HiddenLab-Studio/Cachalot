@@ -13,35 +13,48 @@ import {
 import {
     ImgWrapper
 } from "../../../components/ui/GlobalStyle.js";
+import SignInUp from "../../connection/components/SignInUp.jsx";
+import Navbar from "../../../components/navbar/Navbar.jsx";
+import React from "react";
 
 const Profile = () => {
     const auth = useAuth();
 
-    // TODO: Need to change auth.object
-    return (
-        <Container>
-            <ProfileContainer>
-                <ImgWrapper width="192px">
-                    <img src={"../../../../static/img/" + auth.object.profilePicture} alt="Medal"/>
-                </ImgWrapper>
-                <AccountInformationContainer>
-                    <div className="title" tw="flex flex-col leading-6">
-                        <h1>{auth.object.username}</h1>
-                        <span>lezizou@gmail.com</span>
-                    </div>
-                    <div className="info">
-                        <div>
-                            <FaClock/>
-                            <span>Membre depuis {"janvier 2023"}</span>
+    if(auth.userData === null){
+        return <h1>LOADING...</h1>
+    } else {
+        return (
+            <Container>
+                <ProfileContainer>
+                    <ImgWrapper width="192px">
+                        <img
+                            src={!auth.userData.photo ? "../../../../static/img/profilePictureTest.png" : auth.userData.photo}
+                            alt="Medal"/>
+                    </ImgWrapper>
+                    <AccountInformationContainer>
+                        <div className="title" tw="flex flex-col leading-6">
+                            <h1>{auth.userData.username}</h1>
+                            <span>{auth.userData.email}</span>
                         </div>
-                        <div>
-                            <span>Classe: {"CM1"}</span>
+                        <div className="info">
+                            <div>
+                                <FaClock/>
+                                <span>Membre depuis {"janvier 2023"}</span>
+                            </div>
+                            <div>
+                                <span>Classe: {"CM1"}</span>
+                            </div>
                         </div>
-                    </div>
-                </AccountInformationContainer>
-            </ProfileContainer>
-        </Container>
-    )
+                    </AccountInformationContainer>
+                    <button onClick={() => {
+                        auth.disconnectUser()
+                    }}>
+                        Se déconnecter
+                    </button>
+                </ProfileContainer>
+            </Container>
+        )
+    }
 }
 
 export default Profile;

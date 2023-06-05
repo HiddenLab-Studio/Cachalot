@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
@@ -10,22 +11,24 @@ import {
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx";
-import SignInUp from "./components/SignInUp.jsx";
+import SignInUp from "../connection/components/SignInUp.jsx";
 import Profile from "./components/Profile.jsx";
+import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 
 
+const ProfileHomePage = () => {
+    const userData = useAuth().userData;
 
-const SignInUpHomePage = () => {
-    // userData is an object that contains all the data of the user if he is connected
-    // by default this object is provided by firebase, this is for testing purposes
-    const userData = useAuth();
-
-    return (
-        <Container>
-            <Navbar />
-            {!userData.isAuthenticated ? <Profile /> : <SignInUp />}
-        </Container>
-    )
+    if(userData === null){
+        return <ConnectionHomePage />
+    } else {
+        return (
+            <Container>
+                <Navbar />
+                <Profile />
+            </Container>
+        )
+    }
 }
 
-export default SignInUpHomePage;
+export default ProfileHomePage;

@@ -1,11 +1,11 @@
 import tw, { styled } from 'twin.macro';
 
-export const SignInUpGoogleButton = styled.div`
+export const GoogleButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   height: 48px;
   margin: 20px 0;
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   
   button {
     display: flex;
@@ -16,9 +16,11 @@ export const SignInUpGoogleButton = styled.div`
     transition: all 100ms ease-in-out;
     svg {
       font-size: var(--fs-sm);
+      align-self: center;
     }
     
     font-size: var(--fs-ss);
+    letter-spacing: 0.5px;
     padding: 0 16px;
     color: ${props => props.theme.cachalotColor};
     background-color: white;
@@ -54,7 +56,7 @@ export const LineWrapper = styled.div`
     padding: 0 8px;
   }
 `
-export const SignInUpButton = styled.div`
+export const SignInUpButtonContainer = styled.div`
   width: ${props => props.width};
   margin: 20px 0;
   height: 48px;
@@ -123,8 +125,29 @@ export const SignInUpContainer = styled.div`
   h1 {
     font-size: var(--fs-sl);
     font-weight: 700;
-    margin: 10px 0 15px;
+    margin: 10px 0 10px;
   }
+  
+  .error {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: var(--fs-ss);
+    color: ${props => props.theme.errorText};
+    svg {
+      font-size: var(--fs-sm);
+    }
+  }
+
+  @media (max-width: 768px) {
+    ${FieldContainer} {
+      input {
+        padding: 7px 15px;
+      }
+    }
+  } 
+  
 `
 
 export const SwitchButtonWrapper = styled.div`
