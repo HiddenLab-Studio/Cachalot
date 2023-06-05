@@ -181,8 +181,938 @@
   },
   {
     "id": 30,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Jouer",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 31,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Manger",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 32,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Danser",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 33,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Regardé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 34,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Chercher",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 35,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Travaillé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 36,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Chanter",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 37,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Écouté",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 38,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Appelé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 39,
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Joué",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 40,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Hier, j'ai mangé une pomme.",
+    "reponse": "passé"
+  },
+  {
+    "id": 41,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Il pleut aujourd'hui.",
+    "reponse": "présent"
+  },
+  {
+    "id": 42,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Demain, nous irons à la plage.",
+    "reponse": "futur"
+  },
+  {
+    "id": 43,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Je chante dans la chorale.",
+    "reponse": "présent"
+  },
+  {
+    "id": 44,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Hier, il a plu toute la journée.",
+    "reponse": "passé"
+  },
+  {
+    "id": 45,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Elle partira en vacances l'été prochain.",
+    "reponse": "futur"
+  },
+  {
+    "id": 46,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Nous avons terminé nos devoirs hier soir.",
+    "reponse": "passé"
+  },
+  {
+    "id": 47,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Il fait beau aujourd'hui.",
+    "reponse": "présent"
+  },
+  {
+    "id": 48,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "La semaine prochaine, je rencontrerai mon ami.",
+    "reponse": "futur"
+  },
+  {
+    "id": 49,
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Elle a acheté un nouveau livre hier.",
+    "reponse": "passé"
+  },
+  {
+    "id": 50,
     "question": "Quel est l'infinitif du verbe de cette phrase ?",
     "phrase": "Le cheval galope rapidement sur la plage.",
     "reponse": "galoper"
+  },
+  {
+    "id": 51,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le soleil brille aujourd'hui.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 52,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Je ne peux pas venir demain.",
+    "reponse": "négative"
+  },
+  {
+    "id": 53,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le garçon court vite.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 54,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Elle ne comprend pas l'anglais.",
+    "reponse": "négative"
+  },
+  {
+    "id": 55,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Nous aimons écouter de la musique.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 56,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Il ne veut pas partager ses bonbons.",
+    "reponse": "négative"
+  },
+  {
+    "id": 57,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le chien obéit à son maître.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 58,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Je ne sais pas nager.",
+    "reponse": "négative"
+  },
+  {
+    "id": 59,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Les oiseaux volent haut dans le ciel.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 60,
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Elle ne danse pas bien.",
+    "reponse": "négative"
+  },
+  {
+    "id": 61,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un livre",
+    "reponse": "des livres"
+  },
+  {
+    "id": 62,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un chat",
+    "reponse": "des chats"
+  },
+  {
+    "id": 63,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un chien",
+    "reponse": "des chiens"
+  },
+  {
+    "id": 64,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un crayon",
+    "reponse": "des crayons"
+  },
+  {
+    "id": 65,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un oiseau",
+    "reponse": "des oiseaux"
+  },
+  {
+    "id": 66,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un vélo",
+    "reponse": "des vélos"
+  },
+  {
+    "id": 67,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un journal",
+    "reponse": "des journaux"
+  },
+  {
+    "id": 68,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un enfant",
+    "reponse": "des enfants"
+  },
+  {
+    "id": 69,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un sac",
+    "reponse": "des sacs"
+  },
+  {
+    "id": 70,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un arbre",
+    "reponse": "des arbres"
+  },
+  {
+    "id": 71,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bras",
+    "reponse": "des bras"
+  },
+  {
+    "id": 72,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un nez",
+    "reponse": "des nez"
+  },
+  {
+    "id": 73,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un cheveu",
+    "reponse": "des cheveux"
+  },
+  {
+    "id": 74,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un landau",
+    "reponse": "des landaus"
+  },
+  {
+    "id": 75,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un pneu",
+    "reponse": "des pneus"
+  },
+  {
+    "id": 76,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bleu",
+    "reponse": "des bleus"
+  },
+  {
+    "id": 77,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un animal",
+    "reponse": "des animaux"
+  },
+  {
+    "id": 78,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bal",
+    "reponse": "des bals"
+  },
+  {
+    "id": 79,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un portail",
+    "reponse": "des portails"
+  },
+  {
+    "id": 80,
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bijou",
+    "reponse": "des bijoux"
+  },
+  {
+    "id": 81,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la troisième personne du singulier",
+    "reponse": "Il a joué"
+  },
+  {
+    "id": 82,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la première personne du singulier",
+    "reponse": "J'ai mangé"
+  },
+  {
+    "id": 83,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la deuxième personne du singulier",
+    "reponse": "Tu as fini"
+  },
+  {
+    "id": 84,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la troisième personne du pluriel",
+    "reponse": "Ils ont parlé"
+  },
+  {
+    "id": 85,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la première personne du pluriel",
+    "reponse": "Nous avons dansé"
+  },
+  {
+    "id": 86,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la deuxième personne du pluriel",
+    "reponse": "Vous avez joué"
+  },
+  {
+    "id": 87,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la troisième personne du pluriel",
+    "reponse": "Ils ont mangé"
+  },
+  {
+    "id": 88,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la première personne du singulier",
+    "reponse": "J'ai fini"
+  },
+  {
+    "id": 89,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la deuxième personne du singulier",
+    "reponse": "Tu as parlé"
+  },
+  {
+    "id": 90,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la troisième personne du singulier",
+    "reponse": "Il a dansé"
+  },
+  {
+    "id": 91,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la première personne du pluriel",
+    "reponse": "Nous avons joué"
+  },
+  {
+    "id": 92,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la deuxième personne du pluriel",
+    "reponse": "Vous avez mangé"
+  },
+  {
+    "id": 93,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la troisième personne du pluriel",
+    "reponse": "Ils ont fini"
+  },
+  {
+    "id": 94,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la première personne du singulier",
+    "reponse": "J'ai parlé"
+  },
+  {
+    "id": 95,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la deuxième personne du singulier",
+    "reponse": "Tu as dansé"
+  },
+  {
+    "id": 96,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la troisième personne du pluriel",
+    "reponse": "Ils ont joué"
+  },
+  {
+    "id": 97,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la première personne du pluriel",
+    "reponse": "Nous avons mangé"
+  },
+  {
+    "id": 98,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la deuxième personne du pluriel",
+    "reponse": "Vous avez fini"
+  },
+  {
+    "id": 99,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la troisième personne du singulier",
+    "reponse": "Il a parlé"
+  },
+  {
+    "id": 100,
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la première personne du singulier",
+    "reponse": "J'ai dansé"
+  },
+  {
+    "id": 101,
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Je fais"
+  },
+  {
+    "id": 102,
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Tu fais"
+  },
+  {
+    "id": 103,
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Il fait"
+  },
+  {
+    "id": 104,
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Nous faisons"
+  },
+  {
+    "id": 105,
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Vous faites"
+  },
+  {
+    "id": 106,
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Ils font"
+  },
+  {
+    "id": 107,
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Je vais"
+  },
+  {
+    "id": 108,
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Tu vas"
+  },
+  {
+    "id": 109,
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Il va"
+  },
+  {
+    "id": 110,
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Nous allons"
+  },
+  {
+    "id": 111,
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Vous allez"
+  },
+  {
+    "id": 112,
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Ils vont"
+  },
+  {
+    "id": 113,
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Je vois"
+  },
+  {
+    "id": 114,
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Tu vois"
+  },
+  {
+    "id": 115,
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Il voit"
+  },
+  {
+    "id": 116,
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Nous voyons"
+  },
+  {
+    "id": 117,
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Vous voyez"
+  },
+  {
+    "id": 118,
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Ils voient"
+  },
+  {
+    "id": 119,
+    "question": "c' ou s' ?",
+    "phrase": "Il __habille rapidement.",
+    "reponse": "s'"
+  },
+  {
+    "id": 120,
+    "question": "c' ou s' ?",
+    "phrase": "__est un beau garçon.",
+    "reponse": "c'"
+  },
+  {
+    "id": 121,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est réveillée en retard ce matin.",
+    "reponse": "s'"
+  },
+  {
+    "id": 122,
+    "question": "c' ou s' ?",
+    "phrase": "__ils se dépêchent, ils pourront attraper le train.",
+    "reponse": "s'"
+  },
+  {
+    "id": 123,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est blessée en faisant du sport.",
+    "reponse": "s'"
+  },
+  {
+    "id": 124,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est excusé pour son comportement.",
+    "reponse": "s'"
+  },
+  {
+    "id": 125,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est préparée pour la réunion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 126,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est lavé les mains avant de manger.",
+    "reponse": "s'"
+  },
+  {
+    "id": 127,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est maquillée avant de sortir.",
+    "reponse": "s'"
+  },
+  {
+    "id": 128,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est habillé élégamment pour l'occasion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 129,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est coiffée d'une jolie tresse.",
+    "reponse": "s'"
+  },
+  {
+    "id": 130,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est ennuyé pendant la réunion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 131,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est amusé à la fête hier soir.",
+    "reponse": "s'"
+  },
+  {
+    "id": 132,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est coiffée d'une queue de cheval..",
+    "reponse": "s'"
+  },
+  {
+    "id": 133,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est levé tôt pour aller travailler.",
+    "reponse": "s'"
+  },
+  {
+    "id": 134,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est blessée en faisant du sport.",
+    "reponse": "s'"
+  },
+  {
+    "id": 135,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est lavé le visage avec de l'eau froide.",
+    "reponse": "s'"
+  },
+  {
+    "id": 136,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est souvenue de son rendez-vous important.",
+    "reponse": "s'"
+  },
+  {
+    "id": 137,
+    "question": "c' ou s' ?",
+    "phrase": "Il __est inquiété pour sa sœur pendant son voyage.",
+    "reponse": "s'"
+  },
+  {
+    "id": 138,
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est perdue dans ses pensées pendant un moment.",
+    "reponse": "s'"
+  },
+  {
+    "id": 139,
+    "question": "c' ou s' ?",
+    "phrase": "__ils se motivent l'un l'autre, ils peuvent atteindre leurs objectifs.",
+    "reponse": "s'"
+  },
+  {
+    "id": 140,
+    "question": "c' ou s' ?",
+    "phrase": "__est une belle journée ensoleillée.",
+    "reponse": "c'"
+  },
+  {
+    "id": 141,
+    "question": "c' ou s' ?",
+    "phrase": "__est mon anniversaire demain.",
+    "reponse": "c'"
+  },
+  {
+    "id": 142,
+    "question": "c' ou s' ?",
+    "phrase": "__est incroyable de voir autant de gens ici.",
+    "reponse": "c'"
+  },
+  {
+    "id": 143,
+    "question": "c' ou s' ?",
+    "phrase": "__est difficile de prendre une décision.",
+    "reponse": "c'"
+  },
+  {
+    "id": 144,
+    "question": "c' ou s' ?",
+    "phrase": "__est important de rester hydraté par temps chaud.",
+    "reponse": "c'"
+  },
+  {
+    "id": 145,
+    "question": "c' ou s' ?",
+    "phrase": "__est délicieux, j'adore ce gâteau.",
+    "reponse": "c'"
+  },
+  {
+    "id": 146,
+    "question": "c' ou s' ?",
+    "phrase": "__est dangereux de traverser la route sans regarder.",
+    "reponse": "c'"
+  },
+  {
+    "id": 147,
+    "question": "c' ou s' ?",
+    "phrase": "__est mon livre préféré de tous les temps.",
+    "reponse": "c'"
+  },
+  {
+    "id": 148,
+    "question": "c' ou s' ?",
+    "phrase": "__est intéressant de découvrir de nouvelles cultures.",
+    "reponse": "c'"
+  },
+  {
+    "id": 149,
+    "question": "c' ou s' ?",
+    "phrase": "__est amusant de jouer à des jeux de société en famille.",
+    "reponse": "c'"
+  },
+  {
+    "id": 150,
+    "question": "c' ou s' ?",
+    "phrase": "__est triste de dire au revoir à des amis proches.",
+    "reponse": "c'"
+  },
+  {
+    "id": 151,
+    "question": "c' ou s' ?",
+    "phrase": "__est surprenant de voir à quel point le temps passe vite.",
+    "reponse": "c'"
+  },
+  {
+    "id": 152,
+    "question": "c' ou s' ?",
+    "phrase": "__est ennuyeux de devoir attendre si longtemps.",
+    "reponse": "c'"
+  },
+  {
+    "id": 153,
+    "question": "c' ou s' ?",
+    "phrase": "__est agréable de se promener dans le parc par une journée ensoleillée.",
+    "reponse": "c'"
+  },
+  {
+    "id": 154,
+    "question": "c' ou s' ?",
+    "phrase": "__est frustrant de ne pas comprendre quelque chose.",
+    "reponse": "c'"
+  },
+  {
+    "id": 155,
+    "question": "c' ou s' ?",
+    "phrase": "__est fantastique de réaliser ses rêves.",
+    "reponse": "c'"
+  },
+  {
+    "id": 156,
+    "question": "c' ou s' ?",
+    "phrase": "__est formidable d'avoir le soutien de sa famille.",
+    "reponse": "c'"
+  },
+  {
+    "id": 157,
+    "question": "c' ou s' ?",
+    "phrase": "__est important de prendre soin de sa santé mentale.",
+    "reponse": "c'"
+  },
+  {
+    "id": 158,
+    "question": "c' ou s' ?",
+    "phrase": "__est bénéfique de faire de l'exercice régulièrement.",
+    "reponse": "c'"
+  },
+  {
+    "id": 159,
+    "question": "c' ou s' ?",
+    "phrase": "__est triste de voir des animaux en voie de disparition.",
+    "reponse": "c'"
+  },
+  {
+    "id": 160,
+    "question": "c' ou s' ?",
+    "phrase": "__est magnifique de contempler un ciel étoilé.",
+    "reponse": "c'"
+  },
+  {
+    "id": 161,
+    "question": "Quel est le féminin de 'vert' ?",
+    "answer": "verte"
+  },
+  {
+    "id": 162,
+    "question": "Quel est le féminin de 'sage' ?",
+    "answer": "sage"
+  },
+  {
+    "id": 163,
+    "question": "Quel est le féminin de 'exigu' ?",
+    "answer": "exiguë"
+  },
+  {
+    "id": 164,
+    "question": "Quel est le féminin de 'habituel' ?",
+    "answer": "habituelle"
+  },
+  {
+    "id": 165,
+    "question": "Quel est le féminin de 'national' ?",
+    "answer": "nationale"
+  },
+  {
+    "id": 166,
+    "question": "Quel est le féminin de 'nul' ?",
+    "answer": "nulle"
+  },
+  {
+    "id": 167,
+    "question": "Quel est le féminin de 'bon' ?",
+    "answer": "bonne"
+  },
+  {
+    "id": 168,
+    "question": "Quel est le féminin de 'épars' ?",
+    "answer": "éparse"
+  },
+  {
+    "id": 169,
+    "question": "Quel est le féminin de 'complet' ?",
+    "answer": "complète"
+  },
+  {
+    "id": 170,
+    "question": "Quel est le féminin de 'jaloux' ?",
+    "answer": "jalouse"
+  },
+  {
+    "id": 171,
+    "question": "Quel est le féminin de 'long' ?",
+    "answer": "longue"
+  },
+  {
+    "id": 172,
+    "question": "Quel est le féminin de 'blanc' ?",
+    "answer": "blanche"
+  },
+  {
+    "id": 173,
+    "question": "Quel est le féminin de 'léger' ?",
+    "answer": "légère"
+  },
+  {
+    "id": 174,
+    "question": "Quel est le féminin de 'meilleur' ?",
+    "answer": "meilleure"
+  },
+  {
+    "id": 175,
+    "question": "Quel est le féminin de 'fort' ?",
+    "answer": "forte"
+  },
+  {
+    "id": 176,
+    "question": "Quel est le féminin de 'bel' ?",
+    "answer": "belle"
+  },
+  {
+    "id": 177,
+    "question": "Quel est le féminin de 'fou' ?",
+    "answer": "folle"
+  },
+  {
+    "id": 178,
+    "question": "Quel est le féminin de 'mou' ?",
+    "answer": "molle"
+  },
+  {
+    "id": 179,
+    "question": "Quel est le féminin de 'nouveau' ?",
+    "answer": "nouvelle"
+  },
+  {
+    "id": 180,
+    "question": "Quel est le féminin de 'vieux' ?",
+    "answer": "vieille"
+  },
+  {
+    "id": 181,
+    "question": "Quel est le féminin de 'poussif' ?",
+    "answer": "poussive"
+  },
+  {
+    "id": 182,
+    "question": "Quel est le féminin de 'heureux' ?",
+    "answer": "heureuse"
+  },
+  {
+    "id": 183,
+    "question": "Quel est le féminin de 'agé' ?",
+    "answer": "agée"
+  },
+  {
+    "id": 184,
+    "question": "Quel est le féminin de 'confiant' ?",
+    "answer": "confiante"
+  },
+  {
+    "id": 185,
+    "question": "Quel est le féminin de 'courageux' ?",
+    "answer": "courageuse"
+  },
+  {
+    "id": 186,
+    "question": "Quel est le féminin de 'énergique' ?",
+    "answer": ""
+  },
+  {
+    "id": 187,
+    "question": "Quel est le féminin de 'gros' ?",
+    "answer": "grosse"
+  },
+  {
+    "id": 188,
+    "question": "Quel est le féminin de 'inventif' ?",
+    "answer": "inventive"
+  },
+  {
+    "id": 189,
+    "question": "Quel est le féminin de 'original' ?",
+    "answer": "originale"
+  },
+  {
+    "id": 190,
+    "question": "Quel est le féminin de 'sérieux' ?",
+    "answer": "sérieuse"
   }
 ]

@@ -73,19 +73,19 @@ function getExerciseByLevel(level) {
             exercisesByLevel = exercises.slice(0, 21);
             break;
         case "CE1":
-            exercisesByLevel = exercises.slice(21, 31);
+            exercisesByLevel = exercises.slice(21, 61);
             break;
         case "CE2":
-            exercisesByLevel = exercises.slice(0, 31);
+            exercisesByLevel = exercises.slice(51, 101);
             break;
         case "CM1":
-            exercisesByLevel = exercises.slice(0, 31);
+            exercisesByLevel = exercises.slice(101, 191);
             break;
         case "CM2":
-            exercisesByLevel = exercises.slice(0, 31);
+            exercisesByLevel = exercises.slice(119, 191);
             break;
         default:
-            exercisesByLevel = exercises.slice(0, 31);
+            exercisesByLevel = exercises.slice(0, 191);
             break;
     }
 

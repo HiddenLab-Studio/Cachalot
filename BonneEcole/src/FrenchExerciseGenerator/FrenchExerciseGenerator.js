@@ -56,7 +56,13 @@ function getNewExerciseAndDisplay() {
 
             //Afichage de l'opération sur la page HTML
             document.getElementById("exerciseQuestion").innerHTML = data.exerciseQuestion;
-            document.getElementById("exerciseSentence").innerHTML = data.exerciseSentence;
+            if(data.exerciseSentence != undefined){
+                document.getElementById("exerciseSentence").innerHTML = data.exerciseSentence;
+            }
+            else{
+                document.getElementById("exerciseSentence").innerHTML = "";
+            }
+            
         })
         .catch(error => {
             // Gérer les erreurs de requête
