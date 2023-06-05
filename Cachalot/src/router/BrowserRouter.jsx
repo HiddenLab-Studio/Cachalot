@@ -5,6 +5,7 @@ import {
 import HomePage from "../pages/home/HomePage.jsx";
 import ExerciseHomePage from "../pages/exercise/ExerciseHomePage.jsx";
 import Exercise from "../pages/exercise/Exercise.jsx";
+import ProfileHomePage from "../pages/profile/ProfileHomePage.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
     // Quest Page
     { path: "/quest", element: <HomePage /> },
     // Profile Page
-    { path: "/profile", element: <HomePage /> },
+    { path: "/profile", element: <ProfileHomePage /> },
     // Settings Page
     { path: "/settings", element: <HomePage /> },
     // About Page

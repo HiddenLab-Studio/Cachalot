@@ -16,9 +16,19 @@ export const Theme = {
 
 export const themeLight = {
     name: "light",
+    cachalotColor: "#0a78ff",
     text: "#3c3c3c",
+    subText: "#afafaf",
     background: "#fdfdfd",
     //background: "#121212",
+
+    // SignInUp form
+    inputBg: "#f7f7f7",
+    inputBorder: "#e5e5e5",
+    buttonBg: "#1cb0f6",
+    buttonText: "#fff",
+    buttonBorder: "#1899d6",
+    whereColor: "#afafaf",
 
     // Navbar
     navbarText: "#777777",

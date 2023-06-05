@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'application/json'
     });
-    res.write('BonneEcole - Back server started!');
+    res.write('Cachalot - Back server started!');
     res.end();
 })
 

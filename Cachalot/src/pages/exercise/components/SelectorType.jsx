@@ -3,33 +3,21 @@ import {data, mathFunctions} from "../functions/MathExerciseGenerator.js";
 
 const classPermission = [
     {
-        class: "all",
+        class: ["CM1", "CM2", "all"],
         permission: ["addition", "soustraction", "multiplication", "division", "all"]
     },
     {
-        class: "CP",
+        class: ["CP"],
         permission: ["addition"]
     },
     {
-        class: "CE1",
+        class: ["CE1", "CE2"],
         permission: ["addition", "soustraction", "multiplication", "all"]
-    },
-    {
-        class: "CE2",
-        permission: ["addition", "soustraction", "multiplication", "all"]
-    },
-    {
-        class: "CM1",
-        permission: ["addition", "soustraction", "multiplication", "division", "all"]
-    },
-    {
-        class: "CM2",
-        permission: ["addition", "soustraction", "multiplication", "division", "all"]
     },
 ]
 
-const ExerciseType = ({setState, exerciseType}) => {
-    let classPermision = classPermission.find(element => element.class === data.currentLevel).permission;
+const SelectorType = ({setState, exerciseType}) => {
+    let classPermision = classPermission.find(element => element.class.includes(data.currentLevel)).permission;
     console.log(classPermision);
 
     if(!classPermision.includes(exerciseType)) {
@@ -60,4 +48,4 @@ const ExerciseType = ({setState, exerciseType}) => {
     )
 }
 
-export default ExerciseType;
+export default SelectorType;

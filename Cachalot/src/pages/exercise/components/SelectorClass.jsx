@@ -1,7 +1,7 @@
 import React from "react";
 import {data, mathFunctions} from "../functions/MathExerciseGenerator.js";
 
-const ExerciseLevel = ({setState}) => {
+const SelectorClass = ({setState}) => {
     return (
         <>
             {data.validClassType.map(type => {
@@ -21,4 +21,4 @@ const ExerciseLevel = ({setState}) => {
     )
 }
 
-export default ExerciseLevel;
+export default SelectorClass;

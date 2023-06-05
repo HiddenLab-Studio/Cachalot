@@ -1,8 +1,7 @@
 import tw from "twin.macro";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 
-// Components
-import Navbar from "../../components/navbar/Navbar.jsx"
+// Styles
 import {
     ExerciseContainer,
     Container
@@ -12,9 +11,11 @@ import {
 import {
     data, mathFunctions
 } from "./functions/MathExerciseGenerator.js";
-import ExerciseType from "./components/ExerciseType.jsx";
-import ExerciseLevel from "./components/ExerciseLevel.jsx";
 
+// Components
+import Navbar from "../../components/navbar/Navbar.jsx"
+import SelectorType from "./components/SelectorType.jsx";
+import SelectorClass from "./components/SelectorClass.jsx";
 
 const ExerciseHomePage = () => {
     // States
@@ -23,34 +24,47 @@ const ExerciseHomePage = () => {
 
     // useEffect
     useEffect( () => {
-        //document.getElementById("all_exercise").style.backgroundColor = "grey";
-        //document.getElementById("all_class").style.backgroundColor = "grey";
+        // Triggered each time the user loads the page
+
+        // TODO: change this to remember the last exercise type and class
+        document.getElementById("all_exercise").style.backgroundColor = "grey";
+        document.getElementById("all_class").style.backgroundColor = "grey";
+
         mathFunctions.init().then(() => {
             console.log("Init done (result: " + data.currentExercise + " )");
             setExercise(data.currentExercise);
             setIsLoading(false);
+            document.addEventListener("keydown", onKeyPress);
         });
 
-        document.addEventListener("keydown", async (event) => {
-            if (event.key === "Enter") {
-                let result = await mathFunctions.getSolution();
-                document.getElementById("value").value = "";
-                if (result) {
-                    await mathFunctions.getExercise();
-                    setExercise(data.currentExercise)
-                }
-            }
-        });
+        // Triggered each time the user leaves the page
+        return () => {
+            data.currentExerciseType = "all";
+            data.currentLevel = "all";
+            document.removeEventListener("keydown", onKeyPress);
+        }
+
     }, []);
 
     // Functions
-    function handleState(type, d){
+    async function onKeyPress(event) {
+        if (event.key === "Enter") {
+            let result = await mathFunctions.getSolution();
+            document.getElementById("value").value = "";
+            if (result) {
+                await mathFunctions.getExercise();
+                setExercise(data.currentExercise)
+            }
+        }
+    }
+
+    function handleState(type, newData){
         switch (type) {
             case "exercise":
-                setExercise(d);
+                setExercise(newData);
                 break;
             case "exerciseType":
-                mathFunctions.selectExerciseType(d).then(() => {
+                mathFunctions.selectExerciseType(newData).then(() => {
                     setExercise(data.currentExercise);
                 });
                 break;
@@ -68,12 +82,12 @@ const ExerciseHomePage = () => {
             <Navbar/>
             <ExerciseContainer>
                 <div className="selectClassType">
-                    <ExerciseLevel setState={handleState} />
+                    <SelectorClass setState={handleState} />
                 </div>
 
                 <div tw="flex flex-col items-center w-[100%]">
                     <div className="selectExerciseType">
-                        <ExerciseType setState={handleState} exerciseType={data.currentExerciseType} />
+                        <SelectorType setState={handleState} exerciseType={data.currentExerciseType} />
                     </div>
 
                     <div className="exercise">
@@ -94,17 +108,5 @@ const ExerciseHomePage = () => {
         </Container>
     )
 }
-
-/*
-
-                            if(currentLevel === "CP" && type === "addition"){
-                                console.log(type);
-                                return <ExerciseType type="addition" setState={handleState}/>
-                            } else {
-                                return <ExerciseType type={type} setState={handleState}/>
-                            }
-
-
- */
 
 export default ExerciseHomePage;
