@@ -1,5 +1,5 @@
 import React, {forwardRef, useImperativeHandle, useState} from "react";
-import {FieldContainer, InputWithForgotPassword} from "../../styles/SignInUpPageStyle.js";
+import {FieldContainer, InputWithForgotPassword} from "../../../styles/SignInUpPageStyle.js";
 import {Link} from "react-router-dom";
 
 const SignInFields = forwardRef((props, ref) => {

@@ -5,7 +5,7 @@ import { styled } from "twin.macro";
 // Styles
 import {
     SwitchButtonWrapper
-} from "../../styles/SignInUpPageStyle.js";
+} from "../../../styles/SignInUpPageStyle.js";
 
 
 const Wrapper = styled.div`

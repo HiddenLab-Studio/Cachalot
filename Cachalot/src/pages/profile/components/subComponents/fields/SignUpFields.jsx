@@ -1,5 +1,5 @@
 import React, {createRef, forwardRef, useEffect, useImperativeHandle, useState} from "react";
-import {FieldContainer, InputWithRevealPassword} from "../../styles/SignInUpPageStyle.js";
+import {FieldContainer, InputWithRevealPassword} from "../../../styles/SignInUpPageStyle.js";
 
 const SignUpFields = forwardRef( (props, ref) => {
     // States

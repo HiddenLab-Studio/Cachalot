@@ -54,7 +54,7 @@ export const LineWrapper = styled.div`
     padding: 0 8px;
   }
 `
-export const SignInUpButton = styled.div`
+export const SignInUpButtonContainer = styled.div`
   width: ${props => props.width};
   margin: 20px 0;
   height: 48px;

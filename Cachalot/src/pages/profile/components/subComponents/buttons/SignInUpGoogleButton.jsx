@@ -1,5 +1,5 @@
-import { GoogleButtonContainer } from "../../styles/SignInUpPageStyle.js";
-import {firebaseGoogleLogin} from "../../functions/signInUp.js";
+import { GoogleButtonContainer } from "../../../styles/SignInUpPageStyle.js";
+import {firebaseGoogleLogin} from "../../../functions/signInUp.js";
 import {FcGoogle} from "react-icons/fc";
 import React from "react";
 
