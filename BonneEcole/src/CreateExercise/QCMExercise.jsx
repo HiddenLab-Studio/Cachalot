@@ -4,116 +4,130 @@ import React, { useEffect, useState } from "react";
 import "./QCMExercise.scss";
 
 const QCMExercise = (props) => {
-    const [previewSource, setPreviewSource] = useState(""); // Preview image when uploded
-    let answers = []; // Answers list
-    const [inputAnswer, setInputAnswer] = useState(""); // Input answer
-    
-    const trueAnswer = document.getElementById('true'); // True radio button
-    const falseAnswer = document.getElementById('false'); // False radio button
+    const [qcm, setQcm] = useState([{question: "Question n°1", imgSrc: null, answers: [], state: []}]); // QCM list
 
-    // Display the answers list
-    const displayList = () => {
-        if (answers.length > 0) {
-            setInputAnswer(
-                <ul>
-                    {answers.map((answer, index) => (
-                    <li key={index}>
-                        <div className="row">{answer}
-                        <input type="radio" id="true"/>
-                        <label>Vrai</label>
-                        <input type="radio" id="false"/>
-                        <label>Faux</label>
-                        <img alt="delete" src="https://img.icons8.com/material-rounded/24/filled-trash.png" className="delete" onClick={() => {
-                            // Delete an answer from the list
-                            answers.splice(index, 1);
-                            displayList();
-                        }}>
-                        </img>
-                        </div></li>
+    // Change the preview image when a new image is uploaded
+    const changePreviewImage = (event, qcmIndex) => {
+        qcm[qcmIndex].imgSrc = URL.createObjectURL(event.target.files[0]);
+        setQcm([...qcm]);
+    };
+
+    // Add a new answer to the question
+    const addAnswer = (qcmIndex, answer) => {
+        if (answer != "" && !qcm[qcmIndex].answers.includes(answer)){
+            qcm[qcmIndex].answers.push(answer);
+            qcm[qcmIndex].state.push(false);
+            setQcm([...qcm]);
+        }
+    };
+
+    // Delete an answer from the question
+    const deleteAnswer = (qcmIndex, answerIndex) => {
+        qcm[qcmIndex].answers.splice(answerIndex, 1);
+        qcm[qcmIndex].state.splice(answerIndex, 1);
+        setQcm([...qcm]);
+    };
+
+    // Change the answer's state
+    const changeAnswerState = (qcmIndex, state) => {
+        qcm[qcmIndex].state[state] = !qcm[qcmIndex].state[state];
+        setQcm([...qcm]);
+    };
+
+    // Add a new question to the qcm
+    const addQuestion = () => {
+        setQcm([...qcm, {question: "Question n°" + (qcm.length + 1), imgSrc: null, answers: [], state: []}]);
+    };
+
+    // Display the qcm
+    const displayQcm = () => {
+        return (
+          <>
+            {qcm.map((qcmItem, qcmIndex) => (
+              <div key={qcmIndex}>
+                <section>
+                  <div>
+                    <h3>Question</h3>
+                    <textarea className="question" defaultValue={qcmItem.question}></textarea>
+                  </div>
+                  <div className="image">
+                    <h3>Ajouter une image (optionnel)</h3>
+                    <input type="file" accept="image/*" onChange={(event) => {
+                        // Change the preview image when a new image is uploaded
+                        changePreviewImage(event, qcmIndex);
+                    }}></input>
+                    <img className="preview" src={qcmItem.imgSrc} alt="Image preview"></img>
+                  </div>
+                </section>
+      
+                <section className="answers">
+                  <h3>Réponses</h3>
+                  <input type="text" onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                            // Add a new answer to the question
+                            addAnswer(qcmIndex, event.target.value);
+                            event.target.value = "";
+                        }
+                  }}></input>
+                  <button onClick={(event) => {
+                    // Add a new answer to the question
+                    addAnswer(qcmIndex, event.target.previousSibling.value);
+                    event.target.previousSibling.value = "";
+                  }}>Ajouter</button>
+                </section>
+      
+                <section className="answers">
+                  <ul>
+                    {qcmItem.answers.map((answer, answerIndex) => (
+                      <li key={answerIndex}>
+                        <div className="row">
+                          {answer}
+                          <button onClick={()=> {
+                            // Change the answer's state
+                            changeAnswerState(qcmIndex, answerIndex);
+                          }}>{qcm[qcmIndex].state[answerIndex] ? 'Vrai' : 'Faux'}</button>
+                          <img
+                            alt="delete"
+                            src="https://img.icons8.com/material-rounded/24/filled-trash.png"
+                            className="delete"
+                            onClick={() => {
+                              // Delete an answer from lists
+                              deleteAnswer(qcmIndex, answerIndex);
+                            }}
+                          />
+                        </div>
+                      </li>
                     ))}
-                </ul>
-            );
-        } else {
-            // If the list is empty, display a message
-            setInputAnswer(<p>Aucune réponse n'a été ajoutée</p>);
-        }
-    };
-
-    const getAnswers = () => {
-        if (trueAnswer.checked) {
-            console.log("true");
-        }
-    };
+                  </ul>
+                </section>
+                <hr />
+              </div>
+            ))}
+          </>
+        );
+      };      
 
     // When the component is loaded
     useEffect(() => {
-        const uploadInput = document.getElementById('upload'); // Upload button
-        const answerInput = document.getElementById('answer'); // Answer input
-        const addAswerInput = document.getElementById('addAnswer'); // Add answer button
         const addExerciseInput = document.getElementById('addExercise'); // Add exercise button
-        const newQuestionInput = document.getElementById('newQuestion'); // Add new question button
-
-        // Change the preview image when a new image is uploaded
-        uploadInput.addEventListener('change', (event) => {
-            setPreviewSource(URL.createObjectURL(event.target.files[0]));
-        });
-
-        // Add a new answer to the list when the button is clicked
-        addAswerInput.addEventListener('click', (event) => {
-            // Cancel if the answer is empty or already in the list
-            if (answerInput.value != "" && !answers.includes(answerInput.value)) {
-                answers.push(answerInput.value);
-                answerInput.value = '';
-            }
-            displayList();
-        });
-
-        // Add a new answer to the list when the enter key is pressed
-        answerInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                // Cancel if the answer is empty or already in the list
-                if (answerInput.value != "" && !answers.includes(answerInput.value)) {
-                    answers.push(answerInput.value);
-                    answerInput.value = '';
-                }
-                displayList();
-            }
-        });
 
         // Add the exercise to the database
         addExerciseInput.addEventListener('click', () => {
+            console.log(qcm);
         });
-
-        // Display the answers list for the first time
-        displayList();
     }, []);
 
     return (
         <div className="QCMExercise">
-            <section>
-                <div>
-                    <h3>Question</h3>
-                    <textarea className="question" required defaultValue="Énoncé de l'exercice..."></textarea>
-                </div>
-                <div className="image">
-                    <h3>Ajouter une image (optionnel)</h3>
-                    <input type="file" id="upload" accept="image/*"></input>
-                    <img className="preview" src={previewSource} alt="Image preview"></img>
-                </div>
-            </section>
 
-            <section className="answers">
-                <h3>Réponses</h3>
-                <input type="text" id="answer"></input>
-                <button id="addAnswer">Ajouter</button>
-            </section>
+            {displayQcm()}
 
-            <section className="answers">{inputAnswer}</section>
+            <div className="newQuestion"><button onClick={() => {
+                // Add a new question to the qcm
+                addQuestion();
+            }}>Ajouter une question</button></div>
 
-            <div className="newQuestion"><button id="newQuestion">Ajouter une question</button></div>
-
-            <div className="submit"><button id="addExercise" onClick={getAnswers}>Créer l'exercice</button></div>
+            <div className="submit"><button id="addExercise">Créer l'exercice</button></div>
         </div>
     );
 };
