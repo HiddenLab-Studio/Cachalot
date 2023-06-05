@@ -34,6 +34,10 @@ app.get('/passwordReset', (req, res) => {
     res.sendFile(path.join(__dirname, "../../BonneEcole/html/passwordReset.html"));
 });
 
+app.get('/room', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/room.html"));
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });

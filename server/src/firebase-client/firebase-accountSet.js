@@ -1,7 +1,6 @@
 // Import des fonctions dont on a besoin
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import { ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
 
@@ -65,15 +64,14 @@ window.room = async function (e) {
 }
 
 /***** SEND MESSAGE */
-function sendMessage(e) {
+async function sendMessage(e) {
     e.preventDefault();
     //On recupere l'utilisateur connecté
     const user = auth.currentUser;
     //On recupere le username de l'utilisateur
-    let username = "Anonymous";
-    getDoc(doc(db, "users", user.uid)).then((doc) => {
-        username = doc.data().username;
-    }).then(() => {
+    
+    const docRef = doc(db, "users", user.uid);
+    await getDoc(docRef).then((doc) => {
         //On recupere le message
         const message = document.getElementById('inputMessage').value;
         //On prend la date 
@@ -83,10 +81,15 @@ function sendMessage(e) {
         //On ajoute les info dans un objet
         const data = {
             message: message,
-            user: username,
+            user: doc.data().username,
             date: hour,
             like: 0,
         }
+        updateDoc(docRef, {
+            xp : doc.data().xp + 10
+        }),
+        
+
         //On ajoute le message dans la collection messages
         addDoc(collection(db, room()), data).then(() => {
             document.getElementById('inputMessage').value = "";
@@ -108,7 +111,7 @@ function getMessage() {
     //On recupere la collection messages en fonction de le room
     const messagesCollection = collection(db, room());
     //On recupere les messages par date croissante
-    const message = query(messagesCollection, orderBy("date", 'asc'));
+    const message = query(messagesCollection, orderBy("like", 'desc'));
 
     //On regarde le changement dans la collection
     onSnapshot(message, (snapshot) => {
@@ -116,7 +119,11 @@ function getMessage() {
             //Si le changement est un ajout
             if (change.type === "added") {
                 //On recupere les données du message
+                //data main du message
                 const data = change.doc.data();
+                const id = change.doc.id;
+
+                //data du message
                 const message = data.message;
                 const user = data.user;
                 const date = data.date;
@@ -129,17 +136,27 @@ function getMessage() {
                         <p class="message__user">${user}</p>
                         <p class="message__content">${message}</p>
                         <p class="message__date">${date}</p>
-                        <p class="message__like">${like}</p>
-                        <button id="like+${change.doc.id}" onclick="like(id)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <p id="nbrLike+${id}" class="message__like">${like}</p>
+                        <button id="like+${id}" onclick="like(id)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Like
                         </button>
                     </div>`;
                 messageList.appendChild(li);
             }
+            if (change.type === "modified") {
+                const like = change.doc.data().like;
+                const id = change.doc.id;
+
+                const nbrLike = document.getElementById('nbrLike+' + id);
+                nbrLike.innerHTML = like;
+            }
         });
     });
 }
 
+
+
+/** SYSTEME DE LIKE */
 /***** LIKE */
 function like(id) {
     //On recupere l'id du message avec le split qui prend le deuxieme element du "tableau"
@@ -188,37 +205,9 @@ window.like = function (id) {
 }
 
 
-/*** CREATE ROOM */
 
-function createRoom() {
-    const user = auth.currentUser;
-    //On crée une chaine de caractères aléatoire de 5 caractères
-    const room = Math.random().toString(36).substring(2, 7).toUpperCase();
-    //On ajoute la room dans la collection rooms
-    console.log(room);
-    const docRef = doc(db, "rooms", room);
-    const data = {
-        admin: user.uid,
-        date : new Date(),
-    }
-
-    setDoc(docRef, {
-        admin: data.admin,
-        date : data.date,
-    })
-
-}
-
-
-function clickCreateRoom() {
-    const createRoomButton = document.getElementById('createRoom');
-    createRoomButton.addEventListener('click', () => {
-        createRoom();
-    })
-}
 
 
 getMessage();
 clickSignOut();
 clickDeleteAccount();
-clickCreateRoom();

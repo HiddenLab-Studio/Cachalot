@@ -65,11 +65,12 @@
           <button type="submit" id="sendMessage"
             class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Envoyer
-        </button>
+          </button>
         </form>
         <div class="relative">
           <div class="w-full">
-            <select onchange="room(event)" id="room" name="room" required class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <select onchange="room(event)" id="room" name="room" required
+              class="block appearance-none w-full bg-white border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
               <option value="Général">Général</option>
               <option value="Mathématiques">Mathématiques</option>
               <option value="Français">Français</option>
@@ -79,14 +80,9 @@
                 <path
                   d="M14.646 7.354a.5.5 0 0 1 0 .707l-4 4a.5.5 0 0 1-.707 0l-4-4a.5.5 0 0 1 .707-.707L10 10.293l3.646-3.647a.5.5 0 0 1 .708 0z" />
               </svg>
-              
             </div>
           </div>
         </div>
-        <button type="button" id="createRoom"
-              class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-              Create Room
-          </button>
       </div>
     </div>
   </div>

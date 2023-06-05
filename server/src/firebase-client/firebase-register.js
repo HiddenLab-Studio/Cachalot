@@ -64,6 +64,7 @@ function register(e) {
           age: obj.age,
           email: obj.email,
           lastLogin: dateTime,
+          xp : 0
         }).then(() => {
           //On le redirige vers la page de principale
           window.location.href = "/";

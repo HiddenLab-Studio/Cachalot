@@ -81,6 +81,7 @@ function Google(e) {
                     setDoc(docRef, {
                         username: user.displayName,
                         email: user.email,
+                        xp : 0,
                         photo : user.photoURL,
 
                     }).then(() => {
