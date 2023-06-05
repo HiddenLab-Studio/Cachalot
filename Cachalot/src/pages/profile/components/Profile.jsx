@@ -13,7 +13,7 @@ import {
 import {
     ImgWrapper
 } from "../../../components/ui/GlobalStyle.js";
-import SignInUp from "./SignInUp.jsx";
+import SignInUp from "../../connection/components/SignInUp.jsx";
 import Navbar from "../../../components/navbar/Navbar.jsx";
 import React from "react";
 

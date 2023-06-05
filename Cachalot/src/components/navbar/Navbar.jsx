@@ -20,139 +20,60 @@ import {
     BarContainer,
     LevelInformationContainer
 } from "./NavbarStyle.js";
+import LinkElement from "./subComponents/LinkElement.jsx";
+import ProfileXpProgress from "./subComponents/ProfileXpProgress.jsx";
 
 // Main component
 const Navbar = () => {
     const isOnTablet = useMediaQuery({ query: '(max-width: 1200px)' });
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    const test = useAuth();
-
-    function handleClick(){
-        console.log("Current user: " + test);
-    }
+    const userData = useAuth().userData;
 
     // Function to check if the current path is the same as the one in the URL
     function isCurrent(pathname = ""){ return pathname === window.location.pathname.split('/')[1]; }
-    //console.log(window.location.pathname.split('/')[1]);
 
-    return (
-        <>
-            {!isOnMobile ?
-                <NavbarContainer>
-                    <ImgWrapper>
-                        {!isOnTablet ? <img src="../../../static/img/logoPlain.png" alt="Logo"/> : <img src="../../../static/img/logo.png" alt="Logo"/>}
-                    </ImgWrapper>
+    if(!isOnMobile){
+        return (
+            <NavbarContainer>
+                <ImgWrapper>
+                    {!isOnTablet ? <img src="../../../static/img/logoPlain.png" alt="Logo"/> : <img src="../../../static/img/logo.png" alt="Logo"/>}
+                </ImgWrapper>
 
-                    <LinkContainer>
-                        <Link to="/" onClick={() => console.log("redirected to home")}>
-                            <LinkDiv current={isCurrent() ? "true" : "false"}>
-                                <img src="../../../static/img/icons/home.png" alt="HomePage"/>
-                                {isOnTablet ? "" : <span>Dashboard</span>}
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
-                            <LinkDiv current={isCurrent("exercise") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
-                                {isOnTablet ? "" : <span>Entrainement</span>}
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/ranked" onClick={() => console.log("redirected to ranked")}>
-                            <LinkDiv current={isCurrent("ranked") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/sword.png" alt="Ranked"/>
-                                {isOnTablet ? "" : <span>Ligue</span>}
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/quest" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("quest") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/chest.png" alt="Quest"/>
-                                {isOnTablet ? "" : <span>Quêtes</span>}
-                            </LinkDiv>
-                        </Link>
-                        {isOnTablet ?
-                            <Link to="/profile" onClick={() => console.log("redirected to quest")}>
-                                <LinkDiv current={isCurrent("profile") ? "true" : "false"}>
-                                    <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
-                                    {isOnTablet ? "" : <span>Profile</span>}
-                                </LinkDiv>
-                            </Link>
-                            : ""}
-                        <BeneathLinkContainer>
-                            <Link to="/settings" onClick={() => console.log("redirected to settings")}>
-                                <LinkDiv current={isCurrent("settings") ? "true" : "false"}>
-                                    <img src="../../../static/img/icons/settings.png" alt="ProfilePicture"/>
-                                    {isOnTablet ? "" : <span>Paramètres</span>}
-                                </LinkDiv>
-                            </Link>
-                            <Link to="/about" onClick={() => console.log("redirected to about")}>
-                                <LinkDiv current={isCurrent("about") ? "true" : "false"}>
-                                    <img src="../../../static/img/icons/about.png" alt="About"/>
-                                    {isOnTablet ? "" : <span>A propos</span>}
-                                </LinkDiv>
-                            </Link>
-                        </BeneathLinkContainer>
-                    </LinkContainer>
-
-                    <ProfileContainer>
-                        <Link to="/profile" onClick={() => console.log("redirected to quest")}>
-                            <ProfileElement>
-                                <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
-                            </ProfileElement>
-                        </Link>
-                        <ProfileElement>
-                            <span>Invité</span>
-                            <XpBarContainer>
-                                <BarContainer className="flex flex-row">
-                                    <XpBar><div></div></XpBar>
-                                    <span>Lv. 0</span>
-                                </BarContainer>
-                                <LevelInformationContainer>
-                                    <span>100/1000</span>
-                                </LevelInformationContainer>
-                            </XpBarContainer>
-                        </ProfileElement>
-                    </ProfileContainer>
-                    <div className="flex gap-5 absolute bottom-0 right-0 text-black">
-                        <button onClick={() => handleClick()}>isUserLoggedIn: </button>
-                        <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
-                    </div>
-                </NavbarContainer>
-                :
-                <NavbarContainer>
-                    <LinkContainer>
-                        <Link to="/" onClick={() => console.log("redirected to home")}>
-                            <LinkDiv current={isCurrent() ? "true" : "false"}>
-                                <img src="../../../static/img/icons/home.png" alt="HomePage"/>
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/exercise" onClick={() => console.log("redirected to cards")}>
-                            <LinkDiv current={isCurrent("exercise") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/ranked" onClick={() => console.log("redirected to ranked")}>
-                            <LinkDiv current={isCurrent("ranked") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/sword.png" alt="Ranked"/>
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/quest" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("quest") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/chest.png" alt="Quest"/>
-                            </LinkDiv>
-                        </Link>
-                        <Link to="/profile" onClick={() => console.log("redirected to quest")}>
-                            <LinkDiv current={isCurrent("profile") ? "true" : "false"}>
-                                <img src="../../../static/img/icons/profile.png" alt="ProfilePicture"/>
-                            </LinkDiv>
-                        </Link>
-                    </LinkContainer>
-                    <div className="flex gap-5 absolute bottom-0 right-0 text-black">
-                        <button onClick={() => handleClick()}>isUserLoggedIn: </button>
-                        <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
-                    </div>
-                </NavbarContainer>
-            }
-        </>
-    )
+                <LinkContainer>
+                    <LinkElement to="" picture="home.png" content="Dashboard" alt="Dashboard" />
+                    <LinkElement to="exercise" picture="dumbbell.png" content="Entrainement" alt="Entrainement" />
+                    <LinkElement to="ranked" picture="sword.png" content="Ligue" alt="Ligue" />
+                    <LinkElement to="quest" picture="chest.png" content="Quêtes" alt="Quêtes" />
+                    {userData === null ? <LinkElement to="profile" picture="profile.png" content="Profile" alt="Profile" /> : null}
+                    <BeneathLinkContainer>
+                        <LinkElement to="settings" picture="settings.png" content="Paramètres" alt="Paramètres" />
+                        <LinkElement to="about" picture="about.png" content="A propos" alt="A propos" />
+                    </BeneathLinkContainer>
+                </LinkContainer>
+                <ProfileXpProgress />
+                <div className="flex gap-5 absolute bottom-0 right-0 text-black">
+                    <span>isUserLoggedIn: {userData !== null ? userData.username : "Invité"}</span>
+                    <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
+                </div>
+            </NavbarContainer>
+        )
+    } else {
+        return (
+            <NavbarContainer>
+                <LinkContainer>
+                    <LinkElement to="" picture="home.png" content="" alt="Dashboard" />
+                    <LinkElement to="exercise" picture="dumbbell.png" content="" alt="Entrainement" />
+                    <LinkElement to="ranked" picture="sword.png" content="" alt="Ligue" />
+                    <LinkElement to="quest" picture="chest.png" content="" alt="Quêtes" />
+                    <LinkElement to="profile" picture="profile.png" content="" alt="Profile" />
+                </LinkContainer>
+                <div className="flex gap-5 absolute bottom-0 right-0 text-black">
+                    <span>isUserLoggedIn: {userData !== null ? userData.username : "Invité"}</span>
+                    <span>{isOnTablet ? "Build_v0.1_Mobile" : "Build_v0.1_Desktop"}</span>
+                </div>
+            </NavbarContainer>
+        )
+    }
 }
 
 export default Navbar;

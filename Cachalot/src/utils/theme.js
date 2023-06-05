@@ -37,6 +37,8 @@ export const themeLight = {
     buttonBgOnCurrent: "#ddf4ff",
     buttonBorderOnCurrent: "#84d8ff",
 
+    // Error
+    errorText: "#e74c3c",
 };
 
 export const themeDark = {

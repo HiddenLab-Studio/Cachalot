@@ -4,8 +4,8 @@ export const ImgWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-grow: 0;
-  padding-top: 15px; 
   img {
+    max-width: 192px;
     width: 192px;
   }
 `
@@ -130,8 +130,9 @@ export const NavbarContainer = styled.nav`
   border-right: 2px solid ${props => props.theme.borderRightColor};
   gap: 20px;
   
-  padding: 10px 16px;
+  padding: 25px 16px;
   //width: 256px;
+  transition: all 0.1s ease-in-out;
   
   @media (min-width: 768px) and (max-width: 1200px) {
     padding: 8px;
@@ -152,7 +153,10 @@ export const NavbarContainer = styled.nav`
   }
   
   @media (max-width: 768px) {
+    transition: none;
     padding: 5px;
+    border-right: none;
+    border-top: 2px solid ${props => props.theme.borderRightColor};
     ${LinkContainer} {
       justify-content: space-evenly;
       flex-direction: row;

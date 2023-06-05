@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
@@ -10,24 +11,24 @@ import {
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx";
-import SignInUp from "./components/SignInUp.jsx";
-import HomePage from "../home/HomePage.jsx";
+import SignInUp from "../connection/components/SignInUp.jsx";
 import Profile from "./components/Profile.jsx";
+import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 
 
-const ProfileHomePage = (props) => {
-    const auth = useAuth();
+const ProfileHomePage = () => {
+    const userData = useAuth().userData;
 
-    // DEBUG
-    console.log(auth.currentUser);
-    console.log(auth.userData);
-
-    return (
-        <Container>
-            <Navbar />
-            {auth.currentUser !== null ? <Profile /> : <SignInUp />}
-        </Container>
-    )
+    if(userData === null){
+        return <ConnectionHomePage />
+    } else {
+        return (
+            <Container>
+                <Navbar />
+                <Profile />
+            </Container>
+        )
+    }
 }
 
 export default ProfileHomePage;

@@ -2,7 +2,6 @@ import tw, { styled } from "twin.macro";
 
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx"
-import {Button} from "@mui/material";
 
 const Container = styled.main`
   ${tw`flex flex-row min-h-[100vh]`};
@@ -19,10 +18,10 @@ const ExerciseContainer = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 4rem;
-  color: white;
+  color: black;
 `
 
-const Exercise = () => {
+const ExerciseOld = () => {
     const data = {
         id: window.location.pathname.split('/')[2],
     }
@@ -31,7 +30,6 @@ const Exercise = () => {
         <Container>
             <Navbar />
             <ExerciseContainer>
-                <Button>Ok</Button>
                 <h1>Exercice #{data.id} </h1>
             </ExerciseContainer>
         </Container>
@@ -40,4 +38,4 @@ const Exercise = () => {
 
 //<ThemeChanger setTheme={props.setTheme} />
 
-export default Exercise;
+export default ExerciseOld;

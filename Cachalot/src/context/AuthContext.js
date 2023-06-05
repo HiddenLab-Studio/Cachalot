@@ -14,14 +14,15 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if(user){
-                //doc à chercher dans la collection users
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            console.log(isLoading);
+
+            if (!isLoading && user) {
                 const userDocRef = doc(db, "users", user.uid);
-                //Recuperation des informations du document users de l'utilisateur connecté
-                getDoc(userDocRef).then((docSnap) => {
+                await getDoc(userDocRef).then((docSnap) => {
                     if (docSnap.exists()) {
                         setUserData(docSnap.data());
                     } else {
@@ -30,23 +31,24 @@ export const AuthProvider = ({ children }) => {
                 }).catch((error) => {
                     console.log("Error getting document:", error);
                 });
+
+                setCurrentUser(user);
+                setIsLoading(false);
+
             } else {
                 setCurrentUser(null);
                 console.log("Utilisateur non connecté");
             }
-
-            setCurrentUser(user);
-            //console.log(currentUser);
-            //console.log(userData);
         })
 
         return unsubscribe;
-    }, []);
+    }, [isLoading]);
 
     function disconnectUser(){
         if(currentUser !== null){
             signOut(auth).then(r => {
                 console.log('Sign-out successful.');
+                setUserData(null);
             });
         }
     }
@@ -55,6 +57,7 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         userData,
         disconnectUser,
+        setIsLoading
     }
 
     return (

@@ -29,6 +29,10 @@ export const errorManager = {
                     return "Veuillez saisir votre mot de passe !";
                 case "auth/weak-password":
                     return "Le mot de passe doit contenir au moins 6 caractères !";
+                case "auth/popup-closed-by-user":
+                    return "La fenêtre de connexion a été fermée !";
+                case "auth/cancelled-popup-request":
+                    return "La fenêtre de connexion a été fermée !";
                 default:
                     console.error("Invalid error code");
             }
@@ -47,6 +51,8 @@ export const errorManager = {
         "auth/operation-not-allowed",
         "auth/missing-password",
         "auth/weak-password",
+        "auth/popup-closed-by-user",
+        "auth/cancelled-popup-request"
     ]
 }
 
@@ -57,7 +63,7 @@ export async function firebaseRegister(data) {
     };
 
     if (data.username.length < 3) {
-        result.code = "Le nom d'utilisateur doit contenir au moins 3 caractères";
+        result.code = "Votre pseudo doit contenir au moins 3 caractères";
         return result;
     }
 
@@ -137,14 +143,14 @@ export async function firebaseGoogleLogin() {
 
     //Fonction firebase pour se connecter avec google
     await signInWithPopup(auth, provider)
-        .then((result) => {
+        .then(async (res) => {
             //Recuperation des informations de l'utilisateur
-            const user = result.user;
+            const user = res.user;
             //doc à 'créer' dans la collection users
             const docRef = doc(db, "users", user.uid);
 
             //setup le doc avec les infos de l'utilisateur
-            getDoc(docRef).then((docSnap) => {
+            await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
                     setDoc(docRef, {
                         username: user.displayName,
@@ -153,14 +159,15 @@ export async function firebaseGoogleLogin() {
                     }).then(() => {
                         result.showOverlay = false;
                     })
+                } else {
+                    result.showOverlay = false;
+                    console.log("User already exists");
                 }
             })
         }).catch((error) => {
             //Si il y a une erreur
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode);
-            console.log(errorMessage);
+            console.log(error.code);
+            result.code = errorManager.getErrorDisplayMessage(error.code);
         });
 
     return result;
