@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { createExercise } from "./firebase/firebase-createexo";
 
 // Scss
 import "./StatementExercise.scss";
@@ -69,12 +70,18 @@ const StatementExercise = (props) => {
         });
 
         // Add the exercise to the database
-        addExerciseInput.addEventListener('click', () => {
+        addExerciseInput.addEventListener('click', async (event) => {
+            // Cancel if the statement is empty
+            if (document.querySelector('.statement').value == "") {
+                return;
+            }
             const data = {
+                name : "exercise",
                 statement: document.querySelector('.statement').value,
                 image: imageUrl,
                 answers: answers
             };
+            await createExercise(data);
             console.log(data);
         });
 
