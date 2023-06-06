@@ -8,6 +8,7 @@ import { pushXp } from "../composable/firebaseConfigClient.js";
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 
+
 /***** SIGNOUT */
 function clickSignOut() {
     //On recupere l'evenement du bouton signOut
@@ -86,7 +87,7 @@ async function sendMessage(e) {
             date: hour,
             like: 0,
         }
-        pushXp(1000);
+        pushXp(100000);
         
 
         //On ajoute le message dans la collection messages

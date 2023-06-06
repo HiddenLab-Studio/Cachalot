@@ -25,6 +25,7 @@ export default function firebaseConfigClient()
 }
 
 
+
 function xpNeeded(niveau)
 {
     return (Math.round(Math.pow(niveau, 1.5)*1000));
@@ -44,15 +45,19 @@ export async function pushXp(xp)
     if (docSnap.exists()) {
        //On récupère (xp et niveau) les data de l'utilisateur
         const data = docSnap.data();
-        let niveau = data.niveau;
-        let xpTotal = data.xp + xp;
+        let niveau = data.userXp.level;
+        let xpTotal = data.userXp.xp + xp;
         let xpObjectif = xpNeeded(niveau);
+        console.log(data,xpTotal , xpObjectif , niveau);
         //Si l'utilisateur a atteint le niveau suivant
         if(xpTotal < xpObjectif){
             //On update le document de l'utilisateur
             console.log(xpTotal , xpObjectif , niveau);
             updateDoc(docRef, {
-                xp: xpTotal
+                userXp : {
+                    level : niveau,
+                    xp : xpTotal
+                }
             });
         }
         else{
@@ -65,11 +70,14 @@ export async function pushXp(xp)
               console.log(xpTotal , xpObjectif , niveau);
               //On update le document de l'utilisateur
               updateDoc(docRef, {
-                xp: xpTotal,
-                niveau: niveau
+                userXp : {
+                    level : niveau,
+                    xp : xpTotal
+                }
               });
 
             }
         }
+        
     }
 }
