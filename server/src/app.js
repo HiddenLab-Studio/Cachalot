@@ -8,7 +8,7 @@ const path = require('path');
 
 
 const dotenv = require('dotenv')
-dotenv.config({path : "./.env"});
+dotenv.config({ path: "./.env" });
 const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "..")));
@@ -38,6 +38,55 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
+const fs = require('fs');
+
+function loadJSONFile(filePath) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                try {
+                    const jsonData = JSON.parse(data);
+                    resolve(jsonData);
+                } catch (parseError) {
+                    reject(parseError);
+                }
+            }
+        });
+    });
+}
+
+function loadJSONFile(filePath) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                try {
+                    const jsonData = JSON.parse(data);
+                    resolve(jsonData);
+                } catch (parseError) {
+                    reject(parseError);
+                }
+            }
+        });
+    });
+}
+
+
+
+app.get('/xp-data', (req, res) => {
+    fs.readFile('./src/firebase-client/xp.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading JSON file:', err);
+            res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            const jsonData = JSON.parse(data);
+            res.json(jsonData);
+        }
+    });
+});
 
 
 //Recuperation des element html
