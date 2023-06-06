@@ -2,6 +2,7 @@
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import { pushXp } from "../composable/firebaseConfigClient.js";
 
 
 //Firebase configuration
@@ -85,9 +86,7 @@ async function sendMessage(e) {
             date: hour,
             like: 0,
         }
-        updateDoc(docRef, {
-            xp : doc.data().xp + 10
-        }),
+        pushXp(1000);
         
 
         //On ajoute le message dans la collection messages
