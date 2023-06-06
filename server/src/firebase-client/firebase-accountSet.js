@@ -1,7 +1,6 @@
 // Import des fonctions dont on a besoin
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import { ref, onChildAdded } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
 
@@ -49,87 +48,7 @@ function clickDeleteAccount() {
         });
     })
 }
-async function getXP() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    const xp = docSnap.data().xp;
-    return xp;
-}
 
-async function getLevel() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    const level = docSnap.data().level;
-    return level;
-}
-
-async function addXPToUser() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-
-    try {
-        const docSnap = await getDoc(docRef);
-        let xp = docSnap.data().xp;
-
-        if (typeof xp === 'number' && !isNaN(xp)) {
-            xp = Math.max(0, xp) + 1;
-            console.log(xp);
-        } else {
-            xp = 1;
-        }
-
-        await updateDoc(docRef, { xp: xp });
-        return xp; // Ajout de cette ligne pour renvoyer la nouvelle valeur de l'XP
-    } catch (error) {
-        console.error("Error updating XP:", error);
-        throw error; // Ajout de cette ligne pour propager l'erreur
-    }
-}
-
-
-async function levelUp() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-
-    try {
-        const docSnap = await getDoc(docRef);
-        const xp = await addXPToUser(); // Utiliser la nouvelle valeur de xp renvoyée par addXPToUser()
-
-        let level = docSnap.data() && docSnap.data().level; // Vérifier si docSnap.data() existe et si level est défini
-        level = xp >= 10 ? Math.max(0, level || 0) + 1 : (level || 0);
-
-        console.log('Level up');
-        console.log(level);
-
-        await updateDoc(docRef, { xp: 0, level: level });
-    } catch (error) {
-        console.error("Error updating XP and level:", error);
-    }
-}
-
-// Récupérer la référence du bouton
-const xpButton = document.getElementById('xpButton');
-
-// Ajouter le gestionnaire d'événements au bouton
-xpButton.addEventListener('click', async () => {
-    console.log('click boutton xp');
-    const newXP = await addXPToUser();
-    if (newXP !== null && newXP >= 10) {
-        await levelUp();
-    }
-});
-
-
-
-async function getusername() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    const username = docSnap.data().username;
-    return username;
-}
 
 /**GET CANNAL */
 function room() {
@@ -140,55 +59,44 @@ function room() {
 window.room = async function (e) {
     const messageList = document.getElementById('messageList');
     messageList.innerHTML = "";
-    await room();
+    room()
     await getMessage();
 }
 
+/***** SEND MESSAGE */
 async function sendMessage(e) {
     e.preventDefault();
-    // On récupère l'utilisateur connecté
+    //On recupere l'utilisateur connecté
     const user = auth.currentUser;
-    // On récupère le username de l'utilisateur
-    let username = await getusername();
-    // On récupère l'xp de l'utilisateur
-    let xp = await getXP();
-    let level = await getLevel();
+    //On recupere le username de l'utilisateur
+    
+    const docRef = doc(db, "users", user.uid);
+    await getDoc(docRef).then((doc) => {
+        //On recupere le message
+        const message = document.getElementById('inputMessage').value;
+        //On prend la date 
+        const date = new Date();
+        //On recupere l'heure et la date  
+        const hour = date.toLocaleDateString() + " | " + date.toLocaleTimeString();
+        //On ajoute les info dans un objet
+        const data = {
+            message: message,
+            user: doc.data().username,
+            date: hour,
+            like: 0,
+        }
+        
 
-    if (!level) {
-        level = 0; // Valeur par défaut pour level
-    }
+        //On ajoute le message dans la collection messages
+        addDoc(collection(db, room()), data).then(() => {
+            document.getElementById('inputMessage').value = "";
+        })
 
+    }).catch((error) => {
+        console.error("Error adding document: ", error);
+    });
 
-    //const docRef = doc(db, "users", user.uid);
-    //const docSnap = await getDoc(docRef);
-    //username = docSnap.data().username;
-
-    // On récupère le message
-    const message = document.getElementById('inputMessage').value;
-    // On prend la date 
-    const date = new Date();
-    // On récupère l'heure et la date  
-    const hour = date.toLocaleDateString() + " | " + date.toLocaleTimeString();
-
-    // On ajoute les infos dans un objet
-    const data = {
-        message: message,
-        user: username,
-        date: hour,
-        like: 0,
-        xp: xp,
-        level: level,
-    }
-
-    // On ajoute le message dans la collection messages
-    await addDoc(collection(db, room()), data);
-    document.getElementById('inputMessage').value = "";
-
-    await addXPToUser();
-    await levelUp();
 }
-
-
 
 window.message = function (e) {
     sendMessage(e);
@@ -200,7 +108,7 @@ function getMessage() {
     //On recupere la collection messages en fonction de le room
     const messagesCollection = collection(db, room());
     //On recupere les messages par date croissante
-    const message = query(messagesCollection, orderBy("date", 'asc'));
+    const message = query(messagesCollection, orderBy("like", 'desc'));
 
     //On regarde le changement dans la collection
     onSnapshot(message, (snapshot) => {
@@ -208,7 +116,11 @@ function getMessage() {
             //Si le changement est un ajout
             if (change.type === "added") {
                 //On recupere les données du message
+                //data main du message
                 const data = change.doc.data();
+                const id = change.doc.id;
+
+                //data du message
                 const message = data.message;
                 const user = data.user;
                 const date = data.date;
@@ -221,17 +133,27 @@ function getMessage() {
                         <p class="message__user">${user}</p>
                         <p class="message__content">${message}</p>
                         <p class="message__date">${date}</p>
-                        <p class="message__like">${like}</p>
-                        <button id="like+${change.doc.id}" onclick="like(id)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <p id="nbrLike+${id}" class="message__like">${like}</p>
+                        <button id="like+${id}" onclick="like(id)" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Like
                         </button>
                     </div>`;
                 messageList.appendChild(li);
             }
+            if (change.type === "modified") {
+                const like = change.doc.data().like;
+                const id = change.doc.id;
+
+                const nbrLike = document.getElementById('nbrLike+' + id);
+                nbrLike.innerHTML = like;
+            }
         });
     });
 }
 
+
+
+/** SYSTEME DE LIKE */
 /***** LIKE */
 function like(id) {
     //On recupere l'id du message avec le split qui prend le deuxieme element du "tableau"
@@ -280,37 +202,9 @@ window.like = function (id) {
 }
 
 
-/*** CREATE ROOM */
 
-function createRoom() {
-    const user = auth.currentUser;
-    //On crée une chaine de caractères aléatoire de 5 caractères
-    const room = Math.random().toString(36).substring(2, 7).toUpperCase();
-    //On ajoute la room dans la collection rooms
-    console.log(room);
-    const docRef = doc(db, "rooms", room);
-    const data = {
-        admin: user.uid,
-        date: new Date(),
-    }
-
-    setDoc(docRef, {
-        admin: data.admin,
-        date: data.date,
-    })
-
-}
-
-
-function clickCreateRoom() {
-    const createRoomButton = document.getElementById('createRoom');
-    createRoomButton.addEventListener('click', () => {
-        createRoom();
-    })
-}
 
 
 getMessage();
 clickSignOut();
 clickDeleteAccount();
-clickCreateRoom();
