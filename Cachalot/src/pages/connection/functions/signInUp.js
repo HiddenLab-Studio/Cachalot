@@ -85,6 +85,7 @@ export async function firebaseRegister(data) {
                 age: data.age,
                 email: data.email,
                 lastLogin: dateTime,
+                photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e"
             }).then(() => {
                 result.showOverlay = false;
                 result.code = "valid";
