@@ -69,7 +69,7 @@ async function sendMessage(e) {
     //On recupere l'utilisateur connecté
     const user = auth.currentUser;
     //On recupere le username de l'utilisateur
-    
+
     const docRef = doc(db, "users", user.uid);
     await getDoc(docRef).then((doc) => {
         //On recupere le message
@@ -85,7 +85,7 @@ async function sendMessage(e) {
             date: hour,
             like: 0,
         }
-        
+
 
         //On ajoute le message dans la collection messages
         addDoc(collection(db, room()), data).then(() => {
@@ -102,6 +102,10 @@ window.message = function (e) {
     sendMessage(e);
 }
 
+function scrollToBottom() {
+    const messageList = document.getElementById('messageList');
+    messageList.scrollTop = messageList.scrollHeight;
+}
 
 //on recupere les messages envoyé 
 function getMessage() {
@@ -139,6 +143,7 @@ function getMessage() {
                         </button>
                     </div>`;
                 messageList.appendChild(li);
+                scrollToBottom();
             }
             if (change.type === "modified") {
                 const like = change.doc.data().like;
