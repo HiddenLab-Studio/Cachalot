@@ -91,4 +91,15 @@ async function loadLevelData() {
     }
 }
 
+async function resetLevel() {
+    const user = auth.currentUser;
+    const docRef = doc(db, 'users', user.uid);
+
+    try {
+        await updateDoc(docRef, { level: 0 });
+        console.log('Level reset');
+    } catch (error) {
+        console.error("Error resetting level:", error);
+    }
+}
 

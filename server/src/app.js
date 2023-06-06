@@ -74,8 +74,6 @@ function loadJSONFile(filePath) {
     });
 }
 
-
-
 app.get('/xp-data', (req, res) => {
     fs.readFile('./src/firebase-client/xp.json', 'utf8', (err, data) => {
         if (err) {
