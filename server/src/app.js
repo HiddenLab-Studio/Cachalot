@@ -89,5 +89,4 @@ app.get('/xp-data', (req, res) => {
 });
 
 
-//Recuperation des element html
 
