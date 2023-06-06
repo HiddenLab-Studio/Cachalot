@@ -1,3 +1,4 @@
+import React from "react";
 import tw from "twin.macro";
 import {useAuth} from "../../../context/AuthContext.js";
 
@@ -13,9 +14,6 @@ import {
 import {
     ImgWrapper
 } from "../../../components/ui/GlobalStyle.js";
-import SignInUp from "../../connection/components/SignInUp.jsx";
-import Navbar from "../../../components/navbar/Navbar.jsx";
-import React from "react";
 
 const Profile = () => {
     const auth = useAuth();

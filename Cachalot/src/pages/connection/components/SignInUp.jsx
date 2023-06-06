@@ -7,19 +7,19 @@ import {
     Container,
     LineWrapper, SignInUpButtonContainer,
     SignInUpContainer,
-} from "../../profile/styles/SignInUpPageStyle.js";
+} from "../styles/SignInUpPageStyle.js";
 
 // SubComponents
-import SignUpFields from "../../profile/components/subComponents/fields/SignUpFields.jsx";
-import SignInFields from "../../profile/components/subComponents/fields/SignInFields.jsx";
-import SwitchButton from "../../profile/components/subComponents/buttons/SwitchButton.jsx";
-import SignInUpGoogleButton from "../../profile/components/subComponents/buttons/SignInUpGoogleButton.jsx";
+import SignUpFields from "./subComponents/fields/SignUpFields.jsx";
+import SignInFields from "./subComponents/fields/SignInFields.jsx";
+import SwitchButton from "./subComponents/buttons/SwitchButton.jsx";
+import SignInUpGoogleButton from "./subComponents/buttons/SignInUpGoogleButton.jsx";
 
 // JS
 import {
     firebaseRegister,
     firebaseLogin,
-} from "../../profile/functions/signInUp.js";
+} from "../functions/signInUp.js";
 
 const SignInUp = () => {
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
