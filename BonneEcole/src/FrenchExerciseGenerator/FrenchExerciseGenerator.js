@@ -1,17 +1,18 @@
 
 var currentExerciseId = undefined;//Variable contenant l'id de l'exercice actuel
 var currentLevel = "all";//Variable qui contient le niveau actuel (CP, CE1, CE2, CM1, CM2)
+var currentExerciseType = undefined;//INPUT,QCM2 ou QCM3
 
 
 //Lorsqu'on valide la réponse, on vient récupérer la valeur de l'input et on vérifie la solution
 //On peut soit cliquer sur le bouton valider
 document.getElementById("ConfirmAnswerBtn").addEventListener("click", function () {
-    getSolution(currentExerciseId)
+    getSolution(currentExerciseId);
 });
 //Soit appuyer sur la touche entrée
 document.getElementById("valeurInput").addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
-        getSolution(currentExerciseId)
+        getSolution(currentExerciseId);
     }
 });
 
@@ -54,15 +55,27 @@ function getNewExerciseAndDisplay() {
 
             currentExerciseId = data.exerciseId;
 
+            currentExerciseType = data.exerciseType;
+
+
             //Afichage de l'opération sur la page HTML
             document.getElementById("exerciseQuestion").innerHTML = data.exerciseQuestion;
-            if(data.exerciseSentence != undefined){
+                if (data.exerciseSentence != undefined) {
                 document.getElementById("exerciseSentence").innerHTML = data.exerciseSentence;
             }
-            else{
+            else {
                 document.getElementById("exerciseSentence").innerHTML = "";
             }
-            
+
+
+            modifyExerciseAndAnswerDiv(data.exerciseType, data.exerciseQuestion);
+
+            if(document.getElementById('nouvelExerciceBtn') != null){
+                document.getElementById('nouvelExerciceBtn').remove();
+            }
+            document.getElementById("result").innerHTML = "";
+            document.getElementById("valeurInput").value = "";
+
         })
         .catch(error => {
             // Gérer les erreurs de requête

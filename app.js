@@ -64,6 +64,7 @@ app.post('/api/getNewFrenchExercise', (req, res) => {
 
   const data = {
     exerciseId: exercise.id,
+    exerciseType: exercise.type,
     exerciseQuestion: exercise.question,
     exerciseSentence: exercise.phrase,
   }
