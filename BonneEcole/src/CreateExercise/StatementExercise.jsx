@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { createExercise } from "./firebase/firebase-createexo";
+import { createExercise } from "./firebase/firebase-createExo";
 
 // Scss
 import "./StatementExercise.scss";
