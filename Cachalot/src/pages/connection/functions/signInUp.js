@@ -82,10 +82,14 @@ export async function firebaseRegister(data) {
             //Ajout des informations dans le document
             setDoc(userDocRef, {
                 username: data.username,
-                age: data.age,
+                age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,
                 lastLogin: dateTime,
-                photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e"
+                photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
+                userXp: {
+                    xp: 0,
+                    level: 1,
+                }
             }).then(() => {
                 result.showOverlay = false;
                 result.code = "valid";
@@ -105,6 +109,7 @@ export async function firebaseLogin(data) {
         showOverlay: true,
         code: undefined
     };
+
 
     await signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
@@ -142,6 +147,7 @@ export async function firebaseGoogleLogin() {
         code: undefined,
     };
 
+
     //Fonction firebase pour se connecter avec google
     await signInWithPopup(auth, provider)
         .then(async (res) => {
@@ -150,6 +156,8 @@ export async function firebaseGoogleLogin() {
             //doc à 'créer' dans la collection users
             const docRef = doc(db, "users", user.uid);
 
+            console.log(user);
+
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
@@ -157,6 +165,11 @@ export async function firebaseGoogleLogin() {
                         username: user.displayName,
                         email: user.email,
                         photo: user.photoURL,
+                        age: 0,
+                        userXp: {
+                            xp: 0,
+                            level: 1,
+                        }
                     }).then(() => {
                         result.showOverlay = false;
                     })
