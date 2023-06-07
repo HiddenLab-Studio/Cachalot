@@ -107,14 +107,14 @@ window.message = function (e) {
 
 
 //on recupere les messages envoyé 
-function getMessage() {
+async function getMessage() {
     //On recupere la collection messages en fonction de le room
     const messagesCollection = collection(db, room());
     //On recupere les messages par date croissante
     const message = query(messagesCollection, orderBy("like", 'desc'));
 
     //On regarde le changement dans la collection
-    onSnapshot(message, (snapshot) => {
+    await onSnapshot(message, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
             //Si le changement est un ajout
             if (change.type === "added") {
