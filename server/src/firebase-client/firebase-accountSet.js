@@ -70,6 +70,7 @@ async function sendMessage(e) {
     e.preventDefault();
     //On recupere l'utilisateur connecté
     const user = auth.currentUser;
+    console.log(user);
     //On recupere le username de l'utilisateur
     
     const docRef = doc(db, "users", user.uid);
@@ -87,7 +88,6 @@ async function sendMessage(e) {
             date: hour,
             like: 0,
         }
-        pushXp(100000);
         
 
         //On ajoute le message dans la collection messages
@@ -162,7 +162,7 @@ function like(id) {
     //On recupere l'id du message avec le split qui prend le deuxieme element du "tableau"
     const idMessage = id.split('+')[1];
     const user = auth.currentUser;
-
+    
     console.log(idMessage);
     console.log(room());
     //On recupere le document du message

@@ -1,5 +1,5 @@
 // Import des fonctions dont on a besoin
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
+import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 
@@ -50,25 +50,31 @@ function register(e) {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        //Recuperation de la date et l'heure de connexion 
-        const dt = new Date();
-        const date = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
-        const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-        const dateTime = date + " " + time;
-        //Ajout des informations supplémentaires dans la base de donnee
-        //Ajout du document dans la collection users
-        const userDocRef = doc(db, "users", user.uid);
-        //Ajout des informations dans le document
-        setDoc(userDocRef, {
-          username: obj.username,
-          age: obj.age,
-          email: obj.email,
-          lastLogin: dateTime,
-          xp : 0
+        updateProfile(user, {
+          displayName: obj.username
         }).then(() => {
-          //On le redirige vers la page de principale
-          window.location.href = "/";
-        });
+
+          //Recuperation de la date et l'heure de connexion 
+          const dt = new Date();
+          const date = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+          const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+          const dateTime = date + " " + time;
+          //Ajout des informations supplémentaires dans la base de donnee
+          //Ajout du document dans la collection users
+          const userDocRef = doc(db, "users", user.uid);
+          //Ajout des informations dans le document
+          setDoc(userDocRef, {
+            username: obj.username,
+            age: obj.age,
+            email: obj.email,
+            lastLogin: dateTime,
+            xp: 0
+          }).then(() => {
+            //On le redirige vers la page de principale
+
+            window.location.href = "/";
+          });
+        })
       })
       .catch((error) => {
         const errorCode = error.code;
