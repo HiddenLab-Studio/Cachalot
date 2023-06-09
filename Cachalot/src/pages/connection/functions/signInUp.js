@@ -1,11 +1,13 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
+import {doc, updateDoc, setDoc, getDoc, collection, getDocs} from "firebase/firestore";
 import firebaseConfigClient from "../../../services/firebase.config.js";
 import {checkFields} from "./checkFields.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
+
+
 
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
@@ -62,9 +64,20 @@ export async function firebaseRegister(data) {
         code: undefined,
     };
 
-    if (data.username.length < 3) {
+    if (data.username.length < 3 && data.username.length > 15) {
         result.code = "Votre pseudo doit contenir au moins 3 caractères";
         return result;
+    } else {
+        const usersCollection = collection(db, "users");
+        const usersDoc = await getDocs(usersCollection);
+        const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
+        console.log(data);
+        if(fetchedUsers.includes(data.username)){
+            result.code = "Ce pseudo est déjà utilisé";
+            return result;
+        } else {
+            console.log("Pseudo disponible");
+        }
     }
 
     await createUserWithEmailAndPassword(auth, data.email, data.password)
@@ -147,7 +160,6 @@ export async function firebaseGoogleLogin() {
         showOverlay: true,
         code: undefined,
     };
-
 
     //Fonction firebase pour se connecter avec google
     await signInWithPopup(auth, provider)

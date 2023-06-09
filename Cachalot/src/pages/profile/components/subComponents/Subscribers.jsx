@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
+import { Link } from "react-router-dom";
 import tw, { styled } from "twin.macro";
-import {useAuth} from "../../../../context/AuthContext.js";
+import { useCache } from "../../../../context/cache/CacheManager.js";
 
 const FollowerButton = styled.div`
   border-bottom: 2px solid ${props => props.current === false ? props.theme.cachalotColor : props.theme.borderRightColor};
@@ -41,8 +42,14 @@ const ChoosePanelContainer = styled.div`
   }
 `;
 
-const Subscribers = (props) => {
+const Subscribers = ({isSearch, data}) => {
+    const cacheManager = useCache();
+
+    // State
     const [followingSection, setFollowingSection] = useState(true);
+
+    console.log("Subscribers data: ", data);
+    const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
 
 /*    if(userData.id !== undefined) console.log(auth.currentUser.uid !== userData.id)
 
@@ -71,6 +78,30 @@ const Subscribers = (props) => {
                         <span>Abonnés</span>
                     </FollowerButton>
                 </div>
+                {
+                    followingSection ?
+                        userFriends.following.map((item, index) => {
+                            return (
+                                <div key={index}>
+                                    <Link to={"/profile/" + item.username}>
+                                        <img src={item.photo} alt="profile picture"/>
+                                        <span>{item.username}</span>
+                                    </Link>
+                                </div>
+                            )
+                        })
+                        :
+                        userFriends.follower.map((item, index) => {
+                            return (
+                                <div key={index}>
+                                    <Link to={"/profile/" + item.username}>
+                                        <img src={item.photo} alt="profile picture"/>
+                                        <span>{item.username}</span>
+                                    </Link>
+                                </div>
+                            )
+                        })
+                }
             </ChoosePanelContainer>
         </>
     )

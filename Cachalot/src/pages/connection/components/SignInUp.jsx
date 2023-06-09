@@ -20,8 +20,12 @@ import {
     firebaseRegister,
     firebaseLogin,
 } from "../functions/signInUp.js";
+import {useCache} from "../../../context/cache/CacheManager.js";
 
 const SignInUp = () => {
+    // Context
+    const cacheManager = useCache();
+    // Media queries
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
     // State
@@ -41,6 +45,8 @@ const SignInUp = () => {
             showOverlay: false,
             code: ""
         });
+        cacheManager.clearFriendsCache();
+        console.log(cacheManager.getFriendsCache());
     }, [signInOverlay]);
 
     function handleState(data) { setErrorData(data); }

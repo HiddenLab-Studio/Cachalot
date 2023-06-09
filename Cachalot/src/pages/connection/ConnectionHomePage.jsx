@@ -10,9 +10,7 @@ import {
 import Navbar from "../../components/navbar/Navbar.jsx";
 import SignInUp from "./components/SignInUp.jsx";
 
-
 const ConnectionHomePage = () => {
-
     return (
         <Container>
             <Navbar />

@@ -68,16 +68,10 @@ import {useCache} from "../../../context/cache/CacheManager.js";
 const ProfileInformation = ({isSearch, data}) => {
     const cacheManager = useCache();
 
-    /*const userData = data.searchedUserData !== undefined ? data.searchedUserData : data.auth.userData;
-    const userFriends = data.searchedUserData !== undefined ? data.searchedUserData.userFriends : cacheManager.getFriendsCache();
-    const currentXp = data.searchedUserData !== undefined ? data.searchedUserData.userXp.currentXp : data.auth.userData.userXp.currentXp;*/
-
-    const userData = {};
-    const userFriends = {
-        following: [],
-        follower: []
-    }
-    const currentXp = 0;
+    console.log(data);
+    const userData = isSearch ? data.searchedUser.userData : data.currentUserData;
+    const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
+    const currentXp = isSearch ? data.searchedUser.userData.userXp.currentXp : data.currentUserData.userXp.currentXp;
 
     return (
         <ProfileInformationContainer>
@@ -108,7 +102,10 @@ const ProfileInformation = ({isSearch, data}) => {
                     </div>
                 </div>
             </InformationContainer>
-            <Showcase isSearch={isSearch} />
+            <Showcase
+                isSearch={isSearch}
+                data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+            />
         </ProfileInformationContainer>
     )
 }

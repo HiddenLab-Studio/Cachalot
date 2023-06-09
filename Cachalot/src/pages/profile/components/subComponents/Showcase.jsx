@@ -28,11 +28,15 @@ const Showcase = ({isSearch, data}) => {
     // State
     const [isEditing, setIsEditing] = useState(false);
 
+    // Data
+    console.info("Showcase data:")
+    console.log(data);
+
     const test = ["../../../../../static/img/logo.png", 2, 3]
 
     return (
         <ShowcaseContainer>
-            <FollowButton isSearch={isSearch}/>
+            <FollowButton isSearch={isSearch} data={data} />
             <BadgeContainer>
                 {test.map((badge, index) => {
                     return (

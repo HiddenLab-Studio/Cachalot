@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, deleteDoc} from "firebase/firestore";
 import {signOut} from "firebase/auth";
 
 // Firebase config
@@ -66,16 +66,16 @@ export const AuthProvider = ({ children }) => {
             return data
         });
         const isUserExist = usersList.find(user => user.username === username);
-
-        const userFollowerColl = collection(db, "users/" + isUserExist.id + "/follower");
-        const userFollowerDoc = await getDocs(userFollowerColl);
-        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
-
-        const userFollowingColl = collection(db, "users/"+ isUserExist.id + "/following");
-        const userFollowingDoc = await getDocs(userFollowingColl);
-        const userFollowing = userFollowingDoc.docs.map(doc => doc.data());
-
         if(isUserExist){
+
+            const userFollowerColl = collection(db, "users/" + isUserExist.id + "/follower");
+            const userFollowerDoc = await getDocs(userFollowerColl);
+            const userFollower = userFollowerDoc.docs.map(doc => doc.data());
+
+            const userFollowingColl = collection(db, "users/"+ isUserExist.id + "/following");
+            const userFollowingDoc = await getDocs(userFollowingColl);
+            const userFollowing = userFollowingDoc.docs.map(doc => doc.data());
+
             result = {
                 userData: isUserExist,
                 userFriends: {
@@ -103,20 +103,20 @@ export const AuthProvider = ({ children }) => {
     }
 
 
-    async function followUser(data){
-        //console.log(data);
+    async function followUser(searchedUser){
+        console.log(searchedUser);
         let result = false;
         const user = auth.currentUser;
-        const userFollowing = doc(db, "users", user.uid + '/following/'+ data.id);
+        const userFollowing = doc(db, "users", user.uid + '/following/' + searchedUser.id);
         await setDoc(userFollowing, {
-            username: data.username,
-            photo: data.photo,
+            username: searchedUser.username,
+            photo: searchedUser.photo,
         }).then(async () => {
-            const userFollowing = doc(db, "users", data.id + '/follower/' + user.uid);
+            const userFollower = doc(db, "users", searchedUser.id + '/follower/' + user.uid);
             const docRef = doc(db, "users", user.uid);
             await getDoc(docRef).then(async (doc) => {
                 if (doc.exists()) {
-                    await setDoc(userFollowing, {
+                    await setDoc(userFollower, {
                         username: doc.data().username,
                         photo: doc.data().photo,
                     }).then(() => {
@@ -129,7 +129,17 @@ export const AuthProvider = ({ children }) => {
         });
         return result;
     }
-
+    async function unfollowUser(searchedUser) {
+        let result = false;
+        const user = auth.currentUser;
+        const userFollower = doc(db, "users", user.uid + '/following/' + searchedUser.id);
+        await deleteDoc(userFollower)
+        const userFollowing = doc(db, "users", searchedUser.id + '/follower/' + user.uid);
+        await deleteDoc(userFollowing).then(() => {
+            result = true;
+        })
+        return result;
+    }
     const value = {
         currentUser,
         userData,
@@ -138,6 +148,7 @@ export const AuthProvider = ({ children }) => {
         getUserByUsername,
         getUserFriends,
         followUser,
+        unfollowUser,
         // State
         setIsLoading
     }

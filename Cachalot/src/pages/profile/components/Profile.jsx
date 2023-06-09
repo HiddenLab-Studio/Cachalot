@@ -27,8 +27,8 @@ const Profile = (props) => {
     const cacheManager = useCache();
 
     // States
-    const [isLoading, setIsLoading] = useState(true);
     const [searchedUser, setSearchedUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const [userNotFound, setUserNotFound] = useState(false);
 
     useEffect( () => {
@@ -79,6 +79,7 @@ const Profile = (props) => {
             console.info("Unmounting Profile.jsx...")
             setSearchedUser(null);
             setUserNotFound(null);
+            setIsLoading(true);
         }
 
     }, [window.location.pathname]);
@@ -100,13 +101,19 @@ const Profile = (props) => {
             </Container>
         )
     } else {
-        console.log(searchedUser.userFriends);
+        console.info("searchedUser: " + searchedUser);
         return (
             <Container>
                 <Navbar />
                 <ProfileContainer>
-                    <ProfileInformation isSearch={searchedUser !== null} />
-                    <BodyProfile isSearch={searchedUser !== null} />
+                    <ProfileInformation
+                        isSearch={searchedUser !== null}
+                        data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                    />
+                    <BodyProfile
+                        isSearch={searchedUser !== null}
+                        data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                    />
                 </ProfileContainer>
                 <div tw="absolute top-0 right-0">
                     <button onClick={async () => await auth.disconnectUser()}>Logout</button>

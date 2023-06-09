@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import tw, { styled } from "twin.macro";
 import {
     FaEdit,
     FaPlusCircle,
     FaMinusCircle
 } from "react-icons/fa";
+import {useAuth} from "../../../../context/AuthContext.js";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -40,24 +41,49 @@ const ButtonContainer = styled.div`
 
 
 const FollowButton = ({ isSearch, data }) => {
-    //let isFollowing = data.currentUserData.username.includes(data.userFriends.following);
-    let isFollowing = false;
+    const auth = useAuth();
+    // State
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFollowing, setIsFollowing] = useState(false);
 
-    if(!isSearch){
+    console.log("FollowButton data: ", data)
+
+    useEffect(() => {
+        if(isSearch){
+            console.log(data.currentUserData.username);
+            console.log(data.searchedUser.userFriends.follower);
+            data.searchedUser.userFriends.follower.forEach((follower) => {
+                if(follower.username === data.currentUserData.username){
+                    console.log("isFollowing");
+                    setIsFollowing(true);
+                }
+            });
+        }
+    }, []);
+
+    if (!isSearch) {
         return (
             <ButtonContainer>
                 <button>
-                    <FaEdit />
+                    <FaEdit/>
                     <span>Modifier la vitrine</span>
                 </button>
             </ButtonContainer>
         )
     } else {
-        if(isFollowing){
+        if (isFollowing) {
             return (
                 <ButtonContainer>
-                    <button>
-                        <FaMinusCircle />
+                    <button onClick={async () => {
+                        let result = await auth.unfollowUser(data.searchedUser.userData);
+                        if (result) {
+                            console.log("unFollowed user successfully!");
+                            setIsFollowing(false);
+                        } else {
+                            console.error("Failed to unfollow user!");
+                        }
+                    }}>
+                        <FaMinusCircle/>
                         <span>Ne plus suivre</span>
                     </button>
                 </ButtonContainer>
@@ -65,14 +91,23 @@ const FollowButton = ({ isSearch, data }) => {
         } else {
             return (
                 <ButtonContainer>
-                    <button>
-                        <FaPlusCircle />
+                    <button onClick={async () => {
+                        let result = await auth.followUser(data.searchedUser.userData);
+                        if (result) {
+                            console.log("Followed user successfully!");
+                            setIsFollowing(true);
+                        } else {
+                            console.error("Failed to follow user!");
+                        }
+                    }}>
+                        <FaPlusCircle/>
                         <span>Suivre</span>
                     </button>
                 </ButtonContainer>
             )
         }
     }
+
 }
 
 export default FollowButton;
