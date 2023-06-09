@@ -2,12 +2,13 @@
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { doc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import { userExist } from "./firebase-getUsers.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 
 
-function register(e) {
+async function register(e) {
   e.preventDefault();
   //Recuperation des elements html dans un objet
   let obj = {
@@ -19,8 +20,14 @@ function register(e) {
   };
   console.log(obj);
 
+  //Verification de l'existance du username
+  const usernameExist = await userExist(obj.username);
+  if (usernameExist) {
+    console.log("Le nom d'utilisateur existe déjà");
+    return;
+  }
   //Verification des mots de passe
-  if (obj.password.length < 8) {
+  else if (obj.password.length < 8) {
     console.log("Le mot de passe doit contenir au moins 8 caractères");
     return;
   }
@@ -44,6 +51,7 @@ function register(e) {
     console.log("C'est pas les mêmes mots de passe");
     return;
   }
+  
   else {
     //Creation de l'utilisateur avec e-mail et mot de passe
     createUserWithEmailAndPassword(auth, obj.email, obj.password)

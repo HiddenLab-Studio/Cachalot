@@ -17,9 +17,21 @@ async function getUserByUsername(username) {
     const usersList = usersSnapshot.docs.map(doc => doc.data());
     //recuperer l'utilisateur
     const user = usersList.find(user => user.username === username);
-    console.log(user);
     return user;
 
 }
 
-getUserByUsername('TONIO');
+export async function userExist(username) {
+    let userExist = false;
+    const usersCol = collection(db, 'users');
+    const usersSnapshot = await getDocs(usersCol);
+    const usersList = usersSnapshot.docs.map(doc => doc.data());
+    const user = usersList.find(user => user.username === username);
+    if (user != undefined) {
+        userExist = true;
+    } else {
+        userExist = false;
+    }
+
+    return userExist;
+}
