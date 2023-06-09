@@ -1,58 +1,55 @@
-import React from "react";
-import tw from "twin.macro";
-import {useAuth} from "../../../context/AuthContext.js";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../../context/AuthContext.js";
 
-// Icons
-import { FaClock } from "react-icons/fa";
+// Components
+import ProfileInformation from "./ProfileInformation.jsx";
 
 // Styled components
 import {
-    AccountInformationContainer,
-    Container, ProfileContainer,
+    ProfileContainer
 } from "../styles/ProfilePageStyle.js";
+import BodyProfile from "./BodyProfile.jsx";
 
-import {
-    ImgWrapper
-} from "../../../components/ui/GlobalStyle.js";
+
+import firebaseConfigClient from "../../../services/firebase.config.js";
+import { doc, getDoc } from "firebase/firestore";
 
 const Profile = () => {
-    const auth = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
+    const [searchedUser, setSearchedUser] = useState(null);
 
-    if(auth.userData === null){
-        return <h1>LOADING...</h1>
+    const auth = useAuth();
+    const userData = auth.userData;
+
+    useEffect( () => {
+        // If the user is searching for a specific user
+        if (window.location.pathname.split("/")[2].length > 0) {
+            setIsLoading(true);
+            console.log(window.location.pathname.split("/")[2])
+            setSearchedUser({
+                username: window.location.pathname.split("/")[2],
+            });
+            setIsLoading(false);
+        }
+    }, []);
+
+    if(isLoading) {
+        return <div>Loading...</div>
     } else {
         return (
-            <Container>
+            <>
                 <ProfileContainer>
-                    <ImgWrapper width="192px">
-                        <img
-                            src={!auth.userData.photo ? "../../../../static/img/profilePictureTest.png" : auth.userData.photo}
-                            alt="Medal"/>
-                    </ImgWrapper>
-                    <AccountInformationContainer>
-                        <div className="title" tw="flex flex-col leading-6">
-                            <h1>{auth.userData.username}</h1>
-                            <span>{auth.userData.email}</span>
-                        </div>
-                        <div className="info">
-                            <div>
-                                <FaClock/>
-                                <span>Membre depuis {"janvier 2023"}</span>
-                            </div>
-                            <div>
-                                <span>Classe: {"CM1"}</span>
-                            </div>
-                        </div>
-                    </AccountInformationContainer>
-                    <button onClick={() => {
-                        auth.disconnectUser()
-                    }}>
-                        Se déconnecter
-                    </button>
+                    <ProfileInformation userData={searchedUser !== null ? searchedUser : userData} />
+                    <BodyProfile />
                 </ProfileContainer>
-            </Container>
+                <div tw="absolute top-0 right-0">
+                    <button onClick={() => auth.disconnectUser()}>Logout</button>
+                </div>
+            </>
         )
     }
 }
+
+
 
 export default Profile;

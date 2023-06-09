@@ -22,6 +22,10 @@ export const themeLight = {
     background: "#fdfdfd",
     //background: "#121212",
 
+    // Profile page
+    iconColor: "#cdcdcd",
+    textWithIcon: "#777777",
+
     // SignInUp form
     inputBg: "#f7f7f7",
     inputBorder: "#e5e5e5",

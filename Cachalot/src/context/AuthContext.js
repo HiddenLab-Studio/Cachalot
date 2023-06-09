@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
-            console.log(isLoading);
+            //console.log(isLoading);
 
             if (!isLoading && user) {
                 const userDocRef = doc(db, "users", user.uid);
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
                 setIsLoading(false);
 
             } else {
-                setCurrentUser(null);
+                setCurrentUser(-1);
                 console.log("Utilisateur non connecté");
             }
         })
@@ -44,9 +44,9 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe;
     }, [isLoading]);
 
-    function disconnectUser(){
+    async function disconnectUser(){
         if(currentUser !== null){
-            signOut(auth).then(r => {
+            await signOut(auth).then(r => {
                 console.log('Sign-out successful.');
                 setUserData(null);
             });

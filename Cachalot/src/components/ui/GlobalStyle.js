@@ -1,10 +1,14 @@
 import tw, { styled } from 'twin.macro';
 
 export const ImgWrapper = styled.div`
-  width: ${props => props.width};
-  height: auto;
-  border-radius: 50%;
-  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  img {
+    width: ${props => props.width};
+    height: ${props => props.width};
+    border: 1px solid black;
+    border-radius: 50%;
+  }
 `
 
 export const Container = styled.main`

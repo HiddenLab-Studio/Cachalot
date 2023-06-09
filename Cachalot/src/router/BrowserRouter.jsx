@@ -7,6 +7,7 @@ import ExerciseHomePage from "../pages/exercise/ExerciseHomePage.jsx";
 import ExerciseOld from "../pages/exercise/Exercise.old.jsx";
 import ProfileHomePage from "../pages/profile/ProfileHomePage.jsx";
 import ConnectionHomePage from "../pages/connection/ConnectionHomePage.jsx";
+import Profile from "../pages/profile/components/Profile.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -20,7 +21,8 @@ const router = createBrowserRouter([
     // Quest Page
     { path: "/quest", element: <HomePage /> },
     // Profile Page
-    { path: "/profile", element: <ProfileHomePage /> },
+    { path: "/profile", element: <ProfileHomePage isSearching={false} /> },
+    { path: "/profile/:user", element: <ProfileHomePage isSearching={true} /> },
     // Settings Page
     { path: "/settings", element: <HomePage /> },
     // About Page
