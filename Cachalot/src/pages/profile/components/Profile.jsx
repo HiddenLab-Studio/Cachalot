@@ -3,6 +3,7 @@ import { useAuth } from "../../../context/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 
 // Components
+import Navbar from "../../../components/navbar/Navbar.jsx";
 import ProfileInformation from "./ProfileInformation.jsx";
 import BodyProfile from "./BodyProfile.jsx";
 
@@ -10,44 +11,73 @@ import BodyProfile from "./BodyProfile.jsx";
 import {
     ProfileContainer
 } from "../styles/ProfilePageStyle.js";
-import {Container} from "../../../components/ui/GlobalStyle.js";
-import Navbar from "../../../components/navbar/Navbar.jsx";
 
-const Profile = () => {
+import {
+    Container
+} from "../../../components/ui/GlobalStyle.js";
+
+import {useCache} from "../../../context/cache/CacheManager.js";
+
+
+const Profile = (props) => {
     const navigate = useNavigate();
+
+    // Context
+    const auth = props.auth;
+    const cacheManager = useCache();
+
+    // States
     const [isLoading, setIsLoading] = useState(true);
-    const [searchedUserData, setSearchedUserData] = useState(null);
+    const [searchedUser, setSearchedUser] = useState(null);
     const [userNotFound, setUserNotFound] = useState(false);
 
-    const auth = useAuth();
-    // useful data from auth context
-    const userData = auth.userData;
-    const currentUser = auth.currentUser;
-
     useEffect( () => {
+        console.info("Rendering Profile.jsx...")
+
+        // Functions
+        const getUserFriends = async (id) => {
+            // if the cache is empty, load the data from the database
+            if(cacheManager.isFriendsCacheEmpty()){
+                let result = await auth.getUserFriends(id);
+                cacheManager.addFollower(result.follower);
+                cacheManager.addFollowing(result.following);
+                return result;
+            } else {
+                // if the cache is not empty, load the data from the cache
+                console.info("Friends loaded from cache!");
+            }
+        }
+        const searchingUser = async (searchedUser) => {
+            let result = await auth.getUserByUsername(searchedUser);
+            if (result !== undefined) setSearchedUser(result);
+            else setUserNotFound(true);
+            return result;
+        }
+
+        // Check if the user is searching for another user
         let searchedUser = window.location.pathname.split("/")[2];
         if(searchedUser !== undefined && searchedUser.length > 0) {
-            console.log("searching for user: " + searchedUser);
-            if(userData === null || userData.username === searchedUser) {
+            console.info("searching for user: " + searchedUser + "...");
+            // if the searched user is the current user, redirect to the current user's profile
+            if(auth.userData === null || auth.userData.username === searchedUser) {
                 navigate("/profile")
             } else {
-                const searchingUser = async (searchedUser) => {
-                    let result = await auth.getUserByUsername(searchedUser);
-                    if (result !== undefined) setSearchedUserData(result);
-                    else setUserNotFound(true);
+                searchingUser(searchedUser).then(r => {
+                    console.log(r)
                     setIsLoading(false);
-                }
-                searchingUser(searchedUser).then(r =>
-                    console.log(searchedUser)
-                );
+                } );
             }
         } else {
-            setIsLoading(false);
+            // if the user is not searching for another user, load the user's friends
+            getUserFriends(auth.currentUser.uid).then((result) => {
+                console.info("Friends loaded successfully!");
+                setIsLoading(false);
+            });
         }
 
         return () => {
-            console.log("Unmounting")
-            setSearchedUserData(null);
+            console.info("Unmounting Profile.jsx...")
+            setSearchedUser(null);
             setUserNotFound(null);
         }
 
@@ -70,12 +100,13 @@ const Profile = () => {
             </Container>
         )
     } else {
+        console.log(searchedUser.userFriends);
         return (
             <Container>
                 <Navbar />
                 <ProfileContainer>
-                    <ProfileInformation isSearch={searchedUserData !== null} data={searchedUserData !== null ? searchedUserData : userData} />
-                    <BodyProfile />
+                    <ProfileInformation isSearch={searchedUser !== null} />
+                    <BodyProfile isSearch={searchedUser !== null} />
                 </ProfileContainer>
                 <div tw="absolute top-0 right-0">
                     <button onClick={async () => await auth.disconnectUser()}>Logout</button>
@@ -84,7 +115,5 @@ const Profile = () => {
         )
     }
 }
-
-
 
 export default Profile;

@@ -86,13 +86,10 @@ export async function firebaseRegister(data) {
                 email: data.email,
                 lastLogin: dateTime,
                 photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
-                userFollower: {
-                    follower: [],
-                    following: [],
-                },
+                accountCreationDate: dateTime,
                 userXp: {
-                    xp: 0,
-                    level: 1,
+                    currentLvl: 1,
+                    currentXp: 0,
                 }
             }).then(() => {
                 result.showOverlay = false;
@@ -162,6 +159,12 @@ export async function firebaseGoogleLogin() {
 
             console.log(user);
 
+            // On récupère la date et l'heure de connexion
+            const dt = new Date();
+            const date = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+            const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            const dateTime = date + " " + time;
+
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
@@ -170,13 +173,11 @@ export async function firebaseGoogleLogin() {
                         email: user.email,
                         photo: user.photoURL,
                         age: 0,
-                        userFollower: {
-                            follower: [],
-                            following: [],
-                        },
+                        lastLogin: dateTime,
+                        accountCreationDate: dateTime,
                         userXp: {
-                            xp: 0,
-                            level: 1,
+                            currentLvl: 1,
+                            currentXp: 0,
                         }
                     }).then(() => {
                         result.showOverlay = false;

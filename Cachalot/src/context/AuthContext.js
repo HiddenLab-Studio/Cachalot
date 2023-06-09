@@ -1,9 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
-import { signOut } from "firebase/auth";
+import {createContext, useContext, useEffect, useState} from "react";
+import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {signOut} from "firebase/auth";
 
 // Firebase config
 import firebaseConfigClient from "../services/firebase.config.js";
+
 const { auth, db } = firebaseConfigClient();
 
 // Context
@@ -59,13 +60,73 @@ export const AuthProvider = ({ children }) => {
         let result = undefined;
         const usersCollection = collection(db, "users");
         const usersSnapshot = await getDocs(usersCollection);
-        const usersList = usersSnapshot.docs.map(doc => doc.data());
+        const usersList = usersSnapshot.docs.map(doc => {
+            const data = doc.data()
+            data.id = doc.id
+            return data
+        });
         const isUserExist = usersList.find(user => user.username === username);
+
+        const userFollowerColl = collection(db, "users/" + isUserExist.id + "/follower");
+        const userFollowerDoc = await getDocs(userFollowerColl);
+        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
+
+        const userFollowingColl = collection(db, "users/"+ isUserExist.id + "/following");
+        const userFollowingDoc = await getDocs(userFollowingColl);
+        const userFollowing = userFollowingDoc.docs.map(doc => doc.data());
+
         if(isUserExist){
-            result = isUserExist;
+            result = {
+                userData: isUserExist,
+                userFriends: {
+                    follower: userFollower,
+                    following: userFollowing
+                }
+            };
         } else {
             console.log("Utilisateur non trouvé");
         }
+        return result;
+    }
+
+    async function getUserFriends(id){
+        const userFollowing = collection(db, "users/" + id + "/following");
+        const userFollowingSnapshot = await getDocs(userFollowing);
+
+        const userFollower = collection(db, "users/" + id + "/follower");
+        const userFollowerSnapshot = await getDocs(userFollower);
+
+        return {
+            following: userFollowingSnapshot.docs.map(doc => doc.data()),
+            follower: userFollowerSnapshot.docs.map(doc => doc.data())
+        };
+    }
+
+
+    async function followUser(data){
+        //console.log(data);
+        let result = false;
+        const user = auth.currentUser;
+        const userFollowing = doc(db, "users", user.uid + '/following/'+ data.id);
+        await setDoc(userFollowing, {
+            username: data.username,
+            photo: data.photo,
+        }).then(async () => {
+            const userFollowing = doc(db, "users", data.id + '/follower/' + user.uid);
+            const docRef = doc(db, "users", user.uid);
+            await getDoc(docRef).then(async (doc) => {
+                if (doc.exists()) {
+                    await setDoc(userFollowing, {
+                        username: doc.data().username,
+                        photo: doc.data().photo,
+                    }).then(() => {
+                        result = true;
+                    })
+                }
+            })
+        }).catch((error) => {
+            console.log(error);
+        });
         return result;
     }
 
@@ -75,6 +136,8 @@ export const AuthProvider = ({ children }) => {
         // Functions
         disconnectUser,
         getUserByUsername,
+        getUserFriends,
+        followUser,
         // State
         setIsLoading
     }

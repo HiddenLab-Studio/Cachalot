@@ -1,46 +1,13 @@
 import React, { useState } from "react";
 import tw, { styled } from "twin.macro";
-
-// Icons
-import { FaEdit } from "react-icons/fa";
+import FollowButton from "./FollowButton.jsx";
 
 // Styled components
 const BadgeContainer = styled.div``;
-const ButtonContainer = styled.div``;
 const ShowcaseContainer = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  
-  ${ButtonContainer} {
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
-    button {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      transition: all 100ms ease-in-out;
-      font-size: var(--fs-ss);
-      padding: 0 16px;
-      color: ${props => props.theme.subText};
-      background-color: white;
-      border: 2px solid ${props => props.theme.borderRightColor};
-      border-bottom: 4px solid ${props => props.theme.borderRightColor};
-      border-radius: 12px;
-      width: inherit;
-      height: 48px;
-      outline: none;
-      text-transform: uppercase;
-      font-family: "Din_Round_Bold", sans-serif;
-      &:hover {
-        cursor: pointer;
-        background-color: ${props => props.theme.buttonBgHover};
-      }
-    }
-  }
   
   ${BadgeContainer} {
     display: flex;
@@ -57,7 +24,7 @@ const ShowcaseContainer = styled.div`
   
 `
 
-const Showcase = (props) => {
+const Showcase = ({isSearch, data}) => {
     // State
     const [isEditing, setIsEditing] = useState(false);
 
@@ -65,16 +32,7 @@ const Showcase = (props) => {
 
     return (
         <ShowcaseContainer>
-            {!props.isSearch ?
-                <ButtonContainer>
-                    <button>
-                        <FaEdit />
-                        <span>Modifier la vitrine</span>
-                    </button>
-                </ButtonContainer>
-            :
-                null
-            }
+            <FollowButton isSearch={isSearch}/>
             <BadgeContainer>
                 {test.map((badge, index) => {
                     return (
@@ -87,5 +45,45 @@ const Showcase = (props) => {
         </ShowcaseContainer>
     )
 }
+
+/*
+
+            {!isSearch ?
+                <ButtonContainer>
+                    <button>
+                        <FaEdit />
+                        <span>Modifier la vitrine</span>
+                    </button>
+                </ButtonContainer>
+            :
+                <ButtonContainer>
+                    <button onClick={async () => {
+                        const test = {
+                            id: data.id,
+                            username: data.username,
+                            photo: data.photo,
+                        }
+
+                        let result = await auth.followUser(test)
+                        if(result) {
+                            console.log("followed")
+                        } else {
+                            console.log("not followed")
+                        }
+                    }}>
+                        <FaPlusCircle />
+                        <span>
+                        {
+                            data.currentUserData.username.includes(data.userFriends.following) ?
+                                "Ne plus suivre"
+                            :
+                                "Suivre"
+                        }
+                        </span>
+                    </button>
+                </ButtonContainer>
+            }
+
+ */
 
 export default Showcase;

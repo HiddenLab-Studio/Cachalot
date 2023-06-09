@@ -3,7 +3,7 @@ import tw, { styled } from "twin.macro";
 // Icons
 import {
     FaClock,
-    FaPeopleCarry,
+    FaUserAlt,
     FaMagic
 } from "react-icons/fa";
 
@@ -63,12 +63,21 @@ const ProfileInformationContainer = styled.div`
 
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
+import {useCache} from "../../../context/cache/CacheManager.js";
 
 const ProfileInformation = ({isSearch, data}) => {
+    const cacheManager = useCache();
 
-    const userData = data;
-    const userFollower = userData.userFollower;
-    const userXp = userData.userXp;
+    /*const userData = data.searchedUserData !== undefined ? data.searchedUserData : data.auth.userData;
+    const userFriends = data.searchedUserData !== undefined ? data.searchedUserData.userFriends : cacheManager.getFriendsCache();
+    const currentXp = data.searchedUserData !== undefined ? data.searchedUserData.userXp.currentXp : data.auth.userData.userXp.currentXp;*/
+
+    const userData = {};
+    const userFriends = {
+        following: [],
+        follower: []
+    }
+    const currentXp = 0;
 
     return (
         <ProfileInformationContainer>
@@ -87,19 +96,19 @@ const ProfileInformation = ({isSearch, data}) => {
                 <div className="profile__info">
                     <div>
                         <FaClock />
-                        <span>Membre depuis le VARIABLE</span>
+                        <span>Membre depuis le A FAIRE</span>
                     </div>
                     <div>
-                        <FaPeopleCarry />
-                        <span>{userFollower.following.length} abonnements / {userFollower.follower.length} abonnés</span>
+                        <FaUserAlt />
+                        <span>{userFriends.following.length} abonnements / {userFriends.follower.length} abonnés</span>
                     </div>
                     <div>
                         <FaMagic />
-                        <span>{userXp.xp} expériences cumulés</span>
+                        <span>{currentXp} expériences cumulés</span>
                     </div>
                 </div>
             </InformationContainer>
-            <Showcase isSearch={isSearch} userData={userData} />
+            <Showcase isSearch={isSearch} />
         </ProfileInformationContainer>
     )
 }

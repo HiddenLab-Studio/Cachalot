@@ -5,7 +5,10 @@ import {
 } from "../styles/ProfilePageStyle.js";
 import Subscribers from "./subComponents/Subscribers.jsx";
 
-const BodyProfile = () => {
+const BodyProfile = (props) => {
+
+    const userData = props.data;
+
     return (
         <BodyProfileContainer>
             <BodyProfileSectionContainer>
@@ -16,7 +19,7 @@ const BodyProfile = () => {
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
                 <h1>Amis</h1>
-                <Subscribers />
+                <Subscribers isSearch={props.isSearch} data={userData} />
             </BodyProfileAsideContainer>
         </BodyProfileContainer>
     )

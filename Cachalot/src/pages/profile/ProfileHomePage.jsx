@@ -34,7 +34,7 @@ const ProfileHomePage = (props) => {
     if(isLoading) {
         return <div>Loading...</div>
     } else if(auth.currentUser instanceof Object || props.isSearching) {
-        return <Profile />
+        return <Profile auth={auth} />
     } else if(typeof auth.currentUser === "number") {
         return <ConnectionHomePage/>
     }
