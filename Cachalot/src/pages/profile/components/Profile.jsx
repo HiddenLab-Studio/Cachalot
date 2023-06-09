@@ -1,51 +1,86 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext.js";
+import { useNavigate } from "react-router-dom";
 
 // Components
 import ProfileInformation from "./ProfileInformation.jsx";
+import BodyProfile from "./BodyProfile.jsx";
 
 // Styled components
 import {
     ProfileContainer
 } from "../styles/ProfilePageStyle.js";
-import BodyProfile from "./BodyProfile.jsx";
-
-
-import firebaseConfigClient from "../../../services/firebase.config.js";
-import { doc, getDoc } from "firebase/firestore";
+import {Container} from "../../../components/ui/GlobalStyle.js";
+import Navbar from "../../../components/navbar/Navbar.jsx";
 
 const Profile = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [searchedUser, setSearchedUser] = useState(null);
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchedUserData, setSearchedUserData] = useState(null);
+    const [userNotFound, setUserNotFound] = useState(false);
 
     const auth = useAuth();
+    // useful data from auth context
     const userData = auth.userData;
+    const currentUser = auth.currentUser;
 
     useEffect( () => {
-        // If the user is searching for a specific user
-        if (window.location.pathname.split("/")[2].length > 0) {
-            setIsLoading(true);
-            console.log(window.location.pathname.split("/")[2])
-            setSearchedUser({
-                username: window.location.pathname.split("/")[2],
-            });
+        let searchedUser = window.location.pathname.split("/")[2];
+        if(searchedUser !== undefined && searchedUser.length > 0) {
+            console.log("searching for user: " + searchedUser);
+            if(userData === null || userData.username === searchedUser) {
+                navigate("/profile")
+            } else {
+                const searchingUser = async (searchedUser) => {
+                    let result = await auth.getUserByUsername(searchedUser);
+                    if (result !== undefined) setSearchedUserData(result);
+                    else setUserNotFound(true);
+                    setIsLoading(false);
+                }
+                searchingUser(searchedUser).then(r =>
+                    console.log(searchedUser)
+                );
+            }
+        } else {
             setIsLoading(false);
         }
-    }, []);
+
+        return () => {
+            console.log("Unmounting")
+            setSearchedUserData(null);
+            setUserNotFound(null);
+        }
+
+    }, [window.location.pathname]);
 
     if(isLoading) {
-        return <div>Loading...</div>
+        // TODO: CREATE A LOADING COMPONENT
+        return (
+            <Container>
+                <Navbar />
+                <div>Loading...</div>
+            </Container>
+        )
+    } else if(userNotFound) {
+        // TODO: CREATE A USER_NOT_FOUND COMPONENT
+        return (
+            <Container>
+                <Navbar />
+                <div>User not found</div>
+            </Container>
+        )
     } else {
         return (
-            <>
+            <Container>
+                <Navbar />
                 <ProfileContainer>
-                    <ProfileInformation userData={searchedUser !== null ? searchedUser : userData} />
+                    <ProfileInformation isSearch={searchedUserData !== null} data={searchedUserData !== null ? searchedUserData : userData} />
                     <BodyProfile />
                 </ProfileContainer>
                 <div tw="absolute top-0 right-0">
-                    <button onClick={() => auth.disconnectUser()}>Logout</button>
+                    <button onClick={async () => await auth.disconnectUser()}>Logout</button>
                 </div>
-            </>
+            </Container>
         )
     }
 }

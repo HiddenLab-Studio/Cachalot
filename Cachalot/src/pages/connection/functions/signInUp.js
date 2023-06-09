@@ -86,6 +86,10 @@ export async function firebaseRegister(data) {
                 email: data.email,
                 lastLogin: dateTime,
                 photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
+                userFollower: {
+                    follower: [],
+                    following: [],
+                },
                 userXp: {
                     xp: 0,
                     level: 1,
@@ -166,6 +170,10 @@ export async function firebaseGoogleLogin() {
                         email: user.email,
                         photo: user.photoURL,
                         age: 0,
+                        userFollower: {
+                            follower: [],
+                            following: [],
+                        },
                         userXp: {
                             xp: 0,
                             level: 1,

@@ -57,7 +57,7 @@ const ShowcaseContainer = styled.div`
   
 `
 
-const Showcase = () => {
+const Showcase = (props) => {
     // State
     const [isEditing, setIsEditing] = useState(false);
 
@@ -65,12 +65,16 @@ const Showcase = () => {
 
     return (
         <ShowcaseContainer>
-            <ButtonContainer>
-                <button>
-                    <FaEdit />
-                    <span>Modifier la vitrine</span>
-                </button>
-            </ButtonContainer>
+            {!props.isSearch ?
+                <ButtonContainer>
+                    <button>
+                        <FaEdit />
+                        <span>Modifier la vitrine</span>
+                    </button>
+                </ButtonContainer>
+            :
+                null
+            }
             <BadgeContainer>
                 {test.map((badge, index) => {
                     return (

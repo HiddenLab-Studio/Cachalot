@@ -1,16 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import firebaseConfigClient from "../services/firebase.config.js";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-const AuthContext = createContext(undefined);
 
+// Firebase config
+import firebaseConfigClient from "../services/firebase.config.js";
 const { auth, db } = firebaseConfigClient();
+
+// Context
+const AuthContext = createContext(undefined);
 
 export const useAuth = () => {
     return useContext(AuthContext);
 }
 
-/* TODO: A REFAIRE */
 export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
@@ -53,10 +55,27 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    async function getUserByUsername(username){
+        let result = undefined;
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map(doc => doc.data());
+        const isUserExist = usersList.find(user => user.username === username);
+        if(isUserExist){
+            result = isUserExist;
+        } else {
+            console.log("Utilisateur non trouvé");
+        }
+        return result;
+    }
+
     const value = {
         currentUser,
         userData,
+        // Functions
         disconnectUser,
+        getUserByUsername,
+        // State
         setIsLoading
     }
 

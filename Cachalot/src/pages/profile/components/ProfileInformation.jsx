@@ -64,16 +64,25 @@ const ProfileInformationContainer = styled.div`
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
 
-const ProfileInformation = (props) => {
+const ProfileInformation = ({isSearch, data}) => {
+
+    const userData = data;
+    const userFollower = userData.userFollower;
+    const userXp = userData.userXp;
+
     return (
         <ProfileInformationContainer>
             <ImgWrapper width="180px">
-                <img src={props.userData.photo} alt="ProfilePicture"/>
+                <img src={userData.photo} alt="ProfilePicture"/>
             </ImgWrapper>
             <InformationContainer>
                 <div className="profile__name">
-                    <span>{props.userData.username}</span>
-                    <div>{props.userData.email}</div>
+                    <span>{userData.username}</span>
+                    {!isSearch ?
+                        <div>{userData.email}</div>
+                    :
+                        null
+                    }
                 </div>
                 <div className="profile__info">
                     <div>
@@ -82,15 +91,15 @@ const ProfileInformation = (props) => {
                     </div>
                     <div>
                         <FaPeopleCarry />
-                        <span>X abonnements / X abonnés</span>
+                        <span>{userFollower.following.length} abonnements / {userFollower.follower.length} abonnés</span>
                     </div>
                     <div>
                         <FaMagic />
-                        <span>X expériences cumulés</span>
+                        <span>{userXp.xp} expériences cumulés</span>
                     </div>
                 </div>
             </InformationContainer>
-            <Showcase userData={props.userData} />
+            <Showcase isSearch={isSearch} userData={userData} />
         </ProfileInformationContainer>
     )
 }

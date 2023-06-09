@@ -27,6 +27,9 @@ const router = createBrowserRouter([
     { path: "/settings", element: <HomePage /> },
     // About Page
     { path: "/about", element: <HomePage /> },
+
+    // 404
+    {path: "*", element: <div>Oupsss une erreur est survenue !</div>},
 ]);
 
 
