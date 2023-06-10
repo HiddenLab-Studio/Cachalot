@@ -1,16 +1,17 @@
 import tw, { styled } from "twin.macro";
 
-
 export const BodyProfileAsideContainer = styled.aside`
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex: 0 0 auto;
+  width: 400px;
 `
 export const BodyProfileSectionContainer = styled.section`
   display: flex;
   flex-direction: column;
-  flex-grow: 2;
+  flex: 1;
+  //flex-grow: 2;
 `
 export const BodyProfileContainer = styled.div`
   Display: flex;
@@ -30,6 +31,6 @@ export const ProfileContainer = styled.div`
   padding: 25px;
   width: 100%;
   margin: 0 auto;
-  max-width: 896px;
+  max-width: 1024px;
   gap: 32px;
 `
