@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 
-var exercisesJSON = undefined;
+var exercisesJSON = loadExercisesFromJSON();
 
 
 function loadExercisesFromJSON() {
@@ -28,6 +28,7 @@ function getExercicesFromJSON(Level) {
 
 //On vient prendre la solution de l'exercice et on défini un arrondi acceptable pour la réponse utilisateur (2 chiffres après la virgule)
 function AllowedSolution(solution) {
+    console.log(solution);
     const normalizeString = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
     return normalizeString(solution);
@@ -49,6 +50,8 @@ function checkSolution(solution, userSolution) {
 //Récupération de l'entrée utilisateur et vérification de la solution
 function getUserInputAndCheckSolutionFrench(answer, exerciseId) {
 
+    console.log(answer, exerciseId)
+    console.log(exercisesJSON[exerciseId].reponse)
     solution = exercisesJSON[exerciseId].reponse;
 
     if (checkSolution(solution, answer)) {

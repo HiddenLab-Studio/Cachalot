@@ -107,6 +107,17 @@ function getSolution(exerciseId) {
         });
 }
 
+//Si on appuie sur la touche entrée, on demande un nouvel exercice
+function handleKeyPress(event) {
+    // Check if the Enter key was pressed
+    if (event.keyCode === 13 || event.which === 13) {
+      // Execute your function here
+      getNewExerciseAndDisplay()
+      document.getElementById("valeurInput").focus();
+      // Remove the listener
+      document.removeEventListener('keypress', handleKeyPress);
+    }
+  }
 
 //Affichage du résultat de la réponse de l'utilisateur
 //Pourrait aller dans le viewFrenchExerciseGenerator.js mais il correspond aussi à une partie fonctionnelle du code
@@ -127,6 +138,9 @@ function displayResult(isCorrect) {
             document.getElementById("result").innerHTML = "";
             nextExerciseBtn.remove();//Suppression du bouton "Nouvel exercice"
         });
+          
+          document.addEventListener('keypress', handleKeyPress);
+          
     }
     else {
         document.getElementById("result").innerHTML = "Mauvaise réponse";

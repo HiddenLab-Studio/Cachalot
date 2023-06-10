@@ -1130,180 +1130,180 @@
     "id": 161,
     "type": "INPUT",
     "question": "Quel est le féminin de 'vert' ?",
-    "answer": "verte"
+    "reponse": "verte"
   },
   {
     "id": 162,
     "type": "INPUT",
     "question": "Quel est le féminin de 'sage' ?",
-    "answer": "sage"
+    "reponse": "sage"
   },
   {
     "id": 163,
     "type": "INPUT",
     "question": "Quel est le féminin de 'exigu' ?",
-    "answer": "exiguë"
+    "reponse": "exiguë"
   },
   {
     "id": 164,
     "type": "INPUT",
     "question": "Quel est le féminin de 'habituel' ?",
-    "answer": "habituelle"
+    "reponse": "habituelle"
   },
   {
     "id": 165,
     "type": "INPUT",
     "question": "Quel est le féminin de 'national' ?",
-    "answer": "nationale"
+    "reponse": "nationale"
   },
   {
     "id": 166,
     "type": "INPUT",
     "question": "Quel est le féminin de 'nul' ?",
-    "answer": "nulle"
+    "reponse": "nulle"
   },
   {
     "id": 167,
     "type": "INPUT",
     "question": "Quel est le féminin de 'bon' ?",
-    "answer": "bonne"
+    "reponse": "bonne"
   },
   {
     "id": 168,
     "type": "INPUT",
     "question": "Quel est le féminin de 'épars' ?",
-    "answer": "éparse"
+    "reponse": "éparse"
   },
   {
     "id": 169,
     "type": "INPUT",
     "question": "Quel est le féminin de 'complet' ?",
-    "answer": "complète"
+    "reponse": "complète"
   },
   {
     "id": 170,
     "type": "INPUT",
     "question": "Quel est le féminin de 'jaloux' ?",
-    "answer": "jalouse"
+    "reponse": "jalouse"
   },
   {
     "id": 171,
     "type": "INPUT",
     "question": "Quel est le féminin de 'long' ?",
-    "answer": "longue"
+    "reponse": "longue"
   },
   {
     "id": 172,
     "type": "INPUT",
     "question": "Quel est le féminin de 'blanc' ?",
-    "answer": "blanche"
+    "reponse": "blanche"
   },
   {
     "id": 173,
     "type": "INPUT",
     "question": "Quel est le féminin de 'léger' ?",
-    "answer": "légère"
+    "reponse": "légère"
   },
   {
     "id": 174,
     "type": "INPUT",
     "question": "Quel est le féminin de 'meilleur' ?",
-    "answer": "meilleure"
+    "reponse": "meilleure"
   },
   {
     "id": 175,
     "type": "INPUT",
     "question": "Quel est le féminin de 'fort' ?",
-    "answer": "forte"
+    "reponse": "forte"
   },
   {
     "id": 176,
     "type": "INPUT",
     "question": "Quel est le féminin de 'bel' ?",
-    "answer": "belle"
+    "reponse": "belle"
   },
   {
     "id": 177,
     "type": "INPUT",
     "question": "Quel est le féminin de 'fou' ?",
-    "answer": "folle"
+    "reponse": "folle"
   },
   {
     "id": 178,
     "type": "INPUT",
     "question": "Quel est le féminin de 'mou' ?",
-    "answer": "molle"
+    "reponse": "molle"
   },
   {
     "id": 179,
     "type": "INPUT",
     "question": "Quel est le féminin de 'nouveau' ?",
-    "answer": "nouvelle"
+    "reponse": "nouvelle"
   },
   {
     "id": 180,
     "type": "INPUT",
     "question": "Quel est le féminin de 'vieux' ?",
-    "answer": "vieille"
+    "reponse": "vieille"
   },
   {
     "id": 181,
     "type": "INPUT",
     "question": "Quel est le féminin de 'poussif' ?",
-    "answer": "poussive"
+    "reponse": "poussive"
   },
   {
     "id": 182,
     "type": "INPUT",
     "question": "Quel est le féminin de 'heureux' ?",
-    "answer": "heureuse"
+    "reponse": "heureuse"
   },
   {
     "id": 183,
     "type": "INPUT",
     "question": "Quel est le féminin de 'agé' ?",
-    "answer": "agée"
+    "reponse": "agée"
   },
   {
     "id": 184,
     "type": "INPUT",
     "question": "Quel est le féminin de 'confiant' ?",
-    "answer": "confiante"
+    "reponse": "confiante"
   },
   {
     "id": 185,
     "type": "INPUT",
     "question": "Quel est le féminin de 'courageux' ?",
-    "answer": "courageuse"
+    "reponse": "courageuse"
   },
   {
     "id": 186,
     "type": "INPUT",
     "question": "Quel est le féminin de 'énergique' ?",
-    "answer": ""
+    "reponse": ""
   },
   {
     "id": 187,
     "type": "INPUT",
     "question": "Quel est le féminin de 'gros' ?",
-    "answer": "grosse"
+    "reponse": "grosse"
   },
   {
     "id": 188,
     "type": "INPUT",
     "question": "Quel est le féminin de 'inventif' ?",
-    "answer": "inventive"
+    "reponse": "inventive"
   },
   {
     "id": 189,
     "type": "INPUT",
     "question": "Quel est le féminin de 'original' ?",
-    "answer": "originale"
+    "reponse": "originale"
   },
   {
     "id": 190,
     "type": "INPUT",
     "question": "Quel est le féminin de 'sérieux' ?",
-    "answer": "sérieuse"
+    "reponse": "sérieuse"
   }
 ]
