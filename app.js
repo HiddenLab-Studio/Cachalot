@@ -4,11 +4,11 @@ const port = 4000;
 
 
 //On défini le dossier indiqué comme dossier statique => on peut directement accéder aux fichiers du dossier côté client
-app.use(express.static('BonneEcole/src/exerciseCreator'));
+app.use(express.static('BonneEcole/src/exerciseMaker'));
 
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/BonneEcole/src/exerciseCreator/exerciseCreator.html');
+  res.sendFile(__dirname + '/BonneEcole/src/exerciseMaker/exerciseMaker.html');
 });
 
 

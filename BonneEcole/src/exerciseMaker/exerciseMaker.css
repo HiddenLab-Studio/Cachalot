@@ -1,0 +1,14 @@
+#exerciseDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#divExerciseTypeChoice{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
