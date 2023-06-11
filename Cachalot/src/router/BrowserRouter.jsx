@@ -6,8 +6,7 @@ import HomePage from "../pages/home/HomePage.jsx";
 import ExerciseHomePage from "../pages/exercise/ExerciseHomePage.jsx";
 import ExerciseOld from "../pages/exercise/Exercise.old.jsx";
 import ProfileHomePage from "../pages/profile/ProfileHomePage.jsx";
-import ConnectionHomePage from "../pages/connection/ConnectionHomePage.jsx";
-import Profile from "../pages/profile/components/Profile.jsx";
+import SearchUser from "../pages/profile/components/SearchUser.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -23,6 +22,7 @@ const router = createBrowserRouter([
     // Profile Page
     { path: "/profile", element: <ProfileHomePage isSearching={false} /> },
     { path: "/profile/:user", element: <ProfileHomePage isSearching={true} /> },
+    { path: "/user-search", element: <SearchUser /> },
     // Settings Page
     { path: "/settings", element: <HomePage /> },
     // About Page

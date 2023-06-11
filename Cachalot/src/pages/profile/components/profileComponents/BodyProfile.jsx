@@ -2,14 +2,16 @@ import React from "react";
 import tw from "twin.macro";
 
 // Context
-import {useCache} from "../../../context/cache/CacheManager.js";
+import {useCache} from "../../../../context/cache/CacheManager.js";
 
 // Styled components
 import {
     BodyProfileAsideContainer,
     BodyProfileContainer,
-    BodyProfileSectionContainer, FindFriendsContainer
-} from "../styles/ProfilePageStyle.js";
+    BodyProfileSectionContainer,
+    FindFriendsContainer,
+    JoinClassContainer
+} from "../../styles/ProfilePageStyle.js";
 
 // Components
 import Subscribers from "./subComponents/Subscribers.jsx";
@@ -44,7 +46,7 @@ const BodyProfile = ({isSearch, data}) => {
                     <>
                         <Link to={"/user-search"}>
                             <FindFriendsContainer>
-                                <img src="../../../../static/img/icons/find.png" alt="Search some friends"/>
+                                <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
                                 <div>
                                     <h1>Trouver des amis</h1>
                                     <span>Chercher d'autres membres de la communauté</span>
@@ -53,20 +55,20 @@ const BodyProfile = ({isSearch, data}) => {
                             </FindFriendsContainer>
                         </Link>
                         <Link to={"/join-class"}>
-                            <FindFriendsContainer>
-                                <img src="../../../../static/img/icons/class.png" alt="Join a class"/>
+                            <JoinClassContainer>
+                                <img src="../../../../../static/img/icons/class.png" alt="Join a class"/>
                                 <div>
                                     <h1>Rejoindre une classe</h1>
                                     <span>Apprendre à plusieurs, c'est encore mieux !</span>
                                 </div>
                                 <FaChevronRight />
-                            </FindFriendsContainer>
+                            </JoinClassContainer>
                         </Link>
                     </>
                     :
                     <Link to={"/user-search"}>
                         <FindFriendsContainer>
-                            <img src="../../../../static/img/icons/find.png" alt="Search some friends"/>
+                            <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
                             <div>
                                 <h1>Trouver des amis</h1>
                                 <span>Chercher d'autres membres de la communauté</span>

@@ -56,6 +56,30 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    async function getUsersListByUsername(username){
+        let result = [];
+        const usersCollection = collection(db, "users");
+        const usersSnapshot = await getDocs(usersCollection);
+        const usersList = usersSnapshot.docs.map(doc => {
+            const data = doc.data()
+            data.id = doc.id
+            return data
+        });
+
+        usersList.forEach(user => {
+            if(user.username.toLowerCase() === username){
+                result.push(user);
+            }
+        });
+
+        if(result.length === 0){
+            console.info("Aucun utilisateur trouvé");
+        }
+
+        return result;
+
+    }
+
     async function getUserByUsername(username){
         let result = undefined;
         const usersCollection = collection(db, "users");
@@ -145,6 +169,7 @@ export const AuthProvider = ({ children }) => {
         userData,
         // Functions
         disconnectUser,
+        getUsersListByUsername,
         getUserByUsername,
         getUserFriends,
         followUser,

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
 // Context
-import { useCache } from "../../../../context/cache/CacheManager.js";
+import { useCache } from "../../../../../context/cache/CacheManager.js";
 
 // Styled components
 import {
@@ -11,7 +11,7 @@ import {
     FollowingButton,
     FollowerButton,
     FriendsDiv, NoFollowerContainer
-} from "../../styles/SubscribersStyle.js";
+} from "../../../styles/SubscribersStyle.js";
 
 
 const Subscribers = ({isSearch, data}) => {

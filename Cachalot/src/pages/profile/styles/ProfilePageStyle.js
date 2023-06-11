@@ -33,6 +33,8 @@ export const FindFriendsContainer = styled.div`
   svg {
     color: ${props => props.theme.subText};
   }
+`
+export const JoinClassContainer = styled(FindFriendsContainer)`
   
 `
 

@@ -5,7 +5,7 @@ import {
     FaPlusCircle,
     FaMinusCircle
 } from "react-icons/fa";
-import {useAuth} from "../../../../context/AuthContext.js";
+import {useAuth} from "../../../../../context/AuthContext.js";
 
 const ButtonContainer = styled.div`
   display: flex;

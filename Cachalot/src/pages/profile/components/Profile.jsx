@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 // Components
 import Navbar from "../../../components/navbar/Navbar.jsx";
-import ProfileInformation from "./ProfileInformation.jsx";
-import BodyProfile from "./BodyProfile.jsx";
+import ProfileInformation from "./profileComponents/ProfileInformation.jsx";
+import BodyProfile from "./profileComponents/BodyProfile.jsx";
 
 // Styled components
 import {

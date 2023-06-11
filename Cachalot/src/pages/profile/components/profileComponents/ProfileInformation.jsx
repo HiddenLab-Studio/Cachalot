@@ -10,7 +10,7 @@ import {
 // Styled components
 import {
     ImgWrapper
-} from "../../../components/ui/GlobalStyle.js";
+} from "../../../../components/ui/GlobalStyle.js";
 
 
 const InformationContainer = styled.div``;
@@ -63,7 +63,7 @@ const ProfileInformationContainer = styled.div`
 
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
-import {useCache} from "../../../context/cache/CacheManager.js";
+import {useCache} from "../../../../context/cache/CacheManager.js";
 
 const ProfileInformation = ({isSearch, data}) => {
     const cacheManager = useCache();
