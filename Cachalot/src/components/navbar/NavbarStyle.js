@@ -158,6 +158,10 @@ export const NavbarContainer = styled.nav`
     padding: 5px;
     border-right: none;
     border-top: 2px solid ${props => props.theme.borderRightColor};
+    position: fixed;
+    width: 100%;
+    align-self: end;
+    
     ${LinkContainer} {
       justify-content: space-evenly;
       flex-direction: row;

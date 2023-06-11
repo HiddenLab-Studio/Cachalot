@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import tw, { styled } from "twin.macro";
 import FollowButton from "./FollowButton.jsx";
+import {useMediaQuery} from "react-responsive";
 
 // Styled components
 const BadgeContainer = styled.div``;
@@ -28,24 +29,32 @@ const Showcase = ({isSearch, data}) => {
     // State
     const [isEditing, setIsEditing] = useState(false);
 
+    // Responsive
+    const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
     // Data
-    console.info("Showcase data:")
-    console.log(data);
+    //console.info("Showcase data:")
+    //console.log(data);
 
     const test = ["../../../../../static/img/logo.png", 2, 3]
 
     return (
         <ShowcaseContainer>
             <FollowButton isSearch={isSearch} data={data} />
-            <BadgeContainer>
-                {test.map((badge, index) => {
-                    return (
-                        <div key={index}>
-                            <img src={badge} alt="badge" />
-                        </div>
-                    )
-                })}
-            </BadgeContainer>
+            {
+                !isOnMobile ?
+                    <BadgeContainer>
+                        {test.map((badge, index) => {
+                            return (
+                                <div key={index}>
+                                    <img src={badge} alt="badge" />
+                                </div>
+                            )
+                        })}
+                    </BadgeContainer>
+                    :
+                    null
+            }
         </ShowcaseContainer>
     )
 }

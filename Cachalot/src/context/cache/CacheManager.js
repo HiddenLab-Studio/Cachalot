@@ -1,11 +1,4 @@
-import {createContext, useContext, useEffect} from "react";
-
-// Firebase config
-import firebaseConfigClient from "../../services/firebase.config.js";
-import {doc, onSnapshot} from "firebase/firestore";
-
-const { auth, db } = firebaseConfigClient();
-
+import { createContext, useContext } from "react";
 
 // Context
 const CacheContext = createContext(undefined);
@@ -16,52 +9,17 @@ export const useCache = () => {
 
 export const CacheProvider = ({ children }) => {
 
-    let friendsCache = {
-        following: [],
-        follower: [],
-    }
+    let friendsCache = { following: [], follower: [] };
 
-    /*useEffect(() => {
-        const onFollowingChange = async () => {
-            const user = auth.currentUser;
-            const userFollowing = doc(db, "users", user.uid + '/following');
-            await onSnapshot(userFollowing, (snapshot) => {
-                snapshot.docChanges().forEach((change) => {
-                    if (change.type === "added") {
-                        return {
-                            username: change.doc.data().username,
-                            photo: change.doc.data().photo,
-                        };
-                    }
-                    if (change.type === "removed") {
-                        return {
-                            username: change.doc.data().username,
-                            photo: change.doc.data().photo,
-                        };
-                    }
-                })
-            })
-        }
-
-        return onFollowingChange;
-
-    }, []);*/
-
-
-    function isFollowerCached(username){
-        return friendsCache.follower.find(follower => follower.username === username);
-    }
-    function isFollowingCached(username){
-        return friendsCache.following.find(following => following.username === username);
-    }
-
-
-
-
+    function isFollowerCached(username){ return friendsCache.follower.find(follower => follower.username === username); }
+    function isFollowingCached(username){ return friendsCache.following.find(following => following.username === username); }
 
     const functions = {
-        addFollower: (followerList) => {
-            //console.log(followerList);
+        // Friends cache
+        setFriendsCache: (followerList, followingList) => {
+            console.log({followerList, followingList});
+
+
             followerList.forEach(follower => {
                 if(!isFollowerCached(follower.username)){
                     friendsCache.follower.push({
@@ -72,26 +30,70 @@ export const CacheProvider = ({ children }) => {
                     console.info("L'abonné est déjà dans le cache");
                 }
             });
-        },
 
-        addFollowing: (followingList) => {
-            //console.log(followingList);
-            followingList.forEach(follower => {
-                if(!isFollowingCached(follower.username)){
+            followingList.forEach(following => {
+                if(!isFollowingCached(following.username)){
                     friendsCache.following.push({
-                        username: follower.username,
-                        photo: follower.photo,
+                        username: following.username,
+                        photo: following.photo,
                     });
                 } else {
                     console.info("L'abonné est déjà dans le cache");
                 }
             });
         },
-
+        addFriends: (type, object) => {
+            console.log(friendsCache);
+            console.log({type, object})
+            switch (type) {
+                case "follower":
+                    if(!isFollowerCached(object.username)){
+                        console.info("Ajout d'un abonné");
+                        friendsCache.follower.push({
+                            username: object.username,
+                            photo: object.photo,
+                        });
+                    }
+                    break;
+                case "following":
+                    if(!isFollowingCached(object.username)){
+                        console.info("Ajout d'un abonnement");
+                        friendsCache.following.push({
+                            username: object.username,
+                            photo: object.photo,
+                        });
+                    } else {
+                        console.info("L'abonnement est déjà dans le cache");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
+        removeFriends: (type, username) => {
+            switch (type) {
+                case "follower":
+                    if(isFollowerCached(username)){
+                        console.info("Suppression d'un abonné");
+                        friendsCache.follower = friendsCache.follower.filter(follower => follower.username !== username);
+                    } else {
+                        console.info("L'abonné n'est pas dans le cache");
+                    }
+                    break;
+                case "following":
+                    if(isFollowingCached(username)){
+                        console.info("Suppression d'un abonnement");
+                        friendsCache.following = friendsCache.following.filter(following => following.username !== username);
+                    } else {
+                        console.info("L'abonnement n'est pas dans le cache");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        },
         getFriendsCache: () => friendsCache,
-
         isFriendsCacheEmpty: () => friendsCache.follower.length === 0 && friendsCache.following.length === 0,
-
         clearFriendsCache: () => {
             friendsCache = {
                 following: [],

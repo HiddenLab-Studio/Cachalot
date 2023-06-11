@@ -9,7 +9,7 @@ export const SearchContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  padding-top: 36px;
+  padding: 36px 25px;
   margin: 0 auto;
   max-width: 1024px;
   gap: 32px;
@@ -30,6 +30,16 @@ export const SearchContainer = styled.div`
   
   ${SearchResultContainer}  {
     
+    .searching, .userNotFound {
+      display: flex;
+      justify-content: center;
+      h2 {
+        font-size: var(--fs-m);
+        font-family: "Din_Round_Bold", sans-serif;
+        color: ${props => props.theme.text};
+      }
+    }
+    
     .map {
       display: flex;
       flex-direction: column;
@@ -38,7 +48,7 @@ export const SearchContainer = styled.div`
       border-radius: 12px;
       min-height: auto;
       max-height: 512px;
-      width: 512px;
+      width: calc(100% - 64px);
       margin: auto; 
       
       ${ElementDiv} {
@@ -100,5 +110,6 @@ export const SearchContainer = styled.div`
       color: ${props => props.theme.iconColor};
     }
   }
+  
   
 `

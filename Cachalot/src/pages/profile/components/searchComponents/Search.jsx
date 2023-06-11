@@ -58,30 +58,38 @@ const Search = () => {
                 </div>
                 <InputContainer>
                     <FaSearch />
-                    <input id="searchInput" type="text" placeholder="Saisissez le nom d'utilisateur de la personne"/>
+                    <input id="searchInput" type="text" placeholder="Nom d'utilisateur"/>
                 </InputContainer>
             </HeaderContainer>
             <SearchResultContainer>
                 {
                     isSearching !== undefined ?
-                        isSearching ? <h1>Recherche...</h1>
-                            :
-                            <div className="map">
-                                {
-                                    search.map((user, index) => {
-                                        console.log(user);
-                                        return (
-                                            <ElementDiv key={index}>
-                                                <Link to={"/profile/" + user.username}>
-                                                    <img src={user.photo} alt="profile picture"/>
-                                                    <span>{user.username}</span>
-                                                    <FaChevronRight />
-                                                </Link>
-                                            </ElementDiv>
-                                        )
-                                    })
-                                }
+                        isSearching ?
+                            <div className="searching">
+                                <h2>Loading...</h2>
                             </div>
+                            :
+                                search.length > 0 ?
+                                    <div className="map">
+                                        {
+                                            search.map((user, index) => {
+                                                console.log(user);
+                                                return (
+                                                    <ElementDiv key={index}>
+                                                        <Link to={"/profile/" + user.username}>
+                                                            <img src={user.photo} alt="profile picture"/>
+                                                            <span>{user.username}</span>
+                                                            <FaChevronRight />
+                                                        </Link>
+                                                    </ElementDiv>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                :
+                                    <div className="userNotFound">
+                                        <h2>Aucun utilisateur trouvé !</h2>
+                                    </div>
                         : null
                 }
             </SearchResultContainer>

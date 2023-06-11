@@ -44,16 +44,24 @@ export const BodyProfileAsideContainer = styled.aside`
   gap: 16px;
   flex: 0 0 auto;
   width: 400px;
+  transition: all 0.1s ease-in-out;
 `
 export const BodyProfileSectionContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
   //flex-grow: 2;
+  
+  .gridContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
 `
 export const BodyProfileContainer = styled.div`
   Display: flex;
   flex-direction: row;
+  
   h1 {
     font-family: "Din_Round_Bold", sans-serif;
     font-size: var(--fs-sl);
@@ -71,4 +79,27 @@ export const ProfileContainer = styled.div`
   margin: 0 auto;
   max-width: 1024px;
   gap: 32px;
+  
+  // Responsive
+  @media (min-width: 768px) and (max-width: 1200px) {
+    ${BodyProfileContainer} {
+      ${BodyProfileAsideContainer} {
+        width: 375px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    max-height: calc(100vh - 85px);
+    overflow-y: auto;
+    
+    ${BodyProfileContainer} {
+      flex-direction: column;
+      align-items: flex-start;
+      ${BodyProfileAsideContainer} {
+        width: 100%;
+      }
+    }
+  }
+  
 `

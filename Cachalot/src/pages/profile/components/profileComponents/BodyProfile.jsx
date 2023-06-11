@@ -14,25 +14,36 @@ import {
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
+import { Link } from "react-router-dom";
 import Subscribers from "./subComponents/Subscribers.jsx";
 
 // Icons
-import {FaChevronRight} from "react-icons/fa";
-import {Link} from "react-router-dom";
+import { FaChevronRight } from "react-icons/fa";
 
 
 const BodyProfile = ({isSearch, data}) => {
     const cacheManager = useCache();
 
-    console.info("BodyProfile data:");
-    console.log(data)
+    //console.info("BodyProfile data:");
+    //console.log(data)
 
     return (
         <BodyProfileContainer>
             <BodyProfileSectionContainer>
                 <h1>Statistiques</h1>
-                <div>
-
+                <div className="gridContainer">
+                    <div>
+                        <h2>Expériences</h2>
+                    </div>
+                    <div>
+                        <h2>Badges</h2>
+                    </div>
+                    <div>
+                        <h2>Badges</h2>
+                    </div>
+                    <div>
+                        <h2>Badges</h2>
+                    </div>
                 </div>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>

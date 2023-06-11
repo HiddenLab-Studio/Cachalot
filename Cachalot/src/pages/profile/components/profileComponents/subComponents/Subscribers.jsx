@@ -20,7 +20,7 @@ const Subscribers = ({isSearch, data}) => {
     // State
     const [followingSection, setFollowingSection] = useState(true);
 
-    console.log("Subscribers data: ", data);
+    //console.log("Subscribers data: ", data);
     const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
 
     return (

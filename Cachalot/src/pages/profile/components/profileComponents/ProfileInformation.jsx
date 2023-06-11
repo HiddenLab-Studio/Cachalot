@@ -1,5 +1,8 @@
 import tw, { styled } from "twin.macro";
 
+// Context
+import {useCache} from "../../../../context/cache/CacheManager.js";
+
 // Icons
 import {
     FaClock,
@@ -7,18 +10,23 @@ import {
     FaMagic
 } from "react-icons/fa";
 
-// Styled components
-import {
-    ImgWrapper
-} from "../../../../components/ui/GlobalStyle.js";
-
-
 const InformationContainer = styled.div``;
 const ProfileInformationContainer = styled.div`
   display: flex;
   gap: 32px;
   padding: 0 0 24px;
   border-bottom: 2px solid ${props => props.theme.borderRightColor};
+
+  .imgWrapper {
+    display: flex;
+    justify-content: center;
+    img {
+      width: 180px;
+      height: 180px;
+      border: 1px solid black;
+      border-radius: 50%;
+    }
+  }
   
   ${InformationContainer} {
     display: flex;
@@ -57,27 +65,62 @@ const ProfileInformationContainer = styled.div`
         }
       }
     }
+  }
+
+  // Responsive
+  @media (min-width: 768px) and (max-width: 1200px) {
+    
+    ${InformationContainer} {
+      
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: row-reverse;
+    .imgWrapper {
+      img {
+        width: 92px;
+        height: 92px;
+      }
+    }
+    
+    ${InformationContainer} {
+      flex-grow: 1;
+      .profile__name {
+        font-size: var(--fs-m);
+      }
+      .profile__info {
+        span {
+          font-size: var(--fs-ss);
+        }
+      }
+    }
+
     
   }
+  
 `
 
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
-import {useCache} from "../../../../context/cache/CacheManager.js";
+import {useMediaQuery} from "react-responsive";
 
 const ProfileInformation = ({isSearch, data}) => {
     const cacheManager = useCache();
 
-    console.log(data);
+    //console.log(data);
     const userData = isSearch ? data.searchedUser.userData : data.currentUserData;
     const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
     const currentXp = isSearch ? data.searchedUser.userData.userXp.currentXp : data.currentUserData.userXp.currentXp;
 
+    // Responsive
+    const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
     return (
         <ProfileInformationContainer>
-            <ImgWrapper width="180px">
+            <div className="imgWrapper">
                 <img src={userData.photo} alt="ProfilePicture"/>
-            </ImgWrapper>
+            </div>
             <InformationContainer>
                 <div className="profile__name">
                     <span>{userData.username}</span>
@@ -102,10 +145,20 @@ const ProfileInformation = ({isSearch, data}) => {
                     </div>
                 </div>
             </InformationContainer>
-            <Showcase
-                isSearch={isSearch}
-                data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
-            />
+            {isOnMobile ?
+                isSearch ?
+                        <Showcase
+                            isSearch={isSearch}
+                            data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                        />
+                    :
+                        null
+                :
+                <Showcase
+                    isSearch={isSearch}
+                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                />
+            }
         </ProfileInformationContainer>
     )
 }

@@ -39,8 +39,7 @@ const Profile = (props) => {
             // if the cache is empty, load the data from the database
             if(cacheManager.isFriendsCacheEmpty()){
                 let result = await auth.getUserFriends(id);
-                cacheManager.addFollower(result.follower);
-                cacheManager.addFollowing(result.following);
+                cacheManager.setFriendsCache(result.follower, result.following);
                 return result;
             } else {
                 // if the cache is not empty, load the data from the cache
@@ -58,6 +57,7 @@ const Profile = (props) => {
         let searchedUser = window.location.pathname.split("/")[2];
         if(searchedUser !== undefined && searchedUser.length > 0) {
             console.info("searching for user: " + searchedUser + "...");
+            console.log("Friends cache: ", cacheManager.getFriendsCache());
             // if the searched user is the current user, redirect to the current user's profile
             if(auth.userData === null || auth.userData.username === searchedUser) {
                 navigate("/profile")
@@ -101,7 +101,7 @@ const Profile = (props) => {
             </Container>
         )
     } else {
-        console.info("searchedUser: " + searchedUser);
+        //console.info("searchedUser: " + searchedUser);
         return (
             <Container>
                 <Navbar />
