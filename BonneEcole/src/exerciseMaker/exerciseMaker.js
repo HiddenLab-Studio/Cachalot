@@ -1,5 +1,19 @@
 //Au chargement de la page, on va générer tous les éléments nécessaires à la création d'un exercice
 
+//Objet qui va contenir toutes les informations de l'exercice
+var exerciseObjectClient = {
+    type: undefined,
+    title:undefined,
+    question: undefined,
+    answer: undefined,
+    answer1: undefined,
+    answer2: undefined,
+    answer3: undefined,
+    answer4: undefined,
+    answer5: undefined,
+}
+
+
 
 //D'abord un input pour le titre de l'exercice
 var titleInput = document.createElement("input");
@@ -47,7 +61,7 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         }
     }
 
-    if(document.getElementById("buttonValidate") != null){
+    if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
     }
 
@@ -70,6 +84,20 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
 
+
+    //Listener sur le bouton valider -> création de l'exercice INPUT
+    document.getElementById("buttonValidate").addEventListener("click", function () {
+            
+            //On récupère les valeurs des inputs et on les met dans l'objet
+            exerciseObjectClient.type = "INPUT";
+            exerciseObjectClient.title = document.getElementById("titleInput").value;
+            exerciseObjectClient.question = document.getElementById("consigneInput").value;
+            exerciseObjectClient.answer = document.getElementById("answerInput").value;
+
+            console.log(exerciseObjectClient);
+
+    });
+
 });
 
 //Listener sur le bouton QCM
@@ -80,7 +108,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
         document.getElementById("answerInput").remove();
     }
 
-    if(document.getElementById("buttonValidate") != null){
+    if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
     }
 
@@ -108,11 +136,72 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             document.getElementById("divAnswer" + i).appendChild(answerCheckbox);
         }
     }
-    
+
     //Génération du bouton valider
     let buttonValidate = document.createElement("button");
     buttonValidate.setAttribute("id", "buttonValidate");
     buttonValidate.setAttribute("class", "buttonExerciseType");
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
+
+    //Listener sur le bouton valider -> création de l'exercice
+    console.log(exerciseObjectClient);
+
+    //Listener sur le bouton valider -> création de l'exercice QCM
+    document.getElementById("buttonValidate").addEventListener("click", function () {
+            
+        //On récupère les valeurs des inputs et on les met dans l'objet
+        exerciseObjectClient.type = "QCM";
+        exerciseObjectClient.title = document.getElementById("titleInput").value;
+        exerciseObjectClient.question = document.getElementById("consigneInput").value;
+        
+        //on vérifie que l'élément existe en HTML avant de le récupérer
+        if(document.getElementById("answerInputQCM1") != null){
+            exerciseObjectClient.answer1 = document.getElementById("answerInputQCM1").value;
+        }
+        if(document.getElementById("answerInputQCM2") != null){
+            exerciseObjectClient.answer2 = document.getElementById("answerInputQCM2").value;
+        }
+        if(document.getElementById("answerInputQCM3") != null){
+            exerciseObjectClient.answer3 = document.getElementById("answerInputQCM3").value;
+        }
+        if(document.getElementById("answerInputQCM4") != null){
+            exerciseObjectClient.answer4 = document.getElementById("answerInputQCM4").value;
+        }
+        if(document.getElementById("answerInputQCM5") != null){
+            exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
+        }
+
+
+        console.log(exerciseObjectClient);
+
 });
+});
+
+
+
+//De base, pas de type d'exercice sélectionné
+var currentExerciseType = undefined;
+
+//Systeme de surbrillance du type d'exo sélectionné
+// Récupérer tous les boutons
+let buttonsExerciseTypeContainer = document.querySelectorAll('#divExerciseTypeChoice button');
+
+// Ajouter un écouteur d'événement pour chaque bouton
+buttonsExerciseTypeContainer.forEach(function (button) {
+    button.addEventListener('click', function () {
+        // Retirer la classe "active" de tous les boutons
+        buttonsExerciseTypeContainer.forEach(function (btn) {
+            btn.classList.remove('activeLevel');
+        });
+
+        // Ajouter la classe "active" au bouton cliqué
+        button.classList.add('activeLevel');
+    });
+});
+
+
+
+
+
+

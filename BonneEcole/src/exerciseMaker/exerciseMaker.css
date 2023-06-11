@@ -12,3 +12,7 @@
     align-items: center;
     gap: 5px;
 }
+
+#divExerciseTypeChoice .activeLevel {
+    background-color: #f00; /* Couleur différente pour le bouton actif */
+  }
