@@ -86,5 +86,21 @@ app.get('/xp-data', (req, res) => {
     });
 });
 
+app.get('/quests', (req, res) => {
+    fs.readFile('./src/firebase-client/quests.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Une erreur s\'est produite lors de la lecture du fichier quests.json');
+        } else {
+            try {
+                const quests = JSON.parse(data);
+                res.json(quests);
+            } catch (error) {
+                console.error(error);
+                res.status(500).send('Une erreur s\'est produite lors du traitement du fichier quests.json');
+            }
+        }
+    });
+});
 
 

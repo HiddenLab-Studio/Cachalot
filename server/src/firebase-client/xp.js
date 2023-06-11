@@ -6,22 +6,6 @@ import firebaseConfigClient from "../composable/firebaseConfigClient.js";
 // Firebase configuration
 const { auth, db } = firebaseConfigClient();
 
-async function getXP() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    const xp = docSnap.data().xp;
-    return xp;
-}
-
-async function getLevel() {
-    const user = auth.currentUser;
-    const docRef = doc(db, 'users', user.uid);
-    const docSnap = await getDoc(docRef);
-    const level = docSnap.data().level;
-    return level;
-}
-
 async function addXPToUser() {
     const user = auth.currentUser;
     const docRef = doc(db, 'users', user.uid);

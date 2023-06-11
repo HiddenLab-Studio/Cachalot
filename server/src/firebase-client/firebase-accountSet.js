@@ -2,56 +2,56 @@
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import { handleQuestCompletion } from "./quests.js";
 
-
-//Firebase configuration
+// Firebase configuration
 const { auth, db } = firebaseConfigClient();
+
+let messageCount = 0;
 
 /***** SIGNOUT */
 function clickSignOut() {
-    //On recupere l'evenement du bouton signOut
+    // On récupère l'événement du bouton signOut
     let clickSignout = document.getElementById('signOut');
     clickSignout.addEventListener('click', () => {
         // Sign out fonction de firebase
         signOut(auth).then(() => {
-            // Youpi il est deco
+            // Youpi il est déconnecté
             console.log('Sign-out successful.');
             window.location.href = "/login";
         }).catch((error) => {
-            // On non une erreur
+            // Oups, une erreur s'est produite
             console.log('An error happened.');
         });
     })
 }
 
-/***** DELET ACCOUNT */
+/***** DELETE ACCOUNT */
 function clickDeleteAccount() {
-    //Event listener pour le bouton deleteAccount
+    // Event listener pour le bouton deleteAccount
     let clickDeleteAccount = document.getElementById('deleteAccount');
     clickDeleteAccount.addEventListener('click', () => {
-        //On recupére l'utilisateur connecté
+        // On récupère l'utilisateur connecté
         const user = auth.currentUser;
-        //On récupère le document suppleémentaire de l'utilisateur
+        // On récupère le document supplémentaire de l'utilisateur
         const docRef = doc(db, 'users', user.uid)
-        //On supprime le document supplémentaire de l'utilisateur
+        // On supprime le document supplémentaire de l'utilisateur
         deleteDoc(docRef).then(() => {
-            //On supprime l'utilisateur
+            // On supprime l'utilisateur
             deleteUser(user).then(() => {
-                //On le redirige vers la page de login
+                // On le redirige vers la page de login
                 window.location.href = "/login";
             }).catch((error) => {
                 console.error("Pb supp Monsieur:", error);
-            }
-            );
+            });
         }).catch((error) => {
             console.error("Pb supp doc Monsieur", error);
         });
     })
 }
 
-
-/**GET CANNAL */
-function room() {
+/** GET ROOM */
+function getRoom() {
     const room = document.getElementById('room').value;
     return room;
 }
@@ -59,26 +59,26 @@ function room() {
 window.room = async function (e) {
     const messageList = document.getElementById('messageList');
     messageList.innerHTML = "";
-    room()
+    getRoom();
     await getMessage();
 }
 
 /***** SEND MESSAGE */
 async function sendMessage(e) {
     e.preventDefault();
-    //On recupere l'utilisateur connecté
+    // On récupère l'utilisateur connecté
     const user = auth.currentUser;
-    //On recupere le username de l'utilisateur
 
+    // On récupère le username de l'utilisateur
     const docRef = doc(db, "users", user.uid);
-    await getDoc(docRef).then((doc) => {
-        //On recupere le message
+    await getDoc(docRef).then(async (doc) => {
+        // On récupère le message
         const message = document.getElementById('inputMessage').value;
-        //On prend la date 
+        // On prend la date
         const date = new Date();
-        //On recupere l'heure et la date  
+        // On récupère l'heure et la date
         const hour = date.toLocaleDateString() + " | " + date.toLocaleTimeString();
-        //On ajoute les info dans un objet
+        // On ajoute les infos dans un objet
         const data = {
             message: message,
             user: doc.data().username,
@@ -86,17 +86,21 @@ async function sendMessage(e) {
             like: 0,
         }
 
+        // On ajoute le message dans la collection messages
+        await addDoc(collection(db, getRoom()), data);
+        document.getElementById('inputMessage').value = "";
+        messageCount++;
 
-        //On ajoute le message dans la collection messages
-        addDoc(collection(db, room()), data).then(() => {
-            document.getElementById('inputMessage').value = "";
-        })
-
+        if (messageCount === 2) {
+            await handleQuestCompletion();
+            console.log("Quête terminée !");
+            messageCount = 0;
+        }
     }).catch((error) => {
         console.error("Error adding document: ", error);
     });
-
 }
+
 
 window.message = function (e) {
     sendMessage(e);
@@ -107,24 +111,23 @@ function scrollToBottom() {
     messageList.scrollTop = messageList.scrollHeight;
 }
 
-//on recupere les messages envoyé 
+// On récupère les messages envoyés
 function getMessage() {
-    //On recupere la collection messages en fonction de le room
-    const messagesCollection = collection(db, room());
-    //On recupere les messages par date croissante
+    // On récupère la collection messages en fonction de la room
+    const messagesCollection = collection(db, getRoom());
+    // On récupère les messages par date décroissante
     const message = query(messagesCollection, orderBy("like", 'desc'));
 
-    //On regarde le changement dans la collection
+    // On regarde les changements dans la collection
     onSnapshot(message, (snapshot) => {
         snapshot.docChanges().forEach((change) => {
-            //Si le changement est un ajout
+            // Si le changement est un ajout
             if (change.type === "added") {
-                //On recupere les données du message
-                //data main du message
+                // On récupère les données du message
                 const data = change.doc.data();
                 const id = change.doc.id;
 
-                //data du message
+                // On extrait les informations du message
                 const message = data.message;
                 const user = data.user;
                 const date = data.date;
@@ -156,60 +159,43 @@ function getMessage() {
     });
 }
 
-
-
-/** SYSTEME DE LIKE */
 /***** LIKE */
 function like(id) {
-    //On recupere l'id du message avec le split qui prend le deuxieme element du "tableau"
+    // On récupère l'id du message avec le split qui prend le deuxième élément du tableau
     const idMessage = id.split('+')[1];
     const user = auth.currentUser;
 
     console.log(idMessage);
-    console.log(room());
-    //On recupere le document du message
-    const docRef = doc(db, room(), idMessage);
-    //On recupere le document de l'utilisateur
-    const userDocRef = doc(db, room() + "/" + idMessage + "/like", user.uid);
-    //On regarde si l'utilisateur a deja like
+    console.log(getRoom());
+    // On récupère le document du message
+    const docRef = doc(db, getRoom(), idMessage);
+    // On récupère le document de l'utilisateur
+    const userDocRef = doc(db, `${getRoom()}/${idMessage}/like`, user.uid);
+    // On regarde si le like existe déjà pour cet utilisateur
     getDoc(userDocRef).then((doc) => {
+        // Si le like existe déjà
         if (doc.exists()) {
-            console.log("Il a deja like");
-            return;
-        }
-        //Sinon on push le like avec l'utilisteur qui a like dans la collection like
-        else {
-            getDoc(docRef).then((doc) => {
-                //On recupere les likes
-                const like = doc.data().like;
-                //On update le document avec 1 like en plus 
-                updateDoc(docRef, {
-                    like: like + 1,
-                    //On update la collection des différene utilisateur qui ont like
-                }).then(() => {
-                    console.log("Perfecto");
-                    setDoc(userDocRef, {
-                        like: 1,
-                    })
-                }).catch((error) => {
-                    console.error("Error getting document:", error);
+            console.log("You have already liked this message.");
+        } else {
+            // Sinon on ajoute le like pour cet utilisateur
+            updateDoc(userDocRef, { liked: true }).then(() => {
+                // On récupère le like actuel du message
+                getDoc(docRef).then((doc) => {
+                    const currentLikes = doc.data().like;
+                    // On incrémente le like
+                    updateDoc(docRef, { like: currentLikes + 1 });
                 });
-            }).catch((error) => {
-                console.error("Error getting document:", error);
             });
         }
-    })
+    });
 }
 
-
-window.like = function (id) {
-    like(id);
+// Fonction d'initialisation
+function init() {
+    clickSignOut();
+    clickDeleteAccount();
+    getRoom();
+    getMessage();
 }
 
-
-
-
-
-getMessage();
-clickSignOut();
-clickDeleteAccount();
+init();
