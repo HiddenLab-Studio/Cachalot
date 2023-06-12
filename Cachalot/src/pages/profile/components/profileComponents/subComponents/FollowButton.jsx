@@ -39,6 +39,14 @@ const ButtonContainer = styled.div`
       background-color: ${props => props.theme.buttonBgHover};
     }
   }
+  
+    @media (max-width: 768px) {
+      button {
+        position: absolute;
+        height: 32px;
+      }
+    }
+  
 `;
 
 
@@ -69,57 +77,66 @@ const FollowButton = ({ isSearch, data }) => {
         }
     }, []);
 
-    if(!isOnMobile){
-        if (!isSearch) {
+    if (!isSearch) {
+        return (
+            <ButtonContainer>
+                <button>
+                    <FaEdit/>
+                    <span>Modifier la vitrine</span>
+                </button>
+            </ButtonContainer>
+        )
+    } else {
+        if (isFollowing) {
             return (
                 <ButtonContainer>
-                    <button>
-                        <FaEdit/>
-                        <span>Modifier la vitrine</span>
+                    <button onClick={async () => {
+                        let result = await auth.unfollowUser(data.searchedUser.userData);
+                        if (result) {
+                            // On update le cache pour ne plus afficher l'utilisateur dans la liste des abonnements
+                            cacheManager.removeFriends("following", data.searchedUser.userData.username);
+                            setIsFollowing(false);
+                        } else {
+                            console.error("Failed to unfollow user!");
+                        }
+                    }}>
+                        <FaMinusCircle/>
+                        {
+                            !isOnMobile ?
+                                <span>Ne plus suivre</span>
+                                :
+                                null
+                        }
                     </button>
                 </ButtonContainer>
             )
         } else {
-            if (isFollowing) {
-                return (
-                    <ButtonContainer>
-                        <button onClick={async () => {
-                            let result = await auth.unfollowUser(data.searchedUser.userData);
-                            if (result) {
-                                // On update le cache pour ne plus afficher l'utilisateur dans la liste des abonnements
-                                cacheManager.removeFriends("following", data.searchedUser.userData.username);
-                                setIsFollowing(false);
-                            } else {
-                                console.error("Failed to unfollow user!");
-                            }
-                        }}>
-                            <FaMinusCircle/>
-                            <span>Ne plus suivre</span>
-                        </button>
-                    </ButtonContainer>
-                )
-            } else {
-                return (
-                    <ButtonContainer>
-                        <button onClick={async () => {
-                            let result = await auth.followUser(data.searchedUser.userData);
-                            if (result) {
-                                // On update le cache pour afficher l'utilisateur dans la liste des abonnements
-                                cacheManager.addFriends("following", {username: data.searchedUser.userData.username, photo: data.searchedUser.userData.photo});
-                                setIsFollowing(true);
-                            } else {
-                                console.error("Failed to follow user!");
-                            }
-                        }}>
-                            <FaPlusCircle/>
-                            <span>Suivre</span>
-                        </button>
-                    </ButtonContainer>
-                )
-            }
+            return (
+                <ButtonContainer>
+                    <button onClick={async () => {
+                        let result = await auth.followUser(data.searchedUser.userData);
+                        if (result) {
+                            // On update le cache pour afficher l'utilisateur dans la liste des abonnements
+                            cacheManager.addFriends("following", {
+                                username: data.searchedUser.userData.username,
+                                photo: data.searchedUser.userData.photo
+                            });
+                            setIsFollowing(true);
+                        } else {
+                            console.error("Failed to follow user!");
+                        }
+                    }}>
+                        <FaPlusCircle/>
+                        {
+                            !isOnMobile ?
+                                <span>Suivre</span>
+                                :
+                                null
+                        }
+                    </button>
+                </ButtonContainer>
+            )
         }
-    } else {
-        return null;
     }
 
 

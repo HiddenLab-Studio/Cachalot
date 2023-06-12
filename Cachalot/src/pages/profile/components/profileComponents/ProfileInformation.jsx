@@ -76,7 +76,7 @@ const ProfileInformationContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    flex-direction: row-reverse;
+    //flex-direction: row-reverse;
     .imgWrapper {
       img {
         width: 92px;
@@ -91,7 +91,7 @@ const ProfileInformationContainer = styled.div`
       }
       .profile__info {
         span {
-          font-size: var(--fs-ss);
+          font-size: var(--fs-xs);
         }
       }
     }
