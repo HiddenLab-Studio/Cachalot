@@ -211,7 +211,7 @@ export const AuthProvider = ({ children }) => {
 
 
     //Fonction pour upload une image
-    async function uploadImage(name, image , dossier) {
+    async function uploadImage(name, image, dossier) {
         // Obtenir l'objet blob à partir de l'URL blob
         const response = await fetch(image);
         const blob = await response.blob();
@@ -226,25 +226,106 @@ export const AuthProvider = ({ children }) => {
         return urlImage;
     }
 
+
+    //Fonction pour update le nom de l'utilisateur pour les personnes qu'il suit
+    async function updateNameForFollowing(name, photo, id) {
+        const userFollowerColl = collection(db, "users/" + id + "/following");
+        const userFollowerDoc = await getDocs(userFollowerColl);
+        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
+        if (userFollower.length == 0) {
+            return;
+        }
+        else {
+            userFollower.forEach(async (userFollower) => {
+                const allUser = collection(db, "users");
+                const allUserDoc = await getDocs(allUser);
+                const allUserList = allUserDoc.docs.map(doc => {
+                    const data = doc.data()
+                    data.id = doc.id
+                    return data
+                });
+                allUserList.forEach(async (userTest) => {
+                    if (userTest.username === userFollower.username) {
+                        const userFollowerRef = doc(db, "users", userTest.id + '/follower/' + id);
+                        await updateDoc(userFollowerRef, {
+                            displayName: name,
+                            photo : photo,
+                        })
+                    }
+                })
+            });
+        }
+    }
+
+
+    //update le nom de l'utilisateur pour les personnes qui le suivent
+    async function updateNameForFollower(name, photo, id) {
+        const userFollowerColl = collection(db, "users/" + id + "/follower");
+        const userFollowerDoc = await getDocs(userFollowerColl);
+        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
+        if (userFollower.length == 0) {
+            return;
+        }
+        else {
+            userFollower.forEach(async (userFollower) => {
+                const allUser = collection(db, "users");
+                const allUserDoc = await getDocs(allUser);
+                const allUserList = allUserDoc.docs.map(doc => {
+                    const data = doc.data()
+                    data.id = doc.id
+                    return data
+                });
+                allUserList.forEach(async (userTest) => {
+                    if (userTest.username === userFollower.username) {
+                        const userFollowerRef = doc(db, "users", userTest.id + '/following/' + id);
+                        await updateDoc(userFollowerRef, {
+                            displayName: name,
+                            photo : photo,
+                        })
+                    }
+                })
+            });
+        }
+    }
+
+
+
+    //Fonction pour update les données de l'utilisateur
     async function updateUserData(data) {
         let result = false;
         const user = auth.currentUser;
         const userDocRef = doc(db, "users", user.uid);
+        const userInfo = await getDoc(userDocRef).then((doc) => {
+            if (doc.exists()) {
+                return doc.data();
+        }})
+        console.log(userInfo.photo);
         const newUserData = {};
 
-        console.log(data);
         if (data.photo !== "") {
             const urlImage = await uploadImage(user.uid, data.photo, "users");
             newUserData.photo = urlImage;
-        }
-        if (data.displayName !== "") {
-            newUserData.displayName = data.displayName;
-        }
+            if(data.displayName !== ""){
+                await updateNameForFollower(data.displayName, urlImage, user.uid);
+                await updateNameForFollowing(data.displayName, urlImage, user.uid);
+                newUserData.displayName = data.displayName;
+            }
+            else{
+                await updateNameForFollower(userInfo.displayName, urlImage, user.uid);
+                await updateNameForFollowing(userInfo.displayName, urlImage, user.uid);
+            }
+
+        }else if (data.displayName !== "") {
+                await updateNameForFollower(data.displayName, userInfo.photo, user.uid);
+                await updateNameForFollowing(data.displayName, userInfo.photo, user.uid);
+                newUserData.displayName = data.displayName;
+            }
+
         if (data.age !== "") {
             newUserData.age = data.age;
         }
 
-        updateDoc(userDocRef, newUserData).then(() => {
+        await updateDoc(userDocRef, newUserData).then(() => {
             result = true;
         }
         ).catch((error) => {
