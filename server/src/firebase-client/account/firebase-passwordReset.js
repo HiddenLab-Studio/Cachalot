@@ -1,5 +1,5 @@
 import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
-import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 
 //Firebase configuration

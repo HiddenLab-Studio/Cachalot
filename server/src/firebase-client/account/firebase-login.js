@@ -1,7 +1,7 @@
 //Import the functions you need from the SDKs you need
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { doc, updateDoc, setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
@@ -79,9 +79,13 @@ function Google(e) {
                 }
                 else {
                     setDoc(docRef, {
+                        accountCreationDate: user.metadata.creationTime,
                         username: user.displayName,
                         email: user.email,
-                        xp : 0,
+                        userXp: {
+                            xp: 0,
+                            level: 1,
+                        },        
                         photo : user.photoURL,
 
                     }).then(() => {

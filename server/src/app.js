@@ -1,7 +1,7 @@
 
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
+
 
 const app = express();
 const path = require('path');
@@ -12,6 +12,7 @@ dotenv.config({path : "./.env"});
 const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "..")));
+
 
 
 app.get('/', (req, res) => {
@@ -38,11 +39,14 @@ app.get('/room', (req, res) => {
     res.sendFile(path.join(__dirname, "../../BonneEcole/html/room.html"));
 });
 
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+app.get('/JZU0S', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/classe.html"));
 });
 
 
 
-//Recuperation des element html
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
+
 

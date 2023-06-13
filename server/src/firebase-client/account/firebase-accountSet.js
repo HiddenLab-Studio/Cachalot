@@ -1,8 +1,8 @@
 // Import des fonctions dont on a besoin
 import { signOut, deleteUser } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js";
 import { collection, doc, deleteDoc, addDoc, getDoc, onSnapshot, query, orderBy, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import firebaseConfigClient from "../composable/firebaseConfigClient.js";
-import { pushXp } from "../composable/firebaseConfigClient.js";
+import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
+import { pushXp } from "../../composable/firebaseConfigClient.js";
 
 
 //Firebase configuration
@@ -206,8 +206,8 @@ window.like = function (id) {
 
 
 
-
-
 getMessage();
 clickSignOut();
 clickDeleteAccount();
+
+
