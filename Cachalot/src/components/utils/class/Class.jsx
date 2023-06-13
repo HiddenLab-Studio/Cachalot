@@ -44,14 +44,14 @@ const Class = () => {
                             }
                             <div tw="flex flex-col gap-5">
                                 <div className="titleContainer">
-                                    <h1>Les Classes</h1>
+                                    <h1>Les classes</h1>
                                     <span>
                                     Découvrez notre système de classe en ligne interactif où l'apprentissage rencontre
                                     la communication. Partagez vos idées, posez des questions et discutez avec vos
                                     camarades de classe, le tout dans un environnement virtuel convivial.
                                     </span>
                                 </div>
-                                <ClassButton />
+                                <ClassButton auth={auth} />
                             </div>
                         </div>
                     </Content>

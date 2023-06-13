@@ -1,15 +1,16 @@
+import { useMediaQuery } from "react-responsive";
 import tw, { styled } from "twin.macro";
 
 // Context
-import {useCache} from "../../../../context/manager/cache/CacheManager.js";
+import { useCache } from "../../../../context/manager/cache/CacheManager.js";
 
 // Icons
 import {
     FaClock,
     FaUserAlt,
-    FaMagic
 } from "react-icons/fa";
 
+// Styled Components
 const InformationContainer = styled.div``;
 const ProfileInformationContainer = styled.div`
   display: flex;
@@ -151,7 +152,6 @@ const ProfileInformationContainer = styled.div`
 
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
-import {useMediaQuery} from "react-responsive";
 
 const ProfileInformation = ({isSearch, data}) => {
     const cacheManager = useCache();
@@ -163,14 +163,6 @@ const ProfileInformation = ({isSearch, data}) => {
 
     // Responsive
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    function getCreationData(){
-        const date = new Date(userData.accountCreationDate);
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
-
 
     return (
         <ProfileInformationContainer>
@@ -181,16 +173,12 @@ const ProfileInformation = ({isSearch, data}) => {
                 <div className="info">
                     <div className="profile__name">
                         <span>{userData.displayName}</span>
-                        {!isSearch ?
-                            <div>@{userData.username}</div>
-                            :
-                            null
-                        }
+                        <div>@{userData.username}</div>
                     </div>
                     <div className="profile__info">
                         <div>
                             <FaClock />
-                            <span>Membre depuis le {getCreationData()}</span>
+                            <span>Membre depuis le {userData.accountCreationDate.split(" ")[0]}</span>
                         </div>
                         <div>
                             <FaUserAlt />

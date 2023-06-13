@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getStorage } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-storage.js";
+import { getStorage } from "firebase/storage";
 
 //Firebase configuration
 const firebaseConfig = {
@@ -18,6 +18,5 @@ export default function firebaseConfigClient()  {
     const auth = getAuth(app);
     const db = getFirestore(app);
     const storage = getStorage(app);
-
     return { app, auth, db , storage};
 }
