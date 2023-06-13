@@ -6,6 +6,12 @@ import { signOut } from "firebase/auth";
 // Firebase config
 import firebaseConfigClient from "../services/firebase.config.js";
 
+// Database functions
+import { user } from "./database/userFunctions.js";
+import { utils } from "./database/utilsFunctions.js";
+import {classes} from "./database/classFunctions.js";
+import {update} from "./database/updateFunctions.js";
+
 const { auth, db, storage } = firebaseConfigClient();
 
 // Context
@@ -48,309 +54,20 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe;
     }, [isLoading]);
 
-    async function disconnectUser() {
-        if (currentUser !== null) {
-            await signOut(auth).then(r => {
-                console.log('Sign-out successful.');
-                setUserData(null);
-            });
-        }
-    }
-    async function getUsersListByUsername(username) {
-        let result = [];
-        const usersCollection = collection(db, "users");
-        const usersSnapshot = await getDocs(usersCollection);
-        const usersList = usersSnapshot.docs.map(doc => {
-            const data = doc.data()
-            data.id = doc.id
-            return data
-        });
-
-        usersList.forEach(user => {
-            if (user.username.toLowerCase() === username) {
-                result.push(user);
-            }
-        });
-
-        if (result.length === 0) {
-            console.info("Aucun utilisateur trouvé");
-        }
-
-        return result;
-
-    }
-    async function getUserByUsername(username) {
-        let result = undefined;
-        const usersCollection = collection(db, "users");
-        const usersSnapshot = await getDocs(usersCollection);
-        const usersList = usersSnapshot.docs.map(doc => {
-            const data = doc.data()
-            data.id = doc.id
-            return data
-        });
-        const isUserExist = usersList.find(user => user.username === username);
-        if (isUserExist) {
-
-            const userFollowerColl = collection(db, "users/" + isUserExist.id + "/follower");
-            const userFollowerDoc = await getDocs(userFollowerColl);
-            const userFollower = userFollowerDoc.docs.map(doc => doc.data());
-
-            const userFollowingColl = collection(db, "users/" + isUserExist.id + "/following");
-            const userFollowingDoc = await getDocs(userFollowingColl);
-            const userFollowing = userFollowingDoc.docs.map(doc => doc.data());
-
-            result = {
-                userData: isUserExist,
-                userFriends: {
-                    follower: userFollower,
-                    following: userFollowing
-                }
-            };
-        } else {
-            console.log("Utilisateur non trouvé");
-        }
-        return result;
-    }
-    async function getUserFriends(id) {
-        const userFollowing = collection(db, "users/" + id + "/following");
-        const userFollowingSnapshot = await getDocs(userFollowing);
-
-        const userFollower = collection(db, "users/" + id + "/follower");
-        const userFollowerSnapshot = await getDocs(userFollower);
-
-        return {
-            following: userFollowingSnapshot.docs.map(doc => doc.data()),
-            follower: userFollowerSnapshot.docs.map(doc => doc.data())
-        };
-    }
-    async function followUser(searchedUser) {
-        console.log(searchedUser);
-        let result = false;
-        const user = auth.currentUser;
-        const userFollowing = doc(db, "users", user.uid + '/following/' + searchedUser.id);
-        await setDoc(userFollowing, {
-            displayName: searchedUser.displayName,
-            username: searchedUser.username,
-            photo: searchedUser.photo,
-        }).then(async () => {
-            const userFollower = doc(db, "users", searchedUser.id + '/follower/' + user.uid);
-            const docRef = doc(db, "users", user.uid);
-            await getDoc(docRef).then(async (doc) => {
-                if (doc.exists()) {
-                    await setDoc(userFollower, {
-                        displayName: doc.data().displayName,
-                        username: doc.data().username,
-                        photo: doc.data().photo,
-                    }).then(() => {
-                        result = true;
-                    })
-                }
-            })
-        }).catch((error) => {
-            console.log(error);
-        });
-        return result;
-    }
-    async function unfollowUser(searchedUser) {
-        let result = false;
-        const user = auth.currentUser;
-        const userFollower = doc(db, "users", user.uid + '/following/' + searchedUser.id);
-        await deleteDoc(userFollower)
-        const userFollowing = doc(db, "users", searchedUser.id + '/follower/' + user.uid);
-        await deleteDoc(userFollowing).then(() => {
-            result = true;
-        })
-        return result;
-    }
-
-    async function createClass(name) {
-        let result = false;
-        const user = auth.currentUser;
-        const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-
-        const docRef = doc(db, "classes", classeCode);
-        const userDocRef = doc(db, 'users', user.uid);
-        const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
-
-
-
-        await getDoc(docRef).then(async (doc) => {
-            if (!doc.exists()) {
-                await getDoc(userDocRef).then(async (doc) => {
-                    const data = {
-                        name: name,
-                        adminUsername: doc.data().username,
-                        adminPhoto: doc.data().photo,
-                        dateCreation: new Date(),
-                    }
-                    await setDoc(docRef, {
-                        name: data.name,
-                        admin: {
-                            username: data.adminUsername,
-                            photo: data.adminPhoto,
-                        },
-                        dateCreation: data.dateCreation,
-
-                    }).then(async () => {
-                        await setDoc(userRef, {
-                            name: data.name,
-                            dateCreation: data.dateCreation,
-                        }).then(() => {
-                            result = true;
-                        })
-                    })
-                })
-            } else {
-                console.log("Code déjà existante");
-                // on relance la fonction
-                await createClass(name);
-            }
-        })
-        return result;
-    }
-
-
-    //Fonction pour upload une image
-    async function uploadImage(name, image, dossier) {
-        // Obtenir l'objet blob à partir de l'URL blob
-        const response = await fetch(image);
-        const blob = await response.blob();
-
-        //On créé le lien dans storage
-        const storageRef = ref(storage, dossier + "/" + name);
-        //On upload le blob dans le lien
-        await uploadBytes(storageRef, blob);
-
-        //On récupére l'URL de l'image
-        const urlImage = await getDownloadURL(storageRef);
-        return urlImage;
-    }
-
-
-    //Fonction pour update le nom de l'utilisateur pour les personnes qu'il suit
-    async function updateNameForFollowing(name, photo, id) {
-        const userFollowerColl = collection(db, "users/" + id + "/following");
-        const userFollowerDoc = await getDocs(userFollowerColl);
-        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
-        if (userFollower.length == 0) {
-            return;
-        }
-        else {
-            userFollower.forEach(async (userFollower) => {
-                const allUser = collection(db, "users");
-                const allUserDoc = await getDocs(allUser);
-                const allUserList = allUserDoc.docs.map(doc => {
-                    const data = doc.data()
-                    data.id = doc.id
-                    return data
-                });
-                allUserList.forEach(async (userTest) => {
-                    if (userTest.username === userFollower.username) {
-                        const userFollowerRef = doc(db, "users", userTest.id + '/follower/' + id);
-                        await updateDoc(userFollowerRef, {
-                            displayName: name,
-                            photo : photo,
-                        })
-                    }
-                })
-            });
-        }
-    }
-
-
-    //update le nom de l'utilisateur pour les personnes qui le suivent
-    async function updateNameForFollower(name, photo, id) {
-        const userFollowerColl = collection(db, "users/" + id + "/follower");
-        const userFollowerDoc = await getDocs(userFollowerColl);
-        const userFollower = userFollowerDoc.docs.map(doc => doc.data());
-        if (userFollower.length == 0) {
-            return;
-        }
-        else {
-            userFollower.forEach(async (userFollower) => {
-                const allUser = collection(db, "users");
-                const allUserDoc = await getDocs(allUser);
-                const allUserList = allUserDoc.docs.map(doc => {
-                    const data = doc.data()
-                    data.id = doc.id
-                    return data
-                });
-                allUserList.forEach(async (userTest) => {
-                    if (userTest.username === userFollower.username) {
-                        const userFollowerRef = doc(db, "users", userTest.id + '/following/' + id);
-                        await updateDoc(userFollowerRef, {
-                            displayName: name,
-                            photo : photo,
-                        })
-                    }
-                })
-            });
-        }
-    }
-
-
-
-    //Fonction pour update les données de l'utilisateur
-    async function updateUserData(data) {
-        let result = false;
-        const user = auth.currentUser;
-        const userDocRef = doc(db, "users", user.uid);
-        const userInfo = await getDoc(userDocRef).then((doc) => {
-            if (doc.exists()) {
-                return doc.data();
-        }})
-        console.log(userInfo.photo);
-        const newUserData = {};
-
-        if (data.photo !== "") {
-            const urlImage = await uploadImage(user.uid, data.photo, "users");
-            newUserData.photo = urlImage;
-            if(data.displayName !== ""){
-                await updateNameForFollower(data.displayName, urlImage, user.uid);
-                await updateNameForFollowing(data.displayName, urlImage, user.uid);
-                newUserData.displayName = data.displayName;
-            }
-            else{
-                await updateNameForFollower(userInfo.displayName, urlImage, user.uid);
-                await updateNameForFollowing(userInfo.displayName, urlImage, user.uid);
-            }
-
-        }else if (data.displayName !== "") {
-                await updateNameForFollower(data.displayName, userInfo.photo, user.uid);
-                await updateNameForFollowing(data.displayName, userInfo.photo, user.uid);
-                newUserData.displayName = data.displayName;
-            }
-
-        if (data.age !== "") {
-            newUserData.age = data.age;
-        }
-
-        await updateDoc(userDocRef, newUserData).then(() => {
-            result = true;
-        }
-        ).catch((error) => {
-            console.log(error);
-        });
-
-        return result;
-    }
-
-
     const value = {
+        // States values
         currentUser,
         userData,
-        // Functions
-        disconnectUser,
-        getUsersListByUsername,
-        getUserByUsername,
-        getUserFriends,
-        followUser,
-        unfollowUser,
-        createClass,
-        updateUserData,
-        // State
+        // States functions
         setIsLoading,
+        setUserData,
+        setCurrentUser,
 
+        // Objects containing all useful functions
+        user,
+        utils,
+        classes,
+        update,
     }
 
     return (

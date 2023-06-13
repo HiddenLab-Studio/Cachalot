@@ -39,8 +39,15 @@ const ProfileXpProgress = () => {
                         <LevelInformationContainer>
                             <span>{userXp.currentXp} / 1000</span>
                             <div tw="grow-[1] flex justify-end">
-                                <FaSignOutAlt onClick={() => {
-                                    auth.disconnectUser();
+                                <FaSignOutAlt onClick={async () => {
+                                    let result = await auth.user.logout();
+                                    if(result) {
+                                        auth.setUserData(null);
+                                        console.log(userData);
+                                        console.info("Sign-out successful.")
+                                    } else {
+                                        console.error("Sign-out failed.")
+                                    }
                                 }} />
                             </div>
                         </LevelInformationContainer>

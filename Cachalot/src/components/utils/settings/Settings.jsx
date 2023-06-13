@@ -41,7 +41,7 @@ const Settings = () => {
             age: document.getElementById("age").value,
             photo : photoURL
         }
-        await auth.updateUserData(data);
+        await auth.update.updateUserData(data);
     }
 
 

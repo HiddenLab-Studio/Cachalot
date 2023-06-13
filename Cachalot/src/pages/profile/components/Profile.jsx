@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Context
-import { useCache } from "../../../context/cache/CacheManager.js";
+import { useCache } from "../../../context/manager/cache/CacheManager.js";
 
 // Components
 import Loading from "../../../components/utils/loading/Loading.jsx";
@@ -40,7 +40,7 @@ const Profile = (props) => {
         const getUserFriends = async (id) => {
             // if the cache is empty, load the data from the database
             if(cacheManager.isFriendsCacheEmpty()){
-                let result = await auth.getUserFriends(id);
+                let result = await auth.utils.getUserFriends(id);
                 console.log(result);
                 cacheManager.setFriendsCache(result.follower, result.following);
                 return result;
@@ -50,7 +50,7 @@ const Profile = (props) => {
             }
         }
         const searchingUser = async (searchedUser) => {
-            let result = await auth.getUserByUsername(searchedUser);
+            let result = await auth.utils.getUserByUsername(searchedUser);
             if (result !== undefined) setSearchedUser(result);
             else setUserNotFound(true);
             return result;

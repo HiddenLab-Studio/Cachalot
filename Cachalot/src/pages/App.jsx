@@ -7,7 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 
 // Context
 import { AuthProvider } from "../context/AuthContext.js";
-import { CacheProvider } from "../context/cache/CacheManager.js";
+import { CacheProvider } from "../context/manager/cache/CacheManager.js";
 
 // Scss
 import "./App.scss"

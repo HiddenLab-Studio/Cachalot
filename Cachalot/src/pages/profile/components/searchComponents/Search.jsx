@@ -4,7 +4,7 @@ import { styled } from "twin.macro";
 
 // Context
 import {useAuth} from "../../../../context/AuthContext.js";
-import {useCache} from "../../../../context/cache/CacheManager.js";
+import {useCache} from "../../../../context/manager/cache/CacheManager.js";
 
 // Styled components
 import {Container} from "../../../../components/utils/ui/GlobalStyle.js";
@@ -41,7 +41,7 @@ const Search = () => {
             if (value !== "") {
                 console.info("Searching for " + value);
                 setIsSearching(true);
-                let result = await auth.getUsersListByUsername(value);
+                let result = await auth.utils.getUsersListByUsername(value);
                 setIsSearching(false);
                 console.info("Result: ", result);
                 if(result.length > 0) {

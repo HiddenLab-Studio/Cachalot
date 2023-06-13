@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
 // Context
-import { useCache } from "../../../../../context/cache/CacheManager.js";
+import { useCache } from "../../../../../context/manager/cache/CacheManager.js";
 
 // Styled components
 import {
