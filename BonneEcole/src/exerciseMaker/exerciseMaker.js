@@ -56,7 +56,7 @@ document.getElementById("divExerciseTypeChoice").appendChild(buttonTypeQCM);
 document.getElementById("buttonTypeINPUT").addEventListener("click", function () {
 
     removeHighlightFromAll();
-    if(document.getElementById("errorDiv") != null){
+    if (document.getElementById("errorDiv") != null) {
         document.getElementById("errorDiv").remove();
     }
 
@@ -80,6 +80,7 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
     }
 
 
+
     //Si l'input de réponse n'existe pas déjà, on le créé
     if (document.getElementById("answerInput") == null) {
         //On créer l'input de la réponse.
@@ -101,16 +102,18 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
     //Listener sur le bouton valider -> création de l'exercice INPUT
     document.getElementById("buttonValidate").addEventListener("click", function () {
 
+        if (checkEveryNecessaryField("INPUT") == true) {
+            //On récupère les valeurs des inputs et on les met dans l'objet
+            exerciseObjectClient.type = "INPUT";
+            exerciseObjectClient.title = document.getElementById("titleInput").value;
+            exerciseObjectClient.question = document.getElementById("consigneInput").value;
+            exerciseObjectClient.answer = document.getElementById("answerInput").value;
 
-        console.log(checkEveryNecessaryField("INPUT"));
+            console.log(exerciseObjectClient);
+        }
 
-        //On récupère les valeurs des inputs et on les met dans l'objet
-        exerciseObjectClient.type = "INPUT";
-        exerciseObjectClient.title = document.getElementById("titleInput").value;
-        exerciseObjectClient.question = document.getElementById("consigneInput").value;
-        exerciseObjectClient.answer = document.getElementById("answerInput").value;
 
-        console.log(exerciseObjectClient);
+
 
     });
 
@@ -123,7 +126,7 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
 document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     removeHighlightFromAll();
-    if(document.getElementById("errorDiv") != null){
+    if (document.getElementById("errorDiv") != null) {
         document.getElementById("errorDiv").remove();
     }
 
@@ -254,42 +257,44 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     //Listener sur le bouton valider -> création de l'exercice QCM
     document.getElementById("buttonValidate").addEventListener("click", function () {
 
-        console.log(checkEveryNecessaryField("QCM"));
+        if (checkEveryNecessaryField("QCM") == true) {
+            //On récupère les valeurs des inputs et on les met dans l'objet
+            exerciseObjectClient.type = "QCM";
+            exerciseObjectClient.title = document.getElementById("titleInput").value;
+            exerciseObjectClient.question = document.getElementById("consigneInput").value;
 
-        //On récupère les valeurs des inputs et on les met dans l'objet
-        exerciseObjectClient.type = "QCM";
-        exerciseObjectClient.title = document.getElementById("titleInput").value;
-        exerciseObjectClient.question = document.getElementById("consigneInput").value;
+            //on vérifie que l'élément existe en HTML avant de le récupérer
+            if (document.getElementById("answerInputQCM1") != null) {
+                exerciseObjectClient.answer1 = document.getElementById("answerInputQCM1").value;
+            }
+            if (document.getElementById("answerInputQCM2") != null) {
+                exerciseObjectClient.answer2 = document.getElementById("answerInputQCM2").value;
+            }
+            if (document.getElementById("answerInputQCM3") != null) {
+                exerciseObjectClient.answer3 = document.getElementById("answerInputQCM3").value;
+            }
+            if (document.getElementById("answerInputQCM4") != null) {
+                exerciseObjectClient.answer4 = document.getElementById("answerInputQCM4").value;
+            }
+            if (document.getElementById("answerInputQCM5") != null) {
+                exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
+            }
 
-        //on vérifie que l'élément existe en HTML avant de le récupérer
-        if (document.getElementById("answerInputQCM1") != null) {
-            exerciseObjectClient.answer1 = document.getElementById("answerInputQCM1").value;
-        }
-        if (document.getElementById("answerInputQCM2") != null) {
-            exerciseObjectClient.answer2 = document.getElementById("answerInputQCM2").value;
-        }
-        if (document.getElementById("answerInputQCM3") != null) {
-            exerciseObjectClient.answer3 = document.getElementById("answerInputQCM3").value;
-        }
-        if (document.getElementById("answerInputQCM4") != null) {
-            exerciseObjectClient.answer4 = document.getElementById("answerInputQCM4").value;
-        }
-        if (document.getElementById("answerInputQCM5") != null) {
-            exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
-        }
-
-        //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
-        //On vérifie que l'élément existe en HTML avant de le récupérer
-        exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
-        for (let i = 0; i <= 5; i++) {
-            if (document.getElementById("answerCheckbox" + i) != null) {
-                if (document.getElementById("answerCheckbox" + i).checked) {
-                    exerciseObjectClient.QCMCorrectAnswer.push(i);
+            //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
+            //On vérifie que l'élément existe en HTML avant de le récupérer
+            exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
+            for (let i = 0; i <= 5; i++) {
+                if (document.getElementById("answerCheckbox" + i) != null) {
+                    if (document.getElementById("answerCheckbox" + i).checked) {
+                        exerciseObjectClient.QCMCorrectAnswer.push(i);
+                    }
                 }
             }
+
+            console.log(exerciseObjectClient);
+
         }
 
-        console.log(exerciseObjectClient);
 
     });
 });
@@ -363,10 +368,12 @@ function checkEveryNecessaryField(exerciseType) {
     }
 
     if (!allFieldsAreFilled) {
-        let errorDiv = document.createElement("div");
-        errorDiv.setAttribute("id", "errorDiv");
-        document.getElementById("exerciseDiv").appendChild(errorDiv);
-        errorDiv.innerHTML = "Veuillez remplir tous les champs nécessaires";
+        if (document.getElementById("errorDiv") == null) {
+            let errorDiv = document.createElement("div");
+            errorDiv.setAttribute("id", "errorDiv");
+            document.getElementById("exerciseDiv").appendChild(errorDiv);
+            errorDiv.innerHTML = "Veuillez remplir tous les champs nécessaires";
+        }
     }
     else {
         if (document.getElementById("errorDiv") != null) {

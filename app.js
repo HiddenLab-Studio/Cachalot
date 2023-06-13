@@ -12,6 +12,13 @@ app.get('/', (req, res) => {
 });
 
 
+//On récupère l'exercice envoyé par le client
+app.get('/api/sentExercise', (req, res) => {
+  console.log(req.query.exercise);
+  res.send('Exercice reçu');
+});
+
+
 
 app.listen(port, () => {
   console.log(`Le serveur écoute sur le port ${port}`);
