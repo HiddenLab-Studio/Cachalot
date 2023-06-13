@@ -9,8 +9,8 @@ import {
     BodyProfileAsideContainer,
     BodyProfileContainer,
     BodyProfileSectionContainer,
-    FindFriendsContainer,
-    JoinClassContainer
+    FindFriendsContainer, GridContainer, GridElement,
+    JoinClassContainer, SuccessContainer
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
@@ -31,20 +31,26 @@ const BodyProfile = ({isSearch, data}) => {
         <BodyProfileContainer>
             <BodyProfileSectionContainer>
                 <h1>Statistiques</h1>
-                <div className="gridContainer">
-                    <div>
-                        <h2>Expériences</h2>
-                    </div>
-                    <div>
-                        <h2>Badges</h2>
-                    </div>
-                    <div>
-                        <h2>Badges</h2>
-                    </div>
-                    <div>
-                        <h2>Badges</h2>
-                    </div>
-                </div>
+                <GridContainer className="gridContainer">
+                    <GridElement tw="flex flex-row">
+                        <img src="../../../../../static/img/icons/flameStreak.svg" alt="Flame"/>
+                        <div>
+                            <span>0</span>
+                            <h2>Jours d'affilée</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>0</span>
+                            <h2>Xp gagnés</h2>
+                        </div>
+                    </GridElement>
+                </GridContainer>
+                <h1>Succès</h1>
+                <SuccessContainer>
+
+                </SuccessContainer>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
                 <h1>Amis</h1>

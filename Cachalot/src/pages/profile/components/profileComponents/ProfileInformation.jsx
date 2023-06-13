@@ -163,6 +163,14 @@ const ProfileInformation = ({isSearch, data}) => {
 
     // Responsive
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+    function getCreationData(){
+        const date = new Date(userData.accountCreationDate);
+        const day = date.getDate();
+        const month = date.getMonth();
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
 
     return (
         <ProfileInformationContainer>
@@ -182,15 +190,11 @@ const ProfileInformation = ({isSearch, data}) => {
                     <div className="profile__info">
                         <div>
                             <FaClock />
-                            <span>Membre depuis le A FAIRE</span>
+                            <span>Membre depuis le {getCreationData()}</span>
                         </div>
                         <div>
                             <FaUserAlt />
                             <span>{userFriends.following.length} abonnements / {userFriends.follower.length} abonnés</span>
-                        </div>
-                        <div>
-                            <FaMagic />
-                            <span>{currentXp} expériences cumulés</span>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext.js";
+import tw from "twin.macro";
 
 import {
     BarContainer,
@@ -10,10 +11,13 @@ import {
     XpBar,
     XpBarContainer
 } from "../NavbarStyle.js";
-import LinkElement from "./LinkElement.jsx";
+
+// Icons
+import { FaSignOutAlt } from "react-icons/fa";
 
 const ProfileXpProgress = () => {
-    const userData = useAuth().userData;
+    const auth = useAuth();
+    const userData = auth.userData;
 
     if(userData !== null){
         const userXp = userData.userXp;
@@ -34,6 +38,11 @@ const ProfileXpProgress = () => {
                         </BarContainer>
                         <LevelInformationContainer>
                             <span>{userXp.currentXp} / 1000</span>
+                            <div tw="grow-[1] flex justify-end">
+                                <FaSignOutAlt onClick={() => {
+                                    auth.disconnectUser();
+                                }} />
+                            </div>
                         </LevelInformationContainer>
                     </XpBarContainer>
                 </ProfileElement>

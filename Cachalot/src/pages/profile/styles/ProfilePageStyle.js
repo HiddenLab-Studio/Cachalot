@@ -52,14 +52,46 @@ export const BodyProfileAsideContainer = styled.aside`
   width: 400px;
   transition: all 0.1s ease-in-out;
 `
+
+export const SuccessContainer = styled.div``
+export const GridElement = styled.div``
+export const GridContainer = styled.div``
 export const BodyProfileSectionContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 2;
+  gap: 16px;
   
-  .gridContainer {
+  ${GridContainer} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    ${GridElement} {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-radius: 12px;
+      border: 2px solid ${props => props.theme.borderRightColor};
+      padding: 16px 24px;
+      img {
+        width: 32px;
+        height: 32px;
+      }
+      div {
+        flex-grow: 1;
+        span {
+          font-family: "Din_Round_Med", sans-serif;
+          font-size: var(--fs-sm);
+          font-weight: 700;
+          color: ${props => props.theme.text};
+        }
+        h2 {
+          font-family: "Din_Round", sans-serif;
+          font-size: var(--fs-s);
+          color: ${props => props.theme.subText};
+        }
+      }
+    }
   }
   
 `
@@ -92,6 +124,9 @@ export const ProfileContainer = styled.section`
   // Responsive
   @media (min-width: 768px) and (max-width: 1200px) {
     padding-left: 128px;
+    ${BodyProfileAsideContainer} {
+      width: 350px;
+    }
   }
   
   @media (min-width: 768px) and (max-width: 900px) {
@@ -99,6 +134,9 @@ export const ProfileContainer = styled.section`
       ${BodyProfileContainer} {
         flex-direction: column;
         align-items: flex-start;
+        ${BodyProfileSectionContainer} {
+          width: 100%;
+        }
         ${BodyProfileAsideContainer} {
           width: 100%;
         }
@@ -113,6 +151,9 @@ export const ProfileContainer = styled.section`
     ${BodyProfileContainer} {
       flex-direction: column;
       align-items: flex-start;
+      ${BodyProfileSectionContainer} {
+        width: 100%;
+      }
       ${BodyProfileAsideContainer} {
         width: 100%;
         a {

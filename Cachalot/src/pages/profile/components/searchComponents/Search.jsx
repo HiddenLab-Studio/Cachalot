@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom";
+import { styled } from "twin.macro";
 
 // Context
 import {useAuth} from "../../../../context/AuthContext.js";
 import {useCache} from "../../../../context/cache/CacheManager.js";
 
 // Styled components
+import {Container} from "../../../../components/utils/ui/GlobalStyle.js";
 import {
     ElementDiv,
     HeaderContainer,
     InputContainer,
-    SearchContainer, SearchResultContainer
+    Content, SearchResultContainer, SearchContainer
 } from "../../styles/SearchStyle.js";
 
 // Icons
 import {FaChevronRight, FaSearch} from "react-icons/fa";
-import {FriendsDiv} from "../../styles/SubscribersStyle.js";
-import {Link} from "react-router-dom";
-import FollowButton from "../profileComponents/subComponents/FollowButton.jsx";
 
 const Search = () => {
     // Context
     const auth = useAuth();
     const cacheManager = useCache();
 
+    // States
     const [search, setSearch] = useState([]);
     const [isSearching, setIsSearching] = useState(undefined);
 
@@ -52,23 +53,24 @@ const Search = () => {
 
     return (
         <SearchContainer>
-            <HeaderContainer>
-                <div>
-                    <h1>Rechercher des utilisateurs</h1>
-                </div>
-                <InputContainer>
-                    <FaSearch />
-                    <input id="searchInput" type="text" placeholder="Nom d'utilisateur"/>
-                </InputContainer>
-            </HeaderContainer>
-            <SearchResultContainer>
-                {
-                    isSearching !== undefined ?
-                        isSearching ?
-                            <div className="searching">
-                                <h2>Loading...</h2>
-                            </div>
-                            :
+            <Content>
+                <HeaderContainer>
+                    <div>
+                        <h1>Rechercher des utilisateurs</h1>
+                    </div>
+                    <InputContainer>
+                        <FaSearch />
+                        <input id="searchInput" type="text" placeholder="Nom d'utilisateur"/>
+                    </InputContainer>
+                </HeaderContainer>
+                <SearchResultContainer>
+                    {
+                        isSearching !== undefined ?
+                            isSearching ?
+                                <div className="searching">
+                                    <h2>Loading...</h2>
+                                </div>
+                                :
                                 search.length > 0 ?
                                     <div className="map">
                                         {
@@ -86,13 +88,14 @@ const Search = () => {
                                             })
                                         }
                                     </div>
-                                :
+                                    :
                                     <div className="userNotFound">
                                         <h2>Aucun utilisateur trouvé !</h2>
                                     </div>
-                        : null
-                }
-            </SearchResultContainer>
+                            : null
+                    }
+                </SearchResultContainer>
+            </Content>
         </SearchContainer>
     )
 }

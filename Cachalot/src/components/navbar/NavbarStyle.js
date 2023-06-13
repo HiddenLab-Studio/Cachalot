@@ -114,6 +114,15 @@ export const LevelInformationContainer = styled.div`
   span {
     font-size: var(--fs-xs);
   }
+  
+  svg {
+    font-size: var(--fs-ss);
+    color: ${props => props.theme.text};
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  
 `
 
 export const ProfileContainer = styled.div`
