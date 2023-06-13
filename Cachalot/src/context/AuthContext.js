@@ -1,11 +1,12 @@
-import {createContext, useContext, useEffect, useState} from "react";
-import {collection, doc, getDoc, getDocs, setDoc, deleteDoc} from "firebase/firestore";
-import {signOut} from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { signOut } from "firebase/auth";
 
 // Firebase config
 import firebaseConfigClient from "../services/firebase.config.js";
 
-const { auth, db } = firebaseConfigClient();
+const { auth, db, storage } = firebaseConfigClient();
 
 // Context
 const AuthContext = createContext(undefined);
@@ -47,15 +48,15 @@ export const AuthProvider = ({ children }) => {
         return unsubscribe;
     }, [isLoading]);
 
-    async function disconnectUser(){
-        if(currentUser !== null){
+    async function disconnectUser() {
+        if (currentUser !== null) {
             await signOut(auth).then(r => {
                 console.log('Sign-out successful.');
                 setUserData(null);
             });
         }
     }
-    async function getUsersListByUsername(username){
+    async function getUsersListByUsername(username) {
         let result = [];
         const usersCollection = collection(db, "users");
         const usersSnapshot = await getDocs(usersCollection);
@@ -66,19 +67,19 @@ export const AuthProvider = ({ children }) => {
         });
 
         usersList.forEach(user => {
-            if(user.username.toLowerCase() === username){
+            if (user.username.toLowerCase() === username) {
                 result.push(user);
             }
         });
 
-        if(result.length === 0){
+        if (result.length === 0) {
             console.info("Aucun utilisateur trouvé");
         }
 
         return result;
 
     }
-    async function getUserByUsername(username){
+    async function getUserByUsername(username) {
         let result = undefined;
         const usersCollection = collection(db, "users");
         const usersSnapshot = await getDocs(usersCollection);
@@ -88,13 +89,13 @@ export const AuthProvider = ({ children }) => {
             return data
         });
         const isUserExist = usersList.find(user => user.username === username);
-        if(isUserExist){
+        if (isUserExist) {
 
             const userFollowerColl = collection(db, "users/" + isUserExist.id + "/follower");
             const userFollowerDoc = await getDocs(userFollowerColl);
             const userFollower = userFollowerDoc.docs.map(doc => doc.data());
 
-            const userFollowingColl = collection(db, "users/"+ isUserExist.id + "/following");
+            const userFollowingColl = collection(db, "users/" + isUserExist.id + "/following");
             const userFollowingDoc = await getDocs(userFollowingColl);
             const userFollowing = userFollowingDoc.docs.map(doc => doc.data());
 
@@ -110,7 +111,7 @@ export const AuthProvider = ({ children }) => {
         }
         return result;
     }
-    async function getUserFriends(id){
+    async function getUserFriends(id) {
         const userFollowing = collection(db, "users/" + id + "/following");
         const userFollowingSnapshot = await getDocs(userFollowing);
 
@@ -122,7 +123,7 @@ export const AuthProvider = ({ children }) => {
             follower: userFollowerSnapshot.docs.map(doc => doc.data())
         };
     }
-    async function followUser(searchedUser){
+    async function followUser(searchedUser) {
         console.log(searchedUser);
         let result = false;
         const user = auth.currentUser;
@@ -207,6 +208,51 @@ export const AuthProvider = ({ children }) => {
     }
 
 
+    //Fonction pour upload une image
+    async function uploadImage(name, image , dossier) {
+        // Obtenir l'objet blob à partir de l'URL blob
+        const response = await fetch(image);
+        const blob = await response.blob();
+
+        //On créé le lien dans storage
+        const storageRef = ref(storage, dossier + "/" + name);
+        //On upload le blob dans le lien
+        await uploadBytes(storageRef, blob);
+
+        //On récupére l'URL de l'image
+        const urlImage = await getDownloadURL(storageRef);
+        return urlImage;
+    }
+
+    async function updateUserData(data) {
+        let result = false;
+        const user = auth.currentUser;
+        const userDocRef = doc(db, "users", user.uid);
+        const newUserData = {};
+
+        console.log(data);
+        if (data.photo !== "") {
+            const urlImage = await uploadImage(user.uid, data.photo, "users");
+            newUserData.photo = urlImage;
+        }
+        if (data.username !== "") {
+            newUserData.username = data.username;
+        }
+        if (data.age !== "") {
+            newUserData.age = data.age;
+        }
+
+        updateDoc(userDocRef, newUserData).then(() => {
+            result = true;
+        }
+        ).catch((error) => {
+            console.log(error);
+        });
+
+        return result;
+    }
+
+
     const value = {
         currentUser,
         userData,
@@ -218,8 +264,10 @@ export const AuthProvider = ({ children }) => {
         followUser,
         unfollowUser,
         createClass,
+        updateUserData,
         // State
-        setIsLoading
+        setIsLoading,
+
     }
 
     return (

@@ -30,7 +30,18 @@ const Settings = () => {
     }, [auth.currentUser])
 
     async function handleClick() {
-
+        let filePhoto = document.getElementById("image").files[0]
+        let photoURL = "";
+        
+        if(filePhoto !== undefined) {
+            photoURL = await URL.createObjectURL(filePhoto);
+        }
+        const data = {
+            username: document.getElementById("username").value,
+            age: document.getElementById("age").value,
+            photo : photoURL
+        }
+        await auth.updateUserData(data);
     }
 
 
@@ -50,7 +61,7 @@ const Settings = () => {
                                     <h2>Photo de profil</h2>
                                 </td>
                                 <td>
-                                    <input type="file" accept="image/*"/>
+                                    <input type="file" id="image" accept="image/*"/>
                                 </td>
                             </tr>
                             <tr>
@@ -58,15 +69,7 @@ const Settings = () => {
                                     <h2>Nom d'utilisateur</h2>
                                 </td>
                                 <td>
-                                    <input type="text" placeholder={userData.username}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2>Email</h2>
-                                </td>
-                                <td>
-                                    <input type="text" placeholder={userData.email}/>
+                                    <input type="text" id="username" placeholder={userData.username} />
                                 </td>
                             </tr>
                             <tr>
@@ -74,7 +77,7 @@ const Settings = () => {
                                     <h2>Âge</h2>
                                 </td>
                                 <td>
-                                    <input type="text" placeholder={userData.age}/>
+                                    <input type="number" id="age" placeholder={userData.age}/>
                                 </td>
                             </tr>
                             </tbody>
