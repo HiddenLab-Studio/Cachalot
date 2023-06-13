@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 const { auth, db } = firebaseConfigClient();  
 

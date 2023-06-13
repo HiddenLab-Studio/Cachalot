@@ -43,44 +43,29 @@
 <body class="bg-gray-100">
   <div id="roomSetup" class="flex justify-center items-center h-screen">
     <div class="text-center">
-        <button type="button" id="createRoom"
+      <div class="py-5">
+        <input id="nameClasse" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text" placeholder="Nom de la classe" />
+      </div>
+        <button type="button" id="createClasse"
           class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Create Room
+          Créer sa Classe
         </button>
         <h2 id="titleRoom" class="text-3xl font-bold mb-4 hidden"></h2>
-        <form onsubmit="clickJoinRoom(event)">
           <div class="py-5">
-            <input id="inputRoom" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text" placeholder="Room" />
+            <input id="codeClasse" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text" placeholder="Room" />
           </div>
-          <button type="submit" id="joinRoom"
+          <button type="submit" id="joinClasse"
             class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            Join Room
+            Rejoindre Classe
           </button>
-        </form>
+  
       </div>
-    </div>
-    
-    <div id="room" class="w-full px-5 flex flex-col justify-between hidden">
-      <h1 id="roomName" class="text-3xl font-bold mb-4">Bienvenue dans la room </h1>
-      <div class="flex flex-col mt-5">
-        <ul id="messageList" class="max-h-96 overflow-y-auto"></ul>
-      </div>
-      <form onsubmit="message(event)">
-        <div class="py-5">
-          <input id="inputMessage" class="w-full bg-gray-300 py-5 px-3 rounded-xl" type="text"
-            placeholder="Message" />
-        </div>
-        <button type="submit" id="sendMessage"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-          Envoyer
-        </button>
-      </form>
     </div>
   </div>
   <div id="root"></div>
   
   <script type="module" src="./src/firebase-client/firebase-session.js"></script>
-  <script type="module" src="./src/firebase-client/firebase-room.js"></script>
+  <script type="module" src="./src/firebase-client/classe/firebase-room.js"></script>
 </body>
 
 </html>

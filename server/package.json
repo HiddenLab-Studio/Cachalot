@@ -10,11 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "firebase-admin": "^11.8.0",
+    "http": "^0.0.1-security",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
+    "socket.io": "^4.6.2",
     "tailwind": "^4.0.0"
   }
 }

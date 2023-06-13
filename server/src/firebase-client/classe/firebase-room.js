@@ -1,59 +1,132 @@
 import { collection, doc, addDoc, getDoc, onSnapshot, query, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
-import firebaseConfigClient from "../composable/firebaseConfigClient.js";
+import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 const { auth, db } = firebaseConfigClient();
 
 
 /*** CREATE ROOM */
 
-function createRoom() {
+async function createClasse(name) {
+    let result = false;
     //On recupere l'utilisateur connecté pour le mettre en admin de la room
     const user = auth.currentUser;
     //On crée une chaine de caractères aléatoire de 5 caractères
-    const room = Math.random().toString(36).substring(2, 7).toUpperCase();
+    const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
     //On ajoute la room dans la collection rooms
-    console.log(room);
+    console.log(classeCode);
 
     //preparation du doc
-    const docRef = doc(db, "rooms", room);
-    getDoc(docRef).then((doc) => {
+    const docRef = doc(db, "classes", classeCode);
+    const userDocRef = doc(db, 'users', user.uid);
+    const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
+
+    await getDoc(docRef).then((doc) => {
         if (!doc.exists()) {
-            const data = {
-                admin: user.uid,
-                date: new Date(),
-            }
+            getDoc(userDocRef).then((doc) => {
 
-            //on ajoute le doc
-            setDoc(docRef, {
-                admin: data.admin,
-                date: data.date,
-            }).then(() => {
-                //On affiche le nom de la room créée -- NUL EN REACT
-                const titleRoom = document.getElementById('titleRoom');
-                titleRoom.innerHTML = "Room : " + room + " est ready !";
-                titleRoom.classList.remove('hidden');
-            })
+                const data = {
+                    name: name,
+                    adminUsername: doc.data().username,
+                    adminPhoto: doc.data().photo,
+                    dateCreation: new Date(),
+                }
+                //on ajoute le doc
+                setDoc(docRef, {
+                    name: data.name,
+                    admin: {
+                        username: data.adminUsername,
+                        photo: data.adminPhoto,
+                    },
+                    dateCreation: data.dateCreation,
 
-        }
+                }).then(() => {
+                    setDoc(userRef, {
+                        name: data.name,
+                        dateCreation: data.dateCreation,
+                    }).then(() => {
+                        result = true;
+                    })})})}
         else {
-            createRoom();
+            createRoom(name);
 
         }
     })
+    return result;
 }
 
 //Event listener pour le bouton createRoom
 function clickCreateRoom() {
-    const createRoomButton = document.getElementById('createRoom');
+    const createRoomButton = document.getElementById('createClasse');
     createRoomButton.addEventListener('click', () => {
-        createRoom();
+        const nameClasse = document.getElementById('nameClasse').value;
+        createClasse(nameClasse);
     })
 }
 
 
+async function joinClasse(code) {
+    let result = false;
+    //On recupere l'utilisateur connecté pour le mettre en admin de la room
+    const user = auth.currentUser;
+    //On ajoute la room dans la collection rooms
+    console.log(code);
+
+    //preparation du doc
+    const docRef = doc(db, "classes", code);
+    const userRefClasses = doc(db, "users", user.uid, "classes", code);
+    const userClassesRef = doc(db, "classes", code, "users", user.uid);
+    const userRef = doc(db, "users", user.uid);
+
+    await getDoc(docRef).then((doc) => {
+        if (doc.exists()) {
+            console.log("bienvenue dans la classe : " + code);
+            if (doc.data().admin == user.uid) {
+                console.log("Vous êtes l'admin de la classe");
+            }
+            else {
+                setDoc(userRefClasses, {
+                    name: doc.data().name,
+                    dateJoin: new Date(),
+
+                }).then(() => {
+                    getDoc(userRef)
+                        .then((doc) => {
+                            if (doc.exists()) {
+                                setDoc(userClassesRef, {
+                                    username: doc.data().username,
+                                    dateJoin: new Date(),
+                                    exercises: {
+                                        exoDone: 0,
+                                        exoStarted: 0,
+                                    
+                                    },
+                                    photo: doc.data().photo,
+                                })}})})}}
+        else {
+            console.log("Pas de classe avec ce code");
+            return result;
+        }
+    }).then(() => {
+        result = true;
+    })
+    return result;
+}
+
+function clickJoinClasse() {
+    const joinClasseButton = document.getElementById('joinClasse');
+    joinClasseButton.addEventListener('click', () => {
+        const codeClasse = document.getElementById('codeClasse').value;
+        joinClasse(codeClasse);
+    })
+}
+
+//Event listener pour le bouton createRoom
+
+
+
 
 /*** JOIN ROOM */
-
+/*
 //Variable globale, elle dégage apres la fonction room() terminé -- C IGNOBLE MAIS J'AI LA FLEMME
 let roomValue = 0;
 
@@ -111,6 +184,7 @@ window.clickJoinRoom = function (e) {
 //On recupere la value de la room :: C'est à faire actuellement variable globale
 
 /**A FAIRE CLEAN POUR RECUPERER LA VALUE DE LA ROOM SANS VARIABLE GLOBALE */
+/*
 function room() {
     return roomValue;
 }
@@ -118,6 +192,7 @@ function room() {
 
 
 /***** SEND MESSAGE */
+/*
 function sendMessage(e) {
     e.preventDefault();
     //On recupere l'utilisateur connecté
@@ -156,6 +231,7 @@ window.message = function (e) {
 
 /**GETROOM AND CHANGE ON ROOM */
 //on recupere les messages envoyé 
+/*
 function getMessage() {
     //On recupere la collection messages en fonction de le room
     const messagesCollection = collection(db, "rooms/" + room() + "/messages");
@@ -187,5 +263,6 @@ function getMessage() {
     })
 }
 
-
+*/
 clickCreateRoom();
+clickJoinClasse();
