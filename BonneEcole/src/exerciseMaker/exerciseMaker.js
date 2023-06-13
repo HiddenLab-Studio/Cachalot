@@ -11,6 +11,7 @@ var exerciseObjectClient = {
     answer3: undefined,
     answer4: undefined,
     answer5: undefined,
+    QCMCorrectAnswer: []
 }
 
 
@@ -80,7 +81,6 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
     //Génération du bouton valider
     let buttonValidate = document.createElement("button");
     buttonValidate.setAttribute("id", "buttonValidate");
-    buttonValidate.setAttribute("class", "buttonExerciseType");
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
 
@@ -100,6 +100,8 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
 
 });
 
+
+
 //Listener sur le bouton QCM
 //On va ici générer tous les éléments nécessaires à la création d'un exercice de type QCM
 document.getElementById("buttonTypeQCM").addEventListener("click", function () {
@@ -115,12 +117,19 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     //On créer ensuite les différents inputs de réponse. Ils vont chacun être dans un div.
     //4 réponses de base
     //On vérifie que les divs de réponses n'existent pas déjà (en vérifiant que le premier div existe ou non)
+
+    //On créer une div contenant les réponses
+    let divAnswerContainer = document.createElement("div");
+    divAnswerContainer.setAttribute("id", "divAnswerContainer");
+    document.getElementById("exerciseDiv").appendChild(divAnswerContainer);
+
+
     if (document.getElementById("divAnswer1") == null) {
         for (let i = 1; i <= 4; i++) {
             //Div pour chaque réponse
             let divAnswer = document.createElement("div");
             divAnswer.setAttribute("id", "divAnswer" + i);
-            document.getElementById("exerciseDiv").appendChild(divAnswer);
+            document.getElementById("divAnswerContainer").appendChild(divAnswer);
 
             //Input pour chaque réponse -> pour écrire chaque réponse
             let answerInputQCM = document.createElement("input");
@@ -137,10 +146,70 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
         }
     }
 
+
+    //Gestion de l'ajout / suppression de réponses
+
+    let buttonAddAnswer = document.createElement("button");
+    buttonAddAnswer.setAttribute("id", "buttonAddAnswer");
+    buttonAddAnswer.innerHTML = "Ajouter une réponse";
+    document.getElementById("exerciseDiv").appendChild(buttonAddAnswer);
+
+    buttonAddAnswer.addEventListener("click", function () {
+        //On vérifie que le nombre de réponses n'est pas supérieur à 5
+        if (document.getElementById("divAnswer5") == null) {
+            //On créer un div pour la nouvelle réponse
+            let divAnswer = document.createElement("div");
+
+            //On regarde le nombre de divs de réponses pour donner un id au nouveau div
+            let divAnswerNumber = document.querySelectorAll('#divAnswerContainer div').length + 1;
+            divAnswer.setAttribute("id", "divAnswer" + divAnswerNumber);
+
+            //On ajoute le div à l'exercice au dessus du bouton "Ajouter une réponse"
+            document.getElementById("divAnswerContainer").appendChild(divAnswer);
+
+            //Dans cette div, va créer notre input pour la réponse et la checkbox
+            answerInputQCM = document.createElement("input");
+            answerInputQCM.setAttribute("type", "text");
+            answerInputQCM.setAttribute("id", "answerInputQCM" + divAnswerNumber);
+            answerInputQCM.setAttribute("placeholder", "Réponse " + divAnswerNumber);
+            document.getElementById("divAnswer" + divAnswerNumber).appendChild(answerInputQCM);
+
+            answerCheckbox = document.createElement("input");
+            answerCheckbox.setAttribute("type", "checkbox");
+            answerCheckbox.setAttribute("id", "answerCheckbox" + divAnswerNumber);
+            document.getElementById("divAnswer" + divAnswerNumber).appendChild(answerCheckbox);
+
+        }
+    });
+
+
+    //A rework pour pouvoir delete la réponse que je veux et pas forcément la dernière (si j'ai le temps)
+    let buttonRemoveAnswer = document.createElement("button");
+    buttonRemoveAnswer.setAttribute("id", "buttonRemoveAnswer");
+    buttonRemoveAnswer.innerHTML = "Supprimer une réponse";
+    document.getElementById("exerciseDiv").appendChild(buttonRemoveAnswer);
+
+    buttonRemoveAnswer.addEventListener("click", function () {
+        //On vérifie que le nombre de réponses n'est pas inférieur à 2
+        if (document.getElementById("divAnswer3") != null) {
+            //On regarde le nombre de divs de réponses pour supprimer le dernier div
+            let divAnswerNumber = document.querySelectorAll('#divAnswerContainer div').length;
+            document.getElementById("divAnswer" + divAnswerNumber).remove();
+            console.log(document.querySelectorAll('#divAnswerContainer div'));
+            console.log(divAnswerNumber);
+        }
+    });
+
+
+
+
+
+
+
+
     //Génération du bouton valider
     let buttonValidate = document.createElement("button");
     buttonValidate.setAttribute("id", "buttonValidate");
-    buttonValidate.setAttribute("class", "buttonExerciseType");
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
 
@@ -172,6 +241,16 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
         }
 
+        //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
+        //On vérifie que l'élément existe en HTML avant de le récupérer
+        exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
+        for(let i = 0; i <= 5; i++){
+            if(document.getElementById("answerCheckbox" + i) != null){
+                if(document.getElementById("answerCheckbox" + i).checked){
+                    exerciseObjectClient.QCMCorrectAnswer.push(i);
+                }
+            }
+        }
 
         console.log(exerciseObjectClient);
 
