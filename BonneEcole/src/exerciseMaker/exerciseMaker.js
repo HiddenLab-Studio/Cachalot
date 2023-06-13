@@ -3,7 +3,7 @@
 //Objet qui va contenir toutes les informations de l'exercice
 var exerciseObjectClient = {
     type: undefined,
-    title:undefined,
+    title: undefined,
     question: undefined,
     answer: undefined,
     answer1: undefined,
@@ -55,8 +55,13 @@ document.getElementById("divExerciseTypeChoice").appendChild(buttonTypeQCM);
 //On va ici générer tous les éléments nécessaires à la création d'un exercice de type INPUT
 document.getElementById("buttonTypeINPUT").addEventListener("click", function () {
 
+    removeHighlightFromAll();
+    if(document.getElementById("errorDiv") != null){
+        document.getElementById("errorDiv").remove();
+    }
+
     //On va d'abord supprimer tous les éléments de l'exercice de type QCM (s'il y en a)
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
         if (document.getElementById("divAnswer" + i) != null) {
             document.getElementById("divAnswer" + i).remove();
         }
@@ -66,8 +71,16 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         document.getElementById("buttonValidate").remove();
     }
 
+    if (document.getElementById("buttonAddAnswer") != null) {
+        document.getElementById("buttonAddAnswer").remove();
+    }
 
-    //Si l'input de réponse n'existe pas déjà, on le créer
+    if (document.getElementById("buttonRemoveAnswer") != null) {
+        document.getElementById("buttonRemoveAnswer").remove();
+    }
+
+
+    //Si l'input de réponse n'existe pas déjà, on le créé
     if (document.getElementById("answerInput") == null) {
         //On créer l'input de la réponse.
         let answerInput = document.createElement("input");
@@ -87,14 +100,17 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
 
     //Listener sur le bouton valider -> création de l'exercice INPUT
     document.getElementById("buttonValidate").addEventListener("click", function () {
-            
-            //On récupère les valeurs des inputs et on les met dans l'objet
-            exerciseObjectClient.type = "INPUT";
-            exerciseObjectClient.title = document.getElementById("titleInput").value;
-            exerciseObjectClient.question = document.getElementById("consigneInput").value;
-            exerciseObjectClient.answer = document.getElementById("answerInput").value;
 
-            console.log(exerciseObjectClient);
+
+        console.log(checkEveryNecessaryField("INPUT"));
+
+        //On récupère les valeurs des inputs et on les met dans l'objet
+        exerciseObjectClient.type = "INPUT";
+        exerciseObjectClient.title = document.getElementById("titleInput").value;
+        exerciseObjectClient.question = document.getElementById("consigneInput").value;
+        exerciseObjectClient.answer = document.getElementById("answerInput").value;
+
+        console.log(exerciseObjectClient);
 
     });
 
@@ -105,6 +121,12 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
 //Listener sur le bouton QCM
 //On va ici générer tous les éléments nécessaires à la création d'un exercice de type QCM
 document.getElementById("buttonTypeQCM").addEventListener("click", function () {
+
+    removeHighlightFromAll();
+    if(document.getElementById("errorDiv") != null){
+        document.getElementById("errorDiv").remove();
+    }
+
     //On va d'abord supprimer les éléments de l'exercice de type INPUT (s'il y en a)
     if (document.getElementById("answerInput") != null) {
         document.getElementById("answerInput").remove();
@@ -112,6 +134,19 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
+    }
+
+
+    if (document.getElementById("buttonAddAnswer") != null) {
+        document.getElementById("buttonAddAnswer").remove();
+    }
+
+    if (document.getElementById("buttonRemoveAnswer") != null) {
+        document.getElementById("buttonRemoveAnswer").remove();
+    }
+
+    if (document.getElementById("divAnswerContainer") != null) {
+        document.getElementById("divAnswerContainer").remove();
     }
 
     //On créer ensuite les différents inputs de réponse. Ils vont chacun être dans un div.
@@ -218,35 +253,37 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     //Listener sur le bouton valider -> création de l'exercice QCM
     document.getElementById("buttonValidate").addEventListener("click", function () {
-            
+
+        console.log(checkEveryNecessaryField("QCM"));
+
         //On récupère les valeurs des inputs et on les met dans l'objet
         exerciseObjectClient.type = "QCM";
         exerciseObjectClient.title = document.getElementById("titleInput").value;
         exerciseObjectClient.question = document.getElementById("consigneInput").value;
-        
+
         //on vérifie que l'élément existe en HTML avant de le récupérer
-        if(document.getElementById("answerInputQCM1") != null){
+        if (document.getElementById("answerInputQCM1") != null) {
             exerciseObjectClient.answer1 = document.getElementById("answerInputQCM1").value;
         }
-        if(document.getElementById("answerInputQCM2") != null){
+        if (document.getElementById("answerInputQCM2") != null) {
             exerciseObjectClient.answer2 = document.getElementById("answerInputQCM2").value;
         }
-        if(document.getElementById("answerInputQCM3") != null){
+        if (document.getElementById("answerInputQCM3") != null) {
             exerciseObjectClient.answer3 = document.getElementById("answerInputQCM3").value;
         }
-        if(document.getElementById("answerInputQCM4") != null){
+        if (document.getElementById("answerInputQCM4") != null) {
             exerciseObjectClient.answer4 = document.getElementById("answerInputQCM4").value;
         }
-        if(document.getElementById("answerInputQCM5") != null){
+        if (document.getElementById("answerInputQCM5") != null) {
             exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
         }
 
         //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
         //On vérifie que l'élément existe en HTML avant de le récupérer
         exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
-        for(let i = 0; i <= 5; i++){
-            if(document.getElementById("answerCheckbox" + i) != null){
-                if(document.getElementById("answerCheckbox" + i).checked){
+        for (let i = 0; i <= 5; i++) {
+            if (document.getElementById("answerCheckbox" + i) != null) {
+                if (document.getElementById("answerCheckbox" + i).checked) {
                     exerciseObjectClient.QCMCorrectAnswer.push(i);
                 }
             }
@@ -254,7 +291,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
         console.log(exerciseObjectClient);
 
-});
+    });
 });
 
 
@@ -280,7 +317,73 @@ buttonsExerciseTypeContainer.forEach(function (button) {
 });
 
 
+//On vérifie que tous les champs nécessaires sont remplis, et s'ils ne le sont pas, on vient les surligner en leur ajoutant une classe (et grace au css)
+function checkEveryNecessaryField(exerciseType) {
+    let allFieldsAreFilled = true;
+    if (document.getElementById("titleInput").value == "") {
+        document.getElementById("titleInput").classList.add("missingField");
+        allFieldsAreFilled = false;
+    }
+    else {
+        document.getElementById("titleInput").classList.remove("missingField");
+    }
+    if (document.getElementById("consigneInput").value == "") {
+        document.getElementById("consigneInput").classList.add("missingField");
 
+        allFieldsAreFilled = false;
+    }
+    else {
+        document.getElementById("consigneInput").classList.remove("missingField");
+    }
+    if (exerciseType == "INPUT") {
+        if (document.getElementById("answerInput").value == "") {
+            document.getElementById("answerInput").classList.add("missingField");
+            allFieldsAreFilled = false;
+        }
+        else {
+            document.getElementById("answerInput").classList.remove("missingField");
+        }
+    }
+    if (exerciseType == "QCM") {
+        if (document.getElementById("answerInputQCM1").value == "" && document.getElementById("answerInputQCM2").value == "") {
+            if (document.getElementById("answerInputQCM1").value == "") {
+                document.getElementById("answerInputQCM1").classList.add("missingField");
+            }
+            else {
+                document.getElementById("answerInputQCM1").classList.remove("missingField");
+            }
+            if (document.getElementById("answerInputQCM2").value == "") {
+                document.getElementById("answerInputQCM2").classList.add("missingField");
+            }
+            else {
+                document.getElementById("answerInputQCM2").classList.remove("missingField");
+            }
+            allFieldsAreFilled = false;
+        }
+    }
 
+    if (!allFieldsAreFilled) {
+        let errorDiv = document.createElement("div");
+        errorDiv.setAttribute("id", "errorDiv");
+        document.getElementById("exerciseDiv").appendChild(errorDiv);
+        errorDiv.innerHTML = "Veuillez remplir tous les champs nécessaires";
+    }
+    else {
+        if (document.getElementById("errorDiv") != null) {
+            document.getElementById("errorDiv").remove();
+        }
+    }
+    return allFieldsAreFilled;
+}
+
+function removeHighlightFromAll() {
+    //On récupère tous les éléments de la div exerciseDiv
+    const elements = document.querySelectorAll('#exerciseDiv *');
+
+    //On retire la classe qui permet de surligner de tous les éléments
+    elements.forEach((element) => {
+        element.classList.remove("missingField");
+    });
+}
 
 

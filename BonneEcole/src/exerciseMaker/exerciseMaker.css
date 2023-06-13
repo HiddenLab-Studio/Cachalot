@@ -1,4 +1,4 @@
-#exerciseDiv{
+#exerciseDiv {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -6,7 +6,7 @@
     gap: 5px;
 }
 
-#divExerciseTypeChoice{
+#divExerciseTypeChoice {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,5 +14,10 @@
 }
 
 #divExerciseTypeChoice .activeLevel {
-    background-color: #f00; /* Couleur différente pour le bouton actif */
-  }
+    background-color: #f00;
+    /* Couleur différente pour le bouton actif */
+}
+
+.missingField {
+    border: 1px solid red;
+}
