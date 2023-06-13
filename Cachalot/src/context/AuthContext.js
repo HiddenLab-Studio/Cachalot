@@ -55,7 +55,6 @@ export const AuthProvider = ({ children }) => {
             });
         }
     }
-
     async function getUsersListByUsername(username){
         let result = [];
         const usersCollection = collection(db, "users");
@@ -79,7 +78,6 @@ export const AuthProvider = ({ children }) => {
         return result;
 
     }
-
     async function getUserByUsername(username){
         let result = undefined;
         const usersCollection = collection(db, "users");
@@ -112,7 +110,6 @@ export const AuthProvider = ({ children }) => {
         }
         return result;
     }
-
     async function getUserFriends(id){
         const userFollowing = collection(db, "users/" + id + "/following");
         const userFollowingSnapshot = await getDocs(userFollowing);
@@ -125,8 +122,6 @@ export const AuthProvider = ({ children }) => {
             follower: userFollowerSnapshot.docs.map(doc => doc.data())
         };
     }
-
-
     async function followUser(searchedUser){
         console.log(searchedUser);
         let result = false;
@@ -164,6 +159,54 @@ export const AuthProvider = ({ children }) => {
         })
         return result;
     }
+
+    async function createClass(name) {
+        let result = false;
+        const user = auth.currentUser;
+        const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+
+        const docRef = doc(db, "classes", classeCode);
+        const userDocRef = doc(db, 'users', user.uid);
+        const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
+
+
+
+        await getDoc(docRef).then(async (doc) => {
+            if (!doc.exists()) {
+                await getDoc(userDocRef).then(async (doc) => {
+                    const data = {
+                        name: name,
+                        adminUsername: doc.data().username,
+                        adminPhoto: doc.data().photo,
+                        dateCreation: new Date(),
+                    }
+                    await setDoc(docRef, {
+                        name: data.name,
+                        admin: {
+                            username: data.adminUsername,
+                            photo: data.adminPhoto,
+                        },
+                        dateCreation: data.dateCreation,
+
+                    }).then(async () => {
+                        await setDoc(userRef, {
+                            name: data.name,
+                            dateCreation: data.dateCreation,
+                        }).then(() => {
+                            result = true;
+                        })
+                    })
+                })
+            } else {
+                console.log("Code déjà existante");
+                // on relance la fonction
+                await createClass(name);
+            }
+        })
+        return result;
+    }
+
+
     const value = {
         currentUser,
         userData,
@@ -174,6 +217,7 @@ export const AuthProvider = ({ children }) => {
         getUserFriends,
         followUser,
         unfollowUser,
+        createClass,
         // State
         setIsLoading
     }

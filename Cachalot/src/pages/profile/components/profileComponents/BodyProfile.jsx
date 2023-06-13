@@ -73,7 +73,7 @@ const BodyProfile = ({isSearch, data}) => {
                                 </div>
                             </FindFriendsContainer>
                         </Link>
-                        <Link to={"/join-class"}>
+                        <Link to={"/class"}>
                             <JoinClassContainer>
                                 <img src="../../../../../static/img/icons/class.png" alt="Join a class"/>
                                 <div>

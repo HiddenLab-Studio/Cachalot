@@ -29,6 +29,11 @@ const Settings = () => {
         if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
     }, [auth.currentUser])
 
+    async function handleClick() {
+
+    }
+
+
     if(isLoading) {
         return <Loading />
     } else if(auth.currentUser instanceof Object) {
@@ -64,10 +69,18 @@ const Settings = () => {
                                     <input type="text" placeholder={userData.email}/>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <h2>Âge</h2>
+                                </td>
+                                <td>
+                                    <input type="text" placeholder={userData.age}/>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                         <ApplyChangesButtonContainer change={onChanges}>
-                            <button>Enregistrer les modifications</button>
+                            <button onClick={async () => await handleClick()}>Enregistrer les modifications</button>
                         </ApplyChangesButtonContainer>
                     </Content>
                 </SettingsContainer>

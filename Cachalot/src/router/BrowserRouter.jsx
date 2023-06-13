@@ -14,6 +14,7 @@ import About from "../components/utils/about/About.jsx";
 import Settings from "../components/utils/settings/Settings.jsx";
 import Quests from "../components/utils/quests/Quests.jsx";
 import DivisionHomePage from "../pages/division/DivisionHomePage.jsx";
+import Class from "../components/utils/class/Class.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -31,6 +32,8 @@ const router = createBrowserRouter([
     { path: "/profile/:user", element: <ProfileHomePage isSearching={true} /> },
     { path: "/user-search", element: <SearchUser /> },
     { path: "/loading", element: <Loading /> },
+    // Class Page
+    { path: "/class", element: <Class /> },
     // Settings Page
     { path: "/settings", element: <Settings /> },
     // About Page
