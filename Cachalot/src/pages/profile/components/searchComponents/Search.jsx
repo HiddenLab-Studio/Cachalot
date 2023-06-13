@@ -80,7 +80,7 @@ const Search = () => {
                                                     <ElementDiv key={index}>
                                                         <Link to={"/profile/" + user.username}>
                                                             <img src={user.photo} alt="profile picture"/>
-                                                            <span>{user.username}</span>
+                                                            <span>{user.displayName}</span>
                                                             <FaChevronRight />
                                                         </Link>
                                                     </ElementDiv>

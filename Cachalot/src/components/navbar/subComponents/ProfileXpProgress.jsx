@@ -30,7 +30,7 @@ const ProfileXpProgress = () => {
                     </ProfileElement>
                 </Link>
                 <ProfileElement>
-                    <span>{userData.username}</span>
+                    <span>{userData.displayName}</span>
                     <XpBarContainer>
                         <BarContainer className="flex flex-row">
                             <XpBar><div></div></XpBar>

@@ -37,7 +37,7 @@ const Settings = () => {
             photoURL = await URL.createObjectURL(filePhoto);
         }
         const data = {
-            username: document.getElementById("username").value,
+            displayName: document.getElementById("displayName").value,
             age: document.getElementById("age").value,
             photo : photoURL
         }
@@ -69,7 +69,7 @@ const Settings = () => {
                                     <h2>Nom d'utilisateur</h2>
                                 </td>
                                 <td>
-                                    <input type="text" id="username" placeholder={userData.username} />
+                                    <input type="text" id="displayName" placeholder={userData.displayName} />
                                 </td>
                             </tr>
                             <tr>

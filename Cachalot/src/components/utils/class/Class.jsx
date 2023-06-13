@@ -7,57 +7,16 @@ import {useAuth} from "../../../context/AuthContext.js";
 // Components
 import Navbar from "../../navbar/Navbar.jsx";
 import Loading from "../loading/Loading.jsx";
+import ClassButton from "./subComponents/ClassButton.jsx";
 
 // Styled Components
-import {
-    MainContainer,
-    Container
-} from "../ui/GlobalStyle.js";
-
-const ClassContainer = styled(Container)``;
-const Content = styled.section`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  justify-content: center;
-  align-items: center;
-  padding: 25px;
-  
-  .Container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 512px;
-
-    h1 {
-      font-family: "Din_Round_Bold", sans-serif;
-      font-size: var(--fs-xl);
-      color: ${props => props.theme.text};
-    }
-    
-    h2 {
-      font-family: "Din_Round_Med", sans-serif;
-      font-size: var(--fs-m);
-      color: ${props => props.theme.text};
-    }
-    
-    input {
-      flex-grow: 1;
-      padding: 10px 16px;
-      background-color: ${props => props.theme.inputBg};
-      border: 2px solid ${props => props.theme.inputBorder};
-      border-radius: 12px;
-      outline: none;
-    }
-    
-  }
-  
-`
+import { MainContainer } from "../ui/GlobalStyle.js";
+import {ClassContainer, Content, GifWrapper} from "./ClassStyle.js";
+import {useMediaQuery} from "react-responsive";
 
 const Class = () => {
     const auth = useAuth()
+    const isOnMobile = useMediaQuery({query: "(max-width: 768px)"});
 
     // State
     const [isLoading, setIsLoading] = useState(true);
@@ -74,22 +33,25 @@ const Class = () => {
                 <Navbar />
                 <ClassContainer>
                     <Content>
-                        <div className="Container">
-                            <div>
-                                <h1>Les Classes</h1>
-                                <p>
-                                    Découvrez notre système de classe en ligne interactif où l'apprentissage rencontre la communication. Partagez vos idées, posez des questions et discutez avec vos camarades de classe, le tout dans un environnement virtuel convivial.
-                                </p>
-                            </div>
-                            <div tw="flex flex-col gap-5 sm:flex-row">
-                                <div tw="w-[100%] sm:w-[50%]">
-                                    <h2>Créer une classe</h2>
-                                    <input type="text" placeholder="Nom de la classe"/>
+                        <div className="container">
+                            {
+                                !isOnMobile ?
+                                    <GifWrapper>
+                                        <img src="../../../../static/img/gif/papy.gif" alt=""/>
+                                    </GifWrapper>
+                                    :
+                                    null
+                            }
+                            <div tw="flex flex-col gap-5">
+                                <div className="titleContainer">
+                                    <h1>Les Classes</h1>
+                                    <span>
+                                    Découvrez notre système de classe en ligne interactif où l'apprentissage rencontre
+                                    la communication. Partagez vos idées, posez des questions et discutez avec vos
+                                    camarades de classe, le tout dans un environnement virtuel convivial.
+                                    </span>
                                 </div>
-                                <div tw="w-[50%]">
-                                    <h2>Rejoindre une classe</h2>
-                                    <input type="text" placeholder="Code de la classe"/>
-                                </div>
+                                <ClassButton />
                             </div>
                         </div>
                     </Content>

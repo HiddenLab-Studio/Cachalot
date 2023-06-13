@@ -4,6 +4,7 @@ import {FieldContainer, InputWithRevealPassword} from "../../../styles/SignInUpP
 const SignUpFields = forwardRef( (props, ref) => {
     // States
     const [isPasswordRevealed, setIsPasswordRevealed] = useState(false);
+    const [displayName, setDisplayName] = useState("");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [age, setAge] = useState("");
@@ -15,6 +16,7 @@ const SignUpFields = forwardRef( (props, ref) => {
     useImperativeHandle(ref, () => ({
         getState: () => {
             return {
+                displayName: displayName,
                 username: username,
                 age: age,
                 email: email,
@@ -30,6 +32,7 @@ const SignUpFields = forwardRef( (props, ref) => {
 
     return (
         <FieldContainer ref={ref}>
+            <input placeholder="Pseudo" onChange={(e) => setDisplayName(e.target.value)}/>
             <input placeholder="Nom d'utilisateur" onChange={(e) => setUsername(e.target.value)}/>
             <input placeholder="Âge (facultatif)" onChange={(e) => setAge(e.target.value)}/>
             <input placeholder="E-mail" onChange={(e) => setEmail(e.target.value)}/>

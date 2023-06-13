@@ -180,9 +180,9 @@ const ProfileInformation = ({isSearch, data}) => {
                 </div>
                 <div className="info">
                     <div className="profile__name">
-                        <span>{userData.username}</span>
+                        <span>{userData.displayName}</span>
                         {!isSearch ?
-                            <div>{userData.email}</div>
+                            <div>@{userData.username}</div>
                             :
                             null
                         }

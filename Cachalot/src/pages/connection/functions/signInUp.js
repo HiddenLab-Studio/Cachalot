@@ -73,10 +73,10 @@ export async function firebaseRegister(data) {
         const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
         console.log(data);
         if(fetchedUsers.includes(data.username)){
-            result.code = "Ce pseudo est déjà utilisé";
+            result.code = "Ce nom d'utilisateur est déjà utilisé";
             return result;
         } else {
-            console.log("Pseudo disponible");
+            console.log("Nom d'utilisateur disponible");
         }
     }
 
@@ -94,6 +94,7 @@ export async function firebaseRegister(data) {
             const userDocRef = doc(db, "users", user.uid);
             //Ajout des informations dans le document
             setDoc(userDocRef, {
+                displayName: data.displayName,
                 username: data.username,
                 age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,

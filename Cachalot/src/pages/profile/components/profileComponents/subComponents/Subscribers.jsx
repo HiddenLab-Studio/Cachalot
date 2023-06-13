@@ -23,6 +23,8 @@ const Subscribers = ({isSearch, data}) => {
     //console.log("Subscribers data: ", data);
     const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
 
+    console.log("userFriends: ", userFriends)
+
     return (
         <>
             <ChoosePanelContainer>
@@ -44,7 +46,7 @@ const Subscribers = ({isSearch, data}) => {
                                             <FriendsDiv key={index}>
                                                 <Link to={"/profile/" + item.username}>
                                                     <img src={item.photo} alt="profile picture"/>
-                                                    <span>{item.username}</span>
+                                                    <span>{item.displayName}</span>
                                                 </Link>
                                             </FriendsDiv>
                                         )
@@ -68,7 +70,7 @@ const Subscribers = ({isSearch, data}) => {
                                             <FriendsDiv key={index}>
                                                 <Link to={"/profile/" + item.username}>
                                                     <img src={item.photo} alt="profile picture"/>
-                                                    <span>{item.username}</span>
+                                                    <span>{item.displayName}</span>
                                                 </Link>
                                             </FriendsDiv>
                                         )

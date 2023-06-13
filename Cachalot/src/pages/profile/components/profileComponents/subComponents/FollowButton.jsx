@@ -114,9 +114,11 @@ const FollowButton = ({ isSearch, data }) => {
                         if (result) {
                             // On update le cache pour afficher l'utilisateur dans la liste des abonnements
                             cacheManager.addFriends("following", {
+                                displayName: data.searchedUser.userData.displayName,
                                 username: data.searchedUser.userData.username,
                                 photo: data.searchedUser.userData.photo
                             });
+                            console.log(cacheManager.getFriendsCache());
                             setIsFollowing(true);
                         } else {
                             console.error("Failed to follow user!");

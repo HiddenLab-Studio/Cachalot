@@ -23,6 +23,7 @@ export const CacheProvider = ({ children }) => {
             followerList.forEach(follower => {
                 if(!isFollowerCached(follower.username)){
                     friendsCache.follower.push({
+                        displayName: follower.displayName,
                         username: follower.username,
                         photo: follower.photo,
                     });
@@ -34,6 +35,7 @@ export const CacheProvider = ({ children }) => {
             followingList.forEach(following => {
                 if(!isFollowingCached(following.username)){
                     friendsCache.following.push({
+                        displayName: following.displayName,
                         username: following.username,
                         photo: following.photo,
                     });
@@ -59,6 +61,7 @@ export const CacheProvider = ({ children }) => {
                     if(!isFollowingCached(object.username)){
                         console.info("Ajout d'un abonnement");
                         friendsCache.following.push({
+                            displayName: object.displayName,
                             username: object.username,
                             photo: object.photo,
                         });

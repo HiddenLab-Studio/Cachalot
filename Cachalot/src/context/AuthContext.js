@@ -129,6 +129,7 @@ export const AuthProvider = ({ children }) => {
         const user = auth.currentUser;
         const userFollowing = doc(db, "users", user.uid + '/following/' + searchedUser.id);
         await setDoc(userFollowing, {
+            displayName: searchedUser.displayName,
             username: searchedUser.username,
             photo: searchedUser.photo,
         }).then(async () => {
@@ -137,6 +138,7 @@ export const AuthProvider = ({ children }) => {
             await getDoc(docRef).then(async (doc) => {
                 if (doc.exists()) {
                     await setDoc(userFollower, {
+                        displayName: doc.data().displayName,
                         username: doc.data().username,
                         photo: doc.data().photo,
                     }).then(() => {
@@ -235,8 +237,8 @@ export const AuthProvider = ({ children }) => {
             const urlImage = await uploadImage(user.uid, data.photo, "users");
             newUserData.photo = urlImage;
         }
-        if (data.username !== "") {
-            newUserData.username = data.username;
+        if (data.displayName !== "") {
+            newUserData.displayName = data.displayName;
         }
         if (data.age !== "") {
             newUserData.age = data.age;
