@@ -1,4 +1,5 @@
 import tw, { styled } from 'twin.macro';
+import {Container} from "../../../components/utils/ui/GlobalStyle.js";
 
 export const GoogleButtonContainer = styled.div`
   display: flex;
@@ -113,43 +114,6 @@ export const FieldContainer = styled.div`
   
 `
 
-export const SignInUpContainer = styled.div`
-  width: 350px;
-  display: flex;
-  flex-direction: column;
-  font-family: "Din_Round", sans-serif;
-  color: ${props => props.theme.text};
-  align-items: center;
-  align-self: center;
-
-  h1 {
-    font-size: var(--fs-sl);
-    font-weight: 700;
-    margin: 10px 0 10px;
-  }
-  
-  .error {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 10px;
-    font-size: var(--fs-ss);
-    color: ${props => props.theme.errorText};
-    svg {
-      font-size: var(--fs-sm);
-    }
-  }
-
-  @media (max-width: 768px) {
-    ${FieldContainer} {
-      input {
-        padding: 7px 15px;
-      }
-    }
-  } 
-  
-`
-
 export const SwitchButtonWrapper = styled.div`
   position: absolute;
   top: 0;
@@ -182,10 +146,49 @@ export const SwitchButtonWrapper = styled.div`
   }
 `
 
-export const Container = styled.div`
+export const SignInUpContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+`;
+export const Content = styled.div`
+  width: 350px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex-grow: 1;
-  padding: 25px;
+  font-family: "Din_Round", sans-serif;
+  color: ${props => props.theme.text};
+  align-items: center;
+  align-self: center;
+
+  h1 {
+    font-size: var(--fs-sl);
+    font-weight: 700;
+    margin: 10px 0 10px;
+  }
+  
+  .error {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: var(--fs-ss);
+    color: ${props => props.theme.errorText};
+    svg {
+      font-size: var(--fs-sm);
+    }
+  }
+
+  @media (max-width: 768px) {
+    ${FieldContainer} {
+      input {
+        padding: 7px 15px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0;
+    transform: translateY(-48px);
+  }
+  
 `
+

@@ -16,7 +16,7 @@ const LinkElement = (props) => {
     return (
         <Link to={"/" + props.to}>
             <LinkDiv current={isCurrent(props.to) ? "true" : "false"}>
-                <img src={"../../../static/img/icons/" + props.picture} alt={props.alt}/>
+                <img src={props.picture !== undefined ? ("../../../static/img/icons/" + props.picture) : props.profilePicture} alt={props.alt}/>
                 {isOnTablet ? "" : <span>{props.content}</span>}
             </LinkDiv>
         </Link>

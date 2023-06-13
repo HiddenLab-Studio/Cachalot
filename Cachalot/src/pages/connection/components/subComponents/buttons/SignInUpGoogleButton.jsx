@@ -1,8 +1,14 @@
-import { GoogleButtonContainer } from "../../../styles/SignInUpPageStyle.js";
-import {firebaseGoogleLogin} from "../../../functions/signInUp.js";
-import {FcGoogle} from "react-icons/fc";
 import React from "react";
 import {useAuth} from "../../../../../context/AuthContext.js";
+import {firebaseGoogleLogin} from "../../../functions/signInUp.js";
+
+// Icons
+import {FcGoogle} from "react-icons/fc";
+
+// Styled components
+import {
+    GoogleButtonContainer
+} from "../../../styles/SignInUpPageStyle.js";
 
 const SignInUpGoogleButton = ({ setState }) => {
     const auth = useAuth();

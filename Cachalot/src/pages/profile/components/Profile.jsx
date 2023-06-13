@@ -1,58 +1,123 @@
-import tw from "twin.macro";
-import {useAuth} from "../../../context/AuthContext.js";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Icons
-import { FaClock } from "react-icons/fa";
+// Context
+import { useCache } from "../../../context/cache/CacheManager.js";
+
+// Components
+import Loading from "../../../components/utils/loading/Loading.jsx";
+import Navbar from "../../../components/navbar/Navbar.jsx";
+import ProfileInformation from "./profileComponents/ProfileInformation.jsx";
+import BodyProfile from "./profileComponents/BodyProfile.jsx";
 
 // Styled components
 import {
-    AccountInformationContainer,
-    Container, ProfileContainer,
+    Content,
+    ProfileContainer
 } from "../styles/ProfilePageStyle.js";
 
 import {
-    ImgWrapper
-} from "../../../components/ui/GlobalStyle.js";
-import SignInUp from "../../connection/components/SignInUp.jsx";
-import Navbar from "../../../components/navbar/Navbar.jsx";
-import React from "react";
+    MainContainer
+} from "../../../components/utils/ui/GlobalStyle.js";
 
-const Profile = () => {
-    const auth = useAuth();
 
-    if(auth.userData === null){
-        return <h1>LOADING...</h1>
-    } else {
+const Profile = (props) => {
+    const navigate = useNavigate();
+
+    // Context
+    const auth = props.auth;
+    const cacheManager = useCache();
+
+    // States
+    const [searchedUser, setSearchedUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [userNotFound, setUserNotFound] = useState(false);
+
+    useEffect( () => {
+        console.info("Rendering Profile.jsx...")
+
+        // Functions
+        const getUserFriends = async (id) => {
+            // if the cache is empty, load the data from the database
+            if(cacheManager.isFriendsCacheEmpty()){
+                let result = await auth.getUserFriends(id);
+                cacheManager.setFriendsCache(result.follower, result.following);
+                return result;
+            } else {
+                // if the cache is not empty, load the data from the cache
+                console.info("Friends loaded from cache!");
+            }
+        }
+        const searchingUser = async (searchedUser) => {
+            let result = await auth.getUserByUsername(searchedUser);
+            if (result !== undefined) setSearchedUser(result);
+            else setUserNotFound(true);
+            return result;
+        }
+
+        // Check if the user is searching for another user
+        let searchedUser = window.location.pathname.split("/")[2];
+        if(searchedUser !== undefined && searchedUser.length > 0) {
+            console.info("searching for user: " + searchedUser + "...");
+            console.log("Friends cache: ", cacheManager.getFriendsCache());
+            // if the searched user is the current user, redirect to the current user's profile
+            if(auth.userData === null || auth.userData.username === searchedUser) {
+                navigate("/profile")
+            } else {
+                searchingUser(searchedUser).then(r => {
+                    console.log(r)
+                    setIsLoading(false);
+                } );
+            }
+        } else {
+            // if the user is not searching for another user, load the user's friends
+            getUserFriends(auth.currentUser.uid).then((result) => {
+                console.info("Friends loaded successfully!");
+                setIsLoading(false);
+            });
+        }
+
+        return () => {
+            console.info("Unmounting Profile.jsx...")
+            setSearchedUser(null);
+            setUserNotFound(null);
+            setIsLoading(true);
+        }
+
+    }, [window.location.pathname]);
+
+    if(isLoading) {
+        return <Loading />
+    } else if(userNotFound) {
+        // TODO: CREATE A USER_NOT_FOUND COMPONENT
         return (
-            <Container>
+            <MainContainer>
+                <Navbar />
                 <ProfileContainer>
-                    <ImgWrapper width="192px">
-                        <img
-                            src={!auth.userData.photo ? "../../../../static/img/profilePictureTest.png" : auth.userData.photo}
-                            alt="Medal"/>
-                    </ImgWrapper>
-                    <AccountInformationContainer>
-                        <div className="title" tw="flex flex-col leading-6">
-                            <h1>{auth.userData.username}</h1>
-                            <span>{auth.userData.email}</span>
-                        </div>
-                        <div className="info">
-                            <div>
-                                <FaClock/>
-                                <span>Membre depuis {"janvier 2023"}</span>
-                            </div>
-                            <div>
-                                <span>Classe: {"CM1"}</span>
-                            </div>
-                        </div>
-                    </AccountInformationContainer>
-                    <button onClick={() => {
-                        auth.disconnectUser()
-                    }}>
-                        Se déconnecter
-                    </button>
+                    <Content>
+                        <div>User not found!</div>
+                    </Content>
                 </ProfileContainer>
-            </Container>
+            </MainContainer>
+        )
+    } else {
+        //console.info("searchedUser: " + searchedUser);
+        return (
+            <MainContainer>
+                <Navbar />
+                <ProfileContainer>
+                    <Content>
+                        <ProfileInformation
+                            isSearch={searchedUser !== null}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                        />
+                        <BodyProfile
+                            isSearch={searchedUser !== null}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                        />
+                    </Content>
+                </ProfileContainer>
+            </MainContainer>
         )
     }
 }

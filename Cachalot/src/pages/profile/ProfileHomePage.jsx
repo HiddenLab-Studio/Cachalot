@@ -1,33 +1,31 @@
-import React, {useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
 
-// Styles
-import {
-    Container
-} from "./ProfileHomePageStyle.js";
-
 // Components
-import Navbar from "../../components/navbar/Navbar.jsx";
-import SignInUp from "../connection/components/SignInUp.jsx";
-import Profile from "./components/Profile.jsx";
 import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
+import Profile from "./components/Profile.jsx";
+import Loading from "../../components/utils/loading/Loading.jsx";
 
+const ProfileHomePage = (props) => {
+    // State
+    const [isLoading, setIsLoading] = useState(true);
 
-const ProfileHomePage = () => {
-    const userData = useAuth().userData;
+    // Context from AuthContext useful for getting user data
+    const auth = useAuth();
 
-    if(userData === null){
-        return <ConnectionHomePage />
-    } else {
-        return (
-            <Container>
-                <Navbar />
-                <Profile />
-            </Container>
-        )
+    // Executed every time the component is rendered or when the state of userData changes
+    useEffect(() => {
+        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
+    }, [auth.currentUser, window.location.pathname])
+
+    if(isLoading) {
+        return <Loading />
+    } else if(auth.currentUser instanceof Object || props.isSearching) {
+        return <Profile auth={auth} />
+    } else if(typeof auth.currentUser === "number") {
+        return <ConnectionHomePage/>
     }
 }
 

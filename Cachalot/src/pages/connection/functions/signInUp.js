@@ -1,11 +1,13 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, updateDoc, setDoc, getDoc } from "firebase/firestore";
+import {doc, updateDoc, setDoc, getDoc, collection, getDocs} from "firebase/firestore";
 import firebaseConfigClient from "../../../services/firebase.config.js";
 import {checkFields} from "./checkFields.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
+
+
 
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
@@ -62,9 +64,20 @@ export async function firebaseRegister(data) {
         code: undefined,
     };
 
-    if (data.username.length < 3) {
+    if (data.username.length < 3 && data.username.length > 15) {
         result.code = "Votre pseudo doit contenir au moins 3 caractères";
         return result;
+    } else {
+        const usersCollection = collection(db, "users");
+        const usersDoc = await getDocs(usersCollection);
+        const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
+        console.log(data);
+        if(fetchedUsers.includes(data.username)){
+            result.code = "Ce pseudo est déjà utilisé";
+            return result;
+        } else {
+            console.log("Pseudo disponible");
+        }
     }
 
     await createUserWithEmailAndPassword(auth, data.email, data.password)
@@ -82,9 +95,16 @@ export async function firebaseRegister(data) {
             //Ajout des informations dans le document
             setDoc(userDocRef, {
                 username: data.username,
-                age: data.age,
+                age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,
                 lastLogin: dateTime,
+                //photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
+                photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
+                accountCreationDate: dateTime,
+                userXp: {
+                    currentLvl: 1,
+                    currentXp: 0,
+                }
             }).then(() => {
                 result.showOverlay = false;
                 result.code = "valid";
@@ -104,6 +124,7 @@ export async function firebaseLogin(data) {
         showOverlay: true,
         code: undefined
     };
+
 
     await signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
@@ -149,6 +170,14 @@ export async function firebaseGoogleLogin() {
             //doc à 'créer' dans la collection users
             const docRef = doc(db, "users", user.uid);
 
+            console.log(user);
+
+            // On récupère la date et l'heure de connexion
+            const dt = new Date();
+            const date = dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+            const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+            const dateTime = date + " " + time;
+
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
@@ -156,6 +185,13 @@ export async function firebaseGoogleLogin() {
                         username: user.displayName,
                         email: user.email,
                         photo: user.photoURL,
+                        age: 0,
+                        lastLogin: dateTime,
+                        accountCreationDate: dateTime,
+                        userXp: {
+                            currentLvl: 1,
+                            currentXp: 0,
+                        }
                     }).then(() => {
                         result.showOverlay = false;
                     })

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext.js";
+import tw from "twin.macro";
 
 import {
     BarContainer,
@@ -10,33 +11,38 @@ import {
     XpBar,
     XpBarContainer
 } from "../NavbarStyle.js";
-import LinkElement from "./LinkElement.jsx";
+
+// Icons
+import { FaSignOutAlt } from "react-icons/fa";
 
 const ProfileXpProgress = () => {
-    const userData = useAuth().userData;
-
-    function getPicture(){
-        if(userData.photo !== undefined) return userData.photo;
-        else return "../../../../static/img/icons/profile.png";
-    }
+    const auth = useAuth();
+    const userData = auth.userData;
 
     if(userData !== null){
+        const userXp = userData.userXp;
+
         return (
             <ProfileContainer>
                 <Link to="/profile">
                     <ProfileElement>
-                        <img src={getPicture()} alt="ProfilePicture"/>
+                        <img src={userData.photo} alt="ProfilePicture"/>
                     </ProfileElement>
                 </Link>
                 <ProfileElement>
-                    <span>Invité</span>
+                    <span>{userData.username}</span>
                     <XpBarContainer>
                         <BarContainer className="flex flex-row">
                             <XpBar><div></div></XpBar>
-                            <span>Lv. 0</span>
+                            <span>Lv. {userXp.currentLvl}</span>
                         </BarContainer>
                         <LevelInformationContainer>
-                            <span>100/1000</span>
+                            <span>{userXp.currentXp} / 1000</span>
+                            <div tw="grow-[1] flex justify-end">
+                                <FaSignOutAlt onClick={() => {
+                                    auth.disconnectUser();
+                                }} />
+                            </div>
                         </LevelInformationContainer>
                     </XpBarContainer>
                 </ProfileElement>

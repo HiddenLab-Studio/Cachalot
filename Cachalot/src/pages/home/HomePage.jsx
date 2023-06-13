@@ -1,9 +1,10 @@
-import tw, { styled } from "twin.macro";
-
 // Components
 import Navbar from "../../components/navbar/Navbar.jsx"
-import {AsideContainer, ContentContainer, MainContainer, MainSection} from "./HomeStyle.js";
 import TrendingExercise from "../../components/cards/TrendingExercise.jsx";
+
+// Styled Components
+import { MainContainer } from "../../components/utils/ui/GlobalStyle.js";
+import {AsideContainer, ContentContainer, MainSection} from "./HomeStyle.js";
 
 const HomePage = () => {
 

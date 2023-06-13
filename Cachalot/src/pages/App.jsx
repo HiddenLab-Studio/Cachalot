@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 
 // Context
 import { AuthProvider } from "../context/AuthContext.js";
+import { CacheProvider } from "../context/cache/CacheManager.js";
 
 // Scss
 import "./App.scss"
@@ -19,10 +20,12 @@ const App = () => {
     const [theme, setTheme] = useState(Theme.loadTheme() === "light" ? "light" : "dark");
 
     return (
-        <AuthProvider value={{}}>
-            <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
-                <BrowserRouter />
-            </ThemeProvider>
+        <AuthProvider>
+            <CacheProvider>
+                <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
+                    <BrowserRouter />
+                </ThemeProvider>
+            </CacheProvider>
         </AuthProvider>
     )
 }

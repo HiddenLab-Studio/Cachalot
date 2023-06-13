@@ -81,7 +81,7 @@ const MathExercise = () => {
                 </div>
 
                 <div className="exercise">
-                    {isLoading ? <h1>Loading exercise...</h1> : <div id="exercise">{exercise}</div>}
+                    {isLoading ? <h1>Loading exercise...</h1> : <div id="exercise">{exercise === undefined ? "Error while loading excercise" : exercise}</div>}
                     <input type="text" id="value" placeholder="Réponse"/>
                     <button onClick={async () => {
                         let result = await mathFunctions.getSolution();

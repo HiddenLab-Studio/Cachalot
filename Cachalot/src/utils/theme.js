@@ -19,8 +19,13 @@ export const themeLight = {
     cachalotColor: "#0a78ff",
     text: "#3c3c3c",
     subText: "#afafaf",
-    background: "#fdfdfd",
+    background: "#fff",
+    //background: "#fdfdfd",
     //background: "#121212",
+
+    // Profile page
+    iconColor: "#cdcdcd",
+    textWithIcon: "#777777",
 
     // SignInUp form
     inputBg: "#f7f7f7",
