@@ -179,11 +179,18 @@ export async function firebaseGoogleLogin() {
             const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
             const dateTime = date + " " + time;
 
+            const displayName = user.displayName.split(" ")[0];
+            let username = displayName;
+            while (!await verificationUsername(username)) {
+                username = displayName + Math.floor(Math.random() * 100000);
+            }
+
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
                     setDoc(docRef, {
-                        username: user.displayName,
+                        username: username,
+                        displayName: user.displayName,
                         email: user.email,
                         photo: user.photoURL,
                         age: 0,
@@ -207,5 +214,15 @@ export async function firebaseGoogleLogin() {
             result.code = errorManager.getErrorDisplayMessage(error.code);
         });
 
+    return result;
+}
+
+
+async function verificationUsername(username) {
+    let result = false;
+    const usersCollection = collection(db, "users");
+    const usersDoc = await getDocs(usersCollection);
+    const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
+    fetchedUsers.includes(username) ? result = false : result = true;
     return result;
 }

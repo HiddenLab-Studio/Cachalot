@@ -51,7 +51,7 @@ const Showcase = ({isSearch, data}) => {
     //console.info("Showcase data:")
     //console.log(data);
 
-    const test = ["../../../../../static/img/logo.png", 2, 3]
+    const test = ["../../../../../static/img/logo.png", "https://static.vecteezy.com/system/resources/previews/011/811/864/original/gold-wavy-circle-badge-free-png.png", "https://static.vecteezy.com/system/resources/previews/011/811/864/original/gold-wavy-circle-badge-free-png.png"]
 
     return (
         <ShowcaseContainer>
