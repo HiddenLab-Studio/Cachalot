@@ -126,18 +126,22 @@ export const ProfileContainer = styled.div`
 `
 
 export const NavbarContainer = styled.nav`
+  position: fixed;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   border-right: 2px solid ${props => props.theme.borderRightColor};
   gap: 20px;
+  background-color: ${props => props.theme.background};
   
   padding: 25px 16px;
-  //width: 256px;
+  width: 256px;
   transition: all 0.1s ease-in-out;
   
   @media (min-width: 768px) and (max-width: 1200px) {
     padding: 8px;
-    
+    width: 128px;
+
     ${ProfileContainer} {
       display: none;
     }
@@ -161,6 +165,7 @@ export const NavbarContainer = styled.nav`
     position: fixed;
     width: 100%;
     align-self: end;
+    height: auto;
     
     ${LinkContainer} {
       justify-content: space-evenly;

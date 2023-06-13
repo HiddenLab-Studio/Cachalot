@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../../context/AuthContext.js";
 import { useNavigate } from "react-router-dom";
 
+// Context
+import { useCache } from "../../../context/cache/CacheManager.js";
+
 // Components
+import Loading from "../../../components/utils/loading/Loading.jsx";
 import Navbar from "../../../components/navbar/Navbar.jsx";
 import ProfileInformation from "./profileComponents/ProfileInformation.jsx";
 import BodyProfile from "./profileComponents/BodyProfile.jsx";
 
 // Styled components
 import {
+    Content,
     ProfileContainer
 } from "../styles/ProfilePageStyle.js";
 
 import {
-    Container
-} from "../../../components/ui/GlobalStyle.js";
-
-import {useCache} from "../../../context/cache/CacheManager.js";
+    MainContainer
+} from "../../../components/utils/ui/GlobalStyle.js";
 
 
 const Profile = (props) => {
@@ -85,40 +87,37 @@ const Profile = (props) => {
     }, [window.location.pathname]);
 
     if(isLoading) {
-        // TODO: CREATE A LOADING COMPONENT
-        return (
-            <Container>
-                <Navbar />
-                <div>Loading...</div>
-            </Container>
-        )
+        return <Loading />
     } else if(userNotFound) {
         // TODO: CREATE A USER_NOT_FOUND COMPONENT
         return (
-            <Container>
+            <MainContainer>
                 <Navbar />
-                <div>User not found</div>
-            </Container>
+                <ProfileContainer>
+                    <Content>
+                        <div>User not found!</div>
+                    </Content>
+                </ProfileContainer>
+            </MainContainer>
         )
     } else {
         //console.info("searchedUser: " + searchedUser);
         return (
-            <Container>
+            <MainContainer>
                 <Navbar />
                 <ProfileContainer>
-                    <ProfileInformation
-                        isSearch={searchedUser !== null}
-                        data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
-                    />
-                    <BodyProfile
-                        isSearch={searchedUser !== null}
-                        data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
-                    />
+                    <Content>
+                        <ProfileInformation
+                            isSearch={searchedUser !== null}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                        />
+                        <BodyProfile
+                            isSearch={searchedUser !== null}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                        />
+                    </Content>
                 </ProfileContainer>
-                <div tw="absolute top-0 right-0">
-                    <button onClick={async () => await auth.disconnectUser()}>Logout</button>
-                </div>
-            </Container>
+            </MainContainer>
         )
     }
 }

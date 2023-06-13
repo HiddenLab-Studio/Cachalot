@@ -23,6 +23,20 @@ const ShowcaseContainer = styled.div`
       height: 92px;
     }
   }
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    ${BadgeContainer} {
+      img {
+        width: 64px;
+        height: 64px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    align-items: center;
+  }
   
 `
 

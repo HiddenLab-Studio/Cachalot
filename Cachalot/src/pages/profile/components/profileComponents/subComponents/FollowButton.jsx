@@ -39,13 +39,14 @@ const ButtonContainer = styled.div`
       background-color: ${props => props.theme.buttonBgHover};
     }
   }
-  
-    @media (max-width: 768px) {
-      button {
-        position: absolute;
-        height: 32px;
-      }
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: center;
+    button {
+      height: 32px;
     }
+  }
   
 `;
 
@@ -101,12 +102,7 @@ const FollowButton = ({ isSearch, data }) => {
                         }
                     }}>
                         <FaMinusCircle/>
-                        {
-                            !isOnMobile ?
-                                <span>Ne plus suivre</span>
-                                :
-                                null
-                        }
+                        <span>Ne plus suivre</span>
                     </button>
                 </ButtonContainer>
             )
@@ -127,12 +123,7 @@ const FollowButton = ({ isSearch, data }) => {
                         }
                     }}>
                         <FaPlusCircle/>
-                        {
-                            !isOnMobile ?
-                                <span>Suivre</span>
-                                :
-                                null
-                        }
+                        <span>Suivre</span>
                     </button>
                 </ButtonContainer>
             )

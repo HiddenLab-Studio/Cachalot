@@ -11,7 +11,21 @@ export const ImgWrapper = styled.div`
   }
 `
 
-export const Container = styled.main`
+export const Container = styled.section`
+  flex-grow: 1;
+  padding-left: 256px;
+
+  // Responsive padding for navbar
+  @media (min-width: 768px) and (max-width: 1200px) {
+    padding-left: 128px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+`
+
+export const MainContainer = styled.main`
   ${tw`flex flex-row min-h-[100vh]`};
 
   @media (max-width: 768px) {

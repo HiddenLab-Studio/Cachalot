@@ -9,7 +9,7 @@ export const SearchContainer = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  padding: 36px 25px;
+  padding: 36px 0 25px 256px;
   margin: 0 auto;
   max-width: 1024px;
   gap: 32px;
@@ -110,6 +110,14 @@ export const SearchContainer = styled.div`
       color: ${props => props.theme.iconColor};
     }
   }
-  
+
+  @media (min-width: 768px) and (max-width: 1200px) {
+    max-width: 732px;
+    padding: 25px 0 36px 128px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 25px;
+  }
   
 `

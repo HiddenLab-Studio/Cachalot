@@ -1,4 +1,5 @@
 import tw, { styled } from "twin.macro";
+import {Container} from "../../../components/utils/ui/GlobalStyle.js";
 
 export const FindFriendsContainer = styled.div`
   display: flex;
@@ -30,8 +31,13 @@ export const FindFriendsContainer = styled.div`
     }
   }
   
-  svg {
-    color: ${props => props.theme.subText};
+  .chevron {
+    display: flex;
+    flex-grow: 1;
+    align-items: end;
+    svg {
+      color: ${props => props.theme.subText};
+    }
   }
 `
 export const JoinClassContainer = styled(FindFriendsContainer)`
@@ -49,8 +55,7 @@ export const BodyProfileAsideContainer = styled.aside`
 export const BodyProfileSectionContainer = styled.section`
   display: flex;
   flex-direction: column;
-  flex: 1;
-  //flex-grow: 2;
+  flex-grow: 2;
   
   .gridContainer {
     display: grid;
@@ -61,6 +66,8 @@ export const BodyProfileSectionContainer = styled.section`
 export const BodyProfileContainer = styled.div`
   Display: flex;
   flex-direction: row;
+  gap: 32px;
+  margin-top: 24px;
   
   h1 {
     font-family: "Din_Round_Bold", sans-serif;
@@ -69,37 +76,52 @@ export const BodyProfileContainer = styled.div`
   }
 `
 
-
-export const ProfileContainer = styled.div`
+export const Content = styled.div`
+  margin: 0 auto;
+  max-width: 1056px;
+  width: 100%;
+  padding: 25px;
+`
+export const ProfileContainer = styled.section`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 25px;
-  width: 100%;
-  margin: 0 auto;
-  max-width: 1024px;
   gap: 32px;
+  padding-left: 256px;
   
   // Responsive
   @media (min-width: 768px) and (max-width: 1200px) {
-    ${BodyProfileContainer} {
-      ${BodyProfileAsideContainer} {
-        width: 375px;
+    padding-left: 128px;
+  }
+  
+  @media (min-width: 768px) and (max-width: 900px) {
+    ${Content} {
+      ${BodyProfileContainer} {
+        flex-direction: column;
+        align-items: flex-start;
+        ${BodyProfileAsideContainer} {
+          width: 100%;
+        }
       }
     }
   }
-
+  
   @media (max-width: 768px) {
     max-height: calc(100vh - 85px);
     overflow-y: auto;
-    
+    padding: 0;
     ${BodyProfileContainer} {
       flex-direction: column;
       align-items: flex-start;
       ${BodyProfileAsideContainer} {
         width: 100%;
+        a {
+          h1 {
+            font-size: var(--fs-sm);
+          }
+        }
       }
     }
   }
-  
+
 `

@@ -1,12 +1,16 @@
 import React, {useEffect, useRef, useState} from "react";
 import { useMediaQuery } from "react-responsive";
 
+// Context
+import { useCache } from "../../../context/cache/CacheManager.js";
+
 // Styled components
 import { FaExclamationCircle } from "react-icons/fa";
 import {
-    Container,
-    LineWrapper, SignInUpButtonContainer,
-    SignInUpContainer,
+    Content,
+    LineWrapper,
+    SignInUpButtonContainer,
+    SignInUpContainer
 } from "../styles/SignInUpPageStyle.js";
 
 // SubComponents
@@ -20,14 +24,12 @@ import {
     firebaseRegister,
     firebaseLogin,
 } from "../functions/signInUp.js";
-import {useCache} from "../../../context/cache/CacheManager.js";
 
 const SignInUp = () => {
     // Context
     const cacheManager = useCache();
     // Media queries
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
-
     // State
     const [signInOverlay, setSignInOverlay] = useState(true);
     const [errorData, setErrorData] = useState({
@@ -52,23 +54,23 @@ const SignInUp = () => {
     function handleState(data) { setErrorData(data); }
 
     return (
-        <Container>
-            <SignInUpContainer>
+        <SignInUpContainer>
+            <Content>
                 {signInOverlay ? <h1>Connexion</h1> : <h1>Créer un compte</h1>}
                 {errorData.showOverlay ? <div className="error"><FaExclamationCircle/> {errorData.code}</div> : null}
-                {signInOverlay ? <SignInFields ref={signInFieldRef} /> : <SignUpFields ref={signUpFieldRef} />}
+                {signInOverlay ? <SignInFields ref={signInFieldRef}/> : <SignUpFields ref={signUpFieldRef}/>}
                 <SignInUpButtonContainer width="inherit">
                     <button onClick={async (e) => {
                         e.target.textContent = "...";
                         if (signInFieldRef.current !== null) {
                             let result = await firebaseLogin(signInFieldRef.current.getState());
-                            if(result.code !== undefined) {
+                            if (result.code !== undefined) {
                                 e.target.textContent = "Se connecter";
                                 setErrorData(result)
                             }
                         } else if (signUpFieldRef.current !== null) {
                             let result = await firebaseRegister(signUpFieldRef.current.getState());
-                            if(result.code !== undefined) {
+                            if (result.code !== undefined) {
                                 e.target.textContent = "S'inscrire";
                                 setErrorData(result)
                             }
@@ -86,8 +88,8 @@ const SignInUp = () => {
                 <SwitchButton state={signInOverlay} setState={setSignInOverlay}>
                     {signInOverlay ? "S'inscrire" : "Connexion"}
                 </SwitchButton>
-            </SignInUpContainer>
-        </Container>
+            </Content>
+        </SignInUpContainer>
     )
 }
 

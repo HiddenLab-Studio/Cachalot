@@ -15,7 +15,19 @@ export const MainSection = styled.section`
   flex-direction: row;
   flex-grow: 1;
   gap: 20px;
-  padding: 25px;
+  padding: 25px 0 25px 256px;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  // Responsive padding for navbar
+  @media (min-width: 768px) and (max-width: 1200px) {
+    padding: 25px 0 25px 128px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 25px;
+  }
+  
 `
 
 export const MainContainer = styled.main`

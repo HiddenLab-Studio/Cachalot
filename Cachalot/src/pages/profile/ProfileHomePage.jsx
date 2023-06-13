@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
-import tw from "twin.macro";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
 
 // Components
-import Navbar from "../../components/navbar/Navbar.jsx";
 import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 import Profile from "./components/Profile.jsx";
-
-// Styled components
-import {
-    Container
-} from "../../components/ui/GlobalStyle.js";
-
-import {
-    ProfileContainer
-} from "./styles/ProfilePageStyle.js";
-
+import Loading from "../../components/utils/loading/Loading.jsx";
 
 const ProfileHomePage = (props) => {
     // State
@@ -32,7 +21,7 @@ const ProfileHomePage = (props) => {
     }, [auth.currentUser, window.location.pathname])
 
     if(isLoading) {
-        return <div>Loading...</div>
+        return <Loading />
     } else if(auth.currentUser instanceof Object || props.isSearching) {
         return <Profile auth={auth} />
     } else if(typeof auth.currentUser === "number") {

@@ -62,7 +62,9 @@ const BodyProfile = ({isSearch, data}) => {
                                     <h1>Trouver des amis</h1>
                                     <span>Chercher d'autres membres de la communauté</span>
                                 </div>
-                                <FaChevronRight />
+                                <div className="chevron">
+                                    <FaChevronRight />
+                                </div>
                             </FindFriendsContainer>
                         </Link>
                         <Link to={"/join-class"}>
@@ -72,7 +74,9 @@ const BodyProfile = ({isSearch, data}) => {
                                     <h1>Rejoindre une classe</h1>
                                     <span>Apprendre à plusieurs, c'est encore mieux !</span>
                                 </div>
-                                <FaChevronRight />
+                                <div className="chevron">
+                                    <FaChevronRight />
+                                </div>
                             </JoinClassContainer>
                         </Link>
                     </>
@@ -84,7 +88,9 @@ const BodyProfile = ({isSearch, data}) => {
                                 <h1>Trouver des amis</h1>
                                 <span>Chercher d'autres membres de la communauté</span>
                             </div>
-                            <FaChevronRight />
+                            <div className="chevron">
+                                <FaChevronRight />
+                            </div>
                         </FindFriendsContainer>
                     </Link>
                 }
