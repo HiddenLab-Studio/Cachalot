@@ -87,7 +87,7 @@ async function sendMessage(room, message) {
     const user = auth.currentUser;
     //On recupere le username de l'utilisateur
     const docRef = doc(db, "users", user.uid);
-    getDoc(docRef).then((doc) => {
+    await getDoc(docRef).then(async (doc) => {
         //On prend la date 
         const date = new Date();
         const hour = date.toLocaleDateString() + " | " + date.toLocaleTimeString();
@@ -99,7 +99,7 @@ async function sendMessage(room, message) {
             date: hour,
         }
         //On ajoute le message dans la collection messages
-        addDoc(collection(db, "classes/" + room + "/messages"), data).then(() => {
+        await addDoc(collection(db, "classes/" + room + "/messages"), data).then(() => {
             //On vide le champ de message
             result = true;
         })

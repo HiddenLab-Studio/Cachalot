@@ -1,4 +1,4 @@
-import { collection, doc, addDoc, getDoc, onSnapshot, query, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { collection, doc, addDoc, getDoc,getDocs, onSnapshot, query, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 const { auth, db } = firebaseConfigClient();
@@ -6,14 +6,32 @@ const { auth, db } = firebaseConfigClient();
 
 /*** CREATE ROOM */
 
+//max classe Admin 
+async function maxClasseAdmin() {
+    let result = false;
+    const user = auth.currentUser;
+    const docRef = collection(db, "users/" +user.uid+ "/classesAdmin");
+    await getDocs(docRef).then((querySnapshot) => {
+        if (querySnapshot.size < 5) {
+            result = true;
+        }
+        else {
+            result = false;
+        }
+    })
+    return result;
+}
+
 async function createClasse(name) {
     let result = false;
     //On recupere l'utilisateur connecté pour le mettre en admin de la room
     const user = auth.currentUser;
     //On crée une chaine de caractères aléatoire de 5 caractères
     const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+    
     //On ajoute la room dans la collection rooms
     console.log(classeCode);
+    const maxClasse = await maxClasseAdmin();
 
     //preparation du doc
     const docRef = doc(db, "classes", classeCode);
@@ -21,34 +39,45 @@ async function createClasse(name) {
     const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
 
     await getDoc(docRef).then((doc) => {
-        if (!doc.exists()) {
-            getDoc(userDocRef).then((doc) => {
+        if (maxClasse == true) {
+            if (!doc.exists()) {
+                getDoc(userDocRef).then((doc) => {
 
-                const data = {
-                    name: name,
-                    adminUsername: doc.data().username,
-                    adminPhoto: doc.data().photo,
-                    dateCreation: new Date(),
-                }
-                //on ajoute le doc
-                setDoc(docRef, {
-                    name: data.name,
-                    admin: {
-                        username: data.adminUsername,
-                        photo: data.adminPhoto,
-                    },
-                    dateCreation: data.dateCreation,
+                    const data = {
+                        name: name,
+                        adminUsername: doc.data().username,
+                        adminPhoto: doc.data().photo,
+                        dateCreation: new Date(),
+                    }
+                    //on ajoute le doc
 
-                }).then(() => {
-                    setDoc(userRef, {
+                    setDoc(docRef, {
                         name: data.name,
+                        admin: {
+                            username: data.adminUsername,
+                            photo: data.adminPhoto,
+                            id: user.uid,
+                        },
                         dateCreation: data.dateCreation,
-                    }).then(() => {
-                        result = true;
-                    })})})}
-        else {
-            createRoom(name);
 
+                    }).then(() => {
+                        setDoc(userRef, {
+                            name: data.name,
+                            dateCreation: data.dateCreation,
+                        }).then(() => {
+                            result = true;
+                        })
+                    })
+                })
+            }
+            else {
+                createRoom(name);
+
+            }
+        }
+        else {
+            console.log("Vous avez atteint le nombre maximum de classe");
+            return result;
         }
     })
     return result;
@@ -98,10 +127,15 @@ async function joinClasse(code) {
                                     exercises: {
                                         exoDone: 0,
                                         exoStarted: 0,
-                                    
+
                                     },
                                     photo: doc.data().photo,
-                                })}})})}}
+                                })
+                            }
+                        })
+                })
+            }
+        }
         else {
             console.log("Pas de classe avec ce code");
             return result;
