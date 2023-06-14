@@ -35,7 +35,7 @@ const Navbar = () => {
                     <LinkElement to="ranked" picture="sword.png" content="Ligue" alt="Ligue" />
                     <LinkElement to="quest" picture="chest.png" content="Quêtes" alt="Quêtes" />
                     {userData === null ?
-                        <LinkElement to="profile" picture="profile.png" content="Profile" alt="Profile" />
+                        <LinkElement to="profile" picture="profile.png" content="Profil" alt="Profil" />
                         :
                         <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profil" alt="Profil" />
                     }
@@ -62,7 +62,7 @@ const Navbar = () => {
                     <LinkElement to="ranked" picture="sword.png" content="" alt="Ligue" />
                     <LinkElement to="quest" picture="chest.png" content="" alt="Quêtes" />
                     {userData === null ?
-                        <LinkElement to="profile" picture="profile.png" content="Profile" alt="Profile" />
+                        <LinkElement to="profile" picture="profile.png" content="Profil" alt="Profil" />
                         :
                         <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profil" alt="Profil" />
                     }

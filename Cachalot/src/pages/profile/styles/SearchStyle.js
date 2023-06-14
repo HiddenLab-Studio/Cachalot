@@ -1,7 +1,8 @@
 import tw, { styled } from "twin.macro";
 import {Container} from "../../../components/utils/ui/GlobalStyle.js";
 
-export const ElementDiv = styled.div``
+export const InformationContainer = styled.div``
+export const ElementContainer = styled.div``
 export const SearchResultContainer = styled.div``
 export const HeaderContainer = styled.div``
 export const InputContainer = styled.div``
@@ -10,7 +11,7 @@ export const Content = styled.div`
   flex-direction: column;
   flex-grow: 1;
   width: 100%;
-  padding: 36px 25px 25px 25px;
+  padding: 36px 25px 36px 25px;
   margin: 0 auto;
   max-width: 1024px;
   gap: 32px;
@@ -26,11 +27,21 @@ export const Content = styled.div`
     flex-direction: column;
     gap: 32px;
     padding-bottom: 48px;
-    border-bottom: 2px solid ${props => props.theme.borderRightColor};    
+    border-bottom: 2px solid ${props => props.theme.borderRightColor};
+    .title {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      span {
+        font-size: var(--fs-s);
+        font-family: "Din_Round", sans-serif;
+        color: ${props => props.theme.subText};
+        text-align: justify;
+      }
+    }
   }
   
   ${SearchResultContainer}  {
-    
     .searching, .userNotFound {
       display: flex;
       justify-content: center;
@@ -48,39 +59,52 @@ export const Content = styled.div`
       border: 2px solid ${props => props.theme.borderRightColor};
       border-radius: 12px;
       min-height: auto;
-      max-height: 512px;
+      //max-height: 512px;
       width: calc(100% - 64px);
       margin: auto; 
       
-      ${ElementDiv} {
+      ${ElementContainer} {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         padding: 16px;
         border-bottom: 2px solid ${props => props.theme.borderRightColor};
         width: 100%;
         
-        svg {
-          color: ${props => props.theme.iconColor};
-        }
-
         a {
           display: flex;
           flex-direction: row;
-          align-items: center;
-          gap: 12px;
-          img {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid ${props => props.theme.borderRightColor};
-          }
-          span {
-            font-size: var(--fs-sm);
-            font-family: "Din_Round_Bold", sans-serif;
-            color: ${props => props.theme.text};
+          flex-grow: 1;
+          
+          ${InformationContainer} {
+            display: flex;
             flex-grow: 1;
+            gap: 16px;
+            align-items: center;
+            img {
+              width: 64px;
+              height: 64px;
+              border-radius: 50%;
+            }
+            div {
+              display: flex;
+              flex-direction: column;
+              h2 {
+                font-size: var(--fs-sm);
+                font-family: "Din_Round_Bold", sans-serif;
+                color: ${props => props.theme.text};
+              }
+              span {
+                font-size: var(--fs-ss);
+                font-family: "Din_Round_Bold", sans-serif;
+                color: ${props => props.theme.subText};
+              }
+            }
           }
+        }
+
+        svg {
+          align-self: center;
+          color: ${props => props.theme.iconColor};
         }
       }
     }
