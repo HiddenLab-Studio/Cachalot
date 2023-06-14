@@ -9,7 +9,7 @@ export const Content = styled.div`
   flex-direction: row;
   max-width: 1024px;
   margin: 0 auto;
-  padding: 32px 25px 25px 25px;
+  padding: 32px 25px 32px 25px;
   gap: 32px;
 
   @media (min-width: 0px) and (max-width: 1050px) {  

@@ -16,6 +16,7 @@ import Quests from "../components/utils/quests/Quests.jsx";
 import DivisionHomePage from "../pages/division/DivisionHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
 import MathExercise from "../pages/exercise/components/training/MathExercise.jsx";
+import MyClass from "../components/utils/class/MyClass.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
     { path: "/loading", element: <Loading /> },
     // Class Page
     { path: "/class", element: <Class /> },
+    { path: "/my-class", element: <MyClass /> },
     // Settings Page
     { path: "/settings", element: <Settings /> },
     // About Page

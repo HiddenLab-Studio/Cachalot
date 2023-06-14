@@ -1,5 +1,5 @@
 import { styled } from "twin.macro";
-import {Container} from "../ui/GlobalStyle.js";
+import {Container} from "../../ui/GlobalStyle.js";
 
 export const GifWrapper = styled.div`
   img {

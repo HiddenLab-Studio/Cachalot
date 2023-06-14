@@ -62,10 +62,12 @@ export const ProfileElement = styled.div`
     border: 1px solid ${props => props.theme.navbarText};
     border-radius: 50%;
     width: 64px;
+    height: 64px;
+    max-width: unset;
   }
   
   span {
-    font-size: var(--fs-s);
+    font-size: var(--fs-ss);
     font-family: 'Din_Round_Bold', sans-serif;
     color: ${props => props.theme.navbarText};
   }
@@ -132,6 +134,7 @@ export const ProfileContainer = styled.div`
   flex-grow: 1;
   border-top: 2px solid ${props => props.theme.borderRightColor};
   gap: 15px;
+  padding-top: 14px;
 `
 
 export const NavbarContainer = styled.nav`
@@ -143,7 +146,7 @@ export const NavbarContainer = styled.nav`
   gap: 20px;
   background-color: ${props => props.theme.background};
   
-  padding: 25px 16px;
+  padding: 16px;
   width: 256px;
   transition: all 0.1s ease-in-out;
   
