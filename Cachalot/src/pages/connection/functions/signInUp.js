@@ -1,13 +1,10 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {doc, updateDoc, setDoc, getDoc, collection, getDocs} from "firebase/firestore";
 import firebaseConfigClient from "../../../services/firebase.config.js";
-import {checkFields} from "./checkFields.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
-
-
 
 export const errorManager = {
     getErrorDisplayMessage: (result) => {

@@ -41,7 +41,7 @@ const Profile = (props) => {
             // if the cache is empty, load the data from the database
             if(cacheManager.isFriendsCacheEmpty()){
                 let result = await auth.utils.getUserFriends(id);
-                console.log(result);
+                //console.log(result);
                 cacheManager.setFriendsCache(result.follower, result.following);
                 return result;
             } else {

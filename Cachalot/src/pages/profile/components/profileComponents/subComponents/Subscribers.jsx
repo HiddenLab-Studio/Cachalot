@@ -23,7 +23,7 @@ const Subscribers = ({isSearch, data}) => {
     //console.log("Subscribers data: ", data);
     const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
 
-    console.log("userFriends: ", userFriends)
+    //console.log("userFriends: ", userFriends)
 
     return (
         <>

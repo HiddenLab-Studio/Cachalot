@@ -1,5 +1,6 @@
 import { useMediaQuery } from "react-responsive";
 import tw, { styled } from "twin.macro";
+import { Link } from "react-router-dom";
 
 // Context
 import { useCache } from "../../../../context/manager/cache/CacheManager.js";
@@ -9,6 +10,7 @@ import {
     FaClock,
     FaUserAlt,
 } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 
 // Styled Components
 const InformationContainer = styled.div``;
@@ -18,6 +20,31 @@ const ProfileInformationContainer = styled.div`
   padding: 0 0 24px;
   border-bottom: 2px solid ${props => props.theme.borderRightColor};
 
+  .myProfile {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    border-bottom: 2px solid ${props => props.theme.borderRightColor};
+    padding: 0 16px 16px 16px;
+    span {
+      text-align: center;
+      flex-grow: 1;
+      font-family: "Din_Round_Med", sans-serif;
+      font-weight: 400;
+      color: ${props => props.theme.subText};
+      font-size: var(--fs-s);
+    }
+    svg {
+      font-size: var(--fs-sm);
+      color: ${props => props.theme.iconColor};
+      align-self: center;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  
   .imgWrapper {
     display: flex;
     justify-content: center;
@@ -166,6 +193,17 @@ const ProfileInformation = ({isSearch, data}) => {
 
     return (
         <ProfileInformationContainer>
+            {
+                isOnMobile && !isSearch ?
+                        <div className="myProfile">
+                            <span>Mon profil</span>
+                            <Link to="/settings">
+                                <IoSettingsSharp />
+                            </Link>
+                        </div>
+                    :
+                        null
+            }
             <InformationContainer>
                 <div className="imgWrapper">
                     <img src={userData.photo} alt="ProfilePicture"/>

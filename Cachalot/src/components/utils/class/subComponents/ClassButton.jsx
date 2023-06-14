@@ -79,8 +79,16 @@ const ClassButton = ({auth}) => {
         setInputValue("");
     }, [joinClassOverlay]);
 
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            console.info("Unmounting ClassButton");
+            document.removeEventListener("keydown", handleKeyDown)
+        };
+    }, []);
+
     async function handleClick() {
-        if(!isLoading && inputValue.length > 0) {
+        if(!isLoading && inputRef.current.value.length > 0) {
             setIsLoading(true);
             if (!joinClassOverlay) {
                 console.info("Create class with name: " + inputValue)
@@ -99,7 +107,6 @@ const ClassButton = ({auth}) => {
                 console.info("Join class with code: " + inputValue)
                 let result = await auth.classes.joinClass(inputValue);
                 setIsLoading(false);
-                console.log(result);
                 if (result.isJoined) {
                     console.info("Class joined!")
                     navigate("/class/" + inputValue);
@@ -111,6 +118,13 @@ const ClassButton = ({auth}) => {
                     inputRef.current.select();
                 }
             }
+        } else {
+            console.info("Invalid input value !")
+        }
+    }
+    async function handleKeyDown(e) {
+        if (e.key === "Enter" && inputRef.current !== null) {
+            await handleClick()
         }
     }
 

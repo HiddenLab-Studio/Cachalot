@@ -17,7 +17,7 @@ export const classes = {
         await getDoc(docRef).then(async (doc) => {
             if (!doc.exists()) {
                 await getDoc(userDocRef).then(async (doc) => {
-                    console.log(doc.data());
+                    //console.log(doc.data());
                     const data = {
                         name: name,
                         adminUid: user.uid,
@@ -46,7 +46,6 @@ export const classes = {
                 })
             } else {
                 console.log("Code déjà existante");
-                // on relance la fonction
                 await classes.createClass(name);
             }
         })
@@ -67,9 +66,7 @@ export const classes = {
         const userRef = doc(db, "users", user.uid);
 
         await getDoc(docRef).then(async (doc) => {
-            console.log(doc.data());
             if (doc.exists()) {
-                console.log("Bienvenue dans la classe : " + code);
                 if (doc.data().admin.uid === user.uid) {
                     console.info("Vous êtes l'admin de la classe : " + code);
                     result.isAdmin = true;
@@ -104,7 +101,7 @@ export const classes = {
                     });
                 }
             } else {
-                console.log("Aucune classe ne correspond à ce code");
+                console.info("Aucune classe ne correspond à ce code");
                 return result;
             }
         })

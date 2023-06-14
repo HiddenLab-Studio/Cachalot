@@ -37,7 +37,7 @@ const Navbar = () => {
                     {userData === null ?
                         <LinkElement to="profile" picture="profile.png" content="Profile" alt="Profile" />
                         :
-                        <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profile" alt="Profile" />
+                        <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profil" alt="Profil" />
                     }
                     <BeneathLinkContainer>
                         {
@@ -64,7 +64,7 @@ const Navbar = () => {
                     {userData === null ?
                         <LinkElement to="profile" picture="profile.png" content="Profile" alt="Profile" />
                         :
-                        <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profile" alt="Profile" />
+                        <LinkElement to="profile" picture={undefined} profilePicture={userData.photo} content="Profil" alt="Profil" />
                     }
                 </LinkContainer>
             </NavbarContainer>

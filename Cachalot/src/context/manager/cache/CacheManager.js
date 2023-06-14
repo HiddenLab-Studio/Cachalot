@@ -10,16 +10,13 @@ export const useCache = () => {
 export const CacheProvider = ({ children }) => {
 
     let friendsCache = { following: [], follower: [] };
-
     function isFollowerCached(username){ return friendsCache.follower.find(follower => follower.username === username); }
     function isFollowingCached(username){ return friendsCache.following.find(following => following.username === username); }
 
     const functions = {
         // Friends cache
         setFriendsCache: (followerList, followingList) => {
-            console.log({followerList, followingList});
-
-
+            //console.log({followerList, followingList});
             followerList.forEach(follower => {
                 if(!isFollowerCached(follower.username)){
                     friendsCache.follower.push({

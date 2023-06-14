@@ -15,6 +15,7 @@ import {
     Content,
     SettingsContainer
 } from "./style/SettingStyle.js";
+import {FaSignOutAlt} from "react-icons/fa";
 
 const Settings = () => {
     // Context
@@ -85,6 +86,19 @@ const Settings = () => {
                         <ApplyChangesButtonContainer change={onChanges}>
                             <button onClick={async () => await handleClick()}>Enregistrer les modifications</button>
                         </ApplyChangesButtonContainer>
+                        <button onClick={async () => {
+                            let result = await auth.user.logout();
+                            if(result) {
+                                auth.setUserData(null);
+                                console.log(userData);
+                                console.info("Sign-out successful.")
+                            } else {
+                                console.error("Sign-out failed.")
+                            }
+
+                        }} >
+                            Se déconnecter
+                        </button>
                     </Content>
                 </SettingsContainer>
             </MainContainer>
