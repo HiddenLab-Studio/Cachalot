@@ -14,7 +14,7 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-
+  
   .dots {
     width: 72px;
     height: 34.6px;

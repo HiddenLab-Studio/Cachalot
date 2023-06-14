@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
-import { styled } from "twin.macro";
+import tw from "twin.macro";
 
 // Context
 import {useAuth} from "../../../../context/AuthContext.js";
 import {useCache} from "../../../../context/manager/cache/CacheManager.js";
 
+// Components
+import Loading from "../../../../components/utils/loading/Loading.jsx";
+
 // Styled components
-import {Container} from "../../../../components/utils/ui/GlobalStyle.js";
 import {
-    ElementDiv,
     HeaderContainer,
     InputContainer,
-    Content, SearchResultContainer, SearchContainer
+    Content,
+    SearchResultContainer,
+    SearchContainer, ElementContainer, InformationContainer
 } from "../../styles/SearchStyle.js";
 
 // Icons
 import {FaChevronRight, FaSearch} from "react-icons/fa";
+import FollowButton from "../profileComponents/subComponents/FollowButton.jsx";
 
-const Search = () => {
-    // Context
-    const auth = useAuth();
-    const cacheManager = useCache();
-
+const Search = ({auth}) => {
     // States
     const [search, setSearch] = useState([]);
     const [isSearching, setIsSearching] = useState(undefined);
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyDown);
-
         return () => {
             document.removeEventListener("keydown", handleKeyDown);
         }
-    }, []);
+    }, [])
+
 
     async function handleKeyDown(e) {
         if (e.key === "Enter") {
@@ -46,6 +46,9 @@ const Search = () => {
                 console.info("Result: ", result);
                 if(result.length > 0) {
                     setSearch(result);
+                    console.log(result);
+                } else {
+                    setSearch([]);
                 }
             }
         }
@@ -55,12 +58,15 @@ const Search = () => {
         <SearchContainer>
             <Content>
                 <HeaderContainer>
-                    <div>
-                        <h1>Rechercher des utilisateurs</h1>
+                    <div className="title">
+                        <h1>Rechercher des amis !</h1>
+                        <span>
+                                Cette fonctionnalité vous permet de rechercher des utilisateurs par leur pseudonyme.
+                            </span>
                     </div>
                     <InputContainer>
-                        <FaSearch />
-                        <input id="searchInput" type="text" placeholder="Nom d'utilisateur"/>
+                        <FaSearch/>
+                        <input id="searchInput" type="text" placeholder="Pseudo de l'utilisateur"/>
                     </InputContainer>
                 </HeaderContainer>
                 <SearchResultContainer>
@@ -75,15 +81,19 @@ const Search = () => {
                                     <div className="map">
                                         {
                                             search.map((user, index) => {
-                                                console.log(user);
                                                 return (
-                                                    <ElementDiv key={index}>
+                                                    <ElementContainer key={index}>
                                                         <Link to={"/profile/" + user.username}>
-                                                            <img src={user.photo} alt="profile picture"/>
-                                                            <span>{user.displayName}</span>
-                                                            <FaChevronRight />
+                                                            <InformationContainer tw="flex flex-row">
+                                                                <img src={user.photo} alt="profile picture"/>
+                                                                <div>
+                                                                    <h2>{user.displayName}</h2>
+                                                                    <span>@{user.username}</span>
+                                                                </div>
+                                                            </InformationContainer>
                                                         </Link>
-                                                    </ElementDiv>
+                                                        <FaChevronRight/>
+                                                    </ElementContainer>
                                                 )
                                             })
                                         }
@@ -94,6 +104,7 @@ const Search = () => {
                                     </div>
                             : null
                     }
+
                 </SearchResultContainer>
             </Content>
         </SearchContainer>

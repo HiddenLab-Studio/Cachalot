@@ -3,7 +3,7 @@ import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
 
 export const utils = {
-    getUsersListByUsername: async (username) => {
+    getUsersListByUsername: async (displayName) => {
         let result = [];
         const usersCollection = collection(db, "users");
         const usersSnapshot = await getDocs(usersCollection);
@@ -14,7 +14,7 @@ export const utils = {
         });
 
         usersList.forEach(user => {
-            if (user.username.toLowerCase() === username) {
+            if (user.displayName.toLowerCase() === displayName) {
                 result.push(user);
             }
         });
@@ -71,6 +71,7 @@ export const utils = {
     },
 
     unfollowUser: async (searchedUser) => {
+        console.log(searchedUser)
         let result = false;
         const user = auth.currentUser;
         const userFollower = doc(db, "users", user.uid + '/following/' + searchedUser.id);
