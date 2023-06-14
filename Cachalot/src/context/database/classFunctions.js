@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -9,44 +9,51 @@ export const classes = {
         let result = undefined;
         const user = auth.currentUser;
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const maxClasse = await maxClasseAdmin();
 
         const docRef = doc(db, "classes", classeCode);
         const userDocRef = doc(db, 'users', user.uid);
         const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
 
+
         await getDoc(docRef).then(async (doc) => {
-            if (!doc.exists()) {
-                await getDoc(userDocRef).then(async (doc) => {
-                    //console.log(doc.data());
-                    const data = {
-                        name: name,
-                        adminUid: user.uid,
-                        adminDisplayName: doc.data().displayName,
-                        adminUsername: doc.data().username,
-                        adminPhoto: doc.data().photo,
-                        dateCreation: new Date(),
-                    }
-                    await setDoc(docRef, {
-                        name: data.name,
-                        admin: {
-                            uid: data.adminUid,
-                            displayName: data.adminDisplayName,
-                            username: data.adminUsername,
-                            photo: data.adminPhoto,
-                        },
-                        dateCreation: data.dateCreation,
-                    }).then(async () => {
-                        await setDoc(userRef, {
+            if (maxClasse == true) {
+                if (!doc.exists()) {
+                    await getDoc(userDocRef).then(async (doc) => {
+                        //console.log(doc.data());
+                        const data = {
+                            name: name,
+                            adminUid: user.uid,
+                            adminDisplayName: doc.data().displayName,
+                            adminUsername: doc.data().username,
+                            adminPhoto: doc.data().photo,
+                            dateCreation: new Date(),
+                        }
+                        await setDoc(docRef, {
                             name: data.name,
+                            admin: {
+                                uid: data.adminUid,
+                                displayName: data.adminDisplayName,
+                                username: data.adminUsername,
+                                photo: data.adminPhoto,
+                            },
                             dateCreation: data.dateCreation,
-                        }).then(() => {
-                            result = classeCode;
+                        }).then(async () => {
+                            await setDoc(userRef, {
+                                name: data.name,
+                                dateCreation: data.dateCreation,
+                            }).then(() => {
+                                result = classeCode;
+                            })
                         })
                     })
-                })
+                } else {
+                    console.log("Code déjà existante");
+                    await classes.createClass(name);
+                }
             } else {
-                console.log("Code déjà existante");
-                await classes.createClass(name);
+                console.log("Vous avez atteint le nombre maximum de classe");
+                return result;
             }
         })
         return result;
@@ -108,4 +115,20 @@ export const classes = {
         return result;
     }
 
+}
+
+//max classe Admin 
+async function maxClasseAdmin() {
+    let result = false;
+    const user = auth.currentUser;
+    const docRef = collection(db, "users/" + user.uid + "/classesAdmin");
+    await getDocs(docRef).then((querySnapshot) => {
+        if (querySnapshot.size < 5) {
+            result = true;
+        }
+        else {
+            result = false;
+        }
+    })
+    return result;
 }
