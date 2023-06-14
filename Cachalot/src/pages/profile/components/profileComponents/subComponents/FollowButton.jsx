@@ -6,7 +6,7 @@ import {
     FaMinusCircle
 } from "react-icons/fa";
 import {useAuth} from "../../../../../context/AuthContext.js";
-import {useCache} from "../../../../../context/cache/CacheManager.js";
+import {useCache} from "../../../../../context/manager/cache/CacheManager.js";
 import {useMediaQuery} from "react-responsive";
 
 const ButtonContainer = styled.div`
@@ -92,7 +92,7 @@ const FollowButton = ({ isSearch, data }) => {
             return (
                 <ButtonContainer>
                     <button onClick={async () => {
-                        let result = await auth.unfollowUser(data.searchedUser.userData);
+                        let result = await auth.utils.unfollowUser(data.searchedUser.userData);
                         if (result) {
                             // On update le cache pour ne plus afficher l'utilisateur dans la liste des abonnements
                             cacheManager.removeFriends("following", data.searchedUser.userData.username);
@@ -110,13 +110,15 @@ const FollowButton = ({ isSearch, data }) => {
             return (
                 <ButtonContainer>
                     <button onClick={async () => {
-                        let result = await auth.followUser(data.searchedUser.userData);
+                        let result = await auth.utils.followUser(data.searchedUser.userData);
                         if (result) {
                             // On update le cache pour afficher l'utilisateur dans la liste des abonnements
                             cacheManager.addFriends("following", {
+                                displayName: data.searchedUser.userData.displayName,
                                 username: data.searchedUser.userData.username,
                                 photo: data.searchedUser.userData.photo
                             });
+                            console.log(cacheManager.getFriendsCache());
                             setIsFollowing(true);
                         } else {
                             console.error("Failed to follow user!");

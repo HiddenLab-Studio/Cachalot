@@ -15,6 +15,7 @@ import {
     Content,
     SettingsContainer
 } from "./style/SettingStyle.js";
+import {FaSignOutAlt} from "react-icons/fa";
 
 const Settings = () => {
     // Context
@@ -30,7 +31,18 @@ const Settings = () => {
     }, [auth.currentUser])
 
     async function handleClick() {
-
+        let filePhoto = document.getElementById("image").files[0]
+        let photoURL = "";
+        
+        if(filePhoto !== undefined) {
+            photoURL = await URL.createObjectURL(filePhoto);
+        }
+        const data = {
+            displayName: document.getElementById("displayName").value,
+            age: document.getElementById("age").value,
+            photo : photoURL
+        }
+        await auth.update.updateUserData(data);
     }
 
 
@@ -50,7 +62,7 @@ const Settings = () => {
                                     <h2>Photo de profil</h2>
                                 </td>
                                 <td>
-                                    <input type="file" accept="image/*"/>
+                                    <input type="file" id="image" accept="image/*"/>
                                 </td>
                             </tr>
                             <tr>
@@ -58,15 +70,7 @@ const Settings = () => {
                                     <h2>Nom d'utilisateur</h2>
                                 </td>
                                 <td>
-                                    <input type="text" placeholder={userData.username}/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2>Email</h2>
-                                </td>
-                                <td>
-                                    <input type="text" placeholder={userData.email}/>
+                                    <input type="text" id="displayName" placeholder={userData.displayName} />
                                 </td>
                             </tr>
                             <tr>
@@ -74,7 +78,7 @@ const Settings = () => {
                                     <h2>Âge</h2>
                                 </td>
                                 <td>
-                                    <input type="text" placeholder={userData.age}/>
+                                    <input type="number" id="age" placeholder={userData.age}/>
                                 </td>
                             </tr>
                             </tbody>
@@ -82,6 +86,19 @@ const Settings = () => {
                         <ApplyChangesButtonContainer change={onChanges}>
                             <button onClick={async () => await handleClick()}>Enregistrer les modifications</button>
                         </ApplyChangesButtonContainer>
+                        <button onClick={async () => {
+                            let result = await auth.user.logout();
+                            if(result) {
+                                auth.setUserData(null);
+                                console.log(userData);
+                                console.info("Sign-out successful.")
+                            } else {
+                                console.error("Sign-out failed.")
+                            }
+
+                        }} >
+                            Se déconnecter
+                        </button>
                     </Content>
                 </SettingsContainer>
             </MainContainer>

@@ -1,15 +1,18 @@
+import { useMediaQuery } from "react-responsive";
 import tw, { styled } from "twin.macro";
+import { Link } from "react-router-dom";
 
 // Context
-import {useCache} from "../../../../context/cache/CacheManager.js";
+import { useCache } from "../../../../context/manager/cache/CacheManager.js";
 
 // Icons
 import {
     FaClock,
     FaUserAlt,
-    FaMagic
 } from "react-icons/fa";
+import { IoSettingsSharp } from "react-icons/io5";
 
+// Styled Components
 const InformationContainer = styled.div``;
 const ProfileInformationContainer = styled.div`
   display: flex;
@@ -17,6 +20,31 @@ const ProfileInformationContainer = styled.div`
   padding: 0 0 24px;
   border-bottom: 2px solid ${props => props.theme.borderRightColor};
 
+  .myProfile {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    align-items: center;
+    border-bottom: 2px solid ${props => props.theme.borderRightColor};
+    padding: 0 16px 16px 16px;
+    span {
+      text-align: center;
+      flex-grow: 1;
+      font-family: "Din_Round_Med", sans-serif;
+      font-weight: 400;
+      color: ${props => props.theme.subText};
+      font-size: var(--fs-s);
+    }
+    svg {
+      font-size: var(--fs-sm);
+      color: ${props => props.theme.iconColor};
+      align-self: center;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+  
   .imgWrapper {
     display: flex;
     justify-content: center;
@@ -151,7 +179,6 @@ const ProfileInformationContainer = styled.div`
 
 // Components
 import Showcase from "./subComponents/Showcase.jsx";
-import {useMediaQuery} from "react-responsive";
 
 const ProfileInformation = ({isSearch, data}) => {
     const cacheManager = useCache();
@@ -163,34 +190,33 @@ const ProfileInformation = ({isSearch, data}) => {
 
     // Responsive
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
-    function getCreationData(){
-        const date = new Date(userData.accountCreationDate);
-        const day = date.getDate();
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        return `${day}/${month}/${year}`;
-    }
-
 
     return (
         <ProfileInformationContainer>
+            {
+                isOnMobile && !isSearch ?
+                        <div className="myProfile">
+                            <span>Mon profil</span>
+                            <Link to="/settings">
+                                <IoSettingsSharp />
+                            </Link>
+                        </div>
+                    :
+                        null
+            }
             <InformationContainer>
                 <div className="imgWrapper">
                     <img src={userData.photo} alt="ProfilePicture"/>
                 </div>
                 <div className="info">
                     <div className="profile__name">
-                        <span>{userData.username}</span>
-                        {!isSearch ?
-                            <div>{userData.email}</div>
-                            :
-                            null
-                        }
+                        <span>{userData.displayName}</span>
+                        <div>@{userData.username}</div>
                     </div>
                     <div className="profile__info">
                         <div>
                             <FaClock />
-                            <span>Membre depuis le {getCreationData()}</span>
+                            <span>Membre depuis le {userData.accountCreationDate.split(" ")[0]}</span>
                         </div>
                         <div>
                             <FaUserAlt />

@@ -1,13 +1,10 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {doc, updateDoc, setDoc, getDoc, collection, getDocs} from "firebase/firestore";
 import firebaseConfigClient from "../../../services/firebase.config.js";
-import {checkFields} from "./checkFields.js";
 
 //Firebase configuration
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
-
-
 
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
@@ -73,10 +70,10 @@ export async function firebaseRegister(data) {
         const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
         console.log(data);
         if(fetchedUsers.includes(data.username)){
-            result.code = "Ce pseudo est déjà utilisé";
+            result.code = "Ce nom d'utilisateur est déjà utilisé";
             return result;
         } else {
-            console.log("Pseudo disponible");
+            console.log("Nom d'utilisateur disponible");
         }
     }
 
@@ -94,6 +91,7 @@ export async function firebaseRegister(data) {
             const userDocRef = doc(db, "users", user.uid);
             //Ajout des informations dans le document
             setDoc(userDocRef, {
+                displayName: data.displayName,
                 username: data.username,
                 age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,
@@ -178,11 +176,18 @@ export async function firebaseGoogleLogin() {
             const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
             const dateTime = date + " " + time;
 
+            const displayName = user.displayName.split(" ")[0];
+            let username = displayName;
+            while (!await verificationUsername(username)) {
+                username = displayName + Math.floor(Math.random() * 100000);
+            }
+
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
                 if (!docSnap.exists()) {
                     setDoc(docRef, {
-                        username: user.displayName,
+                        username: username,
+                        displayName: user.displayName,
                         email: user.email,
                         photo: user.photoURL,
                         age: 0,
@@ -206,5 +211,15 @@ export async function firebaseGoogleLogin() {
             result.code = errorManager.getErrorDisplayMessage(error.code);
         });
 
+    return result;
+}
+
+
+async function verificationUsername(username) {
+    let result = false;
+    const usersCollection = collection(db, "users");
+    const usersDoc = await getDocs(usersCollection);
+    const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
+    fetchedUsers.includes(username) ? result = false : result = true;
     return result;
 }
