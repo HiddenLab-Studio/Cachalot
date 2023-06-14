@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Context
-import { useCache } from "../../../context/manager/cache/CacheManager.js";
+import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
 
 // Components
 import Loading from "../../../components/utils/loading/Loading.jsx";

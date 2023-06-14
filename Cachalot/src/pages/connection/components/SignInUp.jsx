@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import { useMediaQuery } from "react-responsive";
 
 // Context
-import { useCache } from "../../../context/manager/cache/CacheManager.js";
+import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import { FaExclamationCircle } from "react-icons/fa";

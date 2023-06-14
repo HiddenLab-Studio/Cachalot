@@ -21,6 +21,8 @@ export const Container = styled.section`
   }
 
   @media (max-width: 768px) {
+    max-height: calc(100vh - 92px);
+    overflow-y: auto;
     padding: 0;
   }
 `

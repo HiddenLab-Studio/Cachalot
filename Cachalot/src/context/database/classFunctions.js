@@ -6,10 +6,16 @@ const { auth, db, storage } = firebaseConfigClient();
 
 export const classes = {
     createClass: async (name) => {
-        let result = undefined;
+        let result = {
+            classCode: undefined,
+            maxClassReached: undefined
+        };
+
         const user = auth.currentUser;
+        // Generate a random code
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-        const maxClasse = await maxClasseAdmin();
+        // Check if user can create a class
+        const canCreateClass = await maxClasseAdmin();
 
         const docRef = doc(db, "classes", classeCode);
         const userDocRef = doc(db, 'users', user.uid);
@@ -17,7 +23,7 @@ export const classes = {
 
 
         await getDoc(docRef).then(async (doc) => {
-            if (maxClasse == true) {
+            if (canCreateClass === true) {
                 if (!doc.exists()) {
                     await getDoc(userDocRef).then(async (doc) => {
                         //console.log(doc.data());
@@ -43,7 +49,7 @@ export const classes = {
                                 name: data.name,
                                 dateCreation: data.dateCreation,
                             }).then(() => {
-                                result = classeCode;
+                                result.classCode = classeCode;
                             })
                         })
                     })
@@ -52,10 +58,11 @@ export const classes = {
                     await classes.createClass(name);
                 }
             } else {
-                console.log("Vous avez atteint le nombre maximum de classe");
-                return result;
+                console.info("Vous avez atteint le nombre maximum de classe");
+                result.maxClassReached = true;
             }
         })
+
         return result;
     },
 
@@ -65,6 +72,8 @@ export const classes = {
             isJoined: false,
             isAlreadyJoined: false
         };
+
+        if(code.length !== 5) return result;
 
         const user = auth.currentUser;
         const docRef = doc(db, "classes", code);

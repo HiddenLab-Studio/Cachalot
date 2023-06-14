@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
 // Context
-import { useCache } from "../../../../../context/manager/cache/CacheManager.js";
+import { useCache } from "../../../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import {
@@ -12,6 +12,7 @@ import {
     FollowerButton,
     FriendsDiv, NoFollowerContainer
 } from "../../../styles/SubscribersStyle.js";
+import {FaChevronRight} from "react-icons/fa";
 
 
 const Subscribers = ({isSearch, data}) => {
@@ -46,7 +47,13 @@ const Subscribers = ({isSearch, data}) => {
                                             <FriendsDiv key={index}>
                                                 <Link to={"/profile/" + item.username}>
                                                     <img src={item.photo} alt="profile picture"/>
-                                                    <span>{item.displayName}</span>
+                                                    <div tw="flex flex-col">
+                                                        <span className="displayName">{item.displayName}</span>
+                                                        <span className="username">@{item.username}</span>
+                                                    </div>
+                                                    <div tw="flex justify-end grow-[1]">
+                                                        <FaChevronRight  />
+                                                    </div>
                                                 </Link>
                                             </FriendsDiv>
                                         )
@@ -70,7 +77,13 @@ const Subscribers = ({isSearch, data}) => {
                                             <FriendsDiv key={index}>
                                                 <Link to={"/profile/" + item.username}>
                                                     <img src={item.photo} alt="profile picture"/>
-                                                    <span>{item.displayName}</span>
+                                                    <div tw="flex flex-col">
+                                                        <span className="displayName">{item.displayName}</span>
+                                                        <span className="username">@{item.username}</span>
+                                                    </div>
+                                                    <div tw="flex justify-end grow-[1]">
+                                                        <FaChevronRight  />
+                                                    </div>
                                                 </Link>
                                             </FriendsDiv>
                                         )

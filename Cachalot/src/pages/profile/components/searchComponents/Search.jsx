@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
-import tw from "twin.macro";
-
-// Context
-import {useAuth} from "../../../../context/AuthContext.js";
-import {useCache} from "../../../../context/manager/cache/CacheManager.js";
-
-// Components
-import Loading from "../../../../components/utils/loading/Loading.jsx";
 
 // Styled components
 import {

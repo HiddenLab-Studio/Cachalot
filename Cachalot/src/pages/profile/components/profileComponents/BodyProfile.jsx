@@ -2,7 +2,7 @@ import React from "react";
 import tw from "twin.macro";
 
 // Context
-import {useCache} from "../../../../context/manager/cache/CacheManager.js";
+import {useCache} from "../../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import {
@@ -26,6 +26,7 @@ const BodyProfile = ({isSearch, data}) => {
 
     //console.info("BodyProfile data:");
     //console.log(data)
+    let userData = isSearch ? data.searchedUser.userData : data.currentUserData;
 
     return (
         <BodyProfileContainer>
@@ -42,11 +43,29 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement>
                         <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
                         <div>
-                            <span>0</span>
+                            <span>{userData.userEx.totalTrainingDone}</span>
+                            <h2>Entrainement terminés</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>{userData.userXp.currentXp}</span>
                             <h2>Xp gagnés</h2>
                         </div>
                     </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>{userData.userEx.totalExerciseDone}</span>
+                            <h2>Exercices terminés</h2>
+                        </div>
+                    </GridElement>
                 </GridContainer>
+                <h1>Expérience</h1>
+                <div>
+
+                </div>
                 <h1>Succès</h1>
                 <SuccessContainer>
 

@@ -5,7 +5,7 @@ import {
 
 // Components
 import HomePage from "../pages/home/HomePage.jsx";
-import ExerciseHomePage from "../pages/exercise/ExerciseHomePage.jsx";
+import ExerciseHomePage from "../pages/exercise/TrainingHomePage.jsx";
 import ExerciseOld from "../pages/exercise/Exercise.old.jsx";
 import ProfileHomePage from "../pages/profile/ProfileHomePage.jsx";
 import SearchUser from "../pages/profile/components/SearchUser.jsx";
@@ -15,6 +15,7 @@ import Settings from "../components/utils/settings/Settings.jsx";
 import Quests from "../components/utils/quests/Quests.jsx";
 import DivisionHomePage from "../pages/division/DivisionHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
+import MathExercise from "../pages/exercise/components/training/MathExercise.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
     // ExerciseOld Main Page and ExerciseOld by id
     { path: "/exercise", element: <ExerciseHomePage/> },
     { path: "/exercise/:id",  element: <ExerciseOld /> },
+    { path: "/training/math",  element: <MathExercise /> },
     // Ranked Page
     { path: "/ranked", element: <DivisionHomePage /> },
     // Quest Page
