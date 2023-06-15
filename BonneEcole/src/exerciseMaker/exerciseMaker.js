@@ -11,7 +11,7 @@ var exerciseObjectClient = {
     answer3: undefined,
     answer4: undefined,
     answer5: undefined,
-    QCMCorrectAnswer: []
+    QCMCorrectAnswer: undefined
 }
 
 
@@ -104,12 +104,14 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
 
         if (checkEveryNecessaryField("INPUT") == true) {
             //On récupère les valeurs des inputs et on les met dans l'objet
+            resetExercise();
             exerciseObjectClient.type = "INPUT";
             exerciseObjectClient.title = document.getElementById("titleInput").value;
             exerciseObjectClient.question = document.getElementById("consigneInput").value;
             exerciseObjectClient.answer = document.getElementById("answerInput").value;
 
             console.log(exerciseObjectClient);
+            sendExerciseToServer();
         }
 
 
@@ -259,6 +261,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
         if (checkEveryNecessaryField("QCM") == true) {
             //On récupère les valeurs des inputs et on les met dans l'objet
+            resetExercise();
             exerciseObjectClient.type = "QCM";
             exerciseObjectClient.title = document.getElementById("titleInput").value;
             exerciseObjectClient.question = document.getElementById("consigneInput").value;
@@ -292,6 +295,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             }
 
             console.log(exerciseObjectClient);
+            sendExerciseToServer();
 
         }
 
@@ -383,6 +387,18 @@ function checkEveryNecessaryField(exerciseType) {
     return allFieldsAreFilled;
 }
 
+
+function resetExercise(){
+    exerciseObjectClient.type = "INPUT";
+    exerciseObjectClient.answer = undefined;
+    exerciseObjectClient.answer1 = undefined;
+    exerciseObjectClient.answer2 = undefined;
+    exerciseObjectClient.answer3 = undefined;
+    exerciseObjectClient.answer4 = undefined;
+    exerciseObjectClient.answer5 = undefined;
+    exerciseObjectClient.QCMCorrectAnswer = undefined;
+} 
+
 function removeHighlightFromAll() {
     //On récupère tous les éléments de la div exerciseDiv
     const elements = document.querySelectorAll('#exerciseDiv *');
@@ -393,4 +409,24 @@ function removeHighlightFromAll() {
     });
 }
 
+function sendExerciseToServer(){
+
+    const exerciseJSONed = JSON.stringify(exerciseObjectClient);//On convertit l'objet en JSON
+    
+    fetch('/api/sentExercise', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: exerciseJSONed 
+    })
+        .then(response => response.text())//On récupère la réponse du serveur et on la convertit en JSON
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            // Gérer les erreurs de requête
+            console.error('Une erreur s\'est produite:', error);
+        });
+}
 

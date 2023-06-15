@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 4000;
 
@@ -12,10 +13,19 @@ app.get('/', (req, res) => {
 });
 
 
+app.use(express.json());
+
+
+// Utilisation du middleware body-parser pour traiter les données JSON
+app.use(bodyParser.json());
+
+
 //On récupère l'exercice envoyé par le client
-app.get('/api/sentExercise', (req, res) => {
-  console.log(req.query.exercise);
-  res.send('Exercice reçu');
+app.post('/api/sentExercise', (req, res) => {
+  //console.log(req);
+  console.log(req.body);
+
+  res.json('Exercice reçu');
 });
 
 
