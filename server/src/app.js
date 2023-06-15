@@ -43,6 +43,14 @@ app.get('/JZU0S', (req, res) => {
     res.sendFile(path.join(__dirname, "../../BonneEcole/html/classe.html"));
 });
 
+app.get('/ligue', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/ligue.html"));
+});
+
+app.get('/francais/game1', (req, res) => {
+    res.sendFile(path.join(__dirname, "../../BonneEcole/html/game.html"));
+});
+
 
 
 app.listen(PORT, () => {

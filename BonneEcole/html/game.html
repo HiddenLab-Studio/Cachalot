@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIGUE</title>
+  <!-- Inclure le lien vers le CDN de Tailwind CSS -->
+  <link href="https://unpkg.com/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<div class="flex flex-col items-center justify-center h-screen">
+
+  <h1 id="countdown" class="hidden text-6xl font-bold mb-8"></h1>
+  <h1 id="score" class="hidden text-6xl font-bold mb-8"></h1>
+
+
+  <!-- GAME -->
+  <div id="playingGame" class="hidden mt-8 text-center">
+    <div class="flex items-center mb-4">
+      <div class="flex flex-col items-center">
+        <img src="" alt="Your Photo" id="yourPhoto" class="rounded-full h-12 w-12 mr-2">
+        <h2 class="text-2xl font-bold" id="yourName">Your Name</h2>
+        <p id="yourScore">0</p>
+      </div>
+      <div class="flex flex-col items-center ml-4">
+        <img src="" alt="Opponent's Photo" id="otherPhoto" class="rounded-full h-12 w-12 mr-2">
+        <h2 class="text-2xl font-bold" id="otherName">Opponent's Name</h2>
+        
+        <p id="otherScore" >0</p>
+      </div>
+    </div>
+  
+    <p class="mb-4">
+      <span id="timerGame" class="block mx-auto"></span>
+    </p>
+    <button id="response" class="py-2 px-4 bg-green-500 text-white rounded">APPUIYER</button>
+  </div>
+  
+  
+
+  <!-- File d'attente -->
+  <div id="waitingGame" class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">En attente d'un joueur</h2>
+    <p class="mb-4">Vous êtes en attente d'une partie de <span id="waitingGameDiscipline"></span></p>
+    <button id="cancelButton" class="py-2 px-4 bg-red-500 text-white rounded">Annuler</button>
+  </div>
+</div>
+
+
+
+
+<script type="module" src="./../src/firebase-client/firebase-session.js"></script>
+<script type="module" src="./../src/firebase-client/ligue/firebase-game.js"></script>
+</body>
+
+</html>

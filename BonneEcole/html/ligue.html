@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIGUE</title>
+  <!-- Inclure le lien vers le CDN de Tailwind CSS -->
+  <link href="https://unpkg.com/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<div class="flex flex-col items-center justify-center h-screen">
+  <!-- Recherche d'une partie -->
+  <div id="searchGame" class="flex flex-col items-center">
+    <h2 class="text-2xl font-bold mb-4">Recherche d'une partie</h2>
+    <label for="matiere" class="mb-2">Choisissez la matière :</label>
+    <select id="discipline" class="mb-4">
+      <option value="francais">Français</option>
+      <option value="mathematiques">Mathématiques</option>
+      <option value="autre">Autre</option>
+    </select>
+    <button id="searchButton" class="py-2 px-4 bg-blue-500 text-white rounded">Rechercher</button>
+  </div>
+</div>
+
+
+
+
+<script type="module" src="./src/firebase-client/firebase-session.js"></script>
+<script type="module" src="./src/firebase-client/ligue/firebase-findGame.js"></script>
+</body>
+
+</html>
