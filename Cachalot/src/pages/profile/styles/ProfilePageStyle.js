@@ -94,7 +94,7 @@ export const ProfileContainer = styled(Container)`
     }
   }
   
-  @media (min-width: 768px) and (max-width: 1050px) {
+  @media (min-width: 768px) and (max-width: 950px) {
     ${Content} {
       ${BodyProfileContainer} {
         flex-direction: column;

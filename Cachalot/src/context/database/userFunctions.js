@@ -22,11 +22,17 @@ export const user = {
     getUserClasses: async (currentUser) => {
         let result = [];
         if (currentUser !== null) {
-            const userRef = collection(db, "users", currentUser.uid, "classesJoined");
+            let userRef = collection(db, "users", currentUser.uid, "classesJoined");
             await getDocs(userRef).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    console.log(doc.data());
-                    result.push(doc.id);
+                    result.push({code: doc.id, data: doc.data()});
+                });
+            });
+
+            userRef = collection(db, "users", currentUser.uid, "classesAdmin");
+            await getDocs(userRef).then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    result.push({code: doc.id, data: doc.data()});
                 });
             });
         }

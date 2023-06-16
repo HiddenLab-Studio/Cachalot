@@ -84,38 +84,38 @@ const ClassButton = ({auth}) => {
             console.info("Unmounting ClassButton");
             document.removeEventListener("keydown", handleKeyDown)
         };
-
     }, [joinClassOverlay]);
 
     async function handleClick() {
         if(!isLoading && inputRef.current.value.length > 0) {
+            let ref = inputRef.current;
             setIsLoading(true);
             if (!joinClassOverlay) {
-                console.info("Create class with name: " + inputValue)
-                let result = await auth.classes.createClass(inputValue);
+                console.info("Create class with name: " + ref.value);
+                let result = await auth.classes.createClass(ref.value);
                 if (result.classCode !== undefined) {
                     console.info("Class created!")
                     navigate("/class/" + result.classCode);
                 } else {
-                    if(result.maxClassReached) inputRef.current.placeholder = "Nombre maximum de classes atteint !"
-                    else inputRef.current.placeholder = "Nom de classe indisponible !"
+                    if(result.maxClassReached) ref.placeholder = "Nombre maximum de classes atteint !"
+                    else ref.placeholder = "Nom de classe indisponible !"
                     setInputValue("");
-                    inputRef.current.value = "";
-                    inputRef.current.select();
+                    ref.value = "";
+                    ref.select();
                 }
                 setIsLoading(false);
             } else {
-                console.info("Join class with code: " + inputValue)
-                let result = await auth.classes.joinClass(inputValue);
+                console.info("Join class with code: " + ref.value)
+                let result = await auth.classes.joinClass(ref.value);
                 if (result.isJoined) {
                     console.info("Class joined!")
-                    navigate("/class/" + inputValue);
+                    navigate("/class/" + ref.value);
                 } else {
-                    if(result.isAdmin || result.isAlreadyJoined ) inputRef.current.placeholder = "Vous êtes déjà dans cette classe !"
-                    else inputRef.current.placeholder = "Code invalide !"
+                    if(result.isAdmin || result.isAlreadyJoined ) ref.placeholder = "Vous êtes déjà dans cette classe !"
+                    else ref.placeholder = "Code invalide !"
                     setInputValue("");
-                    inputRef.current.value = "";
-                    inputRef.current.select();
+                    ref.value = "";
+                    ref.select();
                 }
                 setIsLoading(false);
             }
@@ -145,7 +145,9 @@ const ClassButton = ({auth}) => {
         return (
             <>
                 <InputContainer>
-                    <input ref={inputRef} type="text" placeholder={joinClassOverlay ? "Code de la classe" : "Nom de la classe"} autoFocus onChange={(e) => setInputValue(e.target.value)}/>
+                    <input ref={inputRef} type="text" placeholder={joinClassOverlay ? "Code de la classe" : "Nom de la classe"} autoFocus
+                        onChange={(e) => setInputValue(e.target.value)}
+                    />
                     <MdOutlineCancel className="cancelSvg" onClick={() => setJoinClassOverlay(undefined)} />
                 </InputContainer>
                 <div tw="flex justify-center">

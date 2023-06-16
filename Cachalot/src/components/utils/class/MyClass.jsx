@@ -13,7 +13,7 @@ import Navbar from "../../navbar/Navbar.jsx";
 import {MainContainer} from "../ui/GlobalStyle.js";
 import {
     MyClassContainer,
-    Content
+    Content, MyClassMainTitleContainer, Title
 } from "./style/MyClassStyle.js";
 import ClassPanel from "./subComponents/ClassPanel.jsx";
 
@@ -37,13 +37,15 @@ const MyClass = () => {
                 <Navbar />
                 <MyClassContainer>
                     <Content>
-                        <div className="title__container">
-                            <h1>Mes classes</h1>
+                        <MyClassMainTitleContainer className="title__container">
+                            <Title tw="flex flex-row items-center gap-[8px]">
+                                <img src="../../../../static/img/icons/class.png" alt=""/>
+                                <h1>Mes classes</h1>
+                            </Title>
                             <span>
-                                Ce panel vous permet de venir gérer vos classes mais également pouvoir quitter
-                                les classes dans lesquelles vous êtes.
+                                Ce panel vous permet de voir les classes auxquelles vous êtes inscrit.
                             </span>
-                        </div>
+                        </MyClassMainTitleContainer>
                         <ClassPanel auth={auth} />
                     </Content>
                 </MyClassContainer>

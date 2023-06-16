@@ -5,7 +5,8 @@ const { auth, db, storage } = firebaseConfigClient();
 
 
 export const classes = {
-    createClass: async (name) => {
+    createClass: async (className) => {
+        console.log(className)
         let result = {
             classCode: undefined,
             maxClassReached: undefined
@@ -28,13 +29,14 @@ export const classes = {
                     await getDoc(userDocRef).then(async (doc) => {
                         //console.log(doc.data());
                         const data = {
-                            name: name,
+                            name: className,
                             adminUid: user.uid,
                             adminDisplayName: doc.data().displayName,
                             adminUsername: doc.data().username,
                             adminPhoto: doc.data().photo,
                             dateCreation: new Date(),
                         }
+
                         await setDoc(docRef, {
                             name: data.name,
                             admin: {
