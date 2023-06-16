@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 // Context
 import { useAuth } from "../../../context/AuthContext.js";
-import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
+import { useCache } from "../../../context/manager/cache/CacheProvider.js";
 
 // Styled components
 import {
@@ -27,9 +27,9 @@ const SearchUser = () => {
         if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
             const getUserFriends = async (id) => {
                 // if the cache is empty, load the data from the database
-                if(cacheManager.isFriendsCacheEmpty()){
+                if(cacheManager.friendsCache.isFriendsCacheEmpty()){
                     let result = await auth.utils.getUserFriends(id);
-                    cacheManager.setFriendsCache(result.follower, result.following);
+                    cacheManager.friendsCache.setFriendsCache(result.follower, result.following);
                     return result;
                 } else {
                     // if the cache is not empty, load the data from the cache

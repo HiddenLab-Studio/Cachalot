@@ -1,8 +1,4 @@
 import React, {useEffect, useRef, useState} from "react";
-import { useMediaQuery } from "react-responsive";
-
-// Context
-import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import { FaExclamationCircle } from "react-icons/fa";
@@ -26,10 +22,6 @@ import {
 } from "../functions/signInUp.js";
 
 const SignInUp = () => {
-    // Context
-    const cacheManager = useCache();
-    // Media queries
-    const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
     // State
     const [signInOverlay, setSignInOverlay] = useState(true);
     const [errorData, setErrorData] = useState({
@@ -47,8 +39,6 @@ const SignInUp = () => {
             showOverlay: false,
             code: ""
         });
-        cacheManager.clearFriendsCache();
-        console.log(cacheManager.getFriendsCache());
     }, [signInOverlay]);
 
     function handleState(data) { setErrorData(data); }

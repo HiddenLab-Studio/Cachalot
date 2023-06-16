@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Context
-import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
+import { useCache } from "../../../context/manager/cache/CacheProvider.js";
 
 // Components
 import Loading from "../../../components/utils/loading/Loading.jsx";
@@ -27,6 +27,7 @@ const Profile = (props) => {
     // Context
     const auth = props.auth;
     const cacheManager = useCache();
+    const friendsCache = cacheManager.friendsCache;
 
     // States
     const [searchedUser, setSearchedUser] = useState(null);
@@ -39,10 +40,10 @@ const Profile = (props) => {
         // Functions
         const getUserFriends = async (id) => {
             // if the cache is empty, load the data from the database
-            if(cacheManager.isFriendsCacheEmpty()){
+            if(friendsCache.isFriendsCacheEmpty()){
                 let result = await auth.utils.getUserFriends(id);
                 //console.log(result);
-                cacheManager.setFriendsCache(result.follower, result.following);
+                friendsCache.setFriendsCache(result.follower, result.following);
                 return result;
             } else {
                 // if the cache is not empty, load the data from the cache
@@ -60,7 +61,7 @@ const Profile = (props) => {
         let searchedUser = window.location.pathname.split("/")[2];
         if(searchedUser !== undefined && searchedUser.length > 0) {
             console.info("searching for user: " + searchedUser + "...");
-            console.log("Friends cache: ", cacheManager.getFriendsCache());
+            console.log("Friends cache: ", friendsCache.getFriendsCache());
             // if the searched user is the current user, redirect to the current user's profile
             if(auth.userData === null || auth.userData.username === searchedUser) {
                 navigate("/profile")
@@ -73,6 +74,7 @@ const Profile = (props) => {
         } else {
             // if the user is not searching for another user, load the user's friends
             getUserFriends(auth.currentUser.uid).then((result) => {
+                console.log(friendsCache.getFriendsCache());
                 console.info("Friends loaded successfully!");
                 setIsLoading(false);
             });
@@ -110,11 +112,11 @@ const Profile = (props) => {
                     <Content>
                         <ProfileInformation
                             isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
                         />
                         <BodyProfile
                             isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
+                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
                         />
                     </Content>
                 </ProfileContainer>

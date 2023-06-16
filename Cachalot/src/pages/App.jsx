@@ -6,8 +6,8 @@ import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "@emotion/react";
 
 // Context
-import { AuthProvider } from "../context/AuthContext.js";
-import { CacheProvider } from "../context/manager/cache/FriendsCacheManager.js";
+import AuthProvider from "../context/AuthContext.js";
+import CacheProvider from "../context/manager/cache/CacheProvider.js";
 
 // Scss
 import "./App.scss"
@@ -23,18 +23,12 @@ const App = () => {
         <AuthProvider>
             <CacheProvider>
                 <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
-                    <BrowserRouter />
+                    <BrowserRouter/>
                 </ThemeProvider>
             </CacheProvider>
         </AuthProvider>
     )
 }
-
-/*
-            <ThemeProvider theme={theme === "light" ? themeLight : themeDark}>
-                <BrowserRouter />
-            </ThemeProvider>
- */
 
 const root = createRoot(document.getElementById("root"));
 root.render(<App />);

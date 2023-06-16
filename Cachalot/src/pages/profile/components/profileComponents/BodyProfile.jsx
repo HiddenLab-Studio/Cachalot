@@ -1,9 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
 
-// Context
-import {useCache} from "../../../../context/manager/cache/FriendsCacheManager.js";
-
 // Styled components
 import {
     BodyProfileAsideContainer,
@@ -18,13 +15,9 @@ import {
 import Subscribers from "./subComponents/Subscribers.jsx";
 import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
 
-
 const BodyProfile = ({isSearch, data}) => {
-    const cacheManager = useCache();
-
-    //console.info("BodyProfile data:");
-    //console.log(data)
     let userData = isSearch ? data.searchedUser.userData : data.currentUserData;
+    let userFriends = isSearch ? data.searchedUser.userFriends : data.userFriends;
 
     return (
         <BodyProfileContainer>
@@ -73,7 +66,7 @@ const BodyProfile = ({isSearch, data}) => {
                 <h1>Amis</h1>
                 <Subscribers
                     isSearch={isSearch}
-                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: userFriends}}
                 />
 
                 {!isSearch ?

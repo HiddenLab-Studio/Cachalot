@@ -17,16 +17,44 @@ import {
 } from "./style/MyClassStyle.js";
 import ClassPanel from "./subComponents/ClassPanel.jsx";
 
+
+import { useCache  } from "../../../context/manager/cache/CacheProvider.js";
+
 const MyClass = () => {
 
     const auth = useAuth()
     const isOnMobile = useMediaQuery({query: "(max-width: 768px)"});
 
+    const cache = useCache();
+
     // State
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
+        console.log(cache.friendsCache.getFriendsCache());
+
+        const getUserFriends = async (id) => {
+            // if the cache is empty, load the data from the database
+            if(cache.friendsCache.isFriendsCacheEmpty()){
+                let result = await auth.utils.getUserFriends(id);
+                //console.log(result);
+                cache.friendsCache.setFriendsCache(result.follower, result.following);
+                return result;
+            } else {
+                // if the cache is not empty, load the data from the cache
+                console.info("Friends loaded from cache!");
+            }
+        }
+
+
+        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
+            getUserFriends(auth.currentUser.uid).then((result) => {
+                console.log(cache.friendsCache.getFriendsCache());
+                console.info("Friends loaded successfully!");
+                setIsLoading(false);
+            });
+        }
+
     }, [auth.currentUser])
 
     if(isLoading) {
