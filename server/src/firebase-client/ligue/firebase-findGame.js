@@ -4,22 +4,29 @@ import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 const { auth, db } = firebaseConfigClient();
 
 //FONCTION IMPORTANTES
+
+/*IL MANQUE JUSTE DE CREER UN ID UNIQUE POUR LES GAMES*/
 //Rejoindre la queue
-function joinGame(discipline) {
+async function joinGame(discipline) {
+    let result = false;
     const user = auth.currentUser;
     const userRef = doc(db, "users", user.uid);
 
-    getDoc(userRef).then(async (docUser) => {
+    await getDoc(userRef).then(async (docUser) => {
         if (docUser.exists()) {
             const ligueRef = collection(db, "ligue/" + discipline + "/games");
             const ligueDoc = await getDocs(ligueRef);
             const newGame = ligueDoc.docs.map(doc => {
                 return { id: doc.id, ...doc.data() }
             });
+
+            //Si il n'y a pas de partie en attente on en crée une game
             if (newGame.length == 0 ) {
                 await createGame(discipline, docUser.data().username, docUser.data().photo, user.uid ,"game1");
+                result = true;
             }
             else {
+                //Sinon on regarde s'il y a une partie en atente pour le faire rentrer dedans
                 newGame.forEach(async game => {
                     if (game.state == "waiting") {
                         const docRef = doc(db, "ligue", discipline, "games", game.id, "players", user.uid);
@@ -27,28 +34,34 @@ function joinGame(discipline) {
                         await setDoc(docRef, {
                             name: docUser.data().username,
                             photo: docUser.data().photo,
-                            score : 0
+                            score : 0,
+                            ready : false
                         })
                         await updateDoc(docGame, {
-                            state: "playing"
+                            state: "starting"
                         }).then(() => {
+                            //Redirection vers la partie
                             window.location.href = discipline + "/"+game.id;
+                            result = true;
                         })
 
                     }
+                    //Si pas de partie en attendant on en crée une
                     else {
                         await createGame(discipline, docUser.data().username, docUser.data().photo, user.uid, "game2");
+                        result = true;
                     }
                 })
             }
         }
     }).catch((error) => {
         console.log("Error getting document:", error);
+        result = false;
     });
-
+    return result;
 }
 
-
+//ON SETUP UNE PARTIE
 async function createGame(discipline, username, photo, id, gameId) {
     const docRef = doc(db, "ligue", discipline, "games", gameId, "players", id);
     const docGame = doc(db, "ligue", discipline, "games", gameId);
@@ -56,6 +69,7 @@ async function createGame(discipline, username, photo, id, gameId) {
         name: username,
         photo: photo,
         score : 0,
+        ready : false
     })
     await setDoc(docGame, {
         state: "waiting"
@@ -75,152 +89,3 @@ function clickOnJoinGame() {
 
 clickOnJoinGame();
 
-/*
-function clickOnLeaveGame() {
-    const cancelButton = document.getElementById("cancelButton");
-    cancelButton.addEventListener("click", async () => {
-        const discipline = document.getElementById("waitingGameDiscipline").innerHTML;
-        await leaveQueue(discipline);
-        affichageRecherche();
-    });
-}
-
-function affichageRecherche() {
-    const searchGame = document.getElementById("searchGame");
-    searchGame.classList.remove("hidden");
-    const waitingGame = document.getElementById("waitingGame");
-    waitingGame.classList.add("hidden");
-}
-
-function affichageQueue(discipline) {
-    const searchGame = document.getElementById("searchGame");
-    searchGame.classList.add("hidden");
-    const waitingGame = document.getElementById("waitingGame");
-    waitingGame.classList.remove("hidden");
-    const waitingGameDiscipline = document.getElementById("waitingGameDiscipline");
-    waitingGameDiscipline.innerHTML = discipline;
-}
-
-
-clickOnJoinGame();
-clickOnLeaveGame();
-/*
-
-
-
-
-/* FONCTION OBSOLETE ELLES PRENNES TROP DE LECTURE DE DONNEES
-async function joinQueue(discipline) {
-    const user = auth.currentUser;
-    const userRef = doc(db, "users", user.uid);
-
-    await getDoc(userRef).then(async (docUser) => {
-        if (docUser.exists()) {
-            const ligueRef = doc(db, "ligue", discipline);
-            const ligueDoc = await getDoc(ligueRef);
-
-            if (ligueDoc.exists()) {
-                const newQueue = ligueDoc.data().queue || {};
-
-                newQueue[user.uid] = {
-                    "name": docUser.data().username,
-                    "photo": docUser.data().photo,
-                    "id": user.uid
-                };
-
-                await updateDoc(ligueRef, {
-                    queue: newQueue
-                }).then(async () => {
-                    const gameId = await stateQueue(discipline)
-
-                    if (gameId == "En attente d'un autre joueur") {
-                        console.log(gameId)
-                    }
-                    else {
-                        
-                    }
-                })
-            }
-        };
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
-}
-
-//Quitter la queue
-async function leaveQueue(discipline) {
-    const user = auth.currentUser;
-    const userRef = doc(db, "users", user.uid);
-
-    await getDoc(userRef).then(async (docUser) => {
-        if (docUser.exists()) {
-            const ligueRef = doc(db, "ligue", discipline);
-            const ligueDoc = await getDoc(ligueRef);
-
-            if (ligueDoc.exists()) {
-                const newQueue = ligueDoc.data().queue || {};
-
-                delete newQueue[user.uid];
-
-                await updateDoc(ligueRef, {
-                    queue: newQueue
-                })
-            }
-        };
-    }).catch((error) => {
-        console.log("Error getting document:", error);
-    });
-}
-
-async function stateQueue(discipline) {
-    const ligueRef = doc(db, "ligue", discipline);
-    const ligueDoc = await getDoc(ligueRef);
-
-    if (ligueDoc.exists()) {
-        const queue = ligueDoc.data().queue || {};
-        if (Object.keys(queue).length >= 2) {
-            const idGame = "Game1" //Math.floor(Math.random() * 1000000000);
-            const newGame = doc(db, "ligue/", discipline, "/games", idGame);
-            await setDoc(newGame, {
-                "players": queue,
-                "state": "waiting"
-            });
-            await updateDoc(ligueRef, {
-                queue: {}
-            })
-            return idGame
-        }
-        else {
-            return "En attente d'un autre joueur"
-        }
-    }
-}
-
-async function redirectGame(discipline) {
-    const ligueRef = collection(db, "ligue/" + discipline + "/games");
-
-    onSnapshot(ligueRef, (docSnapshot) => {
-        docSnapshot.docChanges().forEach(async (change) => {
-            if (change.type === "added") {
-                const user = auth.currentUser;
-                const idUser = user.uid;
-
-                const userLigueGame = doc(db, "ligue", discipline, "games", change.doc.id);
-                const userLigueGameDoc = await getDoc(userLigueGame);
-                const players = Object.values(userLigueGameDoc.data().players);
-
-                players.forEach(async player => {
-                    if (player.id == idUser) {
-                        console.log("redirect") 
-                        await updateDoc(userLigueGame, {
-                            state: "playing"
-                        })
-                    }
-                })
-                
-            }
-        });
-    });
-}
-
-*/

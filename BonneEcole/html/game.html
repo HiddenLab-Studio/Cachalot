@@ -12,39 +12,76 @@
 <div class="flex flex-col items-center justify-center h-screen">
 
   <h1 id="countdown" class="hidden text-6xl font-bold mb-8"></h1>
-  <h1 id="score" class="hidden text-6xl font-bold mb-8"></h1>
+
+  <!-- Final score -->
+  <div class="flex flex-col items-center hidden" id="finishedGame">
+    <div class="flex items-center mb-6">
+      <img src="" alt="Photo du gagnant" id="winnerPhoto" class="rounded-full h-20 w-20">
+      <h2 class="text-green-500 text-2xl ml-4" id="winnerName">Nom du gagnant</h2>
+      <p class="ml-4">Score : <span id="winnerScore">X</span></p>
+    </div>
+    <div class="flex items-center">
+      <img src="" alt="Photo du perdant" id="looserPhoto" class="rounded-full h-20 w-20">
+      <h2 class="text-red-500 text-2xl ml-4" id="looserName">Nom du perdant</h2>
+      <p class="ml-4">Score : <span id="looserScore">Y</span></p>
+    </div>
+    <button id="leaveGameByFinished" class="py-2 px-4 bg-red-500 text-white rounded mt-8">Quitter</button>
+  </div>
+
+
 
 
   <!-- GAME -->
   <div id="playingGame" class="hidden mt-8 text-center">
     <div class="flex items-center mb-4">
       <div class="flex flex-col items-center">
-        <img src="" alt="Your Photo" id="yourPhoto" class="rounded-full h-12 w-12 mr-2">
-        <h2 class="text-2xl font-bold" id="yourName">Your Name</h2>
-        <p id="yourScore">0</p>
+        <img src="" alt="Your Photo" id="yourPhotoPlaying" class="rounded-full h-12 w-12 mr-2">
+        <h2 class="text-2xl font-bold" id="yourNamePlaying">Your Name</h2>
+        <p id="yourScorePlaying">0</p>
       </div>
       <div class="flex flex-col items-center ml-4">
-        <img src="" alt="Opponent's Photo" id="otherPhoto" class="rounded-full h-12 w-12 mr-2">
-        <h2 class="text-2xl font-bold" id="otherName">Opponent's Name</h2>
-        
-        <p id="otherScore" >0</p>
+        <img src="" alt="Opponent's Photo" id="otherPhotoPlaying" class="rounded-full h-12 w-12 mr-2">
+        <h2 class="text-2xl font-bold" id="otherNamePlaying">Opponent's Name</h2>
+        <p id="otherScorePlaying">0</p>
       </div>
     </div>
-  
-    <p class="mb-4">
-      <span id="timerGame" class="block mx-auto"></span>
-    </p>
-    <button id="response" class="py-2 px-4 bg-green-500 text-white rounded">APPUIYER</button>
+
+    <input id="valueResponse" class="py-2 px-4 bg-white rounded border border-gray-300"
+      placeholder="Enter your response" />
+
+    <button id="buttonResponse" class="py-2 px-4 bg-green-500 text-white rounded">APPUIYER</button>
   </div>
-  
-  
+
+
+
 
   <!-- File d'attente -->
-  <div id="waitingGame" class="mt-8">
+  <div id="waitingGame" class="mt-8 hidden">
     <h2 class="text-2xl font-bold mb-4">En attente d'un joueur</h2>
     <p class="mb-4">Vous êtes en attente d'une partie de <span id="waitingGameDiscipline"></span></p>
-    <button id="cancelButton" class="py-2 px-4 bg-red-500 text-white rounded">Annuler</button>
+    <button id="leaveGameByQueue" class="py-2 px-4 bg-red-500 text-white rounded">Annuler</button>
   </div>
+
+
+  <!-- Starting game -->
+  <div id="startingGame" class="hidden mt-8 flex flex-col items-center">
+    <div class="flex items-center mb-4">
+      <div class="flex flex-col items-center">
+        <img src="" alt="Your Photo" id="yourPhotoStarting" class="rounded-full h-12 w-12 mr-2 border-2 ">
+        <h2 class="text-2xl font-bold" id="yourNameStarting">Your Name</h2>
+      </div>
+      <div class="flex flex-col items-center ml-4">
+        <img src="" alt="Opponent's Photo" id="otherPhotoStarting" class="rounded-full h-12 w-12 mr-2 border-2">
+        <h2 class="text-2xl font-bold" id="otherNameStarting">Opponent's Name</h2>
+      </div>
+    </div>
+    <div class="flex items-center">
+      <button id="playerReady" class="py-2 px-4 bg-blue-500 text-white rounded">Ready</button>
+    </div>
+  </div>
+
+
+
 </div>
 
 

@@ -1,237 +1,432 @@
-import { collection, doc, addDoc, getDocs, getDoc, updateDoc, onSnapshot, query, orderBy, setDoc , deleteDoc} from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { collection, doc, addDoc, getDocs, getDoc, updateDoc, onSnapshot, query, orderBy, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
 import firebaseConfigClient from "../../composable/firebaseConfigClient.js";
 
 const { auth, db } = firebaseConfigClient();
 
 
 //FONCTION IMPORTANTES
-//LISTENER STATE GAME
-function stateGame(discipline, gameId) {
 
+//Regarde le statement de la partie 
+function onStateGame(discipline, gameId) {
     const docRef = doc(db, "ligue", discipline, "games", gameId);
-
     onSnapshot(docRef, async (docSnapshot) => {
         if (docSnapshot.exists()) {
-            const docGame = docSnapshot.data();
-            if (docGame.state == "waiting") {
-                console.log("On cherche un joueur");
+            let state = docSnapshot.data().state;
+            if (state === "waiting") {
+                //Affichage HTML
+                printWaiting();
+                await clickeOnLeaveGameByQueue(discipline, gameId);
+            }
+            if (state === "starting") {
+                //Affichage HTML
+                //Recupere les infos des joueurs et verifie si le user est bien dans la partie
+                const usersInfo = await getUsersInfo(discipline, gameId);
+                printUser(usersInfo);
+
+                removeWaiting();
+                printStarting();
+
+                clickeOnPlayerReady(discipline, gameId);
+                await onStatePlayer(discipline, gameId);
             }
 
-            else if (docGame.state == "playing") {
-                console.log("La partie va commencer");
-                //Verifier si l'utilisateur est bien de la partie
-                const userGood = await goodUser(discipline, gameId);
-                if (userGood == true) {
-                    await decompte(10);
-                    console.log("On joue");
-                    const end = await printGame(discipline, gameId);
-                    if (end == true) {
-                        await updateDoc(docRef, {
-                            state: "end"
-                        })
-                    }
-                    
-                } else {
-                    window.location.href = "/ligue";
-                }
-            } else if (docGame.state == "end") {
-                console.log("On a fini");
-                printScore(discipline, gameId);
+            if (state === "playing") {
+                //Affichage HTML
+                //Recupere les infos des joueurs et verifie si le user est bien dans la partie
+                console.log("arrive playing");
+                const usersInfo = await getUsersInfo(discipline, gameId);
+                printUserPlaying(usersInfo);
+
+                removeStarting();
+                printPlaying();
+
+                await clickOnButtonResponse(discipline, gameId, 1);
+                await onStatePlayer(discipline, gameId);
+
+            }
+            if (state === "finished") {
+                //Affichage HTML
+                const usersInfo = await getUsersInfo(discipline, gameId);
+                //const winnerInfo = await getUserWinner(userInfo);
+                printFinalScore(usersInfo);
+
+                removePlaying();
+                printFinished();
+                clickOnButtonLeaveGame(discipline, gameId);
+
+
+                
+
             }
         }
-    })
+    });
 }
 
 
-//LISTENER SCORE CHANGE
-function onScoreChange(discipline, gameId) {
+//GLOBAL
+async function getUsersInfo(discipline, gameId) {
+    const userId = auth.currentUser.uid;
+
     const docRef = collection(db, "ligue", discipline, "games", gameId, "players");
-
-    onSnapshot(docRef, async (docSnapshot) => {
-        docSnapshot.docChanges().forEach(async (change) => {
-            if(change.type === "modified"){
-                console.log("Score modifié");
-                printNewScore(change.doc.data().score, change.doc.id);
-            }
-            })
-        })
-}
-
-
-//UPDATE MY SCORE
-async function updateScore(discipline, gameId, score) {
-    const user = auth.currentUser;
-    const docRef = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
-    const docSnap = await getDoc(docRef);
-    
-    await updateDoc(docRef, {
-        score: docSnap.data().score + score
-    })
-
-}
-
-
-//VERIFIE SI L'UTILISATEUR EST BIEN DANS LA PARTIE 
-async function goodUser(discipline, gameId) {
-    const user = auth.currentUser;
-    const docRefUser = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
-    const docSnapUser = await getDoc(docRefUser);
-    if (docSnapUser.exists()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-async function getInfoUsers(discipline, gameId) {
-    const docRef = collection(db, "ligue", discipline, "games", gameId, "players");
-    const docSnap = await getDocs(docRef);
-    const users = docSnap.docs.map(doc => {
+    const docSnapshot = await getDocs(docRef);
+    const usersInfo = docSnapshot.docs.map(doc => {
         return { id: doc.id, ...doc.data() }
     });
-    console.log(users);
-    return users;
-}
-
-
-async function leaveQueue(discipline, gameId) {
-    const user = auth.currentUser;
-    const docRefUser = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
-    const docRefGame = doc(db, "ligue", discipline, "games", gameId);
-    const docSnapUser = await getDoc(docRefUser);
-    if (docSnapUser.exists()) {
-        await deleteDoc(docRefUser);
-        //delete game si plus de joueur
-        await deleteDoc(docRefGame);
+    //Verifier si le user est bien dans la partie
+    if (usersInfo[0].id != userId && usersInfo[1].id != userId) {
+        window.location.href = "/ligue";
     }
+
+    return usersInfo;
 }
 
-//FONCTION NUL A CHIER 
-async function printGame(discipline, gameId) {
-    return new Promise(async (resol) => {
-        const playingGame = document.getElementById('playingGame');
-        await playingGame.classList.remove('hidden');
-        const waitingGame = document.getElementById('waitingGame');
-        await waitingGame.classList.add('hidden');
-        const decompte = document.getElementById('timerGame');
+//Regarde le statement des joueurs 
+async function onStatePlayer(discipline, gameId) {
+    const docRef = collection(db, "ligue", discipline, "games", gameId, "players");
+    const docGame = doc(db, "ligue", discipline, "games", gameId);
+    const docGameData = await getDoc(docGame);
+    console.log(docGameData.data().state);
 
-        onScoreChange(discipline, gameId);
-        await printUsers(discipline, gameId);
+    onSnapshot(docRef, (docSnapshot) => {
+        docSnapshot.docChanges().forEach(async (change) => {
+            if (change.type === "modified") {
+                if (docGameData.data().state === "starting") {
+                    if (change.doc.data().ready == true) {
+                        printUserReady(change.doc.id);
+                        const readyData = docSnapshot.docs.map(doc => doc.data().ready);
+                        if (readyData.every(ready => ready == true)) {
+                            console.log("Tout le monde est prêt");
 
-        let  seconde = 10;
-        let countdown = setInterval(async () => {
-            seconde--;
-            decompte.innerHTML = "il reste " + seconde + "s";
-            if (seconde == 0) {
-                await clearInterval(countdown);
-                resol(true);
+                            await updateDoc(docGame, {
+                                state: "playing"
+                            })
+                        }
+                    }
+                    else {
+                        printUserNotReady(change.doc.id);
+                    }
+                }else if (docGameData.data().state === "playing") {
+                    if (change.doc.data().score == 10) {
+                        const docGame = doc(db, "ligue", discipline, "games", gameId);
+                        await updateDoc(docGame, {
+                            state: "finished"
+                        })
+    
+                    }
+                    else {
+                        await printUserScore(change.doc.id, change.doc.data().score);
+                    }
+                }
+            }
+        });
+    });
+
+}
+
+//WAINTING 
+async function leaveGame(discipline, gameId) {
+    const user = auth.currentUser;
+
+    const docGame = doc(db, "ligue", discipline, "games", gameId)
+    const docGameData = await getDoc(docGame);
+
+    const docPlayer = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
+    const docPlayerData = await getDoc(docPlayer);
+
+    if (docPlayerData.exists()) {
+        await deleteDoc(docPlayer);
+        if (docGameData.data().state == "waiting") {
+            await deleteDoc(docGame);
+        }
+        else if(docGameData.data().state == "finished"){
+            await deleteDoc(docPlayer);
+            const docRef = collection(db, "ligue", discipline, "games", gameId, "players");
+            const docSnapshot = await getDocs(docRef);
+            if (docSnapshot.docs.length == 0) {
+                await deleteDoc(docGame);
             }
         }
-            , 1000);
-    })
+    }
 
-    
 }
 
-async function printScore() {
-    const playingGame = document.getElementById('playingGame');
-    await playingGame.classList.add('hidden');
-    const score = document.getElementById('score');
-    score.innerHTML = "PARTIE TERMINÉE";
-    score.classList.remove('hidden');
-}
-
-
-
-async function decompte(seconde) {
-    return new Promise(async (resol) => {
-        const waitingGame = document.getElementById('waitingGame');
-        await waitingGame.classList.add('hidden');
-        const decompte = document.getElementById('countdown');
-        decompte.classList.remove('hidden');
-
-
-        const countdown = setInterval(async () => {
-            seconde--;
-            decompte.innerHTML = seconde;
-            if (seconde == 0) {
-                await clearInterval(countdown);
-                decompte.classList.add('hidden');
-                resol(true);
-            }
-        }, 1000);
-    })
-}
-
-
-async function printNewScore(score, id) {
-    const yourScore = document.getElementById('yourScore');
-    const otherScore = document.getElementById('otherScore');
+//STARTING
+async function playerReady(discipline, gameId) {
+    let result = false;
     const user = auth.currentUser;
-    if (id == user.uid) {
-        yourScore.innerHTML = score;
-    } else {
-        otherScore.innerHTML = score;
+    const docPlayer = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
+    const docPlayerData = await getDoc(docPlayer);
+    if (docPlayerData.exists()) {
+        if (docPlayerData.data().ready == false) {
+            await updateDoc(docPlayer, {
+                ready: true
+            })
+            result = true;
+        }
+        if (docPlayerData.data().ready == true) {
+            await updateDoc(docPlayer, {
+                ready: false
+            })
+            result = false;
+        }
+    }
+    return result;
+}
+
+//PLAYING
+
+async function addScore(discipline, gameId, score) {
+    const user = auth.currentUser;
+    const docPlayer = doc(db, "ligue", discipline, "games", gameId, "players", user.uid);
+    const docPlayerData = await getDoc(docPlayer);
+    if (docPlayerData.exists()) {
+        await updateDoc(docPlayer, {
+            score: docPlayerData.data().score + score
+        })
     }
 }
 
-
-async function printUsers(discipline, gameId) {
-    console.log("printUsers");
-    const users = await getInfoUsers(discipline, gameId);
-    console.log(users);
-    const yourName = document.getElementById('yourName');
-    const yourPhoto = document.getElementById('yourPhoto');
-    const yourScore = document.getElementById('yourScore');
-
-    const otherName = document.getElementById('otherName');
-    const otherPhoto = document.getElementById('otherPhoto');
-    const otherScore = document.getElementById('otherScore');
-
-    const user = auth.currentUser;
-    if (users[0].id == user.uid) {
-        yourName.innerHTML = users[0].name;
-        yourPhoto.src = users[0].photo;
-        yourScore.innerHTML = users[0].score;
-
-        otherName.innerHTML = users[1].name;
-        otherPhoto.src = users[1].photo;
-        otherScore.innerHTML = users[1].score;
-
-    } else {
-        yourName.innerHTML = users[1].name;
-        yourPhoto.src = users[1].photo;
-        yourScore.innerHTML = users[1].score;
-
-        otherName.innerHTML = users[0].name;
-        otherPhoto.src = users[0].photo;
-        otherScore.innerHTML = users[0].score;
+//FINISHED
+async function getUserWinner(usersInfo) {
+    if (usersInfo[0].score > usersInfo[1].score) {
+        return usersInfo[0];
+    }
+    else {
+        return usersInfo[1];
     }
 }
-    
+        
 
-function clickOnResponse() {
-    const response = document.getElementById('response');
-    response.addEventListener('click', async () => {
-        await updateScore(window.location.pathname.split('/')[1], window.location.pathname.split('/')[2], 1);
-    })
+/*** FONCTION HTML */
+/** WOOOOOOOOOOOOOW */
+
+
+/*WAITING*/
+function printWaiting() {
+    const waiting = document.getElementById("waitingGame");
+    waiting.classList.remove("hidden");
 }
 
-function clickOnLeaveGame(){
-    const cancelGame = document.getElementById('cancelButton');
-    cancelGame.addEventListener('click', async () => {
-        const discipline = window.location.pathname.split('/')[1];
-        const gameId = window.location.pathname.split('/')[2];
-        await leaveQueue(discipline, gameId);
+function removeWaiting() {
+    const waiting = document.getElementById("waitingGame");
+    waiting.classList.add("hidden");
+}
+
+async function clickeOnLeaveGameByQueue(discipline, gameId) {
+    const leaveGameByQueue = document.getElementById("leaveGameByQueue");
+    leaveGameByQueue.addEventListener("click", async () => {
+        await leaveGame(discipline, gameId);
         window.location.href = "/ligue";
-    })
+    });
+}
+
+
+/*STARTING*/
+
+
+function printStarting() {
+    const starting = document.getElementById("startingGame");
+    starting.classList.remove("hidden");
+}
+
+function removeStarting() {
+    const starting = document.getElementById("startingGame");
+    starting.classList.add("hidden");
+}
+
+function printUser(usersInfo) {
+    console.log(usersInfo);
+    const yourPhotoStarting = document.getElementById("yourPhotoStarting");
+    const yourNameStarting = document.getElementById("yourNameStarting");
+    const otherPhotoStarting = document.getElementById("otherPhotoStarting");
+    const otherNameStarting = document.getElementById("otherNameStarting");
+
+    const user = auth.currentUser;
+    if (user.uid == usersInfo[0].id) {
+        yourPhotoStarting.src = usersInfo[0].photo;
+        yourNameStarting.innerHTML = usersInfo[0].name;
+
+        otherPhotoStarting.src = usersInfo[1].photo;
+        otherNameStarting.innerHTML = usersInfo[1].name;
+    }
+    else {
+        yourPhotoStarting.src = usersInfo[1].photo;
+        yourNameStarting.innerHTML = usersInfo[1].name;
+
+        otherPhotoStarting.src = usersInfo[0].photo;
+        otherNameStarting.innerHTML = usersInfo[0].name;
+    }
+}
+
+async function clickeOnPlayerReady(discipline, gameId) {
+    const playerReadyDoc = document.getElementById("playerReady");
+    playerReadyDoc.addEventListener("click", async () => {
+        await playerReady(discipline, gameId);
+    });
+}
+
+function printUserReady(userId) {
+    const user = auth.currentUser;
+    if (user.uid == userId) {
+        const yourPhotoStarting = document.getElementById("yourPhotoStarting");
+        yourPhotoStarting.classList.add("border-green-500")
+    }
+    else {
+        const otherPhotoStarting = document.getElementById("otherPhotoStarting");
+        otherPhotoStarting.classList.add("border-green-500")
+    }
+}
+
+function printUserNotReady(userId) {
+    const user = auth.currentUser;
+    if (user.uid == userId) {
+        const yourPhotoStarting = document.getElementById("yourPhotoStarting");
+        yourPhotoStarting.classList.remove("border-green-500")
+    }
+    else {
+        const otherPhotoStarting = document.getElementById("otherPhotoStarting");
+        otherPhotoStarting.classList.remove("border-green-500")
+    }
 }
 
 
 
 
 
-stateGame(window.location.pathname.split('/')[1], window.location.pathname.split('/')[2]);
-clickOnLeaveGame();
-clickOnResponse();
+/*PLAYING*/
+function printPlaying() {
+    const game = document.getElementById("playingGame");
+    game.classList.remove("hidden");
+}
 
+function removePlaying() {
+    const game = document.getElementById("playingGame");
+    game.classList.add("hidden");
+}
+
+
+function printUserPlaying(usersInfo) {
+    console.log(usersInfo);
+    const yourPhotoPlaying = document.getElementById("yourPhotoPlaying");
+    const yourNamePlaying = document.getElementById("yourNamePlaying");
+    const yourScorePlaying = document.getElementById("yourScorePlaying");
+
+    const otherPhotoPlaying = document.getElementById("otherPhotoPlaying");
+    const otherNamePlaying = document.getElementById("otherNamePlaying");
+    const otherScorePlaying = document.getElementById("otherScorePlaying");
+
+    const user = auth.currentUser;
+    if (user.uid == usersInfo[0].id) {
+        yourPhotoPlaying.src = usersInfo[0].photo;
+        yourNamePlaying.innerHTML = usersInfo[0].name;
+        yourScorePlaying.innerHTML = usersInfo[0].score;
+
+        otherPhotoPlaying.src = usersInfo[1].photo;
+        otherNamePlaying.innerHTML = usersInfo[1].name;
+        otherScorePlaying.innerHTML = usersInfo[1].score;
+
+    }
+    else {
+        yourPhotoPlaying.src = usersInfo[1].photo;
+        yourNamePlaying.innerHTML = usersInfo[1].name;
+        yourScorePlaying.innerHTML = usersInfo[1].score;
+
+        otherPhotoPlaying.src = usersInfo[0].photo;
+        otherNamePlaying.innerHTML = usersInfo[0].name;
+        otherScorePlaying.innerHTML = usersInfo[0].score;
+    }
+}
+
+
+function clickOnButtonResponse(discipline, gameId, score) {
+    const buttonResponse = document.getElementById("buttonResponse");
+    buttonResponse.addEventListener("click", async () => {
+        const valueResponse = document.getElementById("valueResponse").value;
+        const response = await checkResponse(valueResponse);
+        if (response) {
+            await addScore(discipline, gameId, score);
+        }
+        else {
+            console.log("Mauvaise réponse");
+        }
+    });
+}
+
+async function checkResponse(responseValue) {
+    let response = false;
+    if (responseValue == "1") {
+        response = true;
+    }
+    else {
+        response = false;
+    }
+    return response;
+}
+
+async function printUserScore(userId, score) {
+    const user = auth.currentUser;
+    if (user.uid == userId) {
+        const yourScorePlaying = document.getElementById("yourScorePlaying");
+        yourScorePlaying.innerHTML = score;
+    }
+    else {
+        const otherScorePlaying = document.getElementById("otherScorePlaying");
+        otherScorePlaying.innerHTML = score;
+    }
+}
+
+/*FINISHED*/
+
+function printFinished() {
+    const game = document.getElementById("finishedGame");
+    game.classList.remove("hidden");
+}
+
+
+function printFinalScore(usersInfo) {
+    console.log(usersInfo);
+    const winnerPhoto = document.getElementById("winnerPhoto");
+    const winnerName = document.getElementById("winnerName");
+    const winnerScore = document.getElementById("winnerScore");
+
+    const looserPhoto = document.getElementById("looserPhoto");
+    const looserName = document.getElementById("looserName");
+    const looserScore = document.getElementById("looserScore");
+
+    if (usersInfo[0].score > usersInfo[1].score) {
+        winnerPhoto.src = usersInfo[0].photo;
+        winnerName.innerHTML = usersInfo[0].name;
+        winnerScore.innerHTML = usersInfo[0].score;
+        
+        looserPhoto.src = usersInfo[1].photo;
+        looserName.innerHTML = usersInfo[1].name;
+        looserScore.innerHTML = usersInfo[1].score;
+    }
+    else {
+        winnerPhoto.src = usersInfo[1].photo;
+        winnerName.innerHTML = usersInfo[1].name;
+        winnerScore.innerHTML = usersInfo[1].score;
+        
+        looserPhoto.src = usersInfo[0].photo;
+        looserName.innerHTML = usersInfo[0].name;
+        looserScore.innerHTML = usersInfo[0].score;
+    }
+}
+
+function clickOnButtonLeaveGame(discipline, gameId) {
+    const leaveGameByFinished = document.getElementById("leaveGameByFinished");
+    leaveGameByFinished.addEventListener("click", async () => {
+        await leaveGame(discipline, gameId);
+        window.location.href = "/ligue";
+    });
+}
+  
+
+
+
+
+
+
+
+
+onStateGame("francais", "game1");
