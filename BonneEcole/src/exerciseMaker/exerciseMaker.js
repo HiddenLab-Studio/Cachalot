@@ -1,5 +1,5 @@
+import { createExercise } from "./firebaseStoreExercise.js";
 //Au chargement de la page, on va générer tous les éléments nécessaires à la création d'un exercice
-
 //Objet qui va contenir toutes les informations de l'exercice
 var exerciseObjectClient = {
     type: undefined,
@@ -113,8 +113,6 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
             console.log(exerciseObjectClient);
             sendExerciseToServer();
         }
-
-
 
 
     });
@@ -252,9 +250,6 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     buttonValidate.setAttribute("id", "buttonValidate");
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
-
-    //Listener sur le bouton valider -> création de l'exercice
-    console.log(exerciseObjectClient);
 
     //Listener sur le bouton valider -> création de l'exercice QCM
     document.getElementById("buttonValidate").addEventListener("click", function () {
@@ -410,6 +405,13 @@ function removeHighlightFromAll() {
 }
 
 function sendExerciseToServer(){
+    createExercise(exerciseObjectClient);
+
+
+}
+
+/*
+function sendExerciseToServer(){
 
     const exerciseJSONed = JSON.stringify(exerciseObjectClient);//On convertit l'objet en JSON
     
@@ -429,4 +431,4 @@ function sendExerciseToServer(){
             console.error('Une erreur s\'est produite:', error);
         });
 }
-
+*/

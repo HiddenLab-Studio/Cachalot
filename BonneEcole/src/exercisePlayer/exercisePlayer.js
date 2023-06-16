@@ -1,28 +1,15 @@
-const exerciseId = 0; //Id de l'exercice à récupérer (à faire plus tard quand firebase implémenté)
+import { getExercise, getSolution } from "./firebase-getExo.js";
+
+
+const exerciseId = "tNpXm2iuiGftb45zMoFU"; //Id de l'exercice à récupérer
 var QCMAnswer = [];
+var currentExerciseType = "";
 
-//Demande au serveur un nouvel exercice
-fetch('/api/getUserExercise', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ exerciseId })
-})
-    .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
-    .then(data => {
-        //Récupération des données et affichage sur la page si la requête est réussie
-        let exercise = data.exercise;
-
-        console.log(exercise);
-
-        displayExercise(exercise);
-    })
-    .catch(error => {
-        // Gérer les erreurs de requête
-        console.error('Une erreur s\'est produite:', error);
-    });
-
+//On récupère l'exercice depuis la base de données et on l'affiche
+getExercise(exerciseId).then((exercise) => {
+    currentExerciseType = exercise.type;
+    displayExercise(exercise);
+});
 
 
 //Affiche l'exercice sur la page
@@ -82,7 +69,6 @@ function displayQCMExercise(exercise) {
 
     for (let i = 0; i < answers.length; i++) {
         if (answers[i].answer !== undefined) {
-            console.log(answers[i].answer);
             const divAnswer = document.createElement("div");
             divAnswer.innerHTML = answers[i].answer;
             divAnswer.id = answers[i].id;
@@ -121,68 +107,64 @@ function addChoiceToQCMAnswer(index) {
     }
     //On trie le tableau pour que les réponses soient dans l'ordre croissant
     QCMAnswer.sort(function (a, b) { return a - b });
-    console.log(QCMAnswer);
 }
 
 
 function sendAnswerAndGetSolution(exercise) {
     // Client-side
 
-    if (exercise.type == "INPUT") {
+    getSolution(exerciseId).then((solution) => {
+        let isCorrect = false;
+        if (exercise.type == "INPUT") {
+            let answer = document.getElementById("userAnswer").value;
 
-        let answer = document.getElementById("userAnswer").value;
-        let exerciseType = exercise.type;
-        fetch('/api/sendAnswerAndGetSolution', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ exerciseId, answer, exerciseType })
-        })
-            .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
-            .then(data => {
-                console.log(data);
-                //Récupération des données et affichage sur la page si la requête est réussie
-                let isCorrect = data.isCorrect;
-                if (isCorrect) {
-                    document.getElementById("result").innerHTML = "Bonne réponse";
-                }
-                else {
-                    document.getElementById("result").innerHTML = "Mauvaise réponse";
-                }
-            })
-            .catch(error => {
-                // Gérer les erreurs de requête
-                console.error('Une erreur s\'est produite:', error);
-            });
+            isCorrect = compareAnswer(answer, solution);
+
+        }
+        if (exercise.type == "QCM") {
+            let answer = QCMAnswer;
+
+            isCorrect = compareArrays(answer, solution);
+        }
+
+        if(isCorrect){
+            document.getElementById("result").innerHTML = "Bonne réponse";
+        }
+        else{
+            document.getElementById("result").innerHTML = "Mauvaise réponse";
+        }
+    });
+
+}
+
+
+function compareArrays(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
     }
 
-    if (exercise.type == "QCM") {
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
 
-        let answerQCM = QCMAnswer;
-        let exerciseType = exercise.type;
-        fetch('/api/sendAnswerAndGetSolution', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ exerciseId, answerQCM, exerciseType })
-        })
-            .then(response => response.json())//On récupère la réponse du serveur et on la convertit en JSON
-            .then(data => {
-                console.log(data);
-                //Récupération des données et affichage sur la page si la requête est réussie
-                let isCorrect = data.isCorrect;
-                if (isCorrect) {
-                    document.getElementById("result").innerHTML = "Bonne réponse";
-                }
-                else {
-                    document.getElementById("result").innerHTML = "Mauvaise réponse";
-                }
-            })
-            .catch(error => {
-                // Gérer les erreurs de requête
-                console.error('Une erreur s\'est produite:', error);
-            });
+    return true;
+}
+
+//On vient prendre la solution de l'exercice et on défini un arrondi acceptable pour la réponse utilisateur (2 chiffres après la virgule)
+function AllowedSolution(solution) {
+    const normalizeString = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+    return normalizeString(solution);
+}
+
+
+function compareAnswer(answer, solution) {
+    if (answer == solution || AllowedSolution(answer) == AllowedSolution(solution)) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
