@@ -15,7 +15,8 @@ import {
     Content,
     SettingsContainer
 } from "./style/SettingStyle.js";
-import {FaSignOutAlt} from "react-icons/fa";
+
+import { FcSettings } from "react-icons/fc";
 
 const Settings = () => {
     // Context
@@ -54,7 +55,7 @@ const Settings = () => {
                 <Navbar />
                 <SettingsContainer>
                     <Content>
-                        <h1>Paramètres</h1>
+                        <h1 tw="flex flex-row gap-[8px] items-center"><FcSettings /> Paramètres</h1>
                         <table className="TableContainer">
                             <tbody>
                             <tr>

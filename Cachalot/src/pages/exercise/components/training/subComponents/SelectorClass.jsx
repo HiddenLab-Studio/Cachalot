@@ -1,5 +1,5 @@
 import React from "react";
-import {data, mathFunctions} from "../functions/MathExerciseGenerator.js";
+import {data, mathFunctions} from "../../../functions/MathExerciseGenerator.js";
 
 const SelectorClass = ({setState}) => {
     return (

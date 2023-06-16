@@ -1,7 +1,7 @@
 import React from "react";
-import {data, mathFunctions} from "../functions/MathExerciseGenerator.js";
+import {data, mathFunctions} from "../../../functions/MathExerciseGenerator.js";
 
-const classPermission = [
+const classPermissionData = [
     {
         class: ["CM1", "CM2", "all"],
         permission: ["addition", "soustraction", "multiplication", "division", "all"]
@@ -17,19 +17,19 @@ const classPermission = [
 ]
 
 const SelectorType = ({setState, exerciseType}) => {
-    let classPermision = classPermission.find(element => element.class.includes(data.currentLevel)).permission;
-    console.log(classPermision);
+    let classPermission = classPermissionData.find(element => element.class.includes(data.currentLevel)).permission;
+    console.log(classPermission);
 
-    if(!classPermision.includes(exerciseType)) {
+    if(!classPermission.includes(exerciseType)) {
         console.info("exerciseType not found");
-        setState("exerciseType", classPermision[0]);
+        setState("exerciseType", classPermission[0]);
         document.getElementById("addition").style.backgroundColor = "grey";
     }
 
     return (
         <>
             {data.validExerciseType.map(type => {
-                if(classPermision.includes(type)){
+                if(classPermission.includes(type)){
                     return (
                         <button id={type === "all" ? "all_exercise" : type} key={type} onClick={(event) => {
                             mathFunctions.selectExerciseType(type).then(() => {

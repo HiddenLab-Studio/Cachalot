@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import tw, { styled } from "twin.macro";
+import { useMediaQuery } from "react-responsive";
 
 // Context
 import {useAuth} from "../../../context/AuthContext.js";
@@ -11,8 +12,7 @@ import ClassButton from "./subComponents/ClassButton.jsx";
 
 // Styled Components
 import { MainContainer } from "../ui/GlobalStyle.js";
-import {ClassContainer, Content, GifWrapper} from "./ClassStyle.js";
-import {useMediaQuery} from "react-responsive";
+import {ClassContainer, Content, GifWrapper} from "./style/ClassStyle.js";
 
 const Class = () => {
     const auth = useAuth()

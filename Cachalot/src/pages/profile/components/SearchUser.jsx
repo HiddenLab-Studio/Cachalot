@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 
 // Context
 import { useAuth } from "../../../context/AuthContext.js";
-import { useCache } from "../../../context/manager/cache/CacheManager.js";
+import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import {

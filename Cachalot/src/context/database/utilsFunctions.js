@@ -14,8 +14,10 @@ export const utils = {
         });
 
         usersList.forEach(user => {
-            if (user.displayName.toLowerCase() === displayName) {
-                result.push(user);
+            if(user.displayName !== undefined && user.username !== undefined) {
+                if (user.displayName.toLowerCase() === displayName || user.username.toLowerCase() === displayName) {
+                    result.push(user);
+                }
             }
         });
 

@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {Link} from "react-router-dom";
-import tw from "twin.macro";
-
-// Context
-import {useAuth} from "../../../../context/AuthContext.js";
-import {useCache} from "../../../../context/manager/cache/CacheManager.js";
-
-// Components
-import Loading from "../../../../components/utils/loading/Loading.jsx";
 
 // Styled components
 import {
@@ -61,12 +53,13 @@ const Search = ({auth}) => {
                     <div className="title">
                         <h1>Rechercher des amis !</h1>
                         <span>
-                                Cette fonctionnalité vous permet de rechercher des utilisateurs par leur pseudonyme.
+                                Cette fonctionnalité vous permet de rechercher des membres de Cachalot selon leur
+                                nom d'utilisateur ou leur pseudo.
                             </span>
                     </div>
                     <InputContainer>
                         <FaSearch/>
-                        <input id="searchInput" type="text" placeholder="Pseudo de l'utilisateur"/>
+                        <input id="searchInput" type="text" placeholder="Nom de l'utilisateur ou pseudo"/>
                     </InputContainer>
                 </HeaderContainer>
                 <SearchResultContainer>

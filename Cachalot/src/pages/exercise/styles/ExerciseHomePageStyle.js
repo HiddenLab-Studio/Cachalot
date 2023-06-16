@@ -1,6 +1,55 @@
 import tw, { styled } from "twin.macro";
+import { Container } from "../../../components/utils/ui/GlobalStyle.js";
 
-export const Container = styled.main`
+
+
+export const TrainingContainer = styled(Container)``;
+export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 25px;
+  gap: 32px;
+
+  @media (min-width: 768px) and (max-width: 1050px) {
+    max-width: 768px;
+  }
+  
+  @media (min-width: 0px) and (max-width: 1050px) {  
+    flex-direction: column;
+  }
+  
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*export const Container = styled.main`
   display: flex;
   flex-direction: row;
   min-height: 100vh;
@@ -72,4 +121,4 @@ export const ExerciseContainer = styled.section`
       }
     }
   }
-`
+`*/

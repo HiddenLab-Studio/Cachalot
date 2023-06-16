@@ -1,49 +1,6 @@
 import tw, { styled } from "twin.macro";
 import {Container} from "../../../components/utils/ui/GlobalStyle.js";
 
-export const FindFriendsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 16px;
-  border: 2px solid ${props => props.theme.borderRightColor};
-  border-bottom: 4px solid ${props => props.theme.borderRightColor};
-  border-radius: 12px;
-  width: 100%;
-  gap: 16px;
-  
-  img {
-    width: 64px;
-    height: 64px;
-  }
-  
-  div {
-    display: flex;
-    flex-direction: column;
-    h1 {
-      font-size: var(--fs-m);
-      word-break: break-word;
-    }
-    span {
-      font-family: "Din_Round_Med", sans-serif;
-      font-size: var(--fs-ss);
-      color: ${props => props.theme.subText};
-    }
-  }
-  
-  .chevron {
-    display: flex;
-    flex-grow: 1;
-    align-items: end;
-    svg {
-      color: ${props => props.theme.subText};
-    }
-  }
-`
-export const JoinClassContainer = styled(FindFriendsContainer)`
-  
-`
-
 export const BodyProfileAsideContainer = styled.aside`
   display: flex;
   flex-direction: column;
@@ -114,13 +71,21 @@ export const Content = styled.div`
   width: 100%;
   padding: 25px;
 `
-export const ProfileContainer = styled.section`
+export const ProfileContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   gap: 32px;
   padding-left: 256px;
-  
+
+  @media (max-width: 1115px) {
+      ${BodyProfileSectionContainer} {
+        ${GridContainer} {
+            grid-template-columns: repeat(1, 1fr);
+        }
+      }
+  }
+   
   // Responsive
   @media (min-width: 768px) and (max-width: 1200px) {
     padding-left: 128px;
@@ -145,9 +110,9 @@ export const ProfileContainer = styled.section`
   }
   
   @media (max-width: 768px) {
-    max-height: calc(100vh - 85px);
+    /*max-height: calc(100vh - 85px);
     overflow-y: auto;
-    padding: 0;
+    padding: 0;*/
     ${BodyProfileContainer} {
       flex-direction: column;
       align-items: flex-start;

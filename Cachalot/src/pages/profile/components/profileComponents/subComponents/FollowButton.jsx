@@ -6,7 +6,7 @@ import {
     FaMinusCircle
 } from "react-icons/fa";
 import {useAuth} from "../../../../../context/AuthContext.js";
-import {useCache} from "../../../../../context/manager/cache/CacheManager.js";
+import {useCache} from "../../../../../context/manager/cache/FriendsCacheManager.js";
 import {useMediaQuery} from "react-responsive";
 
 const ButtonContainer = styled.div`

@@ -75,38 +75,38 @@ const ClassButton = ({auth}) => {
     const inputRef = useRef(null);
 
     useEffect(() => {
+        console.info("Rendering ClassButton.jsx...");
+        document.addEventListener("keydown", handleKeyDown);
         setIsLoading(false);
         setInputValue("");
-    }, [joinClassOverlay]);
 
-    useEffect(() => {
-        document.addEventListener("keydown", handleKeyDown);
         return () => {
             console.info("Unmounting ClassButton");
             document.removeEventListener("keydown", handleKeyDown)
         };
-    }, []);
+
+    }, [joinClassOverlay]);
 
     async function handleClick() {
         if(!isLoading && inputRef.current.value.length > 0) {
             setIsLoading(true);
             if (!joinClassOverlay) {
                 console.info("Create class with name: " + inputValue)
-                setIsLoading(false);
                 let result = await auth.classes.createClass(inputValue);
-                if (result !== undefined) {
+                if (result.classCode !== undefined) {
                     console.info("Class created!")
-                    navigate("/class/" + result);
+                    navigate("/class/" + result.classCode);
                 } else {
+                    if(result.maxClassReached) inputRef.current.placeholder = "Nombre maximum de classes atteint !"
+                    else inputRef.current.placeholder = "Nom de classe indisponible !"
                     setInputValue("");
                     inputRef.current.value = "";
-                    inputRef.current.placeholder = "Nom de classe indisponible !"
                     inputRef.current.select();
                 }
+                setIsLoading(false);
             } else {
                 console.info("Join class with code: " + inputValue)
                 let result = await auth.classes.joinClass(inputValue);
-                setIsLoading(false);
                 if (result.isJoined) {
                     console.info("Class joined!")
                     navigate("/class/" + inputValue);
@@ -117,14 +117,16 @@ const ClassButton = ({auth}) => {
                     inputRef.current.value = "";
                     inputRef.current.select();
                 }
+                setIsLoading(false);
             }
         } else {
-            console.info("Invalid input value !")
+            //console.info("Invalid input value !")
         }
     }
+
     async function handleKeyDown(e) {
         if (e.key === "Enter" && inputRef.current !== null) {
-            await handleClick()
+            await handleClick();
         }
     }
 

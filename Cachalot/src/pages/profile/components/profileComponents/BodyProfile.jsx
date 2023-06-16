@@ -2,15 +2,16 @@ import React from "react";
 import tw from "twin.macro";
 
 // Context
-import {useCache} from "../../../../context/manager/cache/CacheManager.js";
+import {useCache} from "../../../../context/manager/cache/FriendsCacheManager.js";
 
 // Styled components
 import {
     BodyProfileAsideContainer,
     BodyProfileContainer,
     BodyProfileSectionContainer,
-    FindFriendsContainer, GridContainer, GridElement,
-    JoinClassContainer, SuccessContainer
+    GridContainer,
+    GridElement,
+    SuccessContainer
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
@@ -19,6 +20,7 @@ import Subscribers from "./subComponents/Subscribers.jsx";
 
 // Icons
 import { FaChevronRight } from "react-icons/fa";
+import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
 
 
 const BodyProfile = ({isSearch, data}) => {
@@ -26,6 +28,7 @@ const BodyProfile = ({isSearch, data}) => {
 
     //console.info("BodyProfile data:");
     //console.log(data)
+    let userData = isSearch ? data.searchedUser.userData : data.currentUserData;
 
     return (
         <BodyProfileContainer>
@@ -42,11 +45,29 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement>
                         <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
                         <div>
-                            <span>0</span>
+                            <span>{userData.userEx.totalTrainingDone}</span>
+                            <h2>Entrainement terminés</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>{userData.userXp.currentXp}</span>
                             <h2>Xp gagnés</h2>
                         </div>
                     </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>{userData.userEx.totalExerciseDone}</span>
+                            <h2>Exercices terminés</h2>
+                        </div>
+                    </GridElement>
                 </GridContainer>
+                <h1>Expérience</h1>
+                <div>
+
+                </div>
                 <h1>Succès</h1>
                 <SuccessContainer>
 
@@ -61,44 +82,29 @@ const BodyProfile = ({isSearch, data}) => {
 
                 {!isSearch ?
                     <>
-                        <Link to={"/user-search"}>
-                            <FindFriendsContainer>
-                                <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
-                                <div>
-                                    <h1>Trouver des amis</h1>
-                                    <span>Chercher d'autres membres de la communauté</span>
-                                </div>
-                                <div className="chevron">
-                                    <FaChevronRight />
-                                </div>
-                            </FindFriendsContainer>
-                        </Link>
-                        <Link to={"/class"}>
-                            <JoinClassContainer>
-                                <img src="../../../../../static/img/icons/class.png" alt="Join a class"/>
-                                <div>
-                                    <h1>Rejoindre une classe</h1>
-                                    <span>Apprendre à plusieurs, c'est encore mieux !</span>
-                                </div>
-                                <div className="chevron">
-                                    <FaChevronRight />
-                                </div>
-                            </JoinClassContainer>
-                        </Link>
+                        <ButtonCard
+                            title= "Trouver des amis"
+                            desc= "Chercher d'autres membres de la communauté"
+                            imageURL= "../../../../../static/img/icons/find.png"
+                            link= "/user-search"
+                            alt= "Search some friends"
+                        />
+                        <ButtonCard
+                            title= "Rejoindre une classe"
+                            desc= "Apprendre à plusieurs, c'est encore mieux !"
+                            imageURL= "../../../../../static/img/icons/class.png"
+                            link= "/class"
+                            alt= "Join a class"
+                        />
                     </>
                     :
-                    <Link to={"/user-search"}>
-                        <FindFriendsContainer>
-                            <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
-                            <div>
-                                <h1>Trouver des amis</h1>
-                                <span>Chercher d'autres membres de la communauté</span>
-                            </div>
-                            <div className="chevron">
-                                <FaChevronRight />
-                            </div>
-                        </FindFriendsContainer>
-                    </Link>
+                    <ButtonCard
+                        title= "Trouver des amis"
+                        desc= "Chercher d'autres membres de la communauté"
+                        imageURL= "../../../../../static/img/icons/find.png"
+                        link= "/user-search"
+                        alt= "Search some friends"
+                    />
                 }
             </BodyProfileAsideContainer>
         </BodyProfileContainer>

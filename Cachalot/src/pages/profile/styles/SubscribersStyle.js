@@ -74,11 +74,24 @@ export const ChoosePanelContainer = styled.div`
         overflow: hidden;
         border: 2px solid ${props => props.theme.borderRightColor};
       }
-      span {
-        font-size: var(--fs-sm);
+      
+      .displayName {
+        font-size: var(--fs-s);
         font-family: "Din_Round_Bold", sans-serif;
         color: ${props => props.theme.text};
       }
+      
+      .username {
+        font-size: var(--fs-ss);
+        font-family: "Din_Round_Med", sans-serif;
+        color: ${props => props.theme.subText};
+      }
+      
+      svg {
+        color: ${props => props.theme.iconColor};
+      }
+      
+      
     }
     
   }

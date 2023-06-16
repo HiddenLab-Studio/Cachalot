@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -6,49 +6,63 @@ const { auth, db, storage } = firebaseConfigClient();
 
 export const classes = {
     createClass: async (name) => {
-        let result = undefined;
+        let result = {
+            classCode: undefined,
+            maxClassReached: undefined
+        };
+
         const user = auth.currentUser;
+        // Generate a random code
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        // Check if user can create a class
+        const canCreateClass = await classes.maxClasseAdmin();
 
         const docRef = doc(db, "classes", classeCode);
         const userDocRef = doc(db, 'users', user.uid);
         const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
 
+
         await getDoc(docRef).then(async (doc) => {
-            if (!doc.exists()) {
-                await getDoc(userDocRef).then(async (doc) => {
-                    //console.log(doc.data());
-                    const data = {
-                        name: name,
-                        adminUid: user.uid,
-                        adminDisplayName: doc.data().displayName,
-                        adminUsername: doc.data().username,
-                        adminPhoto: doc.data().photo,
-                        dateCreation: new Date(),
-                    }
-                    await setDoc(docRef, {
-                        name: data.name,
-                        admin: {
-                            uid: data.adminUid,
-                            displayName: data.adminDisplayName,
-                            username: data.adminUsername,
-                            photo: data.adminPhoto,
-                        },
-                        dateCreation: data.dateCreation,
-                    }).then(async () => {
-                        await setDoc(userRef, {
+            if (canCreateClass === true) {
+                if (!doc.exists()) {
+                    await getDoc(userDocRef).then(async (doc) => {
+                        //console.log(doc.data());
+                        const data = {
+                            name: name,
+                            adminUid: user.uid,
+                            adminDisplayName: doc.data().displayName,
+                            adminUsername: doc.data().username,
+                            adminPhoto: doc.data().photo,
+                            dateCreation: new Date(),
+                        }
+                        await setDoc(docRef, {
                             name: data.name,
+                            admin: {
+                                uid: data.adminUid,
+                                displayName: data.adminDisplayName,
+                                username: data.adminUsername,
+                                photo: data.adminPhoto,
+                            },
                             dateCreation: data.dateCreation,
-                        }).then(() => {
-                            result = classeCode;
+                        }).then(async () => {
+                            await setDoc(userRef, {
+                                name: data.name,
+                                dateCreation: data.dateCreation,
+                            }).then(() => {
+                                result.classCode = classeCode;
+                            })
                         })
                     })
-                })
+                } else {
+                    console.log("Code déjà existante");
+                    await classes.createClass(name);
+                }
             } else {
-                console.log("Code déjà existante");
-                await classes.createClass(name);
+                console.info("Vous avez atteint le nombre maximum de classe");
+                result.maxClassReached = true;
             }
         })
+
         return result;
     },
 
@@ -59,9 +73,11 @@ export const classes = {
             isAlreadyJoined: false
         };
 
+        if(code.length !== 5) return result;
+
         const user = auth.currentUser;
         const docRef = doc(db, "classes", code);
-        const userRefClasses = doc(db, "users", user.uid, "classes", code);
+        const userRefClasses = doc(db, "users", user.uid, "classesJoined", code);
         const userClassesRef = doc(db, "classes", code, "users", user.uid);
         const userRef = doc(db, "users", user.uid);
 
@@ -106,6 +122,21 @@ export const classes = {
             }
         })
         return result;
-    }
+    },
+
+    maxClasseAdmin: async () => {
+        let result = false;
+        const user = auth.currentUser;
+        const docRef = collection(db, "users/" + user.uid + "/classesAdmin");
+        await getDocs(docRef).then((querySnapshot) => {
+            if (querySnapshot.size < 5) {
+                result = true;
+            }
+            else {
+                result = false;
+            }
+        })
+        return result;
+    },
 
 }
