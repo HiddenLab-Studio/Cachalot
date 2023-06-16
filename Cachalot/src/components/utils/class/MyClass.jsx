@@ -32,6 +32,10 @@ const MyClass = () => {
 
     useEffect(() => {
         console.log(cache.friendsCache.getFriendsCache());
+        const getUserXp = async (currentUser) => {
+            let result = await auth.user.loadXpCache(currentUser);
+            console.log(result);
+        }
 
         const getUserFriends = async (id) => {
             // if the cache is empty, load the data from the database
@@ -51,7 +55,10 @@ const MyClass = () => {
             getUserFriends(auth.currentUser.uid).then((result) => {
                 console.log(cache.friendsCache.getFriendsCache());
                 console.info("Friends loaded successfully!");
-                setIsLoading(false);
+                getUserXp(auth.currentUser.uid).then((result) => {
+                    console.info("Xp loaded successfully!");
+                    setIsLoading(false);
+                });
             });
         }
 
@@ -73,6 +80,9 @@ const MyClass = () => {
                             <span>
                                 Ce panel vous permet de voir les classes auxquelles vous êtes inscrit.
                             </span>
+                            <button onClick={() => cache.xpCache.addXp(10)}>
+                                ajouter de xp
+                            </button>
                         </MyClassMainTitleContainer>
                         <ClassPanel auth={auth} />
                     </Content>

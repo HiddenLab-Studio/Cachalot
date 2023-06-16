@@ -2,8 +2,8 @@ import {collection, getDocs} from "firebase/firestore";
 import {signOut} from "firebase/auth";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
+import axios from "axios";
 const { auth, db, storage } = firebaseConfigClient();
-
 
 export const user = {
     logout: async (currentUser) => {
@@ -37,8 +37,22 @@ export const user = {
             });
         }
         return result;
-    }
+    },
 
+
+    loadXpCache: async (currentUser) => {
+        let result = null;
+        await axios.post("http://localhost:4000/api/getXpCache", JSON.stringify({
+            id: currentUser,
+        }), {
+            headers: {"Content-Type": "application/json"}
+        }).then((response) => {
+            result = response.data;
+        }).catch((error) => {
+            console.log(error);
+        });
+        return result
+    }
 
 
 }

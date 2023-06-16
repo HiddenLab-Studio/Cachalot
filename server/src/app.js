@@ -11,6 +11,9 @@ const dotenv = require("dotenv").config({path: "./.env"});
 const bodyParser = require("body-parser");
 const {generateRandomExercise, getUserInputAndCheckSolution} = require("./functions/math/MathExerciseGenerator");
 
+// cache
+const cacheManager = require("./cache/cacheManager");
+
 // Configuration du serveur
 app.use(express.static(path.join(__dirname, "..")));
 app.use(cors());
@@ -58,10 +61,38 @@ app.post('/api/getSolution', (req, res) => {
     res.send({isCorrect: isCorrect});
 })
 
+app.post('/api/getXpCache', (req, res) => {
+    let id = req.body.id;
+    let retrievedData = undefined;
+    console.info("[INFO] user " + id + " request data from the server!")
+
+    if(cacheManager.getUserFromXpCache(id) === null){
+        cacheManager.setUserToXpCache(id, {
+            currentXp: 0,
+            currentLevel: 1,
+            cumulatedXp: 0
+        });
+        console.info("[INFO] user " + id + " created in the cache!");
+    } else {
+        console.log("[INFO] user " + id + " already in the cache!");
+        retrievedData = cacheManager.getUserFromXpCache(id);
+    }
+
+    res.send({data: retrievedData});
+
+})
+
 // Lancement du serveur
 const server = http.createServer(app);
 server.listen(app.get("port"), () => {
     process.stdout.write('\x1B[2J\x1B[0f');
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
+    console.log("[INFO] Server started successfully!");
+
+    // cache
+    cacheManager.setUserToXpCache("123456789", 100);
+
+    console.log(cacheManager.getUserFromXpCache("123456789"));
+
 })

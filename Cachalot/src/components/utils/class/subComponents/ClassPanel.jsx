@@ -23,7 +23,6 @@ const PanelContainer = styled.div`
 const ClassPanel = ({auth}) => {
     // State
     const [classes, setClasses] = useState([]);
-
     const userData = auth.userData;
 
     useEffect(() => {

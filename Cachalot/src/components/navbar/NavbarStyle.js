@@ -66,11 +66,12 @@ export const ProfileElement = styled.div`
     max-width: unset;
   }
   
-  span {
-    font-size: var(--fs-ss);
-    font-family: 'Din_Round_Bold', sans-serif;
+  .display__name {
+    font-size: var(--fs-s);
+    font-family: 'Din_Round_Med', sans-serif;
     color: ${props => props.theme.navbarText};
   }
+  
 `
 
 export const BeneathLinkContainer = styled.div`
@@ -79,52 +80,6 @@ export const BeneathLinkContainer = styled.div`
   flex-grow: 1;
   justify-content: end;
   gap: 8px;
-`
-
-export const XpBar = styled.div`
-  width: 60%;
-  height: 12px;
-  border: 1px solid ${props => props.theme.navbarText};
-  border-radius: 12px;
-  overflow: hidden;
-  div {
-    width: 50%;
-    height: inherit;
-    border-radius: inherit;
-    background-color: ${props => props.theme.buttonBorderOnCurrent};
-  }
-`
-
-export const XpBarContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-export const BarContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-`
-
-export const LevelInformationContainer = styled.div`
-  display: flex;
-  width: 100%;
-  span {
-    font-size: var(--fs-xs);
-  }
-  
-  svg {
-    font-size: var(--fs-ss);
-    color: ${props => props.theme.text};
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  
 `
 
 export const ProfileContainer = styled.div`

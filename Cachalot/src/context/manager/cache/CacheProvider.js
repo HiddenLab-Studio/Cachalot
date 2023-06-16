@@ -1,5 +1,8 @@
 import {createContext, useContext} from "react";
-import { friendsCacheManager } from "./FriendsCacheManager.js";
+
+// Cache Managers
+import friendsCacheManager from "./FriendsCacheManager.js";
+import xpCacheManager from "./xpCacheManager.js";
 
 const CacheContext = createContext(undefined);
 
@@ -10,7 +13,7 @@ const CacheProvider = ({ children }) => {
 
     const functions = {
         friendsCache: friendsCacheManager,
-        //xpCache: manager,
+        xpCache: xpCacheManager,
     }
 
     return (

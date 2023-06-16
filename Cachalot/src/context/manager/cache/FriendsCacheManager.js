@@ -96,3 +96,5 @@ export const friendsCacheManager = {
     }
 
 }
+
+export default friendsCacheManager;
