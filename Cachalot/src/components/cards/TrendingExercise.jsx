@@ -115,6 +115,10 @@ const GridContainer = styled.div`
             gap: 4px;
           }
           
+          span {
+            font-size: var(--fs-xs);
+          }
+          
         }
         
       }

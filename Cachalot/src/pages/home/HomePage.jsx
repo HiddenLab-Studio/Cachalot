@@ -13,7 +13,7 @@ const HomePage = () => {
             <Navbar/>
             <MainSection>
                 <ContentContainer>
-                    <TrendingExercise/>
+                    <TrendingExercise amount={3} />
                 </ContentContainer>
                 <AsideContainer>
                     <h1>aside content</h1>

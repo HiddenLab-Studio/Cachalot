@@ -13,9 +13,8 @@ export const QuestProgressBarContainer = styled.div`
     position: relative;
     width: 100%;
     height: 24px;
-    border-radius: 12px;
+    border-radius: 12px 0 0 12px;
     background-color: ${props => props.theme.borderRightColor};
-    
 
     .progress__bar__fill {
       width: ${props => props.progress};
@@ -23,7 +22,7 @@ export const QuestProgressBarContainer = styled.div`
       top: 0;
       left: 0;
       height: 100%;
-      border-radius: 12px;
+      border-radius: ${props => props.progress !== "100%" ? "12px" : "12px 0 0 12px"};
       background-color: ${props => props.theme.cachalotColor};
     }
     
