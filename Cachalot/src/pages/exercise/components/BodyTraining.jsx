@@ -1,14 +1,34 @@
-import React from "react";
+import React, {useRef} from "react";
+import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
-// Styled Components
-import {BodyTrainingContainer} from "../styles/BodyTrainingStyle.js";
-import {Link} from "react-router-dom";
+// Components
 import TrendingExercise from "../../../components/cards/TrendingExercise.jsx";
 
-const BodyTraining = ({auth}) => {
+// Styled Components
+import {BodyTrainingContainer, InputNumberContainer} from "../styles/BodyTrainingStyle.js";
 
-    const userData = auth.userData;
+// Icons
+import { FaPlus } from "react-icons/fa";
+import { FaMinus } from "react-icons/fa";
+import {useMediaQuery} from "react-responsive";
+
+const BodyTraining = ({auth}) => {
+    // State
+    const [amountOfExerciseToShow, setAmountOfExerciseToShow] = React.useState(3);
+
+    // Refs
+    const amountOfExerciseToShowRef = useRef();
+    // Responsive
+    const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+    function handleInputNumber(num){
+        let inputValue = parseInt(amountOfExerciseToShowRef.current.innerText);
+        if(inputValue + num <= 9 && inputValue + num >= 1) {
+            setAmountOfExerciseToShow(inputValue + num);
+            amountOfExerciseToShowRef.current.innerText = inputValue + num;
+        }
+    }
 
     return (
         <BodyTrainingContainer>
@@ -38,14 +58,39 @@ const BodyTraining = ({auth}) => {
                     </Link>
                 </div>
             </div>
+
+            <div tw="flex flex-row items-center">
+                <div tw="flex flex-row items-center gap-[8px]">
+                    <img tw="w-[38px] h-[38px]" src="../../../static/img/gif/flame.gif" alt="Flame"/>
+                    <h1>Exercices du moment</h1>
+                </div>
+                {
+                    isOnMobile ?
+                            null
+                        :
+                        <InputNumberContainer>
+                            <div>
+                                <FaMinus onClick={() => handleInputNumber(-1)} />
+                                <span ref={amountOfExerciseToShowRef}>{amountOfExerciseToShow}</span>
+                                <FaPlus onClick={() => handleInputNumber(1)} />
+                            </div>
+                        </InputNumberContainer>
+                }
+            </div>
+            <TrendingExercise amount={amountOfExerciseToShow} />
+
+        </BodyTrainingContainer>
+    )
+}
+
+/*
+
             <div className="training__note__container">
                 <span>
                     * Pour chaque entrainement terminé, vous gagnez des points d'expérience.
                 </span>
             </div>
-            <TrendingExercise amount={3} />
-        </BodyTrainingContainer>
-    )
-}
+
+ */
 
 export default BodyTraining;

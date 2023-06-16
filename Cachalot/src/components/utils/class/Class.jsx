@@ -54,9 +54,6 @@ const Class = () => {
                                 <ClassButton auth={auth} />
                             </div>
                         </div>
-                        <div>
-                            Accédez à votre classe en ligne en cliquant sur le bouton ci-dessus.
-                        </div>
                     </Content>
                 </ClassContainer>
             </MainContainer>

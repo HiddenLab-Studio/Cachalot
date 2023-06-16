@@ -3,7 +3,7 @@ import {useMediaQuery} from "react-responsive";
 import tw from "twin.macro";
 
 // Context
-import {useAuth} from "../../../context/AuthContext.js";
+import { useAuth } from "../../../context/AuthContext.js";
 
 // Components
 import Loading from "../loading/Loading.jsx";
@@ -15,6 +15,7 @@ import {
     MyClassContainer,
     Content
 } from "./style/MyClassStyle.js";
+import ClassPanel from "./subComponents/ClassPanel.jsx";
 
 const MyClass = () => {
 
@@ -43,7 +44,7 @@ const MyClass = () => {
                                 les classes dans lesquelles vous êtes.
                             </span>
                         </div>
-
+                        <ClassPanel auth={auth} />
                     </Content>
                 </MyClassContainer>
             </MainContainer>

@@ -27,6 +27,13 @@ const test = [
         views: 100,
         like: 21,
         pathName: "/exercise/6964",
+    },
+    {
+        id: 9481,
+        name: "Des mots et des couleurs",
+        views: 100,
+        like: 21,
+        pathName: "/exercise/6964",
     }
 ]
 
@@ -184,62 +191,69 @@ export const TrendingExerciseContainer = styled.div`
 const TrendingExercise = ({amount}) => {
     const isOnMobile = useMediaQuery({query: "(max-width: 550px)"});
 
+    // TODO
+    //  - Add a loading state
+    //  - Load AMOUNT of exercise from database
+
     return (
         <TrendingExerciseContainer>
-            <div tw="flex flex-row items-center gap-[8px]">
-                <img tw="w-[38px] h-[38px]" src="../../../static/img/gif/flame.gif" alt="Flame"/>
-                <h1>Exercices du moment</h1>
-            </div>
             <GridContainer>
                 {test.map((exercise, index) => {
-                    return (
-                        <Link to={exercise.pathName} key={exercise.id}>
-                            <div className="card">
-                                <div>
-                                    <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
-                                </div>
-                                 <div className="exercise__info__container">
-                                     <div tw="flex flex-row items-center">
-                                         <h2>{exercise.name}</h2>
-                                         {
-                                             !isOnMobile ?
-                                                    <div tw="flex justify-end grow-[1]">
-                                                        <span>#1200</span>
-                                                    </div>
-                                                 :
-                                                    null
-                                         }
+                    if (index < amount){
+                        if(exercise !== undefined) {
+                            return (
+                                <Link to={exercise.pathName} key={exercise.id}>
+                                    <div className="card">
+                                        <div>
+                                            <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
+                                        </div>
+                                        <div className="exercise__info__container">
+                                            <div tw="flex flex-row items-center">
+                                                <h2>{exercise.name}</h2>
+                                                {
+                                                    !isOnMobile ?
+                                                        <div tw="flex justify-end grow-[1]">
+                                                            <span>#1200</span>
+                                                        </div>
+                                                        :
+                                                        null
+                                                }
 
-                                     </div>
-                                     {
-                                         !isOnMobile ?
-                                                 <span>
+                                            </div>
+                                            {
+                                                !isOnMobile ?
+                                                    <span>
                                                      description de l'exercice
                                                      description de l'exercice
                                                      description de l'exercice
                                                  </span>
-                                             :
-                                                 null
-                                     }
+                                                    :
+                                                    null
+                                            }
 
-                                     <div className="stats__container">
-                                         <div>
+                                            <div className="stats__container">
+                                                <div>
                                              <span>
-                                                 100 vues{!isOnMobile ? ", 10 mai 2023" : null}
+                                                 Par @Lucas{!isOnMobile ? ", le 10 mai 2023" : null}
                                              </span>
-                                         </div>
-                                         <div className="like">
-                                             <FcLike />
-                                             <span>102</span>
-                                         </div>
-                                     </div>
-                                 </div>
-                                <div tw="flex justify-end grow-[1]">
-                                    <FaChevronRight />
-                                </div>
-                            </div>
-                        </Link>
-                    )
+                                                </div>
+                                                <div className="like">
+                                                    <FcLike />
+                                                    <span>102</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div tw="flex justify-end grow-[1]">
+                                            <FaChevronRight />
+                                        </div>
+                                    </div>
+                                </Link>
+                            )
+                        } else {
+                            return null;
+                        }
+                    }
+
                 })}
             </GridContainer>
         </TrendingExerciseContainer>

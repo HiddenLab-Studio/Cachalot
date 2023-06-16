@@ -9,8 +9,9 @@ import {
     BodyProfileAsideContainer,
     BodyProfileContainer,
     BodyProfileSectionContainer,
-    FindFriendsContainer, GridContainer, GridElement,
-    JoinClassContainer, SuccessContainer
+    GridContainer,
+    GridElement,
+    SuccessContainer
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
@@ -19,6 +20,7 @@ import Subscribers from "./subComponents/Subscribers.jsx";
 
 // Icons
 import { FaChevronRight } from "react-icons/fa";
+import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
 
 
 const BodyProfile = ({isSearch, data}) => {
@@ -80,44 +82,29 @@ const BodyProfile = ({isSearch, data}) => {
 
                 {!isSearch ?
                     <>
-                        <Link to={"/user-search"}>
-                            <FindFriendsContainer>
-                                <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
-                                <div>
-                                    <h1>Trouver des amis</h1>
-                                    <span>Chercher d'autres membres de la communauté</span>
-                                </div>
-                                <div className="chevron">
-                                    <FaChevronRight />
-                                </div>
-                            </FindFriendsContainer>
-                        </Link>
-                        <Link to={"/class"}>
-                            <JoinClassContainer>
-                                <img src="../../../../../static/img/icons/class.png" alt="Join a class"/>
-                                <div>
-                                    <h1>Rejoindre une classe</h1>
-                                    <span>Apprendre à plusieurs, c'est encore mieux !</span>
-                                </div>
-                                <div className="chevron">
-                                    <FaChevronRight />
-                                </div>
-                            </JoinClassContainer>
-                        </Link>
+                        <ButtonCard
+                            title= "Trouver des amis"
+                            desc= "Chercher d'autres membres de la communauté"
+                            imageURL= "../../../../../static/img/icons/find.png"
+                            link= "/user-search"
+                            alt= "Search some friends"
+                        />
+                        <ButtonCard
+                            title= "Rejoindre une classe"
+                            desc= "Apprendre à plusieurs, c'est encore mieux !"
+                            imageURL= "../../../../../static/img/icons/class.png"
+                            link= "/class"
+                            alt= "Join a class"
+                        />
                     </>
                     :
-                    <Link to={"/user-search"}>
-                        <FindFriendsContainer>
-                            <img src="../../../../../static/img/icons/find.png" alt="Search some friends"/>
-                            <div>
-                                <h1>Trouver des amis</h1>
-                                <span>Chercher d'autres membres de la communauté</span>
-                            </div>
-                            <div className="chevron">
-                                <FaChevronRight />
-                            </div>
-                        </FindFriendsContainer>
-                    </Link>
+                    <ButtonCard
+                        title= "Trouver des amis"
+                        desc= "Chercher d'autres membres de la communauté"
+                        imageURL= "../../../../../static/img/icons/find.png"
+                        link= "/user-search"
+                        alt= "Search some friends"
+                    />
                 }
             </BodyProfileAsideContainer>
         </BodyProfileContainer>

@@ -10,7 +10,7 @@ export const GifWrapper = styled.div`
 export const ClassContainer = styled(Container)``;
 export const Content = styled.section`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -72,7 +72,7 @@ export const Content = styled.section`
   @media (max-width: 768px) {
     .container {
       width: 100%;
-      transform: translateY(-48px);
+      //transform: translateY(-48px);
     }
   }
   

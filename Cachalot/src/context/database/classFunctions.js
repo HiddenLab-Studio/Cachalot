@@ -15,7 +15,7 @@ export const classes = {
         // Generate a random code
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
         // Check if user can create a class
-        const canCreateClass = await maxClasseAdmin();
+        const canCreateClass = await classes.maxClasseAdmin();
 
         const docRef = doc(db, "classes", classeCode);
         const userDocRef = doc(db, 'users', user.uid);
@@ -77,7 +77,7 @@ export const classes = {
 
         const user = auth.currentUser;
         const docRef = doc(db, "classes", code);
-        const userRefClasses = doc(db, "users", user.uid, "classes", code);
+        const userRefClasses = doc(db, "users", user.uid, "classesJoined", code);
         const userClassesRef = doc(db, "classes", code, "users", user.uid);
         const userRef = doc(db, "users", user.uid);
 
@@ -122,22 +122,21 @@ export const classes = {
             }
         })
         return result;
-    }
+    },
 
-}
+    maxClasseAdmin: async () => {
+        let result = false;
+        const user = auth.currentUser;
+        const docRef = collection(db, "users/" + user.uid + "/classesAdmin");
+        await getDocs(docRef).then((querySnapshot) => {
+            if (querySnapshot.size < 5) {
+                result = true;
+            }
+            else {
+                result = false;
+            }
+        })
+        return result;
+    },
 
-//max classe Admin 
-async function maxClasseAdmin() {
-    let result = false;
-    const user = auth.currentUser;
-    const docRef = collection(db, "users/" + user.uid + "/classesAdmin");
-    await getDocs(docRef).then((querySnapshot) => {
-        if (querySnapshot.size < 5) {
-            result = true;
-        }
-        else {
-            result = false;
-        }
-    })
-    return result;
 }
