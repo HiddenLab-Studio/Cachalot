@@ -30,9 +30,13 @@ const ButtonCardContainer = styled.div`
     }
 
     span {
+      max-width: 97%;
       font-family: "Din_Round_Med", sans-serif;
       font-size: var(--fs-ss);
       color: #afafaf;
+      @media (max-width: 1050px) {
+        max-width: 100%;
+      }
     }
   }
 
@@ -49,7 +53,7 @@ const ButtonCardContainer = styled.div`
     cursor: pointer;
     background-color: ${props => props.theme.buttonBgHover};
   }
-
+  
   @media (max-width: 768px) {
     justify-content: center;
     align-items: center;

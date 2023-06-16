@@ -15,11 +15,7 @@ import {
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
-import { Link } from "react-router-dom";
 import Subscribers from "./subComponents/Subscribers.jsx";
-
-// Icons
-import { FaChevronRight } from "react-icons/fa";
 import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
 
 
