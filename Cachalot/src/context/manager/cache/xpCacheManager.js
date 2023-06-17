@@ -1,18 +1,13 @@
-import {utils} from "../../database/utilsFunctions.js";
-import {doc, getDoc, updateDoc} from "firebase/firestore";
-import firebaseConfigClient from "../../../services/firebase.config.js";
 import axios from "axios";
-import {data} from "../../../pages/exercise/functions/MathExerciseGenerator.js";
-const { auth, db, storage } = firebaseConfigClient();
 
 let xpCache = {
     currentXp: 0,
     currentLvl: 1,
     cumulatedXp: 0,
+    isUpdated: false,
 }
 
 let uid = undefined;
-let cacheUpdated = false;
 let isUserCached = false;
 
 function getRequiredXp(lvl){
@@ -46,6 +41,7 @@ const xpCacheManager = {
 
             if(result.data !== undefined){
                 xpCache = result.data;
+                xpCache.isUpdated = false;
             } else {
                 console.error("Error while loading xpCache: result.data is undefined!");
             }
@@ -58,10 +54,13 @@ const xpCacheManager = {
     },
 
     addXp: (xp) => {
-        if(!cacheUpdated) cacheUpdated = true;
+        if(!xpCache.isUpdated) xpCache.isUpdated = true;
         xpCache.currentXp += xp
         xpCache.cumulatedXp += xp;
         checkLvlUp(xpCache.currentLvl);
+        xpCacheManager.updateNodeCache(uid).then(r =>
+            console.info("xpCache updated: " + r)
+        );
         //console.info(getRequiredXp(xpCache.currentLvl) - xpCache.currentXp + " xp avant le prochain niveau");
         //xpCacheManager.test();
     },
@@ -73,7 +72,7 @@ const xpCacheManager = {
     // Update
     updateNodeCache: async (id) => {
         let result = undefined;
-        if(cacheUpdated){
+        if(xpCache.isUpdated){
             await axios.post("http://localhost:4000/api/updateXpCache", JSON.stringify({
                 id: id,
                 data: xpCache,
@@ -85,7 +84,7 @@ const xpCacheManager = {
             }).catch((error) => {
                 console.log(error);
             });
-            cacheUpdated = false;
+            xpCache.isUpdated = false;
         }
         return result;
     }

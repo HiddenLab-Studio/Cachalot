@@ -32,11 +32,6 @@ const MyClass = () => {
     useEffect(() => {
         if(auth.currentUser instanceof Object) {
             loadXpCache(auth.currentUser, setIsLoading)
-            return () => {
-                xpCacheManager.updateNodeCache(auth.currentUser.uid).then((r) => {
-                    if (r) console.info("Xp cache updated!");
-                });
-            }
         }
     }, [auth.currentUser]);
 

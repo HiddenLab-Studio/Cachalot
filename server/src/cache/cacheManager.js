@@ -14,6 +14,13 @@ let cacheManager = (function(){
             }
             return data;
         },
+        getAllUserIdFromXpCache: () => {
+            let keys = [];
+            for(let key of cache.xp.keys()){
+                keys.push(key);
+            }
+            return keys;
+        },
 
         setFriendsCache: (id, data) => cache.friends.set(id, data),
         getFriendsCache: (id) => cache.friends.get(id),

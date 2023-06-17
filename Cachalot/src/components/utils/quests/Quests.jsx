@@ -35,11 +35,6 @@ const Quests = () => {
         if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
             if(auth.currentUser instanceof Object) {
                 loadXpCache(auth.currentUser, setIsLoading)
-                return () => {
-                    xpCacheManager.updateNodeCache(auth.currentUser.uid).then((r) => {
-                        if (r) console.info("Xp cache updated!");
-                    });
-                }
             } else {
                 setIsLoading(false)
             }

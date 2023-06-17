@@ -19,6 +19,10 @@ const { doc, getDoc, getDocs, updateDoc } = require("firebase/firestore");
 // cache
 const cacheManager = require("./cache/cacheManager");
 
+// Scheduler
+const CronJob = require('cron').CronJob;
+
+
 // Configuration du serveur
 app.use(express.static(path.join(__dirname, "..")));
 app.use(cors());
@@ -70,6 +74,7 @@ app.post('/api/getXpCache', async (req, res) => {
     let id = req.body.id;
     let retrievedData = undefined;
     console.info("[INFO] user " + id + " request data from the server!")
+    console.log(cacheManager.getUserFromXpCache(id));
     if (cacheManager.getUserFromXpCache(id) === null) {
         // retrieve user xp data from the database
         const userRef = doc(db, "users", id);
@@ -105,6 +110,30 @@ app.post('/api/updateXpCache', async (req, res) => {
     res.send({isUpdated: isUpdated});
 })
 
+
+const scheduledJob = new CronJob('*/1 * * * *', async () => {
+    console.log("[INFO] scheduled job started!");
+    // Push xp cache to the database for each users' data
+    let users = cacheManager.getAllUserIdFromXpCache();
+    for (let i = 0; i < users.length; i++) {
+        let id = users[i];
+        let userRef = doc(db, "users", id);
+        let data = cacheManager.getUserFromXpCache(id);
+        if(data.isUpdated){
+            data.isUpdated = false;
+            await updateDoc(userRef, {
+                userXp: data
+            }).then(() => {
+                console.log("[INFO] user " + id + " data updated successfully!");
+            }).catch((error) => {
+                console.log("[ERROR] Error updating user data:", error);
+            });
+        } else {
+            console.log("[INFO] user " + id + " data not updated cause never changed!");
+        }
+    }
+});
+
 // Lancement du serveur
 const server = http.createServer(app);
 server.listen(app.get("port"), () => {
@@ -112,4 +141,8 @@ server.listen(app.get("port"), () => {
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
     console.log("[INFO] Server started successfully!");
+
+    // start the scheduled job
+    scheduledJob.start();
+
 })
