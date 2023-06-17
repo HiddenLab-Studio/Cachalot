@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
+import moment from 'moment';
 
 
 
@@ -32,21 +33,30 @@ const ChatContainer = ({ auth }) => {
 
   };
 
-  useEffect(() => {
-    // Écoute les changements dans la collection
-    const unsubscribe = auth.chat.getMessage("Gen", (newMessage) => {
-      // Ajoute le nouveau message à la liste des messages si il n'existe pas déjà
-      const existingMessage = messages.find((message) => message.id === newMessage.id);
-      if (existingMessage) return;
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
 
-    // Nettoie l'écouteur lors du démontage du composant
-    return () => {
-      unsubscribe();
-    };
+    useEffect(() => {
+      const unsubscribe = auth.chat.getMessage("Gen", (newMessage) => {
+        
+        setMessages((prevMessages) => {
+          const existingMessage = prevMessages.find((message) => message.id === newMessage.id);
+          if (existingMessage) return prevMessages;
+  
+          const sortedMessages = [...prevMessages, newMessage].sort((a, b) => {
+            const dateA = moment(a.date, 'DD/MM/YYYY | HH:mm:ss');
+            const dateB = moment(b.date, 'DD/MM/YYYY | HH:mm:ss');
+            return dateA - dateB;
+          });
+          return sortedMessages;
+        });
+      });
+    
+      return () => {
+        unsubscribe();
+      };
+    }, []);
+  
 
-  }, []);
+ 
 
   return (
     <ChatContainerWrapper>
