@@ -9,6 +9,7 @@ import Loading from "../../../components/utils/loading/Loading.jsx";
 import Navbar from "../../../components/navbar/Navbar.jsx";
 import ProfileInformation from "./profileComponents/ProfileInformation.jsx";
 import BodyProfile from "./profileComponents/BodyProfile.jsx";
+import ChatContainer from "./profileComponents/subComponents/chat.jsx";
 
 // Styled components
 import {
@@ -118,6 +119,7 @@ const Profile = (props) => {
                             isSearch={searchedUser !== null}
                             data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
                         />
+                        <ChatContainer auth={auth} />
                     </Content>
                 </ProfileContainer>
             </MainContainer>
