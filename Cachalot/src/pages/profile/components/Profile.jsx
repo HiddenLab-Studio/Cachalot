@@ -119,7 +119,6 @@ const Profile = (props) => {
                             isSearch={searchedUser !== null}
                             data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
                         />
-                        <ChatContainer auth={auth} />
                     </Content>
                 </ProfileContainer>
             </MainContainer>

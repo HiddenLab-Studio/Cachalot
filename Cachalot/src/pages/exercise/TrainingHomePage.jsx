@@ -16,6 +16,7 @@ import {
     Content
 } from "./styles/ExerciseHomePageStyle.js";
 import loadXpCache from "../../utils/onLoading.js";
+import ChatContainer from "../profile/components/profileComponents/subComponents/chat.jsx";
 
 const TrainingHomePage = () => {
     // Context
@@ -43,6 +44,7 @@ const TrainingHomePage = () => {
                     <Content>
                         <BodyTraining auth={auth} />
                         <AsideTraining auth={auth} />
+                        <ChatContainer auth={auth} />
                     </Content>
                 </TrainingContainer>
             </MainContainer>

@@ -71,7 +71,7 @@ const BodyProfile = ({isSearch, data}) => {
                 </SuccessContainer>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
-                <h1>Amis</h1>
+                <h1 className="title">Amis</h1>
                 <Subscribers
                     isSearch={isSearch}
                     data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: userFriends}}

@@ -144,5 +144,4 @@ server.listen(app.get("port"), () => {
 
     // start the scheduled job
     scheduledJob.start();
-
 })
