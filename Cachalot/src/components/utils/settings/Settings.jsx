@@ -17,6 +17,7 @@ import {
 } from "./style/SettingStyle.js";
 
 import { FcSettings } from "react-icons/fc";
+import loadXpCache from "../../../utils/onLoading.js";
 
 const Settings = () => {
     // Context
@@ -28,7 +29,13 @@ const Settings = () => {
     const [onChanges, setOnChanges] = useState(false);
 
     useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
+        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number"){
+            if (auth.currentUser instanceof Object) {
+                loadXpCache(auth.currentUser, setIsLoading)
+            } else {
+                setIsLoading(false)
+            }
+        }
     }, [auth.currentUser])
 
     async function handleClick() {

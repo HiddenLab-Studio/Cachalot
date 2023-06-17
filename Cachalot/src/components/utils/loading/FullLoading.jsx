@@ -1,19 +1,15 @@
 import { styled } from "twin.macro";
 
-// Components
-import Navbar from "../../navbar/Navbar.jsx";
-
 // Styled components
 import {
     MainContainer,
-    Container
 } from "../ui/GlobalStyle.js";
 
-const LoadingContainer = styled(Container)``
 const Content = styled.div`
   display: flex;
   justify-content: center;
-  height: 100%;
+  min-height: 100vh;
+  width: 100%;
   
   .dots {
     width: 72px;
@@ -46,17 +42,14 @@ const Content = styled.div`
   }
 `
 
-const Loading = (props) => {
+const FullLoading = () => {
     return (
         <MainContainer>
-            <Navbar />
-            <LoadingContainer>
-                <Content>
-                    <div className="dots"></div>
-                </Content>
-            </LoadingContainer>
+            <Content>
+                <div className="dots"></div>
+            </Content>
         </MainContainer>
     )
 }
 
-export default Loading;
+export default FullLoading;

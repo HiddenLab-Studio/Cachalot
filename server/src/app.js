@@ -11,6 +11,11 @@ const dotenv = require("dotenv").config({path: "./.env"});
 const bodyParser = require("body-parser");
 const {generateRandomExercise, getUserInputAndCheckSolution} = require("./functions/math/MathExerciseGenerator");
 
+// Firebase
+const firebaseConfigClient = require("./config/firebase.config");
+const { auth, db , storage } = firebaseConfigClient();
+const { doc, getDoc, getDocs, updateDoc } = require("firebase/firestore");
+
 // cache
 const cacheManager = require("./cache/cacheManager");
 
@@ -61,25 +66,43 @@ app.post('/api/getSolution', (req, res) => {
     res.send({isCorrect: isCorrect});
 })
 
-app.post('/api/getXpCache', (req, res) => {
+app.post('/api/getXpCache', async (req, res) => {
     let id = req.body.id;
     let retrievedData = undefined;
     console.info("[INFO] user " + id + " request data from the server!")
-
-    if(cacheManager.getUserFromXpCache(id) === null){
-        cacheManager.setUserToXpCache(id, {
-            currentXp: 0,
-            currentLevel: 1,
-            cumulatedXp: 0
+    if (cacheManager.getUserFromXpCache(id) === null) {
+        // retrieve user xp data from the database
+        const userRef = doc(db, "users", id);
+        await getDoc(userRef).then((doc) => {
+            if (doc.exists()) {
+                console.log("[INFO] user data retrieved successfully!");
+                // add data to the cache
+                cacheManager.setUserToXpCache(id, doc.data().userXp);
+                // set the retrieved data
+                retrievedData = doc.data().userXp;
+            } else {
+                console.log("[ERROR] user data not found!");
+            }
+        }).catch((error) => {
+            console.log("[ERROR] Error getting user data:", error);
         });
-        console.info("[INFO] user " + id + " created in the cache!");
     } else {
         console.log("[INFO] user " + id + " already in the cache!");
         retrievedData = cacheManager.getUserFromXpCache(id);
     }
-
     res.send({data: retrievedData});
+})
 
+app.post('/api/updateXpCache', async (req, res) => {
+    let id = req.body.id;
+    let data = req.body.data;
+    let isUpdated = false;
+    console.info("[INFO] user " + id + " request data from the server!")
+    if (cacheManager.getUserFromXpCache(id) !== null) {
+        cacheManager.setUserToXpCache(id, data);
+        isUpdated = true;
+    }
+    res.send({isUpdated: isUpdated});
 })
 
 // Lancement du serveur
@@ -89,10 +112,4 @@ server.listen(app.get("port"), () => {
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
     console.log("[INFO] Server started successfully!");
-
-    // cache
-    cacheManager.setUserToXpCache("123456789", 100);
-
-    console.log(cacheManager.getUserFromXpCache("123456789"));
-
 })

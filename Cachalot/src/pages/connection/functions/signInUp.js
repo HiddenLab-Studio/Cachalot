@@ -6,6 +6,8 @@ import firebaseConfigClient from "../../../services/firebase.config.js";
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
 
+import xpCacheManager from "../../../context/manager/cache/xpCacheManager.js";
+
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
         if(errorManager.validCode.includes(result)){
@@ -100,8 +102,9 @@ export async function firebaseRegister(data) {
                 photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
                 accountCreationDate: dateTime,
                 userXp: {
-                    currentLvl: 1,
                     currentXp: 0,
+                    currentLvl: 1,
+                    cumulatedXp: 0
                 },
                 userEx: {
                     totalExerciseDone: 0,
@@ -129,7 +132,6 @@ export async function firebaseLogin(data) {
         code: undefined
     };
 
-
     await signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
             // On récupère les informations de l'utilisateur
@@ -146,6 +148,7 @@ export async function firebaseLogin(data) {
             updateDoc(userDocRef, {
                 lastLogin: dateTime
             }).then(() => {
+                xpCacheManager.loadData(user.uid);
                 result.showOverlay = false;
                 result.code = "valid";
             })
@@ -200,8 +203,9 @@ export async function firebaseGoogleLogin() {
                         lastLogin: dateTime,
                         accountCreationDate: dateTime,
                         userXp: {
-                            currentLvl: 1,
                             currentXp: 0,
+                            currentLvl: 1,
+                            cumulatedXp: 0
                         },
                         userEx: {
                             totalExerciseDone: 0,

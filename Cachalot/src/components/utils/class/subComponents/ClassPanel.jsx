@@ -28,7 +28,7 @@ const ClassPanel = ({auth}) => {
     useEffect(() => {
         const getUserClasses = async () => {
             const result = await auth.user.getUserClasses(auth.currentUser);
-            console.log(result)
+            //console.log(result)
             setClasses(result);
         }
 

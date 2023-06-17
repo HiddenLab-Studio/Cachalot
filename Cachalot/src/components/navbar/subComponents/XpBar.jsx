@@ -47,8 +47,8 @@ const XpBarContainer = styled.div`
   gap: 10px;
 `;
 
-const XpBar = () => {
-    const cache = useCache();
+const XpBar = (props) => {
+    const cache = props.cache;
     const userXp = cache.xpCache;
     const userXpCache = cache.xpCache.getXpCache();
 
@@ -68,33 +68,5 @@ const XpBar = () => {
         </>
     )
 }
-
-/*
-
-        <XpBarContainer>
-            <BarContainer>
-                <XpBar progress={getWidthXp(userXp.currentXp, cache.xpCache.getRequiredXp(userXp.currentLvl))}>
-                    <div className="progress__bar__fill" />
-                </XpBar>
-                <span>Lv. {userXp.currentLvl}</span>
-            </BarContainer>
-            <LevelInformationContainer>
-                <span>{userXp.currentXp} / {cache.xpCache.getRequiredXp(userXp.currentLvl)}</span>
-                <div tw="grow-[1] flex justify-end items-center">
-                    <FaSignOutAlt onClick={async () => {
-                        let result = await auth.user.logout();
-                        if(result) {
-                            auth.setUserData(null);
-                            console.log(userData);
-                            console.info("Sign-out successful.")
-                        } else {
-                            console.error("Sign-out failed.")
-                        }
-                    }} />
-                </div>
-            </LevelInformationContainer>
-        </XpBarContainer>
-
- */
 
 export default XpBar;

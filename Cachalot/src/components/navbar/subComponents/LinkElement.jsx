@@ -7,7 +7,6 @@ import {
     LinkDiv,
 } from "../NavbarStyle.js";
 
-
 const LinkElement = (props) => {
     const isOnTablet = useMediaQuery({ query: '(max-width: 1200px)' });
 

@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext.js";
-import tw from "twin.macro";
 
 import {
     ProfileContainer,
@@ -9,11 +7,10 @@ import {
 } from "../NavbarStyle.js";
 import XpBar from "./XpBar.jsx";
 
-
-const ProfileXpProgress = () => {
-    const auth = useAuth();
+const ProfileXpProgress = (props) => {
+    const auth = props.auth;
+    const cache = props.cache;
     const userData = auth.userData;
-
 
     if(userData !== null){
         return (
@@ -25,7 +22,7 @@ const ProfileXpProgress = () => {
                 </Link>
                 <ProfileElement>
                     <span className="display__name">{userData.displayName}</span>
-                    <XpBar />
+                    <XpBar auth={auth} cache={cache} />
                 </ProfileElement>
             </ProfileContainer>
         )

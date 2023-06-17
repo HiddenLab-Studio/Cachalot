@@ -14,10 +14,18 @@ import {
 // Components
 import Subscribers from "./subComponents/Subscribers.jsx";
 import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
+import xpCacheManager from "../../../../context/manager/cache/xpCacheManager.js";
+import {useCache} from "../../../../context/manager/cache/CacheProvider.js";
 
 const BodyProfile = ({isSearch, data}) => {
+    const cache = useCache();
+
+    // data
     let userData = isSearch ? data.searchedUser.userData : data.currentUserData;
+    let userXp = isSearch ? data.searchedUser.userData.userXp : cache.xpCache.getXpCache();
     let userFriends = isSearch ? data.searchedUser.userFriends : data.userFriends;
+
+    console.log(userData);
 
     return (
         <BodyProfileContainer>
@@ -41,8 +49,8 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement>
                         <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
                         <div>
-                            <span>{userData.userXp.currentXp}</span>
-                            <h2>Xp gagnés</h2>
+                            <span>{userXp.cumulatedXp}</span>
+                            <h2>Xp cumulés</h2>
                         </div>
                     </GridElement>
                     <GridElement>

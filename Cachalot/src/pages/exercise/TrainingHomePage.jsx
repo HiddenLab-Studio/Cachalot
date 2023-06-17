@@ -15,6 +15,7 @@ import {
     TrainingContainer,
     Content
 } from "./styles/ExerciseHomePageStyle.js";
+import loadXpCache from "../../utils/onLoading.js";
 
 const TrainingHomePage = () => {
     // Context
@@ -25,6 +26,12 @@ const TrainingHomePage = () => {
     useEffect(() => {
         if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
     }, [auth.currentUser])
+
+    useEffect(() => {
+        if(auth.currentUser !== null) {
+            loadXpCache(auth.currentUser, setIsLoading)
+        }
+    }, [auth.currentUser]);
 
     if(isLoading){
         return <Loading />

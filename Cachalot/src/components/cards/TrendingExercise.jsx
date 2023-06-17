@@ -125,14 +125,6 @@ const GridContainer = styled.div`
 
     }
   }
-
-  /*@media (min-width: 768px) and (max-width: 1050px) {
-    grid-template-columns: repeat(1, 90%);
-    justify-content: center;
-  }*/
-
-
-  
 `
 
 export const TrendingExerciseContainer = styled.div`
@@ -159,9 +151,7 @@ export const TrendingExerciseContainer = styled.div`
             margin: 0;
             justify-content: start;
           }
-
         }
-        
 
         img {
           width: 48px;
@@ -173,11 +163,9 @@ export const TrendingExerciseContainer = styled.div`
 
 
   @media (max-width: 320px) {
-
     h1 {
       font-size: var(--fs-sm);
     }
-
 
     ${GridContainer} {
       .card {
@@ -257,7 +245,6 @@ const TrendingExercise = ({amount}) => {
                             return null;
                         }
                     }
-
                 })}
             </GridContainer>
         </TrendingExerciseContainer>

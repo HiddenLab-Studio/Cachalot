@@ -4,7 +4,7 @@ import {data, mathFunctions} from "../../../functions/MathExerciseGenerator.js";
 const classPermissionData = [
     {
         class: ["CM1", "CM2", "all"],
-        permission: ["addition", "soustraction", "multiplication", "division", "all"]
+        permission: ["addition", "soustraction", "multiplication", "league", "all"]
     },
     {
         class: ["CP"],

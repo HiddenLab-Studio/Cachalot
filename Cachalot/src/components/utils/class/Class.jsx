@@ -13,6 +13,8 @@ import ClassButton from "./subComponents/ClassButton.jsx";
 // Styled Components
 import { MainContainer } from "../ui/GlobalStyle.js";
 import {ClassContainer, Content, GifWrapper} from "./style/ClassStyle.js";
+import loadXpCache from "../../../utils/onLoading.js";
+import xpCacheManager from "../../../context/manager/cache/xpCacheManager.js";
 
 const Class = () => {
     const auth = useAuth()
@@ -22,7 +24,18 @@ const Class = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
+        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
+            if(auth.currentUser instanceof Object) {
+                loadXpCache(auth.currentUser, setIsLoading)
+                return () => {
+                    xpCacheManager.updateNodeCache(auth.currentUser.uid).then((r) => {
+                        if (r) console.info("Xp cache updated!");
+                    });
+                }
+            } else {
+                setIsLoading(false)
+            }
+        }
     }, [auth.currentUser])
 
     if(isLoading) {

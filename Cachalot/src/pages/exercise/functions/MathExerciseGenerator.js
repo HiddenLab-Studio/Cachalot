@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Objet qui contient les données de l'exercice actuel
 export let data = {
-    validExerciseType: ["addition", "soustraction", "multiplication", "division", "all"], //Tableau contenant les types d'exercices valides
+    validExerciseType: ["addition", "soustraction", "multiplication", "league", "all"], //Tableau contenant les types d'exercices valides
     validClassType: ["CP", "CE1", "CE2", "CM1", "CM2", "all"],                            //Tableau contenant les niveaux valides
     currentExercise: undefined,                                                           //Variable qui contient l'exercice actuel
     currentExerciseType: "all",                                                           //Variable qui contient le type d'exercice actuel

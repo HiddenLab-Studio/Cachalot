@@ -13,10 +13,11 @@ import Loading from "../components/utils/loading/Loading.jsx";
 import About from "../components/utils/about/About.jsx";
 import Settings from "../components/utils/settings/Settings.jsx";
 import Quests from "../components/utils/quests/Quests.jsx";
-import DivisionHomePage from "../pages/division/DivisionHomePage.jsx";
+import DivisionHomePage from "../pages/league/DivisionHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
 import MathExercise from "../pages/exercise/components/training/MathExercise.jsx";
 import MyClass from "../components/utils/class/MyClass.jsx";
+import FullLoading from "../components/utils/loading/FullLoading.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
     { path: "/profile/:user", element: <ProfileHomePage isSearching={true} /> },
     { path: "/user-search", element: <SearchUser /> },
     { path: "/loading", element: <Loading /> },
+    { path: "/full-loading", element: <FullLoading /> },
     // Class Page
     { path: "/class", element: <Class /> },
     { path: "/my-class", element: <MyClass /> },
