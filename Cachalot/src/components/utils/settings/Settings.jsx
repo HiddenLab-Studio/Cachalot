@@ -18,25 +18,19 @@ import {
 
 import { FcSettings } from "react-icons/fc";
 import loadXpCache from "../../../utils/onLoading.js";
+import FullLoading from "../loading/FullLoading.jsx";
+import ConnectionHomePage from "../../../pages/connection/ConnectionHomePage.jsx";
+import {useCache} from "../../../context/manager/cache/CacheProvider.js";
 
 const Settings = () => {
     // Context
     const auth = useAuth();
+    const cache = useCache();
     const userData = auth.userData;
 
     // State
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!cache.isUserCached);
     const [onChanges, setOnChanges] = useState(false);
-
-    useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number"){
-            if (auth.currentUser instanceof Object) {
-                loadXpCache(auth.currentUser, setIsLoading)
-            } else {
-                setIsLoading(false)
-            }
-        }
-    }, [auth.currentUser])
 
     async function handleClick() {
         let filePhoto = document.getElementById("image").files[0]
@@ -53,68 +47,68 @@ const Settings = () => {
         await auth.update.updateUserData(data);
     }
 
+    if(typeof auth.currentUser === "number") {
+        return <ConnectionHomePage />
+    } else {
+        if(isLoading){
+            return <FullLoading setIsLoading={setIsLoading} />
+        } else {
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <SettingsContainer>
+                        <Content>
+                            <h1 tw="flex flex-row gap-[8px] items-center"><FcSettings /> Paramètres</h1>
+                            <table className="TableContainer">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h2>Photo de profil</h2>
+                                    </td>
+                                    <td>
+                                        <input type="file" id="image" accept="image/*"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h2>Nom d'utilisateur</h2>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="displayName" placeholder={userData.displayName} />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h2>Âge</h2>
+                                    </td>
+                                    <td>
+                                        <input type="number" id="age" placeholder={userData.age}/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <ApplyChangesButtonContainer change={onChanges}>
+                                <button onClick={async () => await handleClick()}>Enregistrer les modifications</button>
+                            </ApplyChangesButtonContainer>
+                            <button onClick={async () => {
+                                let result = await auth.user.logout();
+                                if(result) {
+                                    auth.setUserData(null);
+                                    console.log(userData);
+                                    console.info("Sign-out successful.")
+                                } else {
+                                    console.error("Sign-out failed.")
+                                }
 
-    if(isLoading) {
-        return <Loading />
-    } else if(auth.currentUser instanceof Object) {
-        return (
-            <MainContainer>
-                <Navbar />
-                <SettingsContainer>
-                    <Content>
-                        <h1 tw="flex flex-row gap-[8px] items-center"><FcSettings /> Paramètres</h1>
-                        <table className="TableContainer">
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <h2>Photo de profil</h2>
-                                </td>
-                                <td>
-                                    <input type="file" id="image" accept="image/*"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2>Nom d'utilisateur</h2>
-                                </td>
-                                <td>
-                                    <input type="text" id="displayName" placeholder={userData.displayName} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <h2>Âge</h2>
-                                </td>
-                                <td>
-                                    <input type="number" id="age" placeholder={userData.age}/>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <ApplyChangesButtonContainer change={onChanges}>
-                            <button onClick={async () => await handleClick()}>Enregistrer les modifications</button>
-                        </ApplyChangesButtonContainer>
-                        <button onClick={async () => {
-                            let result = await auth.user.logout();
-                            if(result) {
-                                auth.setUserData(null);
-                                console.log(userData);
-                                console.info("Sign-out successful.")
-                            } else {
-                                console.error("Sign-out failed.")
-                            }
-
-                        }} >
-                            Se déconnecter
-                        </button>
-                    </Content>
-                </SettingsContainer>
-            </MainContainer>
-        )
-    } else if(typeof auth.currentUser === "number") {
-        window.location.pathname = "/profile";
+                            }} >
+                                Se déconnecter
+                            </button>
+                        </Content>
+                    </SettingsContainer>
+                </MainContainer>
+            )
+        }
     }
-
 }
 
 export default Settings;

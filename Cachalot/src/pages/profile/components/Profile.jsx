@@ -20,6 +20,7 @@ import {
 import {
     MainContainer
 } from "../../../components/utils/ui/GlobalStyle.js";
+import ConnectionHomePage from "../../connection/ConnectionHomePage.jsx";
 
 
 const Profile = (props) => {
@@ -27,8 +28,8 @@ const Profile = (props) => {
 
     // Context
     const auth = props.auth;
-    const cacheManager = useCache();
-    const friendsCache = cacheManager.friendsCache;
+    const cache = props.cache;
+    const friendsCache = cache.friendsCache;
 
     // States
     const [searchedUser, setSearchedUser] = useState(null);
@@ -90,40 +91,45 @@ const Profile = (props) => {
 
     }, [window.location.pathname]);
 
-    if(isLoading) {
-        return <Loading />
-    } else if(userNotFound) {
-        // TODO: CREATE A USER_NOT_FOUND COMPONENT
-        return (
-            <MainContainer>
-                <Navbar />
-                <ProfileContainer>
-                    <Content>
-                        <div>User not found!</div>
-                    </Content>
-                </ProfileContainer>
-            </MainContainer>
-        )
+    if(auth.currentUser === "number"){
+        return <ConnectionHomePage />
     } else {
-        //console.info("searchedUser: " + searchedUser);
-        return (
-            <MainContainer>
-                <Navbar />
-                <ProfileContainer>
-                    <Content>
-                        <ProfileInformation
-                            isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
-                        />
-                        <BodyProfile
-                            isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.friendsCache.getFriendsCache()}}
-                        />
-                    </Content>
-                </ProfileContainer>
-            </MainContainer>
-        )
+        if(isLoading) {
+            return <Loading />
+        } else if(userNotFound) {
+            // TODO: CREATE A USER_NOT_FOUND COMPONENT
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <ProfileContainer>
+                        <Content>
+                            <div>User not found!</div>
+                        </Content>
+                    </ProfileContainer>
+                </MainContainer>
+            )
+        } else {
+            //console.info("searchedUser: " + searchedUser);
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <ProfileContainer>
+                        <Content>
+                            <ProfileInformation
+                                isSearch={searchedUser !== null}
+                                data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cache.friendsCache.getFriendsCache()}}
+                            />
+                            <BodyProfile
+                                isSearch={searchedUser !== null}
+                                data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cache.friendsCache.getFriendsCache()}}
+                            />
+                        </Content>
+                    </ProfileContainer>
+                </MainContainer>
+            )
+        }
     }
+
 }
 
 export default Profile;

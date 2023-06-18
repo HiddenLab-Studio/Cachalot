@@ -12,8 +12,16 @@ export const useCache = () => {
 const CacheProvider = ({ children }) => {
 
     const functions = {
+        init: async () => {
+            await xpCacheManager.loadData();
+            functions.isUserCached = true;
+        },
+
         friendsCache: friendsCacheManager,
         xpCache: xpCacheManager,
+
+        setIsUserCached: (value) => functions.isUserCached = value,
+        isUserCached: false,
     }
 
     return (

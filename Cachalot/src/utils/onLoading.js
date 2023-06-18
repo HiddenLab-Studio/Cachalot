@@ -10,8 +10,6 @@ async function loadXpCache(currentUser, callback){
                     callback(false);
                 }
             });
-
-
         } else {
             callback(false);
         }

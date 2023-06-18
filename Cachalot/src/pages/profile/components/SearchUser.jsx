@@ -14,16 +14,18 @@ import Navbar from "../../../components/navbar/Navbar.jsx";
 import Search from "./searchComponents/Search.jsx";
 
 import Loading from "../../../components/utils/loading/Loading.jsx";
+import ConnectionHomePage from "../../connection/ConnectionHomePage.jsx";
+import FullLoading from "../../../components/utils/loading/FullLoading.jsx";
 
 const SearchUser = () => {
     // Context
     const auth = useAuth();
-    const cacheManager = useCache();
+    const cache = useCache();
 
     // States
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!cache.isUserCached);
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
             const getUserFriends = async (id) => {
                 // if the cache is empty, load the data from the database
@@ -42,18 +44,23 @@ const SearchUser = () => {
                 setIsLoading(false);
             });
         }
-    }, [auth.currentUser])
+    }, [auth.currentUser])*/
 
-    if(isLoading) {
-        return <Loading />
+    if(typeof auth.currentUser === "number") {
+        return <ConnectionHomePage/>
     } else {
-        return (
-            <MainContainer>
-                <Navbar />
-                <Search auth={auth} />
-            </MainContainer>
-        )
+        if(isLoading) {
+            return <FullLoading setIsLoading={setIsLoading} />
+        } else {
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <Search auth={auth} />
+                </MainContainer>
+            )
+        }
     }
+
 }
 
 export default SearchUser;

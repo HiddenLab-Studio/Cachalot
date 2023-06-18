@@ -4,6 +4,10 @@ import { styled } from "twin.macro";
 import {
     MainContainer,
 } from "../ui/GlobalStyle.js";
+import {useEffect} from "react";
+import loadXpCache from "../../../utils/onLoading.js";
+import {useAuth} from "../../../context/AuthContext.js";
+import {useCache} from "../../../context/manager/cache/CacheProvider.js";
 
 const Content = styled.div`
   display: flex;
@@ -42,7 +46,20 @@ const Content = styled.div`
   }
 `
 
-const FullLoading = () => {
+const FullLoading = ({setIsLoading}) => {
+    const auth = useAuth();
+    const cache = useCache();
+
+    useEffect(() => {
+        if(auth.currentUser instanceof Object) {
+            console.info("Retrieving user data from cache...")
+            cache.xpCache.loadData(auth.currentUser.uid).then(r => {
+                cache.isUserCached = true;
+                setIsLoading(!cache.isUserCached);
+            });
+        }
+    }, [auth.currentUser]);
+
     return (
         <MainContainer>
             <Content>

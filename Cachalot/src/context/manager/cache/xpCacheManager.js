@@ -25,6 +25,7 @@ function checkLvlUp(lvl){
 
 const xpCacheManager = {
     loadData: async (id) => {
+        console.log(id);
         if(!isUserCached){
             isUserCached = true;
             uid = id;

@@ -1,20 +1,20 @@
 import React, {useEffect} from 'react';
 import { styled } from "twin.macro";
 
+// Context
+import {useAuth} from "../../../context/AuthContext.js";
+import {useCache} from "../../../context/manager/cache/CacheProvider.js";
+
 // Components
 import Navbar from "../../navbar/Navbar.jsx";
+import FullLoading from "../loading/FullLoading.jsx";
+import ConnectionHomePage from "../../../pages/connection/ConnectionHomePage.jsx";
 
 // Styled Components
 import {
     MainContainer,
     Container
 } from "../ui/GlobalStyle.js";
-import loadXpCache from "../../../utils/onLoading.js";
-import xpCacheManager from "../../../context/manager/cache/xpCacheManager.js";
-import {useAuth} from "../../../context/AuthContext.js";
-import Loading from "../loading/Loading.jsx";
-import {ClassContainer, GifWrapper} from "../class/style/ClassStyle.js";
-import ClassButton from "../class/subComponents/ClassButton.jsx";
 
 const QuestsContainer = styled(Container)``;
 const Content = styled.section`
@@ -26,38 +26,31 @@ const Content = styled.section`
 `
 
 const Quests = () => {
+    // Context
+    const auth = useAuth();
+    const cache = useCache();
+
     // State
-    const [isLoading, setIsLoading] = React.useState(true);
+    const [isLoading, setIsLoading] = React.useState(!cache.isUserCached);
 
-    const auth = useAuth()
-
-    useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
-            if(auth.currentUser instanceof Object) {
-                loadXpCache(auth.currentUser, setIsLoading)
-            } else {
-                setIsLoading(false)
-            }
+    if(typeof auth.currentUser === "number") {
+        return <ConnectionHomePage />
+    } else {
+        if(isLoading) {
+            return <FullLoading setIsLoading={setIsLoading} />
+        } else {
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <QuestsContainer>
+                        <Content>
+                            <h1>Quests</h1>
+                        </Content>
+                    </QuestsContainer>
+                </MainContainer>
+            )
         }
-    }, [auth.currentUser])
-
-    if(isLoading) {
-        return <Loading />
-    } else if(auth.currentUser instanceof Object) {
-        return (
-            <MainContainer>
-                <Navbar />
-                <QuestsContainer>
-                    <Content>
-                        <h1>Quests</h1>
-                    </Content>
-                </QuestsContainer>
-            </MainContainer>
-        )
-    } else if(typeof auth.currentUser === "number") {
-        window.location.pathname = "/profile";
     }
-
 }
 
 export default Quests;
