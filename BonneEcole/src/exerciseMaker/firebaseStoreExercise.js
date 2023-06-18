@@ -6,8 +6,10 @@ import firebaseConfigClient from "./firebaseConfigClient.js";
 //Firebase configuration
 const { auth, db, storage } = firebaseConfigClient();
 
+
 //Fonction pour upload une image
-async function uploadImage(name, image) {
+export async function uploadImage(name, image) {
+    console.log(name);
     // Obtenir l'objet blob à partir de l'URL blob
     const response = await fetch(image);
     const blob = await response.blob();
@@ -24,7 +26,6 @@ async function uploadImage(name, image) {
 
 
 
-
 //function to create an exercise
 export async function createExercise(exercise) {
 
@@ -33,18 +34,20 @@ export async function createExercise(exercise) {
 
     const docRef = collection(db, "exercises")
 
-    //const urlImage = uploadImage(exercise.name, exercise.image);
+    let urlImage = undefined;
+    if (exercise.imageURL != undefined){
+        console.log(exercise.imageLink);
+        urlImage = await uploadImage(exercise.imageLink, exercise.imageURL)
+    }
 
-
-    const data = generateDataFromExerciseType(exercise);
+    const data = generateDataFromExerciseType(exercise,urlImage);
     const docData = addDoc(docRef, data);
     console.log("Exercise sent to firebase");
     return docData;
 }
 
 
-
-function generateDataFromExerciseType(exercise) {
+function generateDataFromExerciseType(exercise, urlImage) {
     if (exercise.type == "INPUT") {
         const data = {
             type: exercise.type,
@@ -52,6 +55,13 @@ function generateDataFromExerciseType(exercise) {
             answer: exercise.answer,
             question: exercise.question,
         }
+
+
+        if(urlImage != undefined){
+            data.imageLink = urlImage;
+            console.log("image link : " + urlImage);
+        }
+
         return data;
     }
     else if (exercise.type == "QCM") {
@@ -59,9 +69,16 @@ function generateDataFromExerciseType(exercise) {
         const data = {
             type: exercise.type,
             title: exercise.title,
+            imageName: exercise.imageLink,
             question: exercise.question,
             QCMCorrectAnswer: exercise.QCMCorrectAnswer
         }
+
+        if(urlImage != undefined){
+            data.imageLink = urlImage;
+            console.log("image link : " + urlImage);
+        }
+
 
         if (exercise.answer1 != undefined) {
             data.answer1 = exercise.answer1;

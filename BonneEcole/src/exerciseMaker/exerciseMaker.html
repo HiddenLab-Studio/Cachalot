@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,10 +8,17 @@
     <link rel="stylesheet" href="exerciseMaker.css">
     <title>Exercise Maker</title>
 </head>
+
 <body>
-    <div id="exerciseDiv"></div>
+    <div id="exerciseDiv">
+        <button id="uploadBtn">Ajouter une image</button>
+        <img id="previewImage" src="#" alt="Aperçu de l'image" style="display: none;">
+
+    </div>
+
 </body>
 <script type="module" src="./firebaseConfigClient.js"></script>
 <script type="module" src="./firebaseStoreExercise.js"></script>
 <script type="module" src="./exerciseMaker.js"></script>
+
 </html>

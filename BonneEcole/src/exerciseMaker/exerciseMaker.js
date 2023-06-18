@@ -1,9 +1,11 @@
-import { createExercise } from "./firebaseStoreExercise.js";
+import { createExercise, uploadImage } from "./firebaseStoreExercise.js";
 //Au chargement de la page, on va générer tous les éléments nécessaires à la création d'un exercice
 //Objet qui va contenir toutes les informations de l'exercice
 var exerciseObjectClient = {
     type: undefined,
     title: undefined,
+    imageURL: undefined,
+    imageName: undefined,
     question: undefined,
     answer: undefined,
     answer1: undefined,
@@ -29,6 +31,7 @@ consigneInput.setAttribute("type", "text");
 consigneInput.setAttribute("id", "consigneInput");
 consigneInput.setAttribute("placeholder", "Consigne de l'exercice");
 document.getElementById("exerciseDiv").appendChild(consigneInput);
+
 
 var divExerciseTypeChoice = document.createElement("div");
 divExerciseTypeChoice.setAttribute("id", "divExerciseTypeChoice");
@@ -111,7 +114,7 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
             exerciseObjectClient.answer = document.getElementById("answerInput").value;
 
             console.log(exerciseObjectClient);
-            sendExerciseToServer();
+            sendExerciseToDatabase();
         }
 
 
@@ -206,13 +209,13 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             document.getElementById("divAnswerContainer").appendChild(divAnswer);
 
             //Dans cette div, va créer notre input pour la réponse et la checkbox
-            answerInputQCM = document.createElement("input");
+            let answerInputQCM = document.createElement("input");
             answerInputQCM.setAttribute("type", "text");
             answerInputQCM.setAttribute("id", "answerInputQCM" + divAnswerNumber);
             answerInputQCM.setAttribute("placeholder", "Réponse " + divAnswerNumber);
             document.getElementById("divAnswer" + divAnswerNumber).appendChild(answerInputQCM);
 
-            answerCheckbox = document.createElement("input");
+            let answerCheckbox = document.createElement("input");
             answerCheckbox.setAttribute("type", "checkbox");
             answerCheckbox.setAttribute("id", "answerCheckbox" + divAnswerNumber);
             document.getElementById("divAnswer" + divAnswerNumber).appendChild(answerCheckbox);
@@ -290,7 +293,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             }
 
             console.log(exerciseObjectClient);
-            sendExerciseToServer();
+            sendExerciseToDatabase();
 
         }
 
@@ -324,13 +327,6 @@ buttonsExerciseTypeContainer.forEach(function (button) {
 //On vérifie que tous les champs nécessaires sont remplis, et s'ils ne le sont pas, on vient les surligner en leur ajoutant une classe (et grace au css)
 function checkEveryNecessaryField(exerciseType) {
     let allFieldsAreFilled = true;
-    if (document.getElementById("titleInput").value == "") {
-        document.getElementById("titleInput").classList.add("missingField");
-        allFieldsAreFilled = false;
-    }
-    else {
-        document.getElementById("titleInput").classList.remove("missingField");
-    }
     if (document.getElementById("consigneInput").value == "") {
         document.getElementById("consigneInput").classList.add("missingField");
 
@@ -383,7 +379,7 @@ function checkEveryNecessaryField(exerciseType) {
 }
 
 
-function resetExercise(){
+function resetExercise() {
     exerciseObjectClient.type = "INPUT";
     exerciseObjectClient.answer = undefined;
     exerciseObjectClient.answer1 = undefined;
@@ -392,7 +388,7 @@ function resetExercise(){
     exerciseObjectClient.answer4 = undefined;
     exerciseObjectClient.answer5 = undefined;
     exerciseObjectClient.QCMCorrectAnswer = undefined;
-} 
+}
 
 function removeHighlightFromAll() {
     //On récupère tous les éléments de la div exerciseDiv
@@ -404,31 +400,63 @@ function removeHighlightFromAll() {
     });
 }
 
-function sendExerciseToServer(){
-    createExercise(exerciseObjectClient);
-
-
+function sendExerciseToDatabase() {
+    createExercise(exerciseObjectClient, imageURL);
 }
 
-/*
-function sendExerciseToServer(){
 
-    const exerciseJSONed = JSON.stringify(exerciseObjectClient);//On convertit l'objet en JSON
-    
-    fetch('/api/sentExercise', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: exerciseJSONed 
-    })
-        .then(response => response.text())//On récupère la réponse du serveur et on la convertit en JSON
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            // Gérer les erreurs de requête
-            console.error('Une erreur s\'est produite:', error);
-        });
+
+//Upload d'une image en local
+var imageURL = '';//Variable globale qui va contenir l'URL de l'image
+
+//Fonction pour uploader une image en local (pas sur firebase -> se fera après quand il validera son exercice)
+function displayImage(input) {
+    const previewImage = document.getElementById('previewImage');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            previewImage.setAttribute('src', e.target.result);
+            previewImage.style.display = 'block';
+
+            // Stocker l'URL de l'image dans la variable globale
+            exerciseObjectClient.imageURL = e.target.result;
+            exerciseObjectClient.imageLink = generateRandomHash();
+            imageURL = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
 }
-*/
+
+
+const uploadBtn = document.getElementById('uploadBtn');
+const fileInput = document.createElement('input');
+fileInput.type = 'file';
+fileInput.accept = 'image/*';
+fileInput.style.display = 'none';
+
+uploadBtn.addEventListener('click', function () {
+    fileInput.click();
+
+});
+
+fileInput.addEventListener('change', function () {
+    displayImage(this);
+});
+
+// Générer un hash aléatoire (NE SURTOUT PAS METTRE EN ASYNC SINON JE PEUX PAS L'UTILISER DANS LE CREATE EXERCISE pcq jsp pq mon await passe pas) -> a supprimer pour remplacer par un simple lien dans la bdd
+function generateRandomHash() {
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+
+    // Convertir les valeurs en une représentation hexadécimale
+    const hashArray = Array.from(array)
+        .map(byte => byte.toString(16).padStart(2, '0'));
+
+    // Concaténer les octets pour obtenir le hash final
+    const hash = hashArray.join('');
+
+    return hash;
+}

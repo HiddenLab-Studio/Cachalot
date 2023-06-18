@@ -1,7 +1,7 @@
 import { getExercise, getSolution } from "./firebase-getExo.js";
 
 
-const exerciseId = "tNpXm2iuiGftb45zMoFU"; //Id de l'exercice à récupérer
+const exerciseId = "iMCaI0V4m3FxnN79b4nF"; //Id de l'exercice à récupérer
 var QCMAnswer = [];
 var currentExerciseType = "";
 
@@ -17,6 +17,9 @@ function displayExercise(exercise) {
     //On affiche d'abord la partie commune aux deux types d'exercices
     document.getElementById("exerciseTitle").innerHTML = exercise.title;
     document.getElementById("exerciseQuestion").innerHTML = exercise.question;
+    if(exercise.imageLink != undefined){
+        document.getElementById("exerciseImage").src = exercise.imageLink;
+    }
 
 
     if (exercise.type == "INPUT") {
