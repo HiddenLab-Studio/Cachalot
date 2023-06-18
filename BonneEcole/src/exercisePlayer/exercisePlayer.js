@@ -9,14 +9,18 @@ document.getElementById("exerciseCodeInput").value = ""
 
 document.getElementById("loadExercise").addEventListener("click", function () {
     exerciseId = document.getElementById("exerciseCodeInput").value;
+    loadExerciseFromCode(exerciseId);
+});
+
+function loadExerciseFromCode(code) {
+    exerciseId = document.getElementById("exerciseCodeInput").value;
     resetPlayer();
     //On récupère l'exercice depuis la base de données et on l'affiche
-    getExercise(exerciseId).then((exercise) => {
+    getExercise(code).then((exercise) => {
         currentExerciseType = exercise.type;
         displayExercise(exercise);
     });
-});
-
+}
 
 //Affiche l'exercice sur la page
 function displayExercise(exercise) {
@@ -104,7 +108,7 @@ function displayQCMExercise(exercise) {
 
 }
 
-function resetPlayer(){
+function resetPlayer() {
     QCMAnswer = [];
     currentExerciseType = "";
     document.getElementById("exerciseTitle").innerHTML = "";
