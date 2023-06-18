@@ -17,6 +17,24 @@ document.getElementById("titleInput").value = "";
 document.getElementById("consigneInput").value = "";
 
 
+//Systeme de surbrillance du type d'exo sélectionné (INPUT ou QCM)
+// Récupérer tous les boutons
+let buttonsExerciseTypeContainer = document.querySelectorAll('#divExerciseTypeChoice button');
+
+// Ajouter un écouteur d'événement pour chaque bouton
+buttonsExerciseTypeContainer.forEach(function (button) {
+    button.addEventListener('click', function () {
+        // Retirer la classe "active" de tous les boutons
+        buttonsExerciseTypeContainer.forEach(function (btn) {
+            btn.classList.remove('activeLevel');
+        });
+
+        // Ajouter la classe "active" au bouton cliqué
+        button.classList.add('activeLevel');
+    });
+});
+
+
 //Listener sur le bouton INPUT
 //On va ici générer tous les éléments nécessaires à la création d'un exercice de type INPUT
 document.getElementById("buttonTypeINPUT").addEventListener("click", function () {
@@ -45,7 +63,6 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         document.getElementById("buttonRemoveAnswer").remove();
     }
 
-
     //Si l'input de réponse n'existe pas déjà, on le créé
     if (document.getElementById("answerInput") == null) {
         //On créer l'input de la réponse
@@ -55,33 +72,8 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         answerInput.setAttribute("placeholder", "Réponse");
         document.getElementById("exerciseDiv").appendChild(answerInput);
     }
-
-
-    //Génération du bouton valider
-    let buttonValidate = document.createElement("button");
-    buttonValidate.setAttribute("id", "buttonValidate");
-    buttonValidate.innerHTML = "Valider";
-    document.getElementById("exerciseDiv").appendChild(buttonValidate);
-
-
-    //Listener sur le bouton valider -> création de l'exercice INPUT
-    document.getElementById("buttonValidate").addEventListener("click", function () {
-
-        if (checkEveryNecessaryField("INPUT") == true) {
-            //On récupère les valeurs des inputs et on les met dans l'objet
-            resetExercise();
-            createExerciseObject("INPUT");
-
-            console.log(exerciseObjectClient);
-            sendExerciseToDatabase();
-        }
-
-
-    });
-
+    generateValidationButton("INPUT");
 });
-
-
 
 //Listener sur le bouton QCM
 //On va ici générer tous les éléments nécessaires à la création d'un exercice de type QCM
@@ -140,9 +132,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
         }
     }
 
-
     //Gestion de l'ajout / suppression de réponses
-
     let buttonAddAnswer = document.createElement("button");
     buttonAddAnswer.setAttribute("id", "buttonAddAnswer");
     buttonAddAnswer.innerHTML = "Ajouter une réponse";
@@ -158,7 +148,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             let divAnswerNumber = document.querySelectorAll('#divAnswerContainer div').length + 1;
             divAnswer.setAttribute("id", "divAnswer" + divAnswerNumber);
 
-            //On ajoute le div à l'exercice au dessus du bouton "Ajouter une réponse"
+            //On ajoute la div à l'exercice au dessus du bouton "Ajouter une réponse"
             document.getElementById("divAnswerContainer").appendChild(divAnswer);
 
             //Dans cette div, va créer notre input pour la réponse et la checkbox
@@ -177,7 +167,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     });
 
 
-    //A rework pour pouvoir delete la réponse que je veux et pas forcément la dernière (si j'ai le temps)
+    //À rework pour pouvoir delete la réponse que je veux et pas forcément la dernière (si j'ai le temps)
     let buttonRemoveAnswer = document.createElement("button");
     buttonRemoveAnswer.setAttribute("id", "buttonRemoveAnswer");
     buttonRemoveAnswer.innerHTML = "Supprimer une réponse";
@@ -193,36 +183,41 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
             console.log(divAnswerNumber);
         }
     });
+    generateValidationButton("QCM");
+});
 
-
-
-
-
-
-
-
+function generateValidationButton(exerciseType) {
     //Génération du bouton valider
     let buttonValidate = document.createElement("button");
     buttonValidate.setAttribute("id", "buttonValidate");
     buttonValidate.innerHTML = "Valider";
     document.getElementById("exerciseDiv").appendChild(buttonValidate);
 
-    //Listener sur le bouton valider -> création de l'exercice QCM
-    document.getElementById("buttonValidate").addEventListener("click", function () {
+    if (exerciseType == "INPUT") {
+        //Listener sur le bouton valider -> création de l'exercice INPUT
+        document.getElementById("buttonValidate").addEventListener("click", function () {
 
-        if (checkEveryNecessaryField("QCM") == true) {
-            //On récupère les valeurs des inputs et on les met dans l'objet
-            resetExercise();
-            createExerciseObject("QCM");
+            if (checkEveryNecessaryField("INPUT") == true) {
+                //On récupère les valeurs des inputs et on les met dans l'objet
+                resetExercise();
+                createExerciseObject("INPUT");
+                sendExerciseToDatabase();
+            }
+        });
+    }
+    else if (exerciseType == "QCM") {
+        //Listener sur le bouton valider -> création de l'exercice QCM
+        document.getElementById("buttonValidate").addEventListener("click", function () {
 
-            console.log(exerciseObjectClient);
-            sendExerciseToDatabase();
-
-        }
-
-
-    });
-});
+            if (checkEveryNecessaryField("QCM") == true) {
+                //On récupère les valeurs des inputs et on les met dans l'objet
+                resetExercise();
+                createExerciseObject("QCM");
+                sendExerciseToDatabase();
+            }
+        });
+    }
+}
 
 
 function createExerciseObject(exerciseType) {
@@ -234,14 +229,13 @@ function createExerciseObject(exerciseType) {
 
     }
     else if (exerciseType == "QCM") {
-        console.log("QCM");
-            //on vérifie que l'élément existe en HTML avant de le récupérer
-            exerciseObjectClient.answerQCMArray = [];
-            for(let i = 1; i <= 5; i++){
-                if(document.getElementById("answerInputQCM" + i) != null){
-                    exerciseObjectClient.answerQCMArray[i-1] = document.getElementById("answerInputQCM" + i).value;
-                }
+        //On vérifie que l'élément existe en HTML avant de le récupérer
+        exerciseObjectClient.answerQCMArray = [];
+        for (let i = 1; i <= 5; i++) {
+            if (document.getElementById("answerInputQCM" + i) != null) {
+                exerciseObjectClient.answerQCMArray[i - 1] = document.getElementById("answerInputQCM" + i).value;
             }
+        }
 
         //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
         //On vérifie que l'élément existe en HTML avant de le récupérer
@@ -257,35 +251,15 @@ function createExerciseObject(exerciseType) {
     }
 }
 
-
-
-//De base, pas de type d'exercice sélectionné
-var currentExerciseType = undefined;
-
-//Systeme de surbrillance du type d'exo sélectionné
-// Récupérer tous les boutons
-let buttonsExerciseTypeContainer = document.querySelectorAll('#divExerciseTypeChoice button');
-
-// Ajouter un écouteur d'événement pour chaque bouton
-buttonsExerciseTypeContainer.forEach(function (button) {
-    button.addEventListener('click', function () {
-        // Retirer la classe "active" de tous les boutons
-        buttonsExerciseTypeContainer.forEach(function (btn) {
-            btn.classList.remove('activeLevel');
-        });
-
-        // Ajouter la classe "active" au bouton cliqué
-        button.classList.add('activeLevel');
-    });
-});
-
+function sendExerciseToDatabase() {
+    createExercise(exerciseObjectClient, imageURL);
+}
 
 //On vérifie que tous les champs nécessaires sont remplis, et s'ils ne le sont pas, on vient les surligner en leur ajoutant une classe (et grace au css)
 function checkEveryNecessaryField(exerciseType) {
     let allFieldsAreFilled = true;
     if (document.getElementById("consigneInput").value == "") {
         document.getElementById("consigneInput").classList.add("missingField");
-
         allFieldsAreFilled = false;
     }
     else {
@@ -334,14 +308,6 @@ function checkEveryNecessaryField(exerciseType) {
     return allFieldsAreFilled;
 }
 
-
-function resetExercise() {
-    exerciseObjectClient.type = "INPUT";
-    exerciseObjectClient.answer = undefined;
-    exerciseObjectClient.answerQCMArray = undefined;
-    exerciseObjectClient.QCMCorrectAnswer = undefined;
-}
-
 function removeHighlightFromAll() {
     //On récupère tous les éléments de la div exerciseDiv
     const elements = document.querySelectorAll('#exerciseDiv *');
@@ -352,11 +318,12 @@ function removeHighlightFromAll() {
     });
 }
 
-function sendExerciseToDatabase() {
-    createExercise(exerciseObjectClient, imageURL);
+
+function resetExercise() {
+    exerciseObjectClient.answer = undefined;
+    exerciseObjectClient.answerQCMArray = undefined;
+    exerciseObjectClient.QCMCorrectAnswer = undefined;
 }
-
-
 
 //Upload d'une image en local
 var imageURL = '';//Variable globale qui va contenir l'URL de l'image
@@ -382,7 +349,6 @@ function displayImage(input) {
     }
 }
 
-
 const uploadBtn = document.getElementById('uploadBtn');
 const fileInput = document.createElement('input');
 fileInput.type = 'file';
@@ -398,7 +364,7 @@ fileInput.addEventListener('change', function () {
     displayImage(this);
 });
 
-// Générer un hash aléatoire (NE SURTOUT PAS METTRE EN ASYNC SINON JE PEUX PAS L'UTILISER DANS LE CREATE EXERCISE pcq jsp pq mon await passe pas) -> a supprimer pour remplacer par un simple lien dans la bdd
+// Générer un hash aléatoire pour nommer l'image dans la bdd (car un nom d'image en double écrase le précédent dans la bdd) -> proba de doublon : 6,36*10^-78 %
 function generateRandomHash() {
     const array = new Uint8Array(32);
     crypto.getRandomValues(array);

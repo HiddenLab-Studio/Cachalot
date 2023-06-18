@@ -35,12 +35,12 @@ export async function createExercise(exercise) {
     const docRef = collection(db, "exercises")
 
     let urlImage = undefined;
-    if (exercise.imageURL != undefined){
+    if (exercise.imageURL != undefined) {
         console.log(exercise.imageLink);
         urlImage = await uploadImage(exercise.imageLink, exercise.imageURL)
     }
 
-    const data = generateDataFromExerciseType(exercise,urlImage);
+    const data = generateDataFromExerciseType(exercise, urlImage);
     const docData = addDoc(docRef, data);
     console.log("Exercise sent to firebase");
     return docData;
@@ -56,8 +56,7 @@ function generateDataFromExerciseType(exercise, urlImage) {
             question: exercise.question,
         }
 
-
-        if(urlImage != undefined){
+        if (urlImage != undefined) {
             data.imageLink = urlImage;
             console.log("image link : " + urlImage);
         }
@@ -65,7 +64,6 @@ function generateDataFromExerciseType(exercise, urlImage) {
         return data;
     }
     else if (exercise.type == "QCM") {
-
         const data = {
             type: exercise.type,
             title: exercise.title,
@@ -74,7 +72,7 @@ function generateDataFromExerciseType(exercise, urlImage) {
             QCMCorrectAnswer: exercise.QCMCorrectAnswer
         }
 
-        if(urlImage != undefined){
+        if (urlImage != undefined) {
             data.imageLink = urlImage;
             console.log("image link : " + urlImage);
         }
