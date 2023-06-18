@@ -1,7 +1,7 @@
 import { getExercise, getSolution } from "./firebase-getExo.js";
 
 
-const exerciseId = "iMCaI0V4m3FxnN79b4nF"; //Id de l'exercice à récupérer
+const exerciseId = "ucq4w8LgKoiJm5T64HXh"; //Id de l'exercice à récupérer
 var QCMAnswer = [];
 var currentExerciseType = "";
 
@@ -63,11 +63,11 @@ function displayInputExercise(exercise) {
 //Affiche un exercice de type QCM
 function displayQCMExercise(exercise) {
     const answers = [
-        { answer: exercise.answer1, id: "answer1", index: 1 },
-        { answer: exercise.answer2, id: "answer2", index: 2 },
-        { answer: exercise.answer3, id: "answer3", index: 3 },
-        { answer: exercise.answer4, id: "answer4", index: 4 },
-        { answer: exercise.answer5, id: "answer5", index: 5 }
+        { answer: exercise.answerQCMArray[0], id: "answer1", index: 1 },
+        { answer: exercise.answerQCMArray[1], id: "answer2", index: 2 },
+        { answer: exercise.answerQCMArray[2], id: "answer3", index: 3 },
+        { answer: exercise.answerQCMArray[3], id: "answer4", index: 4 },
+        { answer: exercise.answerQCMArray[4], id: "answer5", index: 5 }
     ];
 
     for (let i = 0; i < answers.length; i++) {

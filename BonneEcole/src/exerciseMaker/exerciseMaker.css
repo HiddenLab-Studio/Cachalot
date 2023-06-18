@@ -14,7 +14,7 @@
 }
 
 #divExerciseTypeChoice .activeLevel {
-    background-color: #f00;
+    background-color: #4CAF50;
     /* Couleur différente pour le bouton actif */
 }
 

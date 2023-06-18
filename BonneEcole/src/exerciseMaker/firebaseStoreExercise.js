@@ -69,31 +69,14 @@ function generateDataFromExerciseType(exercise, urlImage) {
         const data = {
             type: exercise.type,
             title: exercise.title,
-            imageName: exercise.imageLink,
             question: exercise.question,
+            answerQCMArray: exercise.answerQCMArray,
             QCMCorrectAnswer: exercise.QCMCorrectAnswer
         }
 
         if(urlImage != undefined){
             data.imageLink = urlImage;
             console.log("image link : " + urlImage);
-        }
-
-
-        if (exercise.answer1 != undefined) {
-            data.answer1 = exercise.answer1;
-        }
-        if (exercise.answer2 != undefined) {
-            data.answer2 = exercise.answer2;
-        }
-        if (exercise.answer3 != undefined) {
-            data.answer3 = exercise.answer3;
-        }
-        if (exercise.answer4 != undefined) {
-            data.answer4 = exercise.answer4;
-        }
-        if (exercise.answer5 != undefined) {
-            data.answer5 = exercise.answer5;
         }
 
         return data;

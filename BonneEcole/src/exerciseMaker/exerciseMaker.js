@@ -8,50 +8,13 @@ var exerciseObjectClient = {
     imageName: undefined,
     question: undefined,
     answer: undefined,
-    answer1: undefined,
-    answer2: undefined,
-    answer3: undefined,
-    answer4: undefined,
-    answer5: undefined,
+    answerQCMArray: undefined,
     QCMCorrectAnswer: undefined
 }
 
-
-
-//D'abord un input pour le titre de l'exercice
-var titleInput = document.createElement("input");
-titleInput.setAttribute("type", "text");
-titleInput.setAttribute("id", "titleInput");
-titleInput.setAttribute("placeholder", "Titre de l'exercice");
-document.getElementById("exerciseDiv").appendChild(titleInput);
-
-//Ensuite un input pour la consigne de l'exercice
-var consigneInput = document.createElement("input");
-consigneInput.setAttribute("type", "text");
-consigneInput.setAttribute("id", "consigneInput");
-consigneInput.setAttribute("placeholder", "Consigne de l'exercice");
-document.getElementById("exerciseDiv").appendChild(consigneInput);
-
-
-var divExerciseTypeChoice = document.createElement("div");
-divExerciseTypeChoice.setAttribute("id", "divExerciseTypeChoice");
-document.getElementById("exerciseDiv").appendChild(divExerciseTypeChoice);
-
-//Ensuite on va créer un bouton pour chaque type d'exercice
-var buttonTypeINPUT = document.createElement("button");
-buttonTypeINPUT.setAttribute("id", "buttonTypeINPUT");
-buttonTypeINPUT.setAttribute("class", "buttonExerciseType");
-buttonTypeINPUT.innerHTML = "INPUT";
-document.getElementById("divExerciseTypeChoice").appendChild(buttonTypeINPUT);
-
-var buttonTypeQCM = document.createElement("button");
-buttonTypeQCM.setAttribute("id", "buttonTypeQCM");
-buttonTypeQCM.setAttribute("class", "buttonExerciseType");
-buttonTypeQCM.innerHTML = "QCM";
-document.getElementById("divExerciseTypeChoice").appendChild(buttonTypeQCM);
-
-
-
+//Au chargement de la page, on vient clear les champs de l'exercice
+document.getElementById("titleInput").value = "";
+document.getElementById("consigneInput").value = "";
 
 
 //Listener sur le bouton INPUT
@@ -63,30 +26,29 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         document.getElementById("errorDiv").remove();
     }
 
-    //On va d'abord supprimer tous les éléments de l'exercice de type QCM (s'il y en a)
-    for (let i = 1; i <= 5; i++) {
-        if (document.getElementById("divAnswer" + i) != null) {
-            document.getElementById("divAnswer" + i).remove();
-        }
+    //Si l'utilisateur a crée un exercice de type QCM avant, on supprime les éléments de cet exercice
+    if (document.getElementById("divAnswerContainer") != null) {
+        document.getElementById("divAnswerContainer").remove();
     }
 
+    //Bouton valider
     if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
     }
 
+    //Bouton ajouter une réponse
     if (document.getElementById("buttonAddAnswer") != null) {
         document.getElementById("buttonAddAnswer").remove();
     }
-
+    //Bouton supprimer une réponse
     if (document.getElementById("buttonRemoveAnswer") != null) {
         document.getElementById("buttonRemoveAnswer").remove();
     }
 
 
-
     //Si l'input de réponse n'existe pas déjà, on le créé
     if (document.getElementById("answerInput") == null) {
-        //On créer l'input de la réponse.
+        //On créer l'input de la réponse
         let answerInput = document.createElement("input");
         answerInput.setAttribute("type", "text");
         answerInput.setAttribute("id", "answerInput");
@@ -108,10 +70,7 @@ document.getElementById("buttonTypeINPUT").addEventListener("click", function ()
         if (checkEveryNecessaryField("INPUT") == true) {
             //On récupère les valeurs des inputs et on les met dans l'objet
             resetExercise();
-            exerciseObjectClient.type = "INPUT";
-            exerciseObjectClient.title = document.getElementById("titleInput").value;
-            exerciseObjectClient.question = document.getElementById("consigneInput").value;
-            exerciseObjectClient.answer = document.getElementById("answerInput").value;
+            createExerciseObject("INPUT");
 
             console.log(exerciseObjectClient);
             sendExerciseToDatabase();
@@ -132,17 +91,14 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     if (document.getElementById("errorDiv") != null) {
         document.getElementById("errorDiv").remove();
     }
-
     //On va d'abord supprimer les éléments de l'exercice de type INPUT (s'il y en a)
     if (document.getElementById("answerInput") != null) {
         document.getElementById("answerInput").remove();
     }
-
     if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
     }
-
-
+    //Suppression des éléments QCM s'ils existent déjà
     if (document.getElementById("buttonAddAnswer") != null) {
         document.getElementById("buttonAddAnswer").remove();
     }
@@ -197,7 +153,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     buttonAddAnswer.addEventListener("click", function () {
         //On vérifie que le nombre de réponses n'est pas supérieur à 5
-        if (document.getElementById("divAnswer5") == null) {
+        if (document.querySelectorAll('#divAnswerContainer div').length < 5) {
             //On créer un div pour la nouvelle réponse
             let divAnswer = document.createElement("div");
 
@@ -232,7 +188,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     buttonRemoveAnswer.addEventListener("click", function () {
         //On vérifie que le nombre de réponses n'est pas inférieur à 2
-        if (document.getElementById("divAnswer3") != null) {
+        if (document.querySelectorAll('#divAnswerContainer div').length > 2) {
             //On regarde le nombre de divs de réponses pour supprimer le dernier div
             let divAnswerNumber = document.querySelectorAll('#divAnswerContainer div').length;
             document.getElementById("divAnswer" + divAnswerNumber).remove();
@@ -260,37 +216,7 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
         if (checkEveryNecessaryField("QCM") == true) {
             //On récupère les valeurs des inputs et on les met dans l'objet
             resetExercise();
-            exerciseObjectClient.type = "QCM";
-            exerciseObjectClient.title = document.getElementById("titleInput").value;
-            exerciseObjectClient.question = document.getElementById("consigneInput").value;
-
-            //on vérifie que l'élément existe en HTML avant de le récupérer
-            if (document.getElementById("answerInputQCM1") != null) {
-                exerciseObjectClient.answer1 = document.getElementById("answerInputQCM1").value;
-            }
-            if (document.getElementById("answerInputQCM2") != null) {
-                exerciseObjectClient.answer2 = document.getElementById("answerInputQCM2").value;
-            }
-            if (document.getElementById("answerInputQCM3") != null) {
-                exerciseObjectClient.answer3 = document.getElementById("answerInputQCM3").value;
-            }
-            if (document.getElementById("answerInputQCM4") != null) {
-                exerciseObjectClient.answer4 = document.getElementById("answerInputQCM4").value;
-            }
-            if (document.getElementById("answerInputQCM5") != null) {
-                exerciseObjectClient.answer5 = document.getElementById("answerInputQCM5").value;
-            }
-
-            //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
-            //On vérifie que l'élément existe en HTML avant de le récupérer
-            exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
-            for (let i = 0; i <= 5; i++) {
-                if (document.getElementById("answerCheckbox" + i) != null) {
-                    if (document.getElementById("answerCheckbox" + i).checked) {
-                        exerciseObjectClient.QCMCorrectAnswer.push(i);
-                    }
-                }
-            }
+            createExerciseObject("QCM");
 
             console.log(exerciseObjectClient);
             sendExerciseToDatabase();
@@ -300,6 +226,39 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
 
     });
 });
+
+
+function createExerciseObject(exerciseType) {
+    exerciseObjectClient.type = exerciseType;
+    exerciseObjectClient.title = document.getElementById("titleInput").value;
+    exerciseObjectClient.question = document.getElementById("consigneInput").value;
+    if (exerciseType == "INPUT") {
+        exerciseObjectClient.answer = document.getElementById("answerInput").value;
+
+    }
+    else if (exerciseType == "QCM") {
+        console.log("QCM");
+            //on vérifie que l'élément existe en HTML avant de le récupérer
+            exerciseObjectClient.answerQCMArray = [];
+            for(let i = 1; i <= 5; i++){
+                if(document.getElementById("answerInputQCM" + i) != null){
+                    exerciseObjectClient.answerQCMArray[i-1] = document.getElementById("answerInputQCM" + i).value;
+                }
+            }
+
+        //On regarde les cases cochées pour trouver la/les bonne(s) réponse(s)
+        //On vérifie que l'élément existe en HTML avant de le récupérer
+        exerciseObjectClient.QCMCorrectAnswer = [];//On reset le tableau
+        for (let i = 0; i <= 5; i++) {
+            if (document.getElementById("answerCheckbox" + i) != null) {
+                if (document.getElementById("answerCheckbox" + i).checked) {
+                    exerciseObjectClient.QCMCorrectAnswer.push(i);
+                }
+            }
+        }
+
+    }
+}
 
 
 
@@ -382,11 +341,7 @@ function checkEveryNecessaryField(exerciseType) {
 function resetExercise() {
     exerciseObjectClient.type = "INPUT";
     exerciseObjectClient.answer = undefined;
-    exerciseObjectClient.answer1 = undefined;
-    exerciseObjectClient.answer2 = undefined;
-    exerciseObjectClient.answer3 = undefined;
-    exerciseObjectClient.answer4 = undefined;
-    exerciseObjectClient.answer5 = undefined;
+    exerciseObjectClient.answerQCMArray = undefined;
     exerciseObjectClient.QCMCorrectAnswer = undefined;
 }
 
