@@ -1,14 +1,20 @@
 import { getExercise, getSolution } from "./firebase-getExo.js";
 
 
-const exerciseId = "ucq4w8LgKoiJm5T64HXh"; //Id de l'exercice à récupérer
+var exerciseId = "ucq4w8LgKoiJm5T64HXh"; //Id de l'exercice à récupérer
 var QCMAnswer = [];
 var currentExerciseType = "";
 
-//On récupère l'exercice depuis la base de données et on l'affiche
-getExercise(exerciseId).then((exercise) => {
-    currentExerciseType = exercise.type;
-    displayExercise(exercise);
+document.getElementById("exerciseCodeInput").value = ""
+
+document.getElementById("loadExercise").addEventListener("click", function () {
+    exerciseId = document.getElementById("exerciseCodeInput").value;
+    resetPlayer();
+    //On récupère l'exercice depuis la base de données et on l'affiche
+    getExercise(exerciseId).then((exercise) => {
+        currentExerciseType = exercise.type;
+        displayExercise(exercise);
+    });
 });
 
 
@@ -17,10 +23,9 @@ function displayExercise(exercise) {
     //On affiche d'abord la partie commune aux deux types d'exercices
     document.getElementById("exerciseTitle").innerHTML = exercise.title;
     document.getElementById("exerciseQuestion").innerHTML = exercise.question;
-    if(exercise.imageLink != undefined){
+    if (exercise.imageLink != undefined) {
         document.getElementById("exerciseImage").src = exercise.imageLink;
     }
-
 
     if (exercise.type == "INPUT") {
         displayInputExercise(exercise);
@@ -32,7 +37,6 @@ function displayExercise(exercise) {
         console.log("Type d'exercice non reconnu");
     }
 }
-
 
 //Affiche un exercice de type INPUT
 function displayInputExercise(exercise) {
@@ -100,6 +104,19 @@ function displayQCMExercise(exercise) {
 
 }
 
+function resetPlayer(){
+    QCMAnswer = [];
+    currentExerciseType = "";
+    document.getElementById("exerciseTitle").innerHTML = "";
+    document.getElementById("exerciseQuestion").innerHTML = "";
+    document.getElementById("exerciseImage").src = "";
+    document.getElementById("userAnswer") != undefined ? document.getElementById("userAnswer").remove() : null;
+    document.getElementById("result").innerHTML = "";
+    for (let i = 1; i <= 5; i++) {
+        document.getElementById("answer" + i) != undefined ? document.getElementById("answer" + i).remove() : null;
+    }
+}
+
 
 function addChoiceToQCMAnswer(index) {
     if (QCMAnswer.includes(index)) {
@@ -115,25 +132,20 @@ function addChoiceToQCMAnswer(index) {
 
 function sendAnswerAndGetSolution(exercise) {
     // Client-side
-
     getSolution(exerciseId).then((solution) => {
         let isCorrect = false;
         if (exercise.type == "INPUT") {
             let answer = document.getElementById("userAnswer").value;
-
             isCorrect = compareAnswer(answer, solution);
-
         }
         if (exercise.type == "QCM") {
             let answer = QCMAnswer;
-
             isCorrect = compareArrays(answer, solution);
         }
-
-        if(isCorrect){
+        if (isCorrect) {
             document.getElementById("result").innerHTML = "Bonne réponse";
         }
-        else{
+        else {
             document.getElementById("result").innerHTML = "Mauvaise réponse";
         }
     });
@@ -145,13 +157,11 @@ function compareArrays(arr1, arr2) {
     if (arr1.length !== arr2.length) {
         return false;
     }
-
     for (let i = 0; i < arr1.length; i++) {
         if (arr1[i] !== arr2[i]) {
             return false;
         }
     }
-
     return true;
 }
 
@@ -161,7 +171,6 @@ function AllowedSolution(solution) {
 
     return normalizeString(solution);
 }
-
 
 function compareAnswer(answer, solution) {
     if (answer == solution || AllowedSolution(answer) == AllowedSolution(solution)) {

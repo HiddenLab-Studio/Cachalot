@@ -32,3 +32,8 @@ body {
 .QCManswerSelected{
     background-color: cornflowerblue;
 }
+
+#exerciseImage{
+    max-height: 576px;
+    max-width: 1024px;
+}
