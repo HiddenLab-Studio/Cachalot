@@ -98,15 +98,13 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     if (document.getElementById("buttonValidate") != null) {
         document.getElementById("buttonValidate").remove();
     }
-    //Suppression des éléments QCM s'ils existent déjà
+    //Suppression des éléments QCM s'ils existent déjà (permet aussi de clear les champs si on est déjà sur QCM et qu'on reclique sur QCM)
     if (document.getElementById("buttonAddAnswer") != null) {
         document.getElementById("buttonAddAnswer").remove();
     }
-
     if (document.getElementById("buttonRemoveAnswer") != null) {
         document.getElementById("buttonRemoveAnswer").remove();
     }
-
     if (document.getElementById("divAnswerContainer") != null) {
         document.getElementById("divAnswerContainer").remove();
     }
@@ -114,7 +112,6 @@ document.getElementById("buttonTypeQCM").addEventListener("click", function () {
     //On créer ensuite les différents inputs de réponse. Ils vont chacun être dans un div.
     //4 réponses de base
     //On vérifie que les divs de réponses n'existent pas déjà (en vérifiant que le premier div existe ou non)
-
     //On créer une div contenant les réponses
     let divAnswerContainer = document.createElement("div");
     divAnswerContainer.setAttribute("id", "divAnswerContainer");
