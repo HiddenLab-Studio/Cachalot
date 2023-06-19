@@ -3,6 +3,9 @@ import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db } = firebaseConfigClient();
 
 import { mathFunctions } from "../../pages/exercise/functions/MathExerciseGenerator.js";
+import ranks from "../../data/rank.json";
+
+
 //FONCTION IMPORTANTES
 
 export const league = {
@@ -28,13 +31,14 @@ export const league = {
                 if (newGame.length == 0) {
                     console.log("Pas de partie en attente");
                     const codeGame = await league.createCodeGame(discipline);
-                    await league.createGame(discipline, docUser.data().displayName, docUser.data().photo, user.uid, codeGame);
+                    await league.createGame(discipline, docUser.data().displayName, docUser.data().photo, user.uid, docUser.data().rank[discipline], codeGame);
                     result = true;
                 }
                 else {
                     //Sinon on regarde s'il y a une partie en atente pour le faire rentrer dedans
                     newGame.forEach(async game => {
-                        if (game.state == "waiting") {
+                        console.log(docUser.data().rank[discipline]);
+                        if (game.state == "waiting" && game.rank == docUser.data().rank[discipline]) {
                             const docRef = doc(db, "league", discipline, "games", game.id, "players", user.uid);
                             const docRefData = await getDoc(docRef);
                             const docGame = doc(db, "league", discipline, "games", game.id);
@@ -44,6 +48,7 @@ export const league = {
                                     photo: docUser.data().photo,
                                     score: 0,
                                     ready: false
+
                                 })
 
                                 await updateDoc(docGame, {
@@ -64,7 +69,7 @@ export const league = {
                         //Si pas de partie en attendant on en crée une
                         else {
                             const codeGame = await league.createCodeGame(discipline);
-                            await league.createGame(discipline, docUser.data().displayName, docUser.data().photo, user.uid, codeGame);
+                            await league.createGame(discipline, docUser.data().displayName, docUser.data().photo, user.uid, docUser.data().rank[discipline], codeGame);
                             result = true;
                         }
                     })
@@ -78,7 +83,7 @@ export const league = {
     },
 
     //ON SETUP UNE PARTIE
-    createGame: async (discipline, displayName, photo, id, gameId) => {
+    createGame: async (discipline, displayName, photo, id, rank, gameId) => {
         const docRef = doc(db, "league", discipline, "games", gameId, "players", id);
         const docGame = doc(db, "league", discipline, "games", gameId);
         await setDoc(docRef, {
@@ -88,7 +93,8 @@ export const league = {
             ready: false
         })
         await setDoc(docGame, {
-            state: "waiting"
+            state: "waiting",
+            rank: rank
         });
 
         window.location.href = "ranked/" + discipline + "/" + gameId;
@@ -106,6 +112,25 @@ export const league = {
         })
         return classeCode;
     },
+
+    //Get rank
+    getRank: async (discipline) => {
+        const user = auth.currentUser;
+        const docRef = doc(db, "users", user.uid);
+        const docSnapshot = await getDoc(docRef);
+        const rankUse = Number(docSnapshot.data().rank[discipline]); // Convertir en nombre
+        const ranksData = ranks.ranks; // Accéder au tableau de rangs dans votre JSON
+      
+        let rank = {};
+        ranksData.forEach((r) => {
+          if (Number(r.tier) === rankUse) { // Convertir en nombre pour une comparaison stricte
+            rank = r;
+          }
+        });
+      
+       return rank;
+    },
+      
 
 
     /**** GESTION DE LA PARTIE */
@@ -283,14 +308,14 @@ export const league = {
     checkResponse: async (exercice, value) => {
         let result = false;
         const solution = mathFunctions.getSolution(exercice, value);
-        if(solution){
+        if (solution) {
             result = true;
         }
         return result;
-        
+
     },
 
-    sendResponse: async (discipline, gameId, exercise , response, score) => {
+    sendResponse: async (discipline, gameId, exercise, response, score) => {
         let result = false;
         const responseCheck = await league.checkResponse(response, exercise);
         if (responseCheck) {

@@ -1,0 +1,44 @@
+{
+    "ranks": [
+        {
+            "name": "Iron",
+            "tier": 1,
+            "image": "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/rank%2F6621e6a.webp?alt=media&token=3824360e-3e28-4bcc-afb8-e18aec27c0f2"
+        },
+        {
+            "name": "Bronze",
+            "tier": 2,
+            "image": "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/rank%2F6b6b76f.webp?alt=media&token=d19ca240-7c53-4bca-964a-834af6fa8162"
+        },
+        {
+            "name": "Silver",
+            "tier": 3,
+            "image": "silver.png"
+        },
+        {
+            "name": "Gold",
+            "tier": 4,
+            "image": "gold.png"
+        },
+        {
+            "name": "Platinum",
+            "tier": 5,
+            "image": "platinum.png"
+        },
+        {
+            "name": "Diamond",
+            "tier": 6,
+            "image": "diamond.png"
+        },
+        {
+            "name": "Immortal",
+            "tier": 7,
+            "image": "immortal.png"
+        },
+        {
+            "name": "Radiant",
+            "tier": 8,
+            "image": "radiant.png"
+        }
+    ]
+}
