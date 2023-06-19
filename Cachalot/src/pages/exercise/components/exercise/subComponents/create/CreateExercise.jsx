@@ -29,7 +29,7 @@ const CreateExercise = (props) => {
                     votre avis sur la qualité de l'exercice."
                 />
                 <ExerciseCreationSubContainer>
-                    <CreationSwiper />
+                    <CreationSwiper auth={auth} />
                 </ExerciseCreationSubContainer>
             </ExerciseCreationBodyContainer>
         </>

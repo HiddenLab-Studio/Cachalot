@@ -12,11 +12,14 @@ export const Fieldset = styled.fieldset`
 export const ExerciseCreationSubContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 25px;
   width: 100%;
-  height: 100px;
 `;
-export const ExerciseCreationBodyContainer = styled.div``;
+export const ExerciseCreationBodyContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
+`;
 export const MainTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -35,4 +38,14 @@ export const MainTitleContainer = styled.div`
     font-size: var(--fs-l);
     color: ${props => props.theme.text};
   }
+  
+  @media (max-width: 550px) {
+    h1 {
+      font-size: var(--fs-m);
+    }
+    span {
+      font-size: var(--fs-ss);
+    }
+  }
+  
 `;
