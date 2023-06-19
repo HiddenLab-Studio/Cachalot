@@ -12,7 +12,8 @@ import Loading from "../components/utils/loading/Loading.jsx";
 import About from "../components/utils/about/About.jsx";
 import Settings from "../components/utils/settings/Settings.jsx";
 import Quests from "../components/utils/quests/Quests.jsx";
-import DivisionHomePage from "../pages/league/DivisionHomePage.jsx";
+import FindLeagueHomePage from "../pages/league/FindLeagueHomePage.jsx";
+import LeagueHomePage from "../pages/league/LeagueHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
 import MathExercise from "../pages/exercise/components/training/MathExercise.jsx";
 import MyClass from "../components/utils/class/MyClass.jsx";
@@ -29,7 +30,8 @@ const router = createBrowserRouter([
     { path: "/exercise/:id",  element: <Exercise /> },
     { path: "/training/math",  element: <MathExercise /> },
     // Ranked Page
-    { path: "/ranked", element: <DivisionHomePage /> },
+    { path: "/ranked", element: <FindLeagueHomePage /> },
+    { path: "/ranked/:discipline/:id", element: <LeagueHomePage /> },
     // Quest Page
     { path: "/quest", element: <Quests /> },
     // Profile Page

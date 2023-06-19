@@ -13,7 +13,7 @@ import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 
 // Styled Components
 import { MainContainer, Container } from "../../components/utils/ui/GlobalStyle.js";
-import FindMatchContainer from "./components/macthLeague.jsx";
+import FindMatchContainer from "./components/FindMacthLeague.jsx";
 
 const LeagueContainer = styled(Container)``;
 const Content = styled.section`
@@ -26,7 +26,7 @@ const Content = styled.section`
 
 
 
-const DivisionHomePage = () => {
+const FindLeagueHomePage = () => {
     // Context
     const auth = useAuth();
     const cache = useCache();
@@ -54,4 +54,4 @@ const DivisionHomePage = () => {
     }
 }
 
-export default DivisionHomePage;
+export default FindLeagueHomePage;
