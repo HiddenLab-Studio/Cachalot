@@ -24,27 +24,6 @@ const ProfileHomePage = ({isSearching}) => {
     // State
     const [isLoading, setIsLoading] = useState(!cache.isUserCached);
 
-    // Executed every time the component is rendered or when the state of userData changes
-    /*useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") {
-            if(auth.currentUser instanceof Object) {
-                loadXpCache(auth.currentUser, setIsLoading)
-            } else {
-                setIsLoading(false)
-            }
-        }
-    }, [auth.currentUser, window.location.pathname])*/
-
-
-
-    /*if(isLoading) {
-        return <Loading />
-    } else if(auth.currentUser instanceof Object || props.isSearching) {
-        return <Profile auth={auth} />
-    } else if(typeof auth.currentUser === "number") {
-        return <ConnectionHomePage/>
-    }*/
-
     if(typeof auth.currentUser === "number" && !isSearching) {
         return <ConnectionHomePage/>
     } else {
@@ -54,7 +33,6 @@ const ProfileHomePage = ({isSearching}) => {
             return <Profile auth={auth} cache={cache} />
         }
     }
-
 }
 
 export default ProfileHomePage;

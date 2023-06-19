@@ -135,7 +135,6 @@ const scheduledJob = new CronJob('*/1 * * * *', async () => {
     } else {
         console.log("[INFO] no user in the cache!");
     }
-
 });
 
 // Lancement du serveur

@@ -41,7 +41,6 @@ const TrainingHomePage = () => {
                         <Content>
                             <BodyTraining auth={auth} />
                             <AsideTraining auth={auth} />
-                            <ChatContainer auth={auth} />
                         </Content>
                     </TrainingContainer>
                 </MainContainer>
@@ -49,5 +48,7 @@ const TrainingHomePage = () => {
         }
     }
 }
+
+//<ChatContainer auth={auth} />
 
 export default TrainingHomePage;

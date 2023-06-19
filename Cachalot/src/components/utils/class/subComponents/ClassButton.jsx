@@ -11,16 +11,19 @@ const Button = styled.button`
   transition: all 100ms ease-in-out;
   font-size: var(--fs-ss);
   padding: 0 16px;
+  
+  
   color: ${props => props.len === undefined ? props.theme.cachalotColor : props.len !== 0 ? props.theme.cachalotColor : props.theme.subText};
   background-color: ${props => props.len === undefined ? "unset" : props.len === 0 ? props.theme.buttonBgHover : "unset"};
   border: 2px solid ${props => props.theme.borderRightColor};
+  
+  
   border-radius: 12px;
   width: calc(50% - 32px);
   height: 48px;
   outline: none;
   text-transform: uppercase;
   font-family: "Din_Round_Bold", sans-serif;
-
   &:hover {
     cursor: ${props => props.len === undefined ? "pointer" : props.len !== 0 ? "pointer" : "not-allowed"};
     background-color: ${props => props.theme.buttonBgHover};
