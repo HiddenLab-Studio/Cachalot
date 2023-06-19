@@ -40,10 +40,34 @@ const BodyProfile = ({isSearch, data}) => {
                         </div>
                     </GridElement>
                     <GridElement>
-                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <img src="../../../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                         <div>
-                            <span>{userData.userEx.totalTrainingDone}</span>
-                            <h2>Entrainement terminés</h2>
+                            <span>{userData.userExercise.totalTrainingDone}</span>
+                            <h2>Entrainements terminés</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/chest.png" alt="Quest"/>
+                        <div>
+                            <span>0</span>
+                            <h2>Quêtes terminées</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/exercise.png" alt="Exercise"/>
+                        <div>
+                            <span>{userData.userExercise.totalExerciseDone}</span>
+                            <h2>Exercices terminés</h2>
+                        </div>
+                    </GridElement>
+                </GridContainer>
+                <h1>Expérience</h1>
+                <GridContainer className="gridContainer">
+                    <GridElement tw="flex flex-row">
+                        <img src="../../../../../static/img/icons/xp.png" alt="Xp"/>
+                        <div>
+                            <span>{userXp.currentXp}</span>
+                            <h2>Xp actuels ({userXp.currentXp}/{cache.xpCache.getRequiredXp(userXp.currentLvl)})</h2>
                         </div>
                     </GridElement>
                     <GridElement>
@@ -53,21 +77,10 @@ const BodyProfile = ({isSearch, data}) => {
                             <h2>Xp cumulés</h2>
                         </div>
                     </GridElement>
-                    <GridElement>
-                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
-                        <div>
-                            <span>{userData.userEx.totalExerciseDone}</span>
-                            <h2>Exercices terminés</h2>
-                        </div>
-                    </GridElement>
                 </GridContainer>
-                <h1>Expérience</h1>
-                <div>
-
-                </div>
                 <h1>Succès</h1>
                 <SuccessContainer>
-
+                    WIP
                 </SuccessContainer>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
@@ -93,15 +106,24 @@ const BodyProfile = ({isSearch, data}) => {
                             link= "/class"
                             alt= "Join a class"
                         />
+                        <ButtonCard
+                            title="Entrainements"
+                            desc="Rien de mieux que de s'entrainer pour progresser !"
+                            imageURL="../../../../static/img/icons/dumbbell.png"
+                            alt="Training"
+                            link="/training"
+                        />
                     </>
                     :
-                    <ButtonCard
-                        title= "Trouver des amis"
-                        desc= "Chercher d'autres membres de la communauté"
-                        imageURL= "../../../../../static/img/icons/find.png"
-                        link= "/user-search"
-                        alt= "Search some friends"
-                    />
+                    <>
+                        <ButtonCard
+                            title= "Trouver des amis"
+                            desc= "Chercher d'autres membres de la communauté"
+                            imageURL= "../../../../../static/img/icons/find.png"
+                            link= "/user-search"
+                            alt= "Search some friends"
+                        />
+                    </>
                 }
             </BodyProfileAsideContainer>
         </BodyProfileContainer>

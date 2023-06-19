@@ -14,6 +14,7 @@ let cacheManager = (function(){
             }
             return data;
         },
+
         getAllUserIdFromXpCache: () => {
             let keys = [];
             for(let key of cache.xp.keys()){

@@ -106,11 +106,12 @@ export async function firebaseRegister(data) {
                     currentLvl: 1,
                     cumulatedXp: 0
                 },
-                userEx: {
+                userExercise: {
                     totalExerciseDone: 0,
                     totalTrainingDone: 0,
                     // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                     exerciseDoneList: [],
+                    myExerciseList: []
                 }
             }).then(() => {
                 result.showOverlay = false;
@@ -207,11 +208,12 @@ export async function firebaseGoogleLogin() {
                             currentLvl: 1,
                             cumulatedXp: 0
                         },
-                        userEx: {
+                        userExercise: {
                             totalExerciseDone: 0,
                             totalTrainingDone: 0,
                             // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                             exerciseDoneList: [],
+                            myExerciseList: []
                         }
                     }).then(() => {
                         result.showOverlay = false;
