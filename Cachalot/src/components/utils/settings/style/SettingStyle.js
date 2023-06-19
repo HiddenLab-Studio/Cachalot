@@ -50,6 +50,9 @@ export const Button = styled.button`
 export const ApplyChangesButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 `
 export const SettingsContainer = styled(Container)``;
 export const Content = styled.div`

@@ -15,7 +15,7 @@ import ConnectionHomePage from "../../../pages/connection/ConnectionHomePage.jsx
 import { MainContainer } from "../ui/GlobalStyle.js";
 import {
     ApplyChangesButtonContainer, Button,
-    Content,
+    Content, DisconnectButton,
     SettingsContainer
 } from "./style/SettingStyle.js";
 
@@ -137,21 +137,22 @@ const Settings = () => {
                                 <Button change={onChanges} onClick={async () => await handleClick()}>
                                     Enregistrer les modifications
                                 </Button>
+                                <DisconnectButton onClick={async () => {
+                                    let result = await auth.user.logout();
+                                    if(result) {
+                                        auth.setUserData(null);
+                                        console.log(userData);
+                                        console.info("Sign-out successful.")
+                                    } else {
+                                        console.error("Sign-out failed.")
+                                    }
+
+                                }} >
+                                    Se déconnecter
+                                </DisconnectButton>
                             </ApplyChangesButtonContainer>
 
-                            <button onClick={async () => {
-                                let result = await auth.user.logout();
-                                if(result) {
-                                    auth.setUserData(null);
-                                    console.log(userData);
-                                    console.info("Sign-out successful.")
-                                } else {
-                                    console.error("Sign-out failed.")
-                                }
 
-                            }} >
-                                Se déconnecter
-                            </button>
                         </Content>
                     </SettingsContainer>
                 </MainContainer>
