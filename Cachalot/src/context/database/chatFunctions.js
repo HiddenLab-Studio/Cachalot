@@ -33,6 +33,7 @@ export const chat = {
     return result;
   },
 
+
   getMessage: (room, callback) => {
     const messagesCollection = collection(db, room);
     const messageQuery = query(messagesCollection, orderBy("date", "asc"));

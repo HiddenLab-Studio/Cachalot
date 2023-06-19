@@ -10,6 +10,7 @@ import { utils } from "./database/utilsFunctions.js";
 import { classes } from "./database/classFunctions.js";
 import { update } from "./database/updateFunctions.js";
 import { chat } from "./database/chatFunctions.js";
+import { league } from "./database/leagueFunctions.js";
 const { auth, db } = firebaseConfigClient();
 
 // Context
@@ -61,6 +62,7 @@ const AuthProvider = ({ children }) => {
         classes,
         update,
         chat,
+        league,
     }
 
     return (

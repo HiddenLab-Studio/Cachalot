@@ -14,7 +14,7 @@ export const classes = {
 
         const user = auth.currentUser;
         // Generate a random code
-        const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const classeCode = await classes.createCode();
         // Check if user can create a class
         const canCreateClass = await classes.maxClasseAdmin();
 
@@ -140,5 +140,17 @@ export const classes = {
         })
         return result;
     },
+
+    createCode : async () => {
+        const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const doicRef = doc(db, "classes", classeCode);
+        await getDoc(doicRef).then(async (doc) => {
+            if (doc.exists()) {
+                console.log("Code déjà existante");
+                await classes.createCode();
+            }
+        })
+        return classeCode;
+    }
 
 }

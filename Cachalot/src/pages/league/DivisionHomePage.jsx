@@ -1,39 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from "twin.macro";
 
-// Components
+// Context
+import { useAuth } from "../../context/AuthContext.js";
+import { useCache } from "../../context/manager/cache/CacheProvider.js";
+
+// Components*
 import Navbar from "../../components/navbar/Navbar.jsx";
+import ChatContainer from "../profile/components/profileComponents/subComponents/chat.jsx";
+import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
+import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 
 // Styled Components
-import {
-    MainContainer
-} from "../../components/utils/ui/GlobalStyle.js";
-const DivisionContainer = styled.section`
+import { MainContainer, Container } from "../../components/utils/ui/GlobalStyle.js";
+import FindMatchContainer from "./components/macthLeague.jsx";
+
+const LeagueContainer = styled(Container)``;
+const Content = styled.section`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 25px 0 25px 256px;
-
-  // Responsive padding for navbar
-  @media (min-width: 768px) and (max-width: 1200px) {
-    padding: 25px 0 25px 128px;
-  }
-
-  @media (max-width: 768px) {
-    padding: 25px;
-  }
+  padding: 25px;
 `
 
+
+
 const DivisionHomePage = () => {
-    return (
-        <MainContainer>
-            <Navbar />
-            <DivisionContainer>
-                <h1>Ranked</h1>
-            </DivisionContainer>
-        </MainContainer>
-    )
+    // Context
+    const auth = useAuth();
+    const cache = useCache();
+
+    // State
+    const [isLoading, setIsLoading] = useState(!cache.isUserCached);
+
+    if (typeof auth.currentUser === "number") {
+        return <ConnectionHomePage />
+    } else {
+        if (isLoading) {
+            return <FullLoading setIsLoading={setIsLoading} />
+        } else {
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <LeagueContainer>
+                        <Content>
+                            <FindMatchContainer auth={auth} />
+                        </Content>
+                    </LeagueContainer>
+                </MainContainer>
+            )
+        }
+    }
 }
 
 export default DivisionHomePage;
