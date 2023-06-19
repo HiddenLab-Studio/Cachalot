@@ -1,8 +1,8 @@
 import { collection, doc, addDoc, getDocs, getDoc, updateDoc, onSnapshot, query, orderBy, setDoc, deleteDoc } from "firebase/firestore";
-
 import firebaseConfigClient from "../../services/firebase.config.js";
-const { auth, db, storage } = firebaseConfigClient();
+const { auth, db } = firebaseConfigClient();
 
+import { mathFunctions } from "../../pages/exercise/functions/MathExerciseGenerator.js";
 //FONCTION IMPORTANTES
 
 export const league = {
@@ -115,13 +115,19 @@ export const league = {
     onStateGame: (discipline, gameId, callback) => {
         const docRef = doc(db, "league", discipline, "games", gameId);
         const unsubscribe = onSnapshot(docRef, async (docSnapshot) => {
-            console.log(docSnapshot.data());
             if (docSnapshot.exists()) {
                 let state = docSnapshot.data().state;
                 if (state === "waiting") {
                     callback("waiting");
                 }
                 if (state === "starting") {
+                    if (docSnapshot.data().exercices == undefined) {
+                        const exercices = await mathFunctions.getExercises(10, discipline)
+
+                        await updateDoc(docRef, {
+                            exercices: exercices
+                        })
+                    }
                     callback("starting");
                 }
                 if (state === "playing") {
@@ -148,10 +154,14 @@ export const league = {
 
                     if (docGameData.data().state === "starting") {
                         if (change.doc.data().ready == true) {
+                            const exercise = await league.getExercise(discipline, gameId, 0);
+                            await updateDoc(change.doc.ref, {
+                                exercise: exercise,
+                            })
                             const readyData = docSnapshot.docs.map(doc => doc.data().ready);
                             if (readyData.every(ready => ready == true)) {
                                 await updateDoc(docGame, {
-                                    state: "playing"
+                                    state: "playing",
                                 })
                             } else {
                                 const user = auth.currentUser;
@@ -165,6 +175,7 @@ export const league = {
 
                     } else if (docGameData.data().state === "playing") {
                         if (change.doc.data().score >= 10) {
+                            console.log("FINISHED");
                             const docGame = doc(db, "league", discipline, "games", gameId);
                             await updateDoc(docGame, {
                                 state: "finished"
@@ -173,7 +184,7 @@ export const league = {
                         }
                         else {
                             const user = auth.currentUser;
-                            await callback(change.doc.id === user.uid, change.doc.data().score, docGameData.data().state);
+                            await callback(change.doc.id === user.uid, change.doc.data().score, docGameData.data().state, change.doc.data().exercise);
                         }
                     }
                 }
@@ -202,7 +213,6 @@ export const league = {
 
     //On regarde quel user est le mien et lequel est l'autre
     infoSort: async (usersInfo) => {
-        console.log(usersInfo);
         const userId = auth.currentUser.uid;
         let myInfo = {};
         let otherInfo = {};
@@ -270,31 +280,39 @@ export const league = {
 
     //PLAYING
     //On regarde si la réponse est bonne ( A MODIFIER)
-    checkResponse: async (responseValue) => {
-        let response = false;
-        if (responseValue == "1") {
-            response = true;
+    checkResponse: async (exercice, value) => {
+        let result = false;
+        const solution = mathFunctions.getSolution(exercice, value);
+        if(solution){
+            result = true;
         }
-        else {
-            response = false;
-        }
-        return response;
-
+        return result;
+        
     },
 
-    sendResponse: async (discipline, gameId, response, score) => {
+    sendResponse: async (discipline, gameId, exercise , response, score) => {
         let result = false;
-        const responseCheck = await league.checkResponse(response);
+        const responseCheck = await league.checkResponse(response, exercise);
         if (responseCheck) {
             const user = auth.currentUser;
             const docPlayer = doc(db, "league", discipline, "games", gameId, "players", user.uid);
             const docPlayerData = await getDoc(docPlayer);
             if (docPlayerData.exists()) {
-                await updateDoc(docPlayer, {
-                    score: docPlayerData.data().score + score
-                }).then(() => {
-                    result = true;
-                })
+                const exercise = await league.getExercise(discipline, gameId, (docPlayerData.data().score + score));
+                if (exercise == undefined) {
+                    await updateDoc(docPlayer, {
+                        score: docPlayerData.data().score + score,
+                    }).then(() => {
+                        result = true;
+                    })
+                } else {
+                    await updateDoc(docPlayer, {
+                        score: docPlayerData.data().score + score,
+                        exercise: exercise,
+                    }).then(() => {
+                        result = true;
+                    })
+                }
             }
         } else {
             result = false;
@@ -312,6 +330,14 @@ export const league = {
             return { winner: usersInfo[1], looser: usersInfo[0] };
         }
 
-    }
+    },
+
+    //EXERCICE
+    getExercise: async (discipline, gameId, score) => {
+        const docGame = doc(db, "league", discipline, "games", gameId);
+        const docGameData = await getDoc(docGame);
+        const exercise = docGameData.data().exercices[score];
+        return exercise;
+    },
 
 }
