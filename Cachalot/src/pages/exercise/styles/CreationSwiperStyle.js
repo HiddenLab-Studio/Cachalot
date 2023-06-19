@@ -60,9 +60,6 @@ export const ExerciseTypeCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  @media (max-width: 550px) {
-    flex-direction:  !important;
-  }
 `;
 
 export const Dot = styled.div`
