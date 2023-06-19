@@ -28,6 +28,7 @@ const MatchContainer = ({ auth }) => {
   const [loserInfo, setLoserInfo] = useState(null);
 
   //Reponse de l'utilisateur
+  const [exercise, setExercise] = useState(null);
   const [response, setResponse] = useState("");
 
 
@@ -35,7 +36,6 @@ const MatchContainer = ({ auth }) => {
   const handleGameStateChange = async (newState) => {
     console.log("Game state changed to", newState);
     setGameState(newState);
-
     // Si le game state est starting ou playing, on récupère les infos des joueurs pour l'affichage
     if (newState === "starting" || newState === "playing") {
       const usersInfo = await auth.league.getUsersInfo(discipline, gameId);
@@ -60,15 +60,15 @@ const MatchContainer = ({ auth }) => {
   };
 
   // Gestion du player state
-  const handlePlayerStateChange = async (myState, newState, GameState) => {
+  const handlePlayerStateChange = async (myState, newState, GameState, exercise) => {
     //On récupère si le user est ready ou pas pour l'affichage
     if (GameState === "starting") {
       await setPlayerState({ myState: myState, newState: newState });
     }
     //On récupère le score des joueurs pour l'affichage
     else if (GameState === "playing") {
-      console.log("Player state changed to", myState, newState);
       if (myState === true) {
+        await setExercise(exercise);
         await setMyPlayerScore(newState);
       }
       else {
@@ -108,8 +108,10 @@ const MatchContainer = ({ auth }) => {
     const inputMessage = response.trim();
     //On regarde si l'input est vide ou pas
     if (inputMessage == "") return;
+
+    const currentExercise = yourInfo.exercise;
     //On envoie la réponse
-    const responsePush = await auth.league.sendResponse(discipline, gameId, inputMessage, 1);
+    const responsePush = await auth.league.sendResponse(discipline, gameId, currentExercise, inputMessage, 1);
     if (!responsePush) {
       console.log("Mauvaise réponse");
     }
@@ -199,7 +201,11 @@ const MatchContainer = ({ auth }) => {
                 <p id="otherScorePlaying">{otherPlayerScore === null ? otherInfo.score : otherPlayerScore}</p>
               </div>
             </div>
-
+            <div className="flex items-center mb-4">
+              <p id="exercise" className="text-2xl font-bold">
+                {exercise === null ? yourInfo.exercise : exercise}
+              </p>
+            </div>
             <form onSubmit={handleSubmitResponse} tw="flex items-center">
               <input
                 type="text"
@@ -215,6 +221,7 @@ const MatchContainer = ({ auth }) => {
             </form>
           </div>
         </>
+        
       )}
 
 
