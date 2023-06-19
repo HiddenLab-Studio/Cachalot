@@ -258,6 +258,10 @@ function sendExerciseToDatabase() {
 //On vérifie que tous les champs nécessaires sont remplis, et s'ils ne le sont pas, on vient les surligner en leur ajoutant une classe (et grace au css)
 function checkEveryNecessaryField(exerciseType) {
     let allFieldsAreFilled = true;
+    if(document.getElementById("titleInput").value == "") {
+        document.getElementById("titleInput").classList.add("missingField");
+        allFieldsAreFilled = false;
+    }
     if (document.getElementById("consigneInput").value == "") {
         document.getElementById("consigneInput").classList.add("missingField");
         allFieldsAreFilled = false;
