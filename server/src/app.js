@@ -61,6 +61,17 @@ app.post('/api/getExercise', (req, res) => {
     res.send({exercise: exercise});
 })
 
+app.post('/api/getExercises', (req, res) => {
+    console.log("[POST] user send data to the server !")
+    let type = req.body.type;
+    let amount = req.body.amount;
+    let exerciseList = [];
+    for (let i = 0; i < amount; i++) {
+        exerciseList.push(generateRandomExercise());
+    }
+    res.send({exercises: exerciseList});
+})
+
 app.post('/api/getSolution', (req, res) => {
     console.log("[POST] user send data to the server !")
     let currentExercise = req.body.exercise;
@@ -110,7 +121,7 @@ app.post('/api/updateXpCache', async (req, res) => {
 })
 
 
-const scheduledJob = new CronJob('*/1 * * * *', async () => {
+const scheduledJob = new CronJob('*/30 * * * *', async () => {
     console.log("[INFO] scheduled job started!");
     // Push xp cache to the database for each users' data
     let users = cacheManager.getAllUserIdFromXpCache();

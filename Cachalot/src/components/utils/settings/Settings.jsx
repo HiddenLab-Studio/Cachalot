@@ -37,7 +37,6 @@ const Settings = () => {
     async function handleClick() {
         let filePhoto = document.getElementById("image").files[0]
         let photoURL = "";
-
         if(onChanges){
             setOnChanges(false);
             if(filePhoto !== undefined) photoURL = URL.createObjectURL(filePhoto);
@@ -56,7 +55,6 @@ const Settings = () => {
         inputList = Array.from(inputList);
         let isInputsValueChanged = false;
         inputList.forEach( (input) => {
-            console.log(input.value)
             if(input.value.length > 0) isInputsValueChanged = true;
         });
         if(isInputsValueChanged) setOnChanges(true);

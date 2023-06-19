@@ -35,13 +35,6 @@ export const Content = styled.section`
         color: ${props => props.theme.text};
       }
     }
-
-    span {
-      font-family: "Din_Round", sans-serif;
-      font-size: var(--fs-s);
-      color: ${props => props.theme.subText};
-      text-align: justify;
-    }
   }
   
 `

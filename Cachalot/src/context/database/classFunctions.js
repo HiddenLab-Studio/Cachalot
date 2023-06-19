@@ -6,7 +6,6 @@ const { auth, db, storage } = firebaseConfigClient();
 
 export const classes = {
     createClass: async (className) => {
-        console.log(className)
         let result = {
             classCode: undefined,
             maxClassReached: undefined
@@ -21,7 +20,6 @@ export const classes = {
         const docRef = doc(db, "classes", classeCode);
         const userDocRef = doc(db, 'users', user.uid);
         const userRef = doc(db, "users", user.uid, "classesAdmin", classeCode);
-
 
         await getDoc(docRef).then(async (doc) => {
             if (canCreateClass === true) {
@@ -143,8 +141,8 @@ export const classes = {
 
     createCode : async () => {
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
-        const doicRef = doc(db, "classes", classeCode);
-        await getDoc(doicRef).then(async (doc) => {
+        const docRef = doc(db, "classes", classeCode);
+        await getDoc(docRef).then(async (doc) => {
             if (doc.exists()) {
                 console.log("Code déjà existante");
                 await classes.createCode();

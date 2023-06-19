@@ -76,6 +76,21 @@ export const mathFunctions = {
             console.log(error);
         });
         return result.isCorrect;
+    },
+
+    getExercises: async (amount) => {
+        let result = undefined;
+        await axios.post("http://localhost:4000/api/getExercises", JSON.stringify({
+            type: "math",
+            amount: amount
+        }), {
+            headers: {"Content-Type": "application/json"}
+        }).then((response) => {
+            result = response.data;
+        }).catch((error) => {
+            console.log(error);
+        });
+        return result.exercises;
     }
 
 }

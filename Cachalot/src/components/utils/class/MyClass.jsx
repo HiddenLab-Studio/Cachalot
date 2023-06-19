@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import tw from "twin.macro";
 
 // Context
 import { useAuth } from "../../../context/AuthContext.js";
@@ -9,6 +8,7 @@ import { useCache  } from "../../../context/manager/cache/CacheProvider.js";
 import Navbar from "../../navbar/Navbar.jsx";
 import FullLoading from "../loading/FullLoading.jsx";
 import ConnectionHomePage from "../../../pages/connection/ConnectionHomePage.jsx";
+import ClassPanel from "./subComponents/ClassPanel.jsx";
 
 // Styled Components
 import {MainContainer} from "../ui/GlobalStyle.js";
@@ -16,8 +16,7 @@ import {
     MyClassContainer,
     Content, MyClassMainTitleContainer, Title
 } from "./style/MyClassStyle.js";
-import ClassPanel from "./subComponents/ClassPanel.jsx";
-
+import DescSpan from "../ui/DescSpan.jsx"
 
 
 const MyClass = () => {
@@ -44,9 +43,9 @@ const MyClass = () => {
                                     <img src="../../../../static/img/icons/class.png" alt=""/>
                                     <h1>Mes classes</h1>
                                 </Title>
-                                <span>
-                                    Ce panel vous permet de voir les classes auxquelles vous êtes inscrit.
-                                </span>
+                                <DescSpan
+                                    desc="Ce panel vous permet de voir les classes auxquelles vous êtes inscrit."
+                                />
                                 <button onClick={() => cache.xpCache.addXp(10)}>
                                     ajouter de xp
                                 </button>

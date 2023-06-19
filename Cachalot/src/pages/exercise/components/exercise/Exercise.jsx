@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { styled } from "twin.macro";
 
 // Context
 import { useAuth } from "../../../../context/AuthContext.js";
@@ -7,7 +8,21 @@ import { useCache } from "../../../../context/manager/cache/CacheProvider.js";
 // Components
 import ConnectionHomePage from "../../../connection/ConnectionHomePage.jsx";
 import FullLoading from "../../../../components/utils/loading/FullLoading.jsx";
-import CreateExercise from "./subComponents/create/createExercise.jsx";
+import CreateExercise from "./subComponents/create/CreateExercise.jsx";
+import Navbar from "../../../../components/navbar/Navbar.jsx";
+
+// Styled Components
+import {Container, MainContainer} from "../../../../components/utils/ui/GlobalStyle.js";
+
+const ExerciseContainer = styled(Container)``;
+const Content = styled.section`
+  display: flex;
+  flex-direction: column;
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 25px;
+  gap: 24px;
+`
 
 const Exercise = () => {
     // Context
@@ -20,7 +35,8 @@ const Exercise = () => {
 
     useEffect( () => {
         let path = window.location.pathname.split("/")[2];
-        setPath(path)
+        setPath(path);
+        console.log(path);
     }, []);
 
     if(typeof auth.currentUser === "number") {
@@ -29,7 +45,27 @@ const Exercise = () => {
         if(isLoading){
             return <FullLoading setIsLoading={setIsLoading} />
         } else {
-            switch (path) {
+
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <ExerciseContainer>
+                        <Content>
+                            {
+                                path === "create" ?
+                                        <CreateExercise auth={auth} />
+                                    :
+                                        path === "catalog" ?
+                                                <div>Catalog</div>
+                                            :
+                                                <div>Default</div>
+
+                            }
+                        </Content>
+                    </ExerciseContainer>
+                </MainContainer>
+            )
+            /*switch (path) {
                 case "create":
                     return <CreateExercise auth={auth} />
                 case "catalog":
@@ -44,7 +80,7 @@ const Exercise = () => {
                             <h1>default</h1>
                         </div>
                     )
-            }
+            }*/
         }
     }
 }
