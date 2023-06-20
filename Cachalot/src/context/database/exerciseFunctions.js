@@ -1,4 +1,4 @@
-import {addDoc, collection, doc, getDoc} from "firebase/firestore";
+import {addDoc, collection,setDoc, doc, getDoc, updateDoc} from "firebase/firestore";
 import firebaseConfigClient from "../../services/firebase.config.js";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
@@ -12,16 +12,20 @@ export const exercise = {
             code: false
         };
 
-        const docRef = collection(db, "exercises")
         // We generate a unique code for the exercise
         const exerciseCode = await exercise.createCode();
+
+        const docRef = doc(db, "exercises" , exerciseCode.toString());
+        const userRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        console.log(userDoc.data().userExercise);
 
         console.log(data);
         if(data.photo !== undefined) data.photo = await exercise.uploadImage(exerciseCode, data.photo);
 
 
         // We add exercise to the database
-        await addDoc(docRef, {
+        await setDoc(docRef, {
             title: data.title,
             description: data.desc,
             question: data.question,
@@ -33,6 +37,13 @@ export const exercise = {
             result.exerciseId = exerciseCode;
             result.code = true;
         });
+
+        await updateDoc(userRef, {
+            userExercise : {
+                ...userDoc.data().userExercise,
+                myExerciseList : [...userDoc.data().userExercise.myExerciseList, exerciseCode]
+            }
+        })
 
         return result;
     },
@@ -65,6 +76,18 @@ export const exercise = {
             console.log("Code is free");
             return exerciseCode;
         }
-    }
+    },
+
+
+    getExerciseByLike: async (amount) => {
+        const exerciseRef = collection(db, "exercises");
+        const exerciseQuery = query(exerciseRef, orderBy("like", "desc"), limit(amount));
+        const exerciseSnapshot = await getDocs(exerciseQuery);
+        const exerciseList = [];
+        exerciseSnapshot.forEach((doc) => {
+            exerciseList.push(doc.data());
+        });
+        return exerciseList;
+    },
 
 }

@@ -37,7 +37,9 @@ const FindMatchContainer = ({ auth }) => {
 
   return (
     <FindMatchContainerWrapper>
-      <div className="flex flex-row items-center justify-center h-screen overflow-y-hidden">
+      <div className="flex flex-col md:flex-row items-center justify-center h-screen overflow-y-hidden">
+
+        
 
         {/* Recherche d'une partie */}
         <div className="flex flex-col items-center bg-white rounded-lg border-2 border-gray-200 shadow-md p-8 space-y-4">
@@ -74,17 +76,16 @@ const FindMatchContainer = ({ auth }) => {
             Rechercher
           </button>
         </div>
-
         {/* Explication du mode Ranked */}
-        <div id="explication" className="w-1/2 flex flex-col items-star p-8 space-y-4">
+        <div id="explication" className="w-full md:w-1/2 flex flex-col items-center md:items-start p-8 space-y-4">
           <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "3rem" }} className="text-gray-700">Ranked</h2>
           <p style={{ fontFamily: "'DIN Round Pro', sans-serif", fontSize: "1rem", textAlign: "left" }} className="text-gray-500">
-          Les duels classés en mathématiques et en français sont des compétitions où le niveau varie selon le rang des participants, offrant ainsi des défis stimulants et l'opportunité de mesurer ses compétences. C'est l'occasion parfaite de mettre en pratique ses connaissances et de progresser dans la matière choisie.
+            Les duels classés en mathématiques et en français sont des compétitions où le niveau varie selon le rang des participants, offrant ainsi des défis stimulants et l'opportunité de mesurer ses compétences. C'est l'occasion parfaite de mettre en pratique ses connaissances et de progresser dans la matière choisie.
           </p>
-          <img src="../../../../static/img/gif/combat.gif" alt="Ranked" className=""/>
+          <img src="../../../../static/img/gif/combat.gif" alt="Ranked" className="" />
         </div>
       </div>
-    </FindMatchContainerWrapper >
+    </FindMatchContainerWrapper>
   );
 };
 
