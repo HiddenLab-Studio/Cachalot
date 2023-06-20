@@ -6,11 +6,12 @@ import {
     Dot, ErrorContainer,
     ExerciseTypeCard, ExerciseTypeCardContainer, GridContainer, NextStepContainer,
     PaginationContainer, PreviousStepContainer, TitleDescContainer,
-} from "../../../../styles/CreationSwiperStyle.js";
+} from "./style/CreationSwiperStyle.js";
 import {FaChevronRight, FaExclamationCircle, FaChevronLeft} from "react-icons/fa";
 import DescSpan from "../../../../../../components/utils/ui/DescSpan.jsx";
 import {useMediaQuery} from "react-responsive";
 import QuestionAnswer from "./QuestionAnswer.jsx";
+import QuestionComponent from "./QuestionAnswer.jsx";
 
 const CreationSwiper = (props) => {
     // Data
@@ -21,7 +22,8 @@ const CreationSwiper = (props) => {
     const [exerciseType, setExerciseType] = useState(null);
     const [title, setTitle] = useState(null);
     const [desc, setDesc] = useState(null);
-    const [exerciseFormat, setExerciseFormat] = useState(null);
+    const [photo, setPhoto] = useState(null);
+    const [list, setList] = useState(null);
 
     // Error state
     const [error, setError] = useState(null);
@@ -43,11 +45,15 @@ const CreationSwiper = (props) => {
             case "french":
                 setExerciseType("french");
                 break;
-            case "qcm":
-                setExerciseFormat("qcm");
-                break;
-            case "short":
-                setExerciseFormat("short");
+            case "create":
+                let exerciseData = {
+                    title: title,
+                    desc: desc,
+                    type: exerciseType,
+                    question: list.question,
+                    answers: list.answers
+                }
+                console.log(exerciseData);
                 break;
         }
     }
@@ -65,8 +71,7 @@ const CreationSwiper = (props) => {
     }
 
     async function handlePagination(page, previous = false) {
-        console.log(page, previous)
-        if (error !== null) setError(null);
+        setError(null);
         if(!previous) {
             switch (currentStep) {
                 case 0:
@@ -83,12 +88,33 @@ const CreationSwiper = (props) => {
                     }
                     break;
                 case 2:
-                    if (exerciseFormat !== null) setCurrentStep(page);
-                    else setError("Veuillez sélectionner un format d'exercice");
+                    if(questionAnswerRef.current !== null){
+                        let tmpList = questionAnswerRef.current.getState();
+                        if(tmpList.question.length > 0){
+                            let AtLeastOneAnswer = false;
+                            let isEachFieldValid = true;
+                            tmpList.answers.forEach((element) => {
+                                console.log(element.text);
+                                if(element.text.length === 0) isEachFieldValid = false;
+                                if(element.isValid) AtLeastOneAnswer = true;
+                            });
+                            if(isEachFieldValid){
+                                if(AtLeastOneAnswer){
+                                    setList(tmpList);
+                                    console.info(list);
+                                    setCurrentStep(page);
+                                } else {
+                                    setError("Veuillez ajouter au moins une réponse !");
+                                }
+                            } else {
+                                setError("Veuillez remplir tous les champs");
+                            }
+                        } else {
+                            setError("Veuillez ajouter un énoncé !");
+                        }
+                    }
                     break;
-                case 3:
-                    setCurrentStep(page);
-                    break;
+
             }
         } else {
             setCurrentStep(page);
@@ -132,7 +158,6 @@ const CreationSwiper = (props) => {
                         <Dot onClick={() => handlePagination(1)} />
                         <Dot />
                         <Dot />
-                        <Dot />
                     </PaginationContainer>
                     {
                         !isOnMobile ?
@@ -174,6 +199,7 @@ const CreationSwiper = (props) => {
                             />
                         </div>
                     </TitleDescContainer>
+
                     {
                         error !== null ?
                                 <ErrorContainer tw="flex flex-row justify-center">
@@ -183,11 +209,11 @@ const CreationSwiper = (props) => {
                             :
                                 null
                     }
+
                     <PaginationContainer>
                         <Dot onClick={() => handlePagination(0, true)}/>
                         <Dot current={true} />
                         <Dot onClick={() => handlePagination(2)}/>
-                        <Dot />
                         <Dot />
                     </PaginationContainer>
                     {
@@ -209,28 +235,20 @@ const CreationSwiper = (props) => {
             return (
                 <CreationSwiperContainer>
                     <div tw="flex flex-col gap-[8px]">
-                        <h1>Format de l'exercice</h1>
+                        <h1>Créer une question et des réponses</h1>
                         <DescSpan
-                            desc="QCM ou exercice à réponse courte"
+                            desc="Ajoutez un énoncé et des réponses à votre exercice."
                         />
                     </div>
 
-                    <ExerciseTypeCardContainer>
-                        <GridContainer tw="grid grid-cols-2 gap-[32px]">
-                            <ExerciseTypeCard current={exerciseFormat === "qcm"}  onClick={() => handleClick("qcm")}>
-                                <img src="../../../../../../../static/img/icons/math.png" alt="Math"/>
-                                <span>QCM</span>
-                            </ExerciseTypeCard>
-                            <ExerciseTypeCard current={exerciseFormat === "short"} onClick={() => handleClick("short")}>
-                                <img src="../../../../../../../static/img/icons/french.png" alt="Français"/>
-                                <span>Réponse courte</span>
-                            </ExerciseTypeCard>
-                        </GridContainer>
-                    </ExerciseTypeCardContainer>
+                    <QuestionComponent ref={questionAnswerRef} list={list} setList={setList} />
+                    <button onClick={() => console.log(questionAnswerRef.current.getState())}>
+                        test
+                    </button>
                     {
                         error !== null ?
                             <ErrorContainer tw="flex flex-row justify-center">
-                                <FaExclamationCircle/>
+                                <FaExclamationCircle />
                                 <span tw="text-red-500">{error}</span>
                             </ErrorContainer>
                             :
@@ -238,19 +256,19 @@ const CreationSwiper = (props) => {
                     }
                     <PaginationContainer>
                         <Dot onClick={() => handlePagination(0, true)} />
-                        <Dot onClick={() => handlePagination(1, true)}  />
+                        <Dot onClick={() => handlePagination(1, true)} />
                         <Dot current={true} />
                         <Dot onClick={() => handlePagination(3)} />
-                        <Dot />
                     </PaginationContainer>
+
                     {
                         !isOnMobile ?
                             <>
                                 <NextStepContainer right={true}>
-                                    <FaChevronRight onClick={() => handlePagination(3)}/>
+                                    <FaChevronRight onClick={() => handlePagination(3)} />
                                 </NextStepContainer>
                                 <PreviousStepContainer left={true} right={false}>
-                                    <FaChevronLeft onClick={() => handlePagination(1, true)}/>
+                                    <FaChevronLeft onClick={() => handlePagination(1, true)} />
                                 </PreviousStepContainer>
                             </>
                             :
@@ -262,63 +280,26 @@ const CreationSwiper = (props) => {
             return (
                 <CreationSwiperContainer>
                     <div tw="flex flex-col gap-[8px]">
-                        <h1>Créer des questions et des réponses</h1>
-                        <DescSpan
-                            desc="Ajoutez des questions et des réponses à votre exercice."
-                        />
-                    </div>
-
-                    <QuestionAnswer ref={questionAnswerRef} exerciseFormat={exerciseFormat} />
-
-                    <PaginationContainer>
-                        <Dot onClick={() => handlePagination(0, true)} />
-                        <Dot onClick={() => handlePagination(1, true)} />
-                        <Dot onClick={() => handlePagination(2, true)} />
-                        <Dot current={true} onClick={() => {
-                            console.log(questionAnswerRef.current.getState())
-                        }} />
-                        <Dot onClick={() => handlePagination(4)} />
-                    </PaginationContainer>
-
-                    {
-                        !isOnMobile ?
-                            <>
-                                <NextStepContainer right={true}>
-                                    <FaChevronRight onClick={() => handlePagination(4)}/>
-                                </NextStepContainer>
-                                <PreviousStepContainer left={true} right={false}>
-                                    <FaChevronLeft onClick={() => handlePagination(2, true)}/>
-                                </PreviousStepContainer>
-                            </>
-                            :
-                            null
-                    }
-                </CreationSwiperContainer>
-            )
-        case 4:
-            return (
-                <CreationSwiperContainer>
-                    <div tw="flex flex-col gap-[8px]">
                         <h1>Résumer</h1>
                         <DescSpan
                             desc="Vérifiez que votre exercice est correctement configuré."
                         />
                     </div>
 
+                    <button onClick={() => handleClick("create")}>
+                        Créer l'exercice
+                    </button>
+
                     <PaginationContainer>
                         <Dot onClick={() => handlePagination(0, true)} />
                         <Dot onClick={() => handlePagination(1, true)} />
                         <Dot onClick={() => handlePagination(2, true)} />
-                        <Dot onClick={() => handlePagination(3, true)} />
                         <Dot current={true} />
                     </PaginationContainer>
 
                     {
                         !isOnMobile ?
                             <>
-                                <NextStepContainer right={true}>
-                                    <FaChevronRight onClick={() => handlePagination(4)}/>
-                                </NextStepContainer>
                                 <PreviousStepContainer left={true} right={false}>
                                     <FaChevronLeft onClick={() => handlePagination(2, true)}/>
                                 </PreviousStepContainer>
@@ -326,9 +307,9 @@ const CreationSwiper = (props) => {
                             :
                             null
                     }
+
                 </CreationSwiperContainer>
             )
-
     }
 }
 

@@ -5,7 +5,7 @@ import tw from "twin.macro";
 import {
     ExerciseCreationBodyContainer, ExerciseCreationSubContainer, Fieldset,
     MainTitleContainer
-} from "../../../../styles/CreateExerciseStyle.js";
+} from "./style/CreateExerciseStyle.js";
 import DescSpan from "../../../../../../components/utils/ui/DescSpan.jsx";
 import CreationSwiper from "./CreationSwiper.jsx";
 
