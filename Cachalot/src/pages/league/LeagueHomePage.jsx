@@ -22,7 +22,8 @@ const Content = styled.section`
   justify-content: center;
   align-items: center;
   padding: 25px;
-`
+  overflow-y: hidden;
+`;
 
 const LeagueHomePage = () => {
     // Context

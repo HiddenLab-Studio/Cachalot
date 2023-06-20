@@ -268,7 +268,13 @@ export const league = {
             if (docGameData.data().state == "waiting") {
                 await deleteDoc(docGame);
             }
-            else if (docGameData.data().state == "finished") {
+            if (docGameData.data().state == "starting") {
+                await deleteDoc(docPlayer);
+                await updateDoc(docGame, {
+                    state: "waiting"
+                })
+            }
+            if (docGameData.data().state == "finished") {
                 await deleteDoc(docPlayer);
                 const docRef = collection(db, "league", discipline, "games", gameId, "players");
                 const docSnapshot = await getDocs(docRef);
@@ -306,10 +312,12 @@ export const league = {
     //PLAYING
     //On regarde si la réponse est bonne ( A MODIFIER)
     checkResponse: async (exercice, value) => {
+        console.log(exercice, value);
         let result = false;
-        const solution = mathFunctions.getSolution(exercice, value);
+        const solution = await mathFunctions.getSolution(exercice, value);
+        console.log(solution);
         if (solution) {
-        result = true;
+            result = true;
         }
         return result;
 
@@ -317,7 +325,8 @@ export const league = {
 
     sendResponse: async (discipline, gameId, exercise, response, score) => {
         let result = false;
-        const responseCheck = await league.checkResponse(response, exercise);
+
+        const responseCheck = await league.checkResponse(exercise, response);
         if (responseCheck) {
             const user = auth.currentUser;
             const docPlayer = doc(db, "league", discipline, "games", gameId, "players", user.uid);
@@ -347,16 +356,29 @@ export const league = {
 
     //FINISHED
     getWinner: async (discipline, gameId, usersInfo) => {
-
-        if (usersInfo[0].score > usersInfo[1].score) {
-            const updateYourRanke = await league.updateRank(discipline, gameId, usersInfo[0], usersInfo[1]);
-            console.log(updateYourRanke);
-            return { winner: usersInfo[0], looser: usersInfo[1] };
+        let winner = false
+        const user = auth.currentUser;
+        if(usersInfo[0].id == user.uid){
+            if(usersInfo[0].score > usersInfo[1].score){
+                await league.updateRank(discipline, gameId,usersInfo[0], usersInfo[1]);
+                winner = true;
+            }
+            else{
+                await league.updateRank(discipline, gameId,usersInfo[1], usersInfo[0]);
+                winner = false;
+            }
         }
-        else {
-            await league.updateRank(discipline, gameId, usersInfo[1], usersInfo[0]);
-            return { winner: usersInfo[1], looser: usersInfo[0] };
+        else{
+            if(usersInfo[1].score > usersInfo[0].score){
+                await league.updateRank(discipline, gameId,usersInfo[1], usersInfo[0]);
+                winner = true;
+            }
+            else{
+                await league.updateRank(discipline, gameId,usersInfo[0], usersInfo[1]);
+                winner = false;
+            }
         }
+        return winner;
 
     },
 
