@@ -41,6 +41,17 @@ export const QuestionAnswerContainer = styled.div`
     width: 75%;
     position: relative;
 
+    .fileContainer {
+      position: absolute;
+      align-self: center;
+      right: 0;
+      input {
+        &::-webkit-file-upload-button {
+          visibility: hidden;
+        }
+      }
+    }
+    
     .input {
       padding: 10px 16px;
         //background-color: ${props => props.theme.inputBg};

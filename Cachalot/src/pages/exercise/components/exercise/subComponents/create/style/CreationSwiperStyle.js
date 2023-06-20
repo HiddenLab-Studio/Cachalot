@@ -1,5 +1,25 @@
 import { styled } from "twin.macro";
 
+export const SubmitButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  border: 2px solid ${props => props.theme.inputBorder};
+  border-bottom: 4px solid ${props => props.theme.inputBorder};
+  padding: 16px;
+  border-radius: 12px;
+  span {
+    color: ${props => props.theme.cachalotColor};
+    font-family: "Din_Round_Med", sans-serif;
+    font-size: var(--fs-sm);
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: ${props => props.theme.inputBg};
+  }
+`;
 export const TitleDescContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -170,10 +190,6 @@ export const CreationSwiperContainer = styled.div`
     font-size: var(--fs-m);
     color: ${props => props.theme.text};
     text-decoration: underline;
-  }
-  
-  span {
-    max-width: 95%;
   }
   
   @media (max-width: 550px) {

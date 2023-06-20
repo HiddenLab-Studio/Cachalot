@@ -5,7 +5,7 @@ import {
     CreationSwiperContainer,
     Dot, ErrorContainer,
     ExerciseTypeCard, ExerciseTypeCardContainer, GridContainer, NextStepContainer,
-    PaginationContainer, PreviousStepContainer, TitleDescContainer,
+    PaginationContainer, PreviousStepContainer, SubmitButtonContainer, TitleDescContainer,
 } from "./style/CreationSwiperStyle.js";
 import {FaChevronRight, FaExclamationCircle, FaChevronLeft} from "react-icons/fa";
 import DescSpan from "../../../../../../components/utils/ui/DescSpan.jsx";
@@ -22,7 +22,6 @@ const CreationSwiper = (props) => {
     const [exerciseType, setExerciseType] = useState(null);
     const [title, setTitle] = useState(null);
     const [desc, setDesc] = useState(null);
-    const [photo, setPhoto] = useState(null);
     const [list, setList] = useState(null);
 
     // Error state
@@ -46,14 +45,27 @@ const CreationSwiper = (props) => {
                 setExerciseType("french");
                 break;
             case "create":
+                console.info(list.photo);
                 let exerciseData = {
                     title: title,
                     desc: desc,
                     type: exerciseType,
                     question: list.question,
-                    answers: list.answers
+                    answers: list.answers,
+                    photo: list.photo.name !== undefined ? URL.createObjectURL(list.photo) : undefined
                 }
                 console.log(exerciseData);
+
+                auth.exercise.createExercise(auth.currentUser, exerciseData).then((r) => {
+                    console.info(r);
+                    if(r.code){
+                        console.info("Exercise created!");
+                        window.location.pathname = "/exercise/" + r.exerciseId.toString();
+                    } else {
+                        setError("Une erreur est survenue lors de la création de l'exercice");
+                    }
+                });
+
                 break;
         }
     }
@@ -114,7 +126,6 @@ const CreationSwiper = (props) => {
                         }
                     }
                     break;
-
             }
         } else {
             setCurrentStep(page);
@@ -242,9 +253,7 @@ const CreationSwiper = (props) => {
                     </div>
 
                     <QuestionComponent ref={questionAnswerRef} list={list} setList={setList} />
-                    <button onClick={() => console.log(questionAnswerRef.current.getState())}>
-                        test
-                    </button>
+
                     {
                         error !== null ?
                             <ErrorContainer tw="flex flex-row justify-center">
@@ -286,9 +295,11 @@ const CreationSwiper = (props) => {
                         />
                     </div>
 
-                    <button onClick={() => handleClick("create")}>
-                        Créer l'exercice
-                    </button>
+                    <div tw="flex flex-row items-center justify-center">
+                        <SubmitButtonContainer onClick={() => handleClick("create")}>
+                            <span>Créer l'exercice</span>
+                        </SubmitButtonContainer>
+                    </div>
 
                     <PaginationContainer>
                         <Dot onClick={() => handlePagination(0, true)} />

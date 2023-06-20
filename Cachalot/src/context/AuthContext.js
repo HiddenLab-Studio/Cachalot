@@ -11,6 +11,7 @@ import { classes } from "./database/classFunctions.js";
 import { update } from "./database/updateFunctions.js";
 import { chat } from "./database/chatFunctions.js";
 import { league } from "./database/leagueFunctions.js";
+import {exercise} from "./database/exerciseFunctions.js";
 const { auth, db } = firebaseConfigClient();
 
 // Context
@@ -63,6 +64,7 @@ const AuthProvider = ({ children }) => {
         update,
         chat,
         league,
+        exercise
     }
 
     return (

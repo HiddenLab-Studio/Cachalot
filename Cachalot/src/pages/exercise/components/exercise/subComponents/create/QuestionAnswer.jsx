@@ -16,6 +16,7 @@ const QuestionComponent = forwardRef((props, ref) => {
             { text: "", isValid: false },
         ]
     );
+    const [photo, setPhoto] = useState(props.list !== null ? props.list.photo : "");
 
     const handleQuestionChange = (event) => {
         setQuestion(event.target.value);
@@ -44,11 +45,16 @@ const QuestionComponent = forwardRef((props, ref) => {
         }
     };
 
+    function handleImageChange(event) {
+        setPhoto(event.target.files[0]);
+    }
+
     useImperativeHandle(ref, () => ({
         getState: () => {
             return {
                 question: question,
                 answers: answers,
+                photo: photo,
             };
         }
     }));
@@ -57,7 +63,12 @@ const QuestionComponent = forwardRef((props, ref) => {
         <QuestionAnswerContainer ref={ref}>
             <div className="question">
                 <label>Énoncé</label>
-                <input className="input" type="text" value={question} placeholder="Insérer une question" onChange={handleQuestionChange} />
+                <div tw="flex flex-row relative w-[100%]">
+                    <input className="input" type="text" value={question} placeholder="Insérer une question" onChange={handleQuestionChange} />
+                    <div className="fileContainer">
+                        <input type="file" accept="image/*" onChange={(e) => handleImageChange(e)} />
+                    </div>
+                </div>
             </div>
             {answers.map((answer, index) => (
                 <div className="map__container" key={index}>
