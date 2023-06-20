@@ -64,7 +64,6 @@ export const mathFunctions = {
 
     // Fonction qui permet de récupérer la solution de l'exercice et de la comparer à la réponse de l'utilisateur
     getSolution: async (exercise = undefined, answer = undefined) => {
-        console.log(answer , exercise);
         let result = undefined;
         await axios.post("http://localhost:4000/api/getSolution", JSON.stringify({
             exercise: exercise === undefined ? data.currentExercise : exercise,
