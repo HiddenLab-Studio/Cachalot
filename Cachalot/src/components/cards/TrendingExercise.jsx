@@ -198,13 +198,9 @@ const TrendingExercise = ({amount}) => {
                                                 </div>
                                                 {
                                                     !isOnMobile ?
-                                                        <span>
-                                                     description de l'exercice
-                                                     description de l'exercice
-                                                     description de l'exercice
-                                                 </span>
+                                                            <span>{exercise.description}</span>
                                                         :
-                                                        null
+                                                            null
                                                 }
 
                                                 <div className="stats__container">
