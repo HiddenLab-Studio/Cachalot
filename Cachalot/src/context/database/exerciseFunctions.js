@@ -1,4 +1,4 @@
-import {addDoc, collection, setDoc, doc, getDoc, updateDoc, query, getDocs, orderBy, limit} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc} from "firebase/firestore";
 import firebaseConfigClient from "../../services/firebase.config.js";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
@@ -92,5 +92,29 @@ export const exercise = {
         });
         return exerciseList;
     },
+
+    async getExerciseById(id) {
+        // We retrieve the exercise photo from the storage
+        const storageRef = ref(storage, "exercise_images/" + id);
+        // We download the photo from the storage we handle not found from the storage
+        const photo = await getDownloadURL(storageRef).catch((error) => {
+            switch (error.code) {
+                case 'storage/object-not-found':
+                    return undefined;
+                default:
+                    console.log(error.code);
+            }
+        });
+        // We retrieve the exercise from the database
+        const exerciseRef = await doc(db, "exercises", id.toString());
+        // We add the photo to the exercise
+        return await getDoc(exerciseRef).then((doc) => {
+            if (doc.exists()) {
+                return {...doc.data(), photo: photo};
+            } else {
+                console.log("No such document!");
+            }
+        });
+    }
 
 }

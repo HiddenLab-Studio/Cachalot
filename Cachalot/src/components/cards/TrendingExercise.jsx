@@ -166,10 +166,10 @@ const TrendingExercise = ({amount}) => {
                 setIsLoading(false);
             }
         )
-    }, []);
+    }, [amount]);
 
     if(isLoading){
-        return <Loading />
+        return null;
     } else {
         return (
             <TrendingExerciseContainer>

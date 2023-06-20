@@ -13,6 +13,7 @@ import Navbar from "../../../../components/navbar/Navbar.jsx";
 
 // Styled Components
 import {Container, MainContainer} from "../../../../components/utils/ui/GlobalStyle.js";
+import ExerciseDefault from "./subComponents/default/ExerciseDefault.jsx";
 
 const ExerciseContainer = styled(Container)``;
 const Content = styled.section`
@@ -58,7 +59,7 @@ const Exercise = () => {
                                         path === "catalog" ?
                                                 <div>Catalog</div>
                                             :
-                                                <div>Default</div>
+                                                <ExerciseDefault auth={auth} id={path} />
 
                             }
                         </Content>
