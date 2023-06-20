@@ -210,7 +210,7 @@ const TrendingExercise = ({amount}) => {
                                                 <div className="stats__container">
                                                     <div>
                                              <span>
-                                                 Par @{exercise.username} {!isOnMobile ? "" : null}
+                                                 Par @{exercise.username} {!isOnMobile ? "le " + exercise.dateCreation : null}
                                              </span>
                                                     </div>
                                                     <div className="like">

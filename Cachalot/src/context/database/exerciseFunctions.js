@@ -23,6 +23,8 @@ export const exercise = {
         console.log(data);
         if(data.photo !== undefined) data.photo = await exercise.uploadImage(exerciseCode, data.photo);
 
+        const date = new Date();
+        const dateCreation = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
         // We add exercise to the database
         await setDoc(docRef, {
@@ -32,7 +34,7 @@ export const exercise = {
             question: data.question,
             answers: data.answers,
             type: data.type,
-            dateCreation: new Date(),
+            dateCreation: dateCreation,
             like: 0,
         }).then(() => {
             result.exerciseId = exerciseCode;
