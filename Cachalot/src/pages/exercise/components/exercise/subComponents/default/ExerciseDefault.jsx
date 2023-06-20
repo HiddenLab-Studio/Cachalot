@@ -127,7 +127,7 @@ const ExerciseDefault = ({auth, id}) => {
 
         auth.exercise.getExerciseById(id === null ? getExerciseId() : id).then(r => {
             console.log(r);
-            setExerciseData(r);
+            if(r !== undefined) setExerciseData(r);
             setIsLoading(false);
         });
     }, []);
@@ -173,39 +173,49 @@ const ExerciseDefault = ({auth, id}) => {
             if(isLoading) {
                 return <SmallLoading />
             } else {
-                return (
-                    <ExerciseDefaultContainer>
-                        <div className="title__container">
-                            <div tw="flex flex-row items-center gap-[8px]">
-                                <img src="../../../../../../../static/img/icons/exercise.png" alt="Exercise"/>
-                                <h1>Exercice de {exerciseData.username}</h1>
-                            </div>
-                            <div tw="flex justify-end grow-[1]">
-                                <span>#{id}</span>
-                            </div>
+                if(exerciseData === null) {
+                    return (
+                        <div>
+                            <h1>Erreur</h1>
+                            <p>Une erreur est survenue lors du chargement de l'exercice</p>
+                            <p>Aucun exercice trouvé !</p>
                         </div>
-                        <ImageZoomContainer zoom={imageZoom} className="question__container">
-                            {exerciseData.photo === undefined ? null : <img src={exerciseData.photo} alt="Photo de l'énoncé" onClick={() => setImageZoom(!imageZoom)}/>}
-                            <h2>{exerciseData.question}</h2>
-                        </ImageZoomContainer>
-                        <GridContainer>
-                            {
-                                exerciseData.answers.map((answer, index) => {
-                                    return (
-                                        <GridElement id={index} key={index} onClick={(e) => handleClick(e)}>
-                                            <span>{answer.text}</span>
-                                        </GridElement>
-                                    )
-                                })
-                            }
-                        </GridContainer>
-                        <div className="submit__btn__container">
-                            <button onClick={() => handleSubmit()}>
-                                <span>Valider</span>
-                            </button>
-                        </div>
-                    </ExerciseDefaultContainer>
-                )
+                    )
+                } else {
+                    return (
+                        <ExerciseDefaultContainer>
+                            <div className="title__container">
+                                <div tw="flex flex-row items-center gap-[8px]">
+                                    <img src="../../../../../../../static/img/icons/exercise.png" alt="Exercise"/>
+                                    <h1>Exercice de {exerciseData.username}</h1>
+                                </div>
+                                <div tw="flex justify-end grow-[1]">
+                                    <span>#{id}</span>
+                                </div>
+                            </div>
+                            <ImageZoomContainer zoom={imageZoom} className="question__container">
+                                {exerciseData.photo === undefined ? null : <img src={exerciseData.photo} alt="Photo de l'énoncé" onClick={() => setImageZoom(!imageZoom)}/>}
+                                <h2>{exerciseData.question}</h2>
+                            </ImageZoomContainer>
+                            <GridContainer>
+                                {
+                                    exerciseData.answers.map((answer, index) => {
+                                        return (
+                                            <GridElement id={index} key={index} onClick={(e) => handleClick(e)}>
+                                                <span>{answer.text}</span>
+                                            </GridElement>
+                                        )
+                                    })
+                                }
+                            </GridContainer>
+                            <div className="submit__btn__container">
+                                <button onClick={() => handleSubmit()}>
+                                    <span>Valider</span>
+                                </button>
+                            </div>
+                        </ExerciseDefaultContainer>
+                    )
+                }
             }
         }
     }
