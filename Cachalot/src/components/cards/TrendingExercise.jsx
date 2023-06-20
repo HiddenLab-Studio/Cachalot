@@ -160,7 +160,7 @@ const TrendingExercise = ({amount}) => {
     const isOnMobile = useMediaQuery({query: "(max-width: 550px)"});
 
     useEffect(() => {
-        exercise.getExerciseByLike(9).then((res) => {
+        exercise.getExerciseByLike(amount).then((res) => {
                 console.log(res);
                 setExerciseList(res);
                 setIsLoading(false);
