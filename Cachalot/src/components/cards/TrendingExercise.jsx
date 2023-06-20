@@ -1,41 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 
 import { FaChevronRight } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";
 import {useMediaQuery} from "react-responsive";
-
-const test = [
-    {
-        id: 1458,
-        name: "Les bases en mathématiques",
-        views: 1206,
-        like: 541,
-        pathName: "/exercise/1458",
-    },
-    {
-        id: 2146,
-        name: "Des mots et des couleurs",
-        views: 240,
-        like: 75,
-        pathName: "/exercise/1206",
-    },
-    {
-        id: 6964,
-        name: "Des mots et des couleurs",
-        views: 100,
-        like: 21,
-        pathName: "/exercise/6964",
-    },
-    {
-        id: 9481,
-        name: "Des mots et des couleurs",
-        views: 100,
-        like: 21,
-        pathName: "/exercise/6964",
-    }
-]
+import Loading from "../utils/loading/Loading.jsx";
+import {exercise} from "../../context/database/exerciseFunctions.js";
 
 const GridContainer = styled.div`
   display: grid;
@@ -181,74 +152,89 @@ export const TrendingExerciseContainer = styled.div`
 
 
 const TrendingExercise = ({amount}) => {
+    // State
+    const [exerciseList, setExerciseList] = React.useState([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    // Media query
     const isOnMobile = useMediaQuery({query: "(max-width: 550px)"});
 
-    // TODO
-    //  - Add a loading state
-    //  - Load AMOUNT of exercise from database
+    useEffect(() => {
+        exercise.getExerciseByLike(9).then((res) => {
+                console.log(res);
+                setExerciseList(res);
+                setIsLoading(false);
+            }
+        )
+    }, []);
 
-    return (
-        <TrendingExerciseContainer>
-            <GridContainer>
-                {test.map((exercise, index) => {
-                    if (index < amount){
-                        if(exercise !== undefined) {
-                            return (
-                                <Link to={exercise.pathName} key={exercise.id}>
-                                    <div className="card">
-                                        <div>
-                                            <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
-                                        </div>
-                                        <div className="exercise__info__container">
-                                            <div tw="flex flex-row items-center">
-                                                <h2>{exercise.name}</h2>
+    if(isLoading){
+        return <Loading />
+    } else {
+        return (
+            <TrendingExerciseContainer>
+                <GridContainer>
+                    {exerciseList.map((exercise, index) => {
+                        if (index < amount){
+                            if(exercise !== undefined) {
+                                return (
+                                    <Link to={"/exercise/" + exercise.id} key={exercise.id}>
+                                        <div className="card">
+                                            <div>
+                                                <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
+                                            </div>
+                                            <div className="exercise__info__container">
+                                                <div tw="flex flex-row items-center">
+                                                    <h2>{exercise.title}</h2>
+                                                    {
+                                                        !isOnMobile ?
+                                                            <div tw="flex justify-end grow-[1]">
+                                                                <span>#{exercise.id}</span>
+                                                            </div>
+                                                            :
+                                                            null
+                                                    }
+
+                                                </div>
                                                 {
                                                     !isOnMobile ?
-                                                        <div tw="flex justify-end grow-[1]">
-                                                            <span>#1200</span>
-                                                        </div>
-                                                        :
-                                                        null
-                                                }
-
-                                            </div>
-                                            {
-                                                !isOnMobile ?
-                                                    <span>
+                                                        <span>
                                                      description de l'exercice
                                                      description de l'exercice
                                                      description de l'exercice
                                                  </span>
-                                                    :
-                                                    null
-                                            }
+                                                        :
+                                                        null
+                                                }
 
-                                            <div className="stats__container">
-                                                <div>
+                                                <div className="stats__container">
+                                                    <div>
                                              <span>
-                                                 Par @Lucas{!isOnMobile ? ", le 10 mai 2023" : null}
+                                                 Par @{exercise.username} {!isOnMobile ? "" : null}
                                              </span>
-                                                </div>
-                                                <div className="like">
-                                                    <FcLike />
-                                                    <span>102</span>
+                                                    </div>
+                                                    <div className="like">
+                                                        <FcLike />
+                                                        <span>{exercise.like}</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div tw="flex justify-end grow-[1]">
+                                                <FaChevronRight />
+                                            </div>
                                         </div>
-                                        <div tw="flex justify-end grow-[1]">
-                                            <FaChevronRight />
-                                        </div>
-                                    </div>
-                                </Link>
-                            )
-                        } else {
-                            return null;
+                                    </Link>
+                                )
+                            } else {
+                                return null;
+                            }
                         }
-                    }
-                })}
-            </GridContainer>
-        </TrendingExerciseContainer>
-    )
+                    })}
+                </GridContainer>
+            </TrendingExerciseContainer>
+        )
+    }
+
 }
 
 export default TrendingExercise;

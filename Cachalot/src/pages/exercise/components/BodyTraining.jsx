@@ -77,7 +77,7 @@ const BodyTraining = ({auth}) => {
                         </InputNumberContainer>
                 }
             </div>
-            <TrendingExercise amount={amountOfExerciseToShow} />
+            <TrendingExercise amount={amountOfExerciseToShow} auth={auth} />
 
         </BodyTrainingContainer>
     )

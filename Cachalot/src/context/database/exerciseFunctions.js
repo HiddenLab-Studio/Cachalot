@@ -1,4 +1,4 @@
-import {addDoc, collection,setDoc, doc, getDoc, updateDoc} from "firebase/firestore";
+import {addDoc, collection, setDoc, doc, getDoc, updateDoc, query, getDocs, orderBy, limit} from "firebase/firestore";
 import firebaseConfigClient from "../../services/firebase.config.js";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
@@ -26,6 +26,7 @@ export const exercise = {
 
         // We add exercise to the database
         await setDoc(docRef, {
+            username: userDoc.data().username,
             title: data.title,
             description: data.desc,
             question: data.question,
@@ -85,7 +86,7 @@ export const exercise = {
         const exerciseSnapshot = await getDocs(exerciseQuery);
         const exerciseList = [];
         exerciseSnapshot.forEach((doc) => {
-            exerciseList.push(doc.data());
+            exerciseList.push({id : doc.id, ...doc.data()});
         });
         return exerciseList;
     },
