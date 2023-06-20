@@ -64,10 +64,11 @@ app.post('/api/getExercise', (req, res) => {
 app.post('/api/getExercises', (req, res) => {
     console.log("[POST] user send data to the server !")
     let type = req.body.type;
+    let currentLevel = req.body.currentLevel;
     let amount = req.body.amount;
     let exerciseList = [];
     for (let i = 0; i < amount; i++) {
-        exerciseList.push(generateRandomExercise());
+        exerciseList.push(generateRandomExercise("all", currentLevel));
     }
     res.send({exercises: exerciseList});
 })

@@ -52,7 +52,7 @@ const MatchContainer = ({ auth }) => {
     // Si le game state est finished, on récupère les infos des joueurs pour l'affichage des gagnants et perdants
     if (newState === "finished") {
       const usersInfo = await auth.league.getUsersInfo(discipline, gameId);
-      const infoSort = await auth.league.getWinner(usersInfo);
+      const infoSort = await auth.league.getWinner(discipline, gameId, usersInfo);
       console.log(infoSort);
       setWinnerInfo(infoSort.winner);
       setLoserInfo(infoSort.looser);

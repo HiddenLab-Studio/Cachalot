@@ -120,17 +120,17 @@ export const league = {
         const docSnapshot = await getDoc(docRef);
         const rankUse = Number(docSnapshot.data().rank[discipline]); // Convertir en nombre
         const ranksData = ranks.ranks; // Accéder au tableau de rangs dans votre JSON
-      
+
         let rank = {};
         ranksData.forEach((r) => {
-          if (Number(r.tier) === rankUse) { // Convertir en nombre pour une comparaison stricte
-            rank = r;
-          }
+            if (Number(r.tier) === rankUse) { // Convertir en nombre pour une comparaison stricte
+                rank = r;
+            }
         });
-      
-       return rank;
+
+        return rank;
     },
-      
+
 
 
     /**** GESTION DE LA PARTIE */
@@ -147,8 +147,8 @@ export const league = {
                 }
                 if (state === "starting") {
                     if (docSnapshot.data().exercices == undefined) {
-                        const exercices = await mathFunctions.getExercises(10, discipline)
-
+                        const level = await league.getLevel(docSnapshot.data().rank);
+                        const exercices = await mathFunctions.getExercises(10, discipline, level);
                         await updateDoc(docRef, {
                             exercices: exercices
                         })
@@ -306,11 +306,11 @@ export const league = {
     //PLAYING
     //On regarde si la réponse est bonne ( A MODIFIER)
     checkResponse: async (exercice, value) => {
-        let result = false;
-        const solution = mathFunctions.getSolution(exercice, value);
-        if (solution) {
-            result = true;
-        }
+        let result = true;
+        //const solution = mathFunctions.getSolution(exercice, value);
+        //if (solution) {
+        //result = true;
+        //}
         return result;
 
     },
@@ -345,17 +345,77 @@ export const league = {
         return result;
     },
 
-
     //FINISHED
-    getWinner: async (usersInfo) => {
+    getWinner: async (discipline, gameId, usersInfo) => {
+
         if (usersInfo[0].score > usersInfo[1].score) {
+            const updateYourRanke = await league.updateRank(discipline, gameId, usersInfo[0], usersInfo[1]);
+            console.log(updateYourRanke);
             return { winner: usersInfo[0], looser: usersInfo[1] };
         }
         else {
+            await league.updateRank(discipline, gameId, usersInfo[1], usersInfo[0]);
             return { winner: usersInfo[1], looser: usersInfo[0] };
         }
 
     },
+
+    //On update le rank du user
+    updateRank: async (discipline, gameId, winner, looser) => {
+
+
+        const docGame = doc(db, "league", discipline, "games", gameId);
+        const docGameData = await getDoc(docGame);
+
+        const docWinner = doc(db, "users", winner.id);
+        const docLooser = doc(db, "users", looser.id);
+        const docWinnerData = await getDoc(docWinner);
+        const docLooserData = await getDoc(docLooser);
+
+        if (docGameData.data().rank === docWinnerData.data().rank[discipline] && docGameData.data().rank === docLooserData.data().rank[discipline]) {
+            if (docGameData.data().rank < 8) {
+                //modifier le rank du winner en math mais pas en francais et inversement
+                if (discipline == "math") {
+                    await updateDoc(docWinner, {
+                        rank: {
+                            [discipline]: docWinnerData.data().rank[discipline] + 1,
+                            "french": docWinnerData.data().rank["french"]
+                        }
+                    })
+                }
+                else {
+                    await updateDoc(docWinner, {
+                        rank: {
+                            [discipline]: docWinnerData.data().rank[discipline] + 1,
+                            "math": docWinnerData.data().rank["math"]
+                        }
+                    })
+                }
+
+            }
+
+            if (docGameData.data().rank > 1) {
+                if (discipline == "math") {
+                    await updateDoc(docLooser, {
+                        rank: {
+                            [discipline]: docLooserData.data().rank[discipline] - 1,
+                            "french": docLooserData.data().rank["french"]
+                        }
+                    })
+                } else {
+                    await updateDoc(docLooser, {
+                        rank: {
+                            [discipline]: docLooserData.data().rank[discipline] - 1,
+                            "math": docLooserData.data().rank["math"] 
+                        }
+                    })
+                }
+
+            }
+        }
+
+    },
+
 
     //EXERCICE
     getExercise: async (discipline, gameId, score) => {
@@ -363,6 +423,29 @@ export const league = {
         const docGameData = await getDoc(docGame);
         const exercise = docGameData.data().exercices[score];
         return exercise;
+    },
+
+    getLevel: async (rank) => {
+        let level = 0;
+        if (rank === 1) {
+            level = "CP";
+        }
+        if (rank === 2 || rank === 3) {
+            level = "CE1";
+        }
+        if (rank === 4) {
+            level = "CE2";
+        }
+        if (rank === 5 || rank === 6) {
+            level = "CM1";
+        }
+        if (rank === 7) {
+            level = "CM2";
+        }
+        if (rank === 8) {
+            level = "all";
+        }
+        return level;
     },
 
 }

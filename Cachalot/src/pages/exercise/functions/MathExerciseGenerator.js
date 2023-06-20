@@ -79,11 +79,12 @@ export const mathFunctions = {
         return result.isCorrect;
     },
 
-    getExercises: async (amount, type) => {
+    getExercises: async (amount, type,niveau) => {
         let result = undefined;
         await axios.post("http://localhost:4000/api/getExercises", JSON.stringify({
             type: type,
-            amount: amount
+            amount: amount,
+            currentLevel: niveau
         }), {
             headers: {"Content-Type": "application/json"}
         }).then((response) => {
@@ -92,6 +93,7 @@ export const mathFunctions = {
             console.log(error);
         });
         return result.exercises;
-    }
+    },
+        
 
 }

@@ -101,6 +101,10 @@ export async function firebaseRegister(data) {
                 //photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
                 photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
                 accountCreationDate: dateTime,
+                rank : {
+                    math : 1,
+                    french : 1,
+                },
                 userXp: {
                     currentXp: 0,
                     currentLvl: 1,
@@ -203,6 +207,10 @@ export async function firebaseGoogleLogin() {
                         age: 0,
                         lastLogin: dateTime,
                         accountCreationDate: dateTime,
+                        rank : {
+                            math : 1,
+                            french : 1,
+                        },
                         userXp: {
                             currentXp: 0,
                             currentLvl: 1,
