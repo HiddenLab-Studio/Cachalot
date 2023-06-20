@@ -10,6 +10,7 @@ const dotenv = require("dotenv").config({path: "./.env"});
 //const compression = require("compression");
 const bodyParser = require("body-parser");
 const {generateRandomExercise, getUserInputAndCheckSolution} = require("./functions/math/MathExerciseGenerator");
+const {getExercicesFromJSON, getUserInputAndCheckSolutionFrench} = require("./functions/french/FrenchExerciseGeneratorServer");
 
 // Firebase
 const firebaseConfigClient = require("./config/firebase.config");
@@ -81,6 +82,37 @@ app.post('/api/getSolution', (req, res) => {
     let isCorrect = getUserInputAndCheckSolution(answer, currentExercise);
     res.send({isCorrect: isCorrect});
 })
+
+
+//FRANCAIS
+//On envoie un exercice aléatoire au client
+app.post('/api/getNewFrenchExercise', (req, res) => {
+    const exerciseLevel = req.body.currentLevel;
+  
+    exercise = getExercicesFromJSON(exerciseLevel);
+  
+    const data = {
+      exerciseId: exercise.id,
+      exerciseType: exercise.type,
+      exerciseQuestion: exercise.question,
+      exerciseSentence: exercise.phrase,
+    }
+    
+    res.send(data);
+  });
+  
+  //On récupère la réponse du client et on vérifie si elle est correcte
+  app.post('/api/getSolutionFrench', (req, res) => {
+    const exerciseId = req.body.exerciseId;
+    const answer = req.body.answer;
+  
+    //On verifie la solution
+    let isCorrect2 = getUserInputAndCheckSolutionFrench(answer, exerciseId);
+  
+    // Données à envoyer au client
+    res.json({ isCorrect: isCorrect2 });
+  });
+
 
 app.post('/api/getXpCache', async (req, res) => {
     let id = req.body.id;

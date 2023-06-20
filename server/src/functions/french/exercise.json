@@ -1,0 +1,1309 @@
+[
+  {
+    "id": 0,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le chat mange la souris.",
+    "reponse": "mange"
+  },
+  {
+    "id": 1,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le chien aboie fort.",
+    "reponse": "aboie"
+  },
+  {
+    "id": 2,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les oiseaux volent haut dans le ciel.",
+    "reponse": "volent"
+  },
+  {
+    "id": 3,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le garçon court vite.",
+    "reponse": "court"
+  },
+  {
+    "id": 4,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "La fille danse joyeusement.",
+    "reponse": "danse"
+  },
+  {
+    "id": 5,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le soleil brille intensément.",
+    "reponse": "brille"
+  },
+  {
+    "id": 6,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les fleurs fleurissent au printemps.",
+    "reponse": "fleurissent"
+  },
+  {
+    "id": 7,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le vent souffle doucement.",
+    "reponse": "souffle"
+  },
+  {
+    "id": 8,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les enfants jouent dans le parc.",
+    "reponse": "jouent"
+  },
+  {
+    "id": 9,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "La voiture roule rapidement.",
+    "reponse": "roule"
+  },
+  {
+    "id": 10,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le professeur enseigne avec passion.",
+    "reponse": "enseigne"
+  },
+  {
+    "id": 11,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le bébé dort paisiblement.",
+    "reponse": "dort"
+  },
+  {
+    "id": 12,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les vagues s'écrasent sur la plage.",
+    "reponse": "écrasent"
+  },
+  {
+    "id": 13,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le lion rugit féroce.",
+    "reponse": "rugit"
+  },
+  {
+    "id": 14,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le ventre gargouille bruyamment.",
+    "reponse": "gargouille"
+  },
+  {
+    "id": 15,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les étoiles scintillent dans le ciel nocturne.",
+    "reponse": "scintillent"
+  },
+  {
+    "id": 16,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le train siffle à l'approche du passage à niveau.",
+    "reponse": "siffle"
+  },
+  {
+    "id": 17,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les feuilles tombent lentement en automne.",
+    "reponse": "tombent"
+  },
+  {
+    "id": 18,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le bébé gazouille joyeusement.",
+    "reponse": "gazouille"
+  },
+  {
+    "id": 19,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Les abeilles butinent les fleurs.",
+    "reponse": "butinent"
+  },
+  {
+    "id": 20,
+    "type": "INPUT",
+    "question": "Quel est le verbe de cette phrase ?",
+    "phrase": "Le téléphone sonne brusquement.",
+    "reponse": "sonne"
+  },
+  {
+    "id": 21,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chat miaule doucement.",
+    "reponse": "miauler"
+  },
+  {
+    "id": 22,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chien aboie fort.",
+    "reponse": "aboyer"
+  },
+  {
+    "id": 23,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les oiseaux chantent joyeusement.",
+    "reponse": "chanter"
+  },
+  {
+    "id": 24,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le bébé gazouille doucement.",
+    "reponse": "gazouiller"
+  },
+  {
+    "id": 25,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les enfants jouent dans le parc.",
+    "reponse": "jouer"
+  },
+  {
+    "id": 26,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le chien creuse un trou dans le jardin.",
+    "reponse": "creuser"
+  },
+  {
+    "id": 27,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le vent souffle doucement.",
+    "reponse": "souffler"
+  },
+  {
+    "id": 28,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Les abeilles butinent les fleurs.",
+    "reponse": "butiner"
+  },
+  {
+    "id": 29,
+    "type": "INPUT",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "La plante pousse lentement.",
+    "reponse": "pousser"
+  },
+  {
+    "id": 30,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Jouer",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 31,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Manger",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 32,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Danser",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 33,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Regardé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 34,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Chercher",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 35,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Travaillé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 36,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Chanter",
+    "reponse": "infinitif"
+  },
+  {
+    "id": 37,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Écouté",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 38,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Appelé",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 39,
+    "type": "QCM2",
+    "question": "Est-ce que ce verbe est à l'infinitif ou au participe passé ?",
+    "phrase": "Joué",
+    "reponse": "participe passé"
+  },
+  {
+    "id": 40,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Hier, j'ai mangé une pomme.",
+    "reponse": "passé"
+  },
+  {
+    "id": 41,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Il pleut aujourd'hui.",
+    "reponse": "présent"
+  },
+  {
+    "id": 42,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Demain, nous irons à la plage.",
+    "reponse": "futur"
+  },
+  {
+    "id": 43,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Je chante dans la chorale.",
+    "reponse": "présent"
+  },
+  {
+    "id": 44,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Hier, il a plu toute la journée.",
+    "reponse": "passé"
+  },
+  {
+    "id": 45,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Elle partira en vacances l'été prochain.",
+    "reponse": "futur"
+  },
+  {
+    "id": 46,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Nous avons terminé nos devoirs hier soir.",
+    "reponse": "passé"
+  },
+  {
+    "id": 47,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Il fait beau aujourd'hui.",
+    "reponse": "présent"
+  },
+  {
+    "id": 48,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "La semaine prochaine, je rencontrerai mon ami.",
+    "reponse": "futur"
+  },
+  {
+    "id": 49,
+    "type": "QCM3",
+    "question": "Quel est le temps de cette phrase ?",
+    "phrase": "Elle a acheté un nouveau livre hier.",
+    "reponse": "passé"
+  },
+  {
+    "id": 50,
+    "type": "QCM3",
+    "question": "Quel est l'infinitif du verbe de cette phrase ?",
+    "phrase": "Le cheval galope rapidement sur la plage.",
+    "reponse": "galoper"
+  },
+  {
+    "id": 51,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le soleil brille aujourd'hui.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 52,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Je ne peux pas venir demain.",
+    "reponse": "négative"
+  },
+  {
+    "id": 53,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le garçon court vite.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 54,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Elle ne comprend pas l'anglais.",
+    "reponse": "négative"
+  },
+  {
+    "id": 55,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Nous aimons écouter de la musique.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 56,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Il ne veut pas partager ses bonbons.",
+    "reponse": "négative"
+  },
+  {
+    "id": 57,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Le chien obéit à son maître.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 58,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Je ne sais pas nager.",
+    "reponse": "négative"
+  },
+  {
+    "id": 59,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Les oiseaux volent haut dans le ciel.",
+    "reponse": "affirmative"
+  },
+  {
+    "id": 60,
+    "type": "QCM2",
+    "question": "Est-ce que cette phrase est affirmative ou négative ?",
+    "phrase": "Elle ne danse pas bien.",
+    "reponse": "négative"
+  },
+  {
+    "id": 61,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un livre",
+    "reponse": "des livres"
+  },
+  {
+    "id": 62,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un chat",
+    "reponse": "des chats"
+  },
+  {
+    "id": 63,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un chien",
+    "reponse": "des chiens"
+  },
+  {
+    "id": 64,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un crayon",
+    "reponse": "des crayons"
+  },
+  {
+    "id": 65,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un oiseau",
+    "reponse": "des oiseaux"
+  },
+  {
+    "id": 66,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un vélo",
+    "reponse": "des vélos"
+  },
+  {
+    "id": 67,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un journal",
+    "reponse": "des journaux"
+  },
+  {
+    "id": 68,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un enfant",
+    "reponse": "des enfants"
+  },
+  {
+    "id": 69,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un sac",
+    "reponse": "des sacs"
+  },
+  {
+    "id": 70,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un arbre",
+    "reponse": "des arbres"
+  },
+  {
+    "id": 71,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bras",
+    "reponse": "des bras"
+  },
+  {
+    "id": 72,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un nez",
+    "reponse": "des nez"
+  },
+  {
+    "id": 73,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un cheveu",
+    "reponse": "des cheveux"
+  },
+  {
+    "id": 74,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un landau",
+    "reponse": "des landaus"
+  },
+  {
+    "id": 75,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un pneu",
+    "reponse": "des pneus"
+  },
+  {
+    "id": 76,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bleu",
+    "reponse": "des bleus"
+  },
+  {
+    "id": 77,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un animal",
+    "reponse": "des animaux"
+  },
+  {
+    "id": 78,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bal",
+    "reponse": "des bals"
+  },
+  {
+    "id": 79,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un portail",
+    "reponse": "des portails"
+  },
+  {
+    "id": 80,
+    "type": "INPUT",
+    "question": "Quel est le pluriel de ce nom ?",
+    "phrase": "un bijou",
+    "reponse": "des bijoux"
+  },
+  {
+    "id": 81,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la troisième personne du singulier",
+    "reponse": "Il a joué"
+  },
+  {
+    "id": 82,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la première personne du singulier",
+    "reponse": "J'ai mangé"
+  },
+  {
+    "id": 83,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la deuxième personne du singulier",
+    "reponse": "Tu as fini"
+  },
+  {
+    "id": 84,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la troisième personne du pluriel",
+    "reponse": "Ils ont parlé"
+  },
+  {
+    "id": 85,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la première personne du pluriel",
+    "reponse": "Nous avons dansé"
+  },
+  {
+    "id": 86,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la deuxième personne du pluriel",
+    "reponse": "Vous avez joué"
+  },
+  {
+    "id": 87,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la troisième personne du pluriel",
+    "reponse": "Ils ont mangé"
+  },
+  {
+    "id": 88,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la première personne du singulier",
+    "reponse": "J'ai fini"
+  },
+  {
+    "id": 89,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la deuxième personne du singulier",
+    "reponse": "Tu as parlé"
+  },
+  {
+    "id": 90,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la troisième personne du singulier",
+    "reponse": "Il a dansé"
+  },
+  {
+    "id": 91,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la première personne du pluriel",
+    "reponse": "Nous avons joué"
+  },
+  {
+    "id": 92,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la deuxième personne du pluriel",
+    "reponse": "Vous avez mangé"
+  },
+  {
+    "id": 93,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la troisième personne du pluriel",
+    "reponse": "Ils ont fini"
+  },
+  {
+    "id": 94,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la première personne du singulier",
+    "reponse": "J'ai parlé"
+  },
+  {
+    "id": 95,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la deuxième personne du singulier",
+    "reponse": "Tu as dansé"
+  },
+  {
+    "id": 96,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir joué, à la troisième personne du pluriel",
+    "reponse": "Ils ont joué"
+  },
+  {
+    "id": 97,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir mangé, à la première personne du pluriel",
+    "reponse": "Nous avons mangé"
+  },
+  {
+    "id": 98,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir fini, à la deuxième personne du pluriel",
+    "reponse": "Vous avez fini"
+  },
+  {
+    "id": 99,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir parlé, à la troisième personne du singulier",
+    "reponse": "Il a parlé"
+  },
+  {
+    "id": 100,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe au passé composé :",
+    "phrase": "avoir dansé, à la première personne du singulier",
+    "reponse": "J'ai dansé"
+  },
+  {
+    "id": 101,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Je fais"
+  },
+  {
+    "id": 102,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Tu fais"
+  },
+  {
+    "id": 103,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Il fait"
+  },
+  {
+    "id": 104,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Nous faisons"
+  },
+  {
+    "id": 105,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Vous faites"
+  },
+  {
+    "id": 106,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "faire",
+    "reponse": "Ils font"
+  },
+  {
+    "id": 107,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Je vais"
+  },
+  {
+    "id": 108,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Tu vas"
+  },
+  {
+    "id": 109,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Il va"
+  },
+  {
+    "id": 110,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Nous allons"
+  },
+  {
+    "id": 111,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Vous allez"
+  },
+  {
+    "id": 112,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "aller",
+    "reponse": "Ils vont"
+  },
+  {
+    "id": 113,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Je vois"
+  },
+  {
+    "id": 114,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Tu vois"
+  },
+  {
+    "id": 115,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du singulier au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Il voit"
+  },
+  {
+    "id": 116,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la première personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Nous voyons"
+  },
+  {
+    "id": 117,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la deuxième personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Vous voyez"
+  },
+  {
+    "id": 118,
+    "type": "INPUT",
+    "question": "Conjuguez le verbe à la troisième personne du pluriel au présent de l'indicatif :",
+    "phrase": "voir",
+    "reponse": "Ils voient"
+  },
+  {
+    "id": 119,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __habille rapidement.",
+    "reponse": "s'"
+  },
+  {
+    "id": 120,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est un beau garçon.",
+    "reponse": "c'"
+  },
+  {
+    "id": 121,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est réveillée en retard ce matin.",
+    "reponse": "s'"
+  },
+  {
+    "id": 122,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__ils se dépêchent, ils pourront attraper le train.",
+    "reponse": "s'"
+  },
+  {
+    "id": 123,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est blessée en faisant du sport.",
+    "reponse": "s'"
+  },
+  {
+    "id": 124,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est excusé pour son comportement.",
+    "reponse": "s'"
+  },
+  {
+    "id": 125,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est préparée pour la réunion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 126,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est lavé les mains avant de manger.",
+    "reponse": "s'"
+  },
+  {
+    "id": 127,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est maquillée avant de sortir.",
+    "reponse": "s'"
+  },
+  {
+    "id": 128,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est habillé élégamment pour l'occasion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 129,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est coiffée d'une jolie tresse.",
+    "reponse": "s'"
+  },
+  {
+    "id": 130,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est ennuyé pendant la réunion.",
+    "reponse": "s'"
+  },
+  {
+    "id": 131,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est amusé à la fête hier soir.",
+    "reponse": "s'"
+  },
+  {
+    "id": 132,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est coiffée d'une queue de cheval..",
+    "reponse": "s'"
+  },
+  {
+    "id": 133,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est levé tôt pour aller travailler.",
+    "reponse": "s'"
+  },
+  {
+    "id": 134,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est blessée en faisant du sport.",
+    "reponse": "s'"
+  },
+  {
+    "id": 135,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est lavé le visage avec de l'eau froide.",
+    "reponse": "s'"
+  },
+  {
+    "id": 136,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est souvenue de son rendez-vous important.",
+    "reponse": "s'"
+  },
+  {
+    "id": 137,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Il __est inquiété pour sa sœur pendant son voyage.",
+    "reponse": "s'"
+  },
+  {
+    "id": 138,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "Elle __est perdue dans ses pensées pendant un moment.",
+    "reponse": "s'"
+  },
+  {
+    "id": 139,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__ils se motivent l'un l'autre, ils peuvent atteindre leurs objectifs.",
+    "reponse": "s'"
+  },
+  {
+    "id": 140,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est une belle journée ensoleillée.",
+    "reponse": "c'"
+  },
+  {
+    "id": 141,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est mon anniversaire demain.",
+    "reponse": "c'"
+  },
+  {
+    "id": 142,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est incroyable de voir autant de gens ici.",
+    "reponse": "c'"
+  },
+  {
+    "id": 143,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est difficile de prendre une décision.",
+    "reponse": "c'"
+  },
+  {
+    "id": 144,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est important de rester hydraté par temps chaud.",
+    "reponse": "c'"
+  },
+  {
+    "id": 145,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est délicieux, j'adore ce gâteau.",
+    "reponse": "c'"
+  },
+  {
+    "id": 146,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est dangereux de traverser la route sans regarder.",
+    "reponse": "c'"
+  },
+  {
+    "id": 147,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est mon livre préféré de tous les temps.",
+    "reponse": "c'"
+  },
+  {
+    "id": 148,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est intéressant de découvrir de nouvelles cultures.",
+    "reponse": "c'"
+  },
+  {
+    "id": 149,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est amusant de jouer à des jeux de société en famille.",
+    "reponse": "c'"
+  },
+  {
+    "id": 150,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est triste de dire au revoir à des amis proches.",
+    "reponse": "c'"
+  },
+  {
+    "id": 151,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est surprenant de voir à quel point le temps passe vite.",
+    "reponse": "c'"
+  },
+  {
+    "id": 152,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est ennuyeux de devoir attendre si longtemps.",
+    "reponse": "c'"
+  },
+  {
+    "id": 153,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est agréable de se promener dans le parc par une journée ensoleillée.",
+    "reponse": "c'"
+  },
+  {
+    "id": 154,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est frustrant de ne pas comprendre quelque chose.",
+    "reponse": "c'"
+  },
+  {
+    "id": 155,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est fantastique de réaliser ses rêves.",
+    "reponse": "c'"
+  },
+  {
+    "id": 156,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est formidable d'avoir le soutien de sa famille.",
+    "reponse": "c'"
+  },
+  {
+    "id": 157,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est important de prendre soin de sa santé mentale.",
+    "reponse": "c'"
+  },
+  {
+    "id": 158,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est bénéfique de faire de l'exercice régulièrement.",
+    "reponse": "c'"
+  },
+  {
+    "id": 159,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est triste de voir des animaux en voie de disparition.",
+    "reponse": "c'"
+  },
+  {
+    "id": 160,
+    "type": "QCM2",
+    "question": "c' ou s' ?",
+    "phrase": "__est magnifique de contempler un ciel étoilé.",
+    "reponse": "c'"
+  },
+  {
+    "id": 161,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'vert' ?",
+    "reponse": "verte"
+  },
+  {
+    "id": 162,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'sage' ?",
+    "reponse": "sage"
+  },
+  {
+    "id": 163,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'exigu' ?",
+    "reponse": "exiguë"
+  },
+  {
+    "id": 164,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'habituel' ?",
+    "reponse": "habituelle"
+  },
+  {
+    "id": 165,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'national' ?",
+    "reponse": "nationale"
+  },
+  {
+    "id": 166,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'nul' ?",
+    "reponse": "nulle"
+  },
+  {
+    "id": 167,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'bon' ?",
+    "reponse": "bonne"
+  },
+  {
+    "id": 168,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'épars' ?",
+    "reponse": "éparse"
+  },
+  {
+    "id": 169,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'complet' ?",
+    "reponse": "complète"
+  },
+  {
+    "id": 170,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'jaloux' ?",
+    "reponse": "jalouse"
+  },
+  {
+    "id": 171,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'long' ?",
+    "reponse": "longue"
+  },
+  {
+    "id": 172,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'blanc' ?",
+    "reponse": "blanche"
+  },
+  {
+    "id": 173,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'léger' ?",
+    "reponse": "légère"
+  },
+  {
+    "id": 174,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'meilleur' ?",
+    "reponse": "meilleure"
+  },
+  {
+    "id": 175,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'fort' ?",
+    "reponse": "forte"
+  },
+  {
+    "id": 176,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'bel' ?",
+    "reponse": "belle"
+  },
+  {
+    "id": 177,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'fou' ?",
+    "reponse": "folle"
+  },
+  {
+    "id": 178,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'mou' ?",
+    "reponse": "molle"
+  },
+  {
+    "id": 179,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'nouveau' ?",
+    "reponse": "nouvelle"
+  },
+  {
+    "id": 180,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'vieux' ?",
+    "reponse": "vieille"
+  },
+  {
+    "id": 181,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'poussif' ?",
+    "reponse": "poussive"
+  },
+  {
+    "id": 182,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'heureux' ?",
+    "reponse": "heureuse"
+  },
+  {
+    "id": 183,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'agé' ?",
+    "reponse": "agée"
+  },
+  {
+    "id": 184,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'confiant' ?",
+    "reponse": "confiante"
+  },
+  {
+    "id": 185,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'courageux' ?",
+    "reponse": "courageuse"
+  },
+  {
+    "id": 186,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'énergique' ?",
+    "reponse": ""
+  },
+  {
+    "id": 187,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'gros' ?",
+    "reponse": "grosse"
+  },
+  {
+    "id": 188,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'inventif' ?",
+    "reponse": "inventive"
+  },
+  {
+    "id": 189,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'original' ?",
+    "reponse": "originale"
+  },
+  {
+    "id": 190,
+    "type": "INPUT",
+    "question": "Quel est le féminin de 'sérieux' ?",
+    "reponse": "sérieuse"
+  }
+]
