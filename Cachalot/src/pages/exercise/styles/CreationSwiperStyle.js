@@ -1,5 +1,60 @@
 import { styled } from "twin.macro";
 
+export const TitleDescContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  
+  .title {
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    position: relative;
+    input {
+      padding: 10px 16px;
+      //background-color: ${props => props.theme.inputBg};
+      border: 2px solid ${props => props.theme.inputBorder};
+      border-radius: 12px;
+      outline: none;
+      width: 100%;
+    }
+  }
+  
+  .textarea {
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    position: relative;
+    
+    textarea {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid ${props => props.theme.inputBorder};
+      border-radius: 12px;
+      outline: none;
+      resize: none;
+    }
+  }
+
+  label {
+    z-index: 1;
+    display: block;
+    font-family: "Din_Round_Med", sans-serif;
+    font-size: var(--fs-ss);
+    position: absolute;
+    top: -11px;
+    left: 17px;
+    letter-spacing: 0.025rem;
+    pointer-events: none;
+    background-color: white;
+  }
+  
+
+`;
+
 export const ErrorContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -30,6 +85,7 @@ export const ExerciseTypeCard = styled.div`
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;
   background-color: ${props => props.current === true ? props.theme.buttonBgHover : "transparent"};
+
   img {
     height: 64px;
     width: 64px;
@@ -51,7 +107,8 @@ export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  @media (max-width: 550px) {
+  width: 50%;
+  @media (max-width: 768px) {
     grid-template-columns: repeat(1, 100%);
   }
 `;
