@@ -306,11 +306,11 @@ export const league = {
     //PLAYING
     //On regarde si la réponse est bonne ( A MODIFIER)
     checkResponse: async (exercice, value) => {
-        let result = true;
-        //const solution = mathFunctions.getSolution(exercice, value);
-        //if (solution) {
-        //result = true;
-        //}
+        let result = false;
+        const solution = mathFunctions.getSolution(exercice, value);
+        if (solution) {
+        result = true;
+        }
         return result;
 
     },
