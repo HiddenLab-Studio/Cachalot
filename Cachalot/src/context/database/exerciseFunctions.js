@@ -115,6 +115,8 @@ export const exercise = {
                 console.log("No such document!");
             }
         });
-    }
+    },
+
+
 
 }

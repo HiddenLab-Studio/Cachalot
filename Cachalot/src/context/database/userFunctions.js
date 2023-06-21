@@ -39,4 +39,79 @@ export const user = {
         return result;
     },
 
+    likeExercise: async (currentUser, exerciseId) => {
+        let result = false;
+        console.log(exerciseId)
+        if (currentUser !== null) {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            const userExercise = userDoc.data().userExercise;
+            const userLikes = userExercise.exerciseLikedList;
+            // add the exerciseId to the field userExercise.exerciseLikedList inside userExercise object
+            await updateDoc(userRef, {
+                userExercise : {
+                    ...userExercise,
+                    exerciseLikedList : [...userLikes, exerciseId]
+                }
+            }).then(() => {
+                // update exerciseData.like in the database
+                const exerciseRef = doc(db, "exercises", exerciseId);
+                getDoc(exerciseRef).then((doc) => {
+                    updateDoc(exerciseRef, {
+                        like: doc.data().like + 1
+                    });
+                });
+                result = true;
+            });
+        }
+        return result;
+    },
+
+    unlikeExercise: async (currentUser, exerciseId) => {
+        let result = false;
+        if (currentUser !== null) {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            const userExercise = userDoc.data().userExercise;
+            const userLikes = userExercise.exerciseLikedList;
+            // remove the exerciseId to the field userExercise.exerciseLikedList inside userExercise object
+            await updateDoc(userRef, {
+                userExercise : {
+                    ...userExercise,
+                    exerciseLikedList : userLikes.filter((id) => id !== exerciseId)
+                }
+            }).then(() => {
+                // update exerciseData.like in the database
+                const exerciseRef = doc(db, "exercises", exerciseId);
+                getDoc(exerciseRef).then((doc) => {
+                    updateDoc(exerciseRef, {
+                        like: doc.data().like - 1
+                    });
+                });
+                result = true;
+            });
+        }
+        return result;
+    },
+
+    addExerciseDone: async (currentUser, exerciseId) => {
+        let result = false;
+        if (currentUser !== null) {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            const userExercise = userDoc.data().userExercise;
+            const userDone = userExercise.exerciseDoneList;
+            // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
+            await updateDoc(userRef, {
+                userExercise : {
+                    ...userExercise,
+                    exerciseDoneList : [...userDone, exerciseId]
+                }
+            }).then(() => {
+                result = true;
+            });
+        }
+        return result;
+    }
+
 }
