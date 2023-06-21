@@ -26,7 +26,7 @@ const MatchContainer = ({ auth }) => {
   const [otherPlayerScore, setOtherPlayerScore] = useState(null);
 
   //Info du gagnant et du perdant
-  const [myWinner, setMyWinner] = useState(false);
+  const [myWinner, setMyWinner] = useState(null);
 
   //Reponse de l'utilisateur
   const [exercise, setExercise] = useState(null);
@@ -52,27 +52,36 @@ const MatchContainer = ({ auth }) => {
     console.log("Game state changed to", newState);
     setGameState(newState);
     // Si le game state est starting ou playing, on récupère les infos des joueurs pour l'affichage
-    if (newState === "starting" || newState === "playing" || newState === "finished") {
+    if (newState === "starting" || newState === "playing") {
       const usersInfo = await auth.league.getUsersInfo(discipline, gameId);
       if (usersInfo) {
         const infoSort = await auth.league.infoSort(usersInfo);
         setYourInfo(infoSort.myInfo);
         setOtherInfo(infoSort.otherInfo);
-        if (newState === "starting" || newState === "playing") {
-          const unsubscribe = auth.league.onStatePlayer(discipline, gameId, handlePlayerStateChange);
-          return () => {
-            unsubscribe();
-          };
-        }
-        // Si le game state est finished, on récupère les infos des joueurs pour l'affichage des gagnants et perdants
-        if (newState === "finished") {
-          const winner = await auth.league.getWinner(discipline, gameId, usersInfo);
-          setMyWinner(winner);
+        const unsubscribe = auth.league.onStatePlayer(discipline, gameId, handlePlayerStateChange);
+        return () => {
+          unsubscribe();
         }
       }
     }
+    // Si le game state est finished, on récupère les infos des joueurs pour l'affichage des gagnants et perdants
+    if (newState === "finished") {
+      const usersInfo = await auth.league.getUsersInfo(discipline, gameId);
+      if (usersInfo) {
+        const infoSort = await auth.league.infoSort(usersInfo);
+        await setYourInfo(infoSort.myInfo);
+        await setOtherInfo(infoSort.otherInfo);
+        setMyPlayerScore(infoSort.myInfo.score);
+        setOtherPlayerScore(infoSort.otherInfo.score);
+        
+          const winner = await auth.league.getWinner(discipline, gameId, usersInfo);
+          console.log(winner);
+          setMyWinner(winner);
+        
+      }
+    }
+  }
 
-  };
 
   // Gestion du player state
   const handlePlayerStateChange = async (myState, newState, GameState, exercise) => {
@@ -372,11 +381,14 @@ const MatchContainer = ({ auth }) => {
             </form>
           </div>
 
+        </>
+      )}
 
 
-
-
+      {(myPlayerScore === 10 || otherPlayerScore) && myWinner != null && (
+        <>
           {/*AFFICHAGE DE LA FIN DE LA PARTIE */}
+
           <div className={gameState === "finished" ? "flex flex-col items-center justify-center h-screen" : "hidden"} id="finishedGame">
             <div className="flex items-center mb-6">
               <div className="flex flex-row items-center">
@@ -394,7 +406,7 @@ const MatchContainer = ({ auth }) => {
                         {yourInfo.name}
                       </h2>
                       <div className="flex items-center py-2">
-                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{myPlayerScore === null ? yourInfo.score : myPlayerScore} / 10</p>
+                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{myPlayerScore} / 10</p>
                       </div>
                     </div>
                   </div>
@@ -416,14 +428,14 @@ const MatchContainer = ({ auth }) => {
                         {otherInfo.name}
                       </h2>
                       <div className="flex items-center py-2">
-                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{otherPlayerScore === null ? otherInfo.score : otherPlayerScore} / 10</p>
+                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{otherPlayerScore} / 10</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={myWinner === true ? "text-3xl text-green-500 mb-4" : "text-3xl text-red-500 mb-4" }> {myWinner === true ? "Tu as gagné" : "Tu as perdu"} </h1>
+            <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={myWinner === true ? "text-3xl text-green-500 mb-4" : "text-3xl text-red-500 mb-4"}> {myWinner === true ? "Tu as gagné" : "Tu as perdu"} </h1>
             <button
               id="leaveGameByFinished"
               className="py-2 px-4 bg-red-500 text-white rounded mt-8"
@@ -436,6 +448,7 @@ const MatchContainer = ({ auth }) => {
           </div>
         </>
       )}
+
 
 
 

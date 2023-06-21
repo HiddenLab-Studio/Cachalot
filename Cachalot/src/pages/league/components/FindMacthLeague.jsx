@@ -82,7 +82,7 @@ const FindMatchContainer = ({ auth }) => {
           <p style={{ fontFamily: "'DIN Round Pro', sans-serif", fontSize: "1rem", textAlign: "left" }} className="text-gray-500">
             Les duels classés en mathématiques et en français sont des compétitions où le niveau varie selon le rang des participants, offrant ainsi des défis stimulants et l'opportunité de mesurer ses compétences. C'est l'occasion parfaite de mettre en pratique ses connaissances et de progresser dans la matière choisie.
           </p>
-          <img src="../../../../static/img/gif/combat.gif" alt="Ranked" className="" />
+          {/*<img src="../../../../static/img/gif/combat.gif" alt="Ranked" className="" />*/}
         </div>
       </div>
     </FindMatchContainerWrapper>
