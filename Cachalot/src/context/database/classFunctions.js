@@ -5,6 +5,8 @@ const { auth, db, storage } = firebaseConfigClient();
 
 
 export const classes = {
+
+    /** GESTION DE CREATION ET ACCES AUX CLASSES */
     createClass: async (className) => {
         let result = {
             classCode: undefined,
@@ -29,9 +31,7 @@ export const classes = {
                         const data = {
                             name: className,
                             adminUid: user.uid,
-                            adminDisplayName: doc.data().displayName,
                             adminUsername: doc.data().username,
-                            adminPhoto: doc.data().photo,
                             dateCreation: new Date(),
                         }
 
@@ -39,9 +39,7 @@ export const classes = {
                             name: data.name,
                             admin: {
                                 uid: data.adminUid,
-                                displayName: data.adminDisplayName,
                                 username: data.adminUsername,
-                                photo: data.adminPhoto,
                             },
                             dateCreation: data.dateCreation,
                         }).then(async () => {
@@ -73,7 +71,7 @@ export const classes = {
             isAlreadyJoined: false
         };
 
-        if(code.length !== 5) return result;
+        if (code.length !== 5) return result;
 
         const user = auth.currentUser;
         const docRef = doc(db, "classes", code);
@@ -106,7 +104,6 @@ export const classes = {
                                                     exoDone: 0,
                                                     exoStarted: 0,
                                                 },
-                                                photo: doc.data().photo,
                                             }).then(() => {
                                                 result.isJoined = true;
                                             });
@@ -139,7 +136,7 @@ export const classes = {
         return result;
     },
 
-    createCode : async () => {
+    createCode: async () => {
         const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
         const docRef = doc(db, "classes", classeCode);
         await getDoc(docRef).then(async (doc) => {
@@ -149,6 +146,63 @@ export const classes = {
             }
         })
         return classeCode;
-    }
+    },
 
+
+    /** GESTION DES UTILISATEURS */
+
+    //Get les infos de la classe et des éléves
+    getClassInfo: async (room) => {
+        //On get les bonnes collections et documents
+        const docRef = doc(db, "classes", room);
+        const docRefUsers = collection(db, "classes/" + room + "/users");
+
+        //On prend les infos de la classe
+        const docSnap = await getDoc(docRef);
+        const dataClasse = docSnap.data();
+
+        const dataInfoClasse = {
+            name: dataClasse.name,
+            datte : dataClasse.dateCreation,
+        }
+
+        const docRefAdmin = doc(db, "users", dataClasse.admin.uid);
+        const docSnapAdmin = await getDoc(docRefAdmin);
+        const dataAdmin = {
+            displayName: docSnapAdmin.data().displayName,
+            photo: docSnapAdmin.data().photo,
+            ...dataClasse.admin
+        }
+
+        //On prend les infos des éléves
+        const docSnapUsers = await getDocs(docRefUsers);
+        const dataUsers = await Promise.all(
+            docSnapUsers.docs.map(async (docUser) => {
+                const docRefDataUser = doc(db, "users", docUser.id);
+                const docSnapDataUser = await getDoc(docRefDataUser);
+                const dataUser = {
+                    id : docUser.id,
+                    displayName: docSnapDataUser.data().displayName,
+                    photo: docSnapDataUser.data().photo,
+                    ...docUser.data(),
+                }
+                return dataUser;
+            })
+        );
+
+        return {dataInfoClasse, dataUsers, dataAdmin };
+    },
+
+    getUserInfo: async (uid, classId) => {
+        const docRef = doc(db, "users", uid);
+        const docRefClass = doc(db, "classes", classId, "users", uid);
+        const docSnap = await getDoc(docRef);
+        const docSnapClass = await getDoc(docRefClass);
+        const dataUser = {
+            displayName: docSnap.data().displayName,
+            photo: docSnap.data().photo,
+            ...docSnapClass.data()
+        }
+        return dataUser;
+    },
 }

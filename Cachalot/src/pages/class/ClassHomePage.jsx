@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { styled } from "twin.macro";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
@@ -8,35 +7,19 @@ import { useCache } from "../../context/manager/cache/CacheProvider.js";
 // Components*
 import Navbar from "../../components/navbar/Navbar.jsx";
 import ChatContainer from "../profile/components/profileComponents/subComponents/chat.jsx";
+import ClassInfoUsers from "./components/ClassInfoUsers.jsx";
 import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 
 // Styled Components
-import { MainContainer, Container } from "../../components/utils/ui/GlobalStyle.js";
-import FindMatchContainer from "./components/FindMacthLeague.jsx";
-
-export const LeagueContainer = styled(Container)``;
-export const Content = styled.section`
-  display: flex;
-  flex-direction: row;
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 25px;
-  gap: 32px;
-
-  @media (min-width: 768px) and (max-width: 1050px) {
-    max-width: 768px;
-  }
-  
-  @media (min-width: 0px) and (max-width: 1050px) {  
-    flex-direction: column;
-  }
-  
-`
+import { MainContainer } from "../../components/utils/ui/GlobalStyle.js";
+import {
+    ClassContainer,
+    Content
+} from "./styles/classHomePageStyle.js";
 
 
-
-const FindLeagueHomePage = () => {
+const ClassHomePage = () => {
     // Context
     const auth = useAuth();
     const cache = useCache();
@@ -44,7 +27,7 @@ const FindLeagueHomePage = () => {
     // State
     const [isLoading, setIsLoading] = useState(!cache.isUserCached);
 
-    if (typeof auth.currentUser === "number") {
+    if(typeof auth.currentUser === "number") {
         return <ConnectionHomePage />
     } else {
         if (isLoading) {
@@ -53,15 +36,17 @@ const FindLeagueHomePage = () => {
             return (
                 <MainContainer>
                     <Navbar />
-                    <LeagueContainer>
+                    <ClassContainer>
                         <Content>
-                            <FindMatchContainer auth={auth} />
+                            <ClassInfoUsers auth={auth} />
                         </Content>
-                    </LeagueContainer>
+                    </ClassContainer>
                 </MainContainer>
             )
         }
     }
 }
 
-export default FindLeagueHomePage;
+//<ChatContainer auth={auth} />
+
+export default ClassHomePage;

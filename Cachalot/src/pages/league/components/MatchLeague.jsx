@@ -69,15 +69,12 @@ const MatchContainer = ({ auth }) => {
       const usersInfo = await auth.league.getUsersInfo(discipline, gameId);
       if (usersInfo) {
         const infoSort = await auth.league.infoSort(usersInfo);
-        await setYourInfo(infoSort.myInfo);
-        await setOtherInfo(infoSort.otherInfo);
         setMyPlayerScore(infoSort.myInfo.score);
         setOtherPlayerScore(infoSort.otherInfo.score);
-        
-          const winner = await auth.league.getWinner(discipline, gameId, usersInfo);
-          console.log(winner);
-          setMyWinner(winner);
-        
+        const winner = await auth.league.getWinner(discipline, gameId, usersInfo);
+        console.log(winner);
+        setMyWinner(winner);
+
       }
     }
   }
