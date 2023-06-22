@@ -38,7 +38,6 @@ const Exercise = () => {
     useEffect( () => {
         let path = window.location.pathname.split("/")[2];
         setPath(path);
-        console.log(path);
     }, []);
 
     if(typeof auth.currentUser === "number") {
@@ -47,7 +46,7 @@ const Exercise = () => {
         if(isLoading){
             return <FullLoading setIsLoading={setIsLoading} />
         } else {
-
+            if(path === null) return null;
             return (
                 <MainContainer>
                     <Navbar />

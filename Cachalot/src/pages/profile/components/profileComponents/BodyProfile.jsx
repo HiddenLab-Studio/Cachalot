@@ -25,7 +25,7 @@ const BodyProfile = ({isSearch, data}) => {
     let userXp = isSearch ? data.searchedUser.userData.userXp : cache.xpCache.getXpCache();
     let userFriends = isSearch ? data.searchedUser.userFriends : data.userFriends;
 
-    console.log(userData);
+    //console.log(userData);
 
     return (
         <BodyProfileContainer>
@@ -49,7 +49,7 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement>
                         <img src="../../../../../static/img/icons/chest.png" alt="Quest"/>
                         <div>
-                            <span>0</span>
+                            <span>{userData.userQuest.totalQuestDone}</span>
                             <h2>Quêtes terminées</h2>
                         </div>
                     </GridElement>

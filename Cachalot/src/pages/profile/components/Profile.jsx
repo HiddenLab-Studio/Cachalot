@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Context
-import { useCache } from "../../../context/manager/cache/CacheProvider.js";
-
 // Components
 import Loading from "../../../components/utils/loading/Loading.jsx";
 import Navbar from "../../../components/navbar/Navbar.jsx";
 import ProfileInformation from "./profileComponents/ProfileInformation.jsx";
 import BodyProfile from "./profileComponents/BodyProfile.jsx";
-import ChatContainer from "./profileComponents/subComponents/chat.jsx";
 
 // Styled components
 import {
@@ -69,14 +65,14 @@ const Profile = (props) => {
                 navigate("/profile")
             } else {
                 searchingUser(searchedUser).then(r => {
-                    console.log(r)
+                    //console.log(r)
                     setIsLoading(false);
                 } );
             }
         } else {
             // if the user is not searching for another user, load the user's friends
             getUserFriends(auth.currentUser.uid).then((result) => {
-                console.log(friendsCache.getFriendsCache());
+                //console.log(friendsCache.getFriendsCache());
                 console.info("Friends loaded successfully!");
                 setIsLoading(false);
             });

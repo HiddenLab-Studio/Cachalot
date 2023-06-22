@@ -61,6 +61,24 @@ const questCacheManager = {
         }
         return result;
     },
+    updateQuestProgress: async (type) => {
+        switch (type) {
+            case "onExerciseCompleted":
+                // update progress (field current) for each quest with type "onExerciseCompleted"
+                console.log(questCache);
+                for(let i = 0; i < questCache.currentQuest.length; i++){
+                    if(questCache.currentQuest[i].type === "onExerciseCompleted"){
+                        questCache.currentQuest[i].current++;
+                        questCache.isUpdated = true;
+                    }
+                }
+                console.log(questCache);
+                break;
+            default:
+                console.error("Unknown quest type!");
+                break;
+        }
+    },
 
     updateNodeCache: async (id) => {
         let result = undefined;

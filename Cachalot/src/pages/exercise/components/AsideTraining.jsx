@@ -14,7 +14,7 @@ import {
 const AsideTraining = () => {
     return (
         <AsideTrainingContainer>
-            <Quest />
+            <Quest amountOfQuestToDisplay={3} />
             <div tw="flex flex-col gap-[16px]">
                 <ButtonCard
                     title= "Ligue"

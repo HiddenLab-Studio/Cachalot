@@ -153,10 +153,10 @@ export const TitleContainer = styled.div`
 
 `;
 export const QuestContainer = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  //padding: 16px;
   border: 2px solid ${props => props.theme.borderRightColor};
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;

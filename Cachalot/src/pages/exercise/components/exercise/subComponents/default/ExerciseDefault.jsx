@@ -40,7 +40,6 @@ const ExerciseDefault = ({auth, id}) => {
 
         let exerciseId = getExerciseId();
         auth.exercise.getExerciseById(id === null ? exerciseId : id).then(r => {
-            console.log(r);
             if(r !== undefined) {
                 // check if exercise already liked by the user (userData.userExercise.exerciseLikedList)
                 if(userData.userExercise.exerciseLikedList.includes(exerciseId)) setIsLiked(true);
@@ -85,10 +84,12 @@ const ExerciseDefault = ({auth, id}) => {
                             console.log(userData.userExercise.exerciseDoneList);
                             if(!userData.userExercise.exerciseDoneList.includes(exerciseId.toString())){
                                 auth.user.addExerciseDone(auth.currentUser, exerciseId).then(r => {
-                                    console.log(r);
-                                    setExerciseFinished({correct: true, complete: true});
-                                    console.info("First time completing this exercise ! you earned 10XP");
-                                    cache.xpCache.addXp(10);
+                                    //console.log(r);
+                                    cache.questCache.updateQuestProgress("onExerciseCompleted").then(r => {
+                                        console.info("First time completing this exercise ! you earned 10XP");
+                                        cache.xpCache.addXp(10);
+                                        setExerciseFinished({correct: true, complete: true});
+                                    });
                                 });
                             } else {
                                 setExerciseFinished({correct: true, complete: true});
@@ -109,12 +110,10 @@ const ExerciseDefault = ({auth, id}) => {
                 let exerciseId = window.location.pathname.split("/")[2];
                 if(!isLiked){
                     auth.user.likeExercise(auth.currentUser, exerciseId).then(r => {
-                        console.log(r);
-                        //setIsLiked(true);
+                        setIsLiked(true);
                     });
                 } else {
                     auth.user.unlikeExercise(auth.currentUser, exerciseId).then(r => {
-                        //console.log(r);
                         setIsLiked(false);
                     });
                 }
