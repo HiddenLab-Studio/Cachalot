@@ -105,10 +105,16 @@ export async function firebaseRegister(data) {
                     math : 1,
                     french : 1,
                 },
+                userQuest: {
+                    currentQuest: [],
+                    totalQuestDone: 0,
+                    isUpdated: false
+                },
                 userXp: {
                     currentXp: 0,
                     currentLvl: 1,
-                    cumulatedXp: 0
+                    cumulatedXp: 0,
+                    isUpdated: false
                 },
                 userExercise: {
                     totalExerciseDone: 0,
@@ -230,6 +236,11 @@ export async function firebaseGoogleLogin() {
                         lastLogin: dateTime,
                         accountCreationDate: dateTime,
                         cumulatedDays: 0,
+                        userQuest: {
+                            currentQuest: [],
+                            totalQuestDone: 0,
+                            isUpdated: false
+                        },
                         rank : {
                             math : 1,
                             french : 1,
@@ -237,7 +248,8 @@ export async function firebaseGoogleLogin() {
                         userXp: {
                             currentXp: 0,
                             currentLvl: 1,
-                            cumulatedXp: 0
+                            cumulatedXp: 0,
+                            isUpdated: false
                         },
                         userExercise: {
                             totalExerciseDone: 0,

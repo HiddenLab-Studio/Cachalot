@@ -110,11 +110,11 @@ const ExerciseDefault = ({auth, id}) => {
                 if(!isLiked){
                     auth.user.likeExercise(auth.currentUser, exerciseId).then(r => {
                         console.log(r);
-                        setIsLiked(true);
+                        //setIsLiked(true);
                     });
                 } else {
                     auth.user.unlikeExercise(auth.currentUser, exerciseId).then(r => {
-                        console.log(r);
+                        //console.log(r);
                         setIsLiked(false);
                     });
                 }
