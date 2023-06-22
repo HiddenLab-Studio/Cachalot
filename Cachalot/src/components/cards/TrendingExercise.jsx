@@ -197,7 +197,7 @@ const TrendingExercise = ({amount}) => {
                             if (index < amount){
                                 if(exercise !== undefined) {
                                     return (
-                                        <Link to={"/exercise/" + exercise.id} key={exercise.id}>
+                                        <a onClick={() => window.location.pathname = "/exercise/" + exercise.id} key={exercise.id}>
                                             <div className="card">
                                                 <div>
                                                     <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
@@ -238,7 +238,7 @@ const TrendingExercise = ({amount}) => {
                                                     <FaChevronRight />
                                                 </div>
                                             </div>
-                                        </Link>
+                                        </a>
                                     )
                                 } else {
                                     return null;
