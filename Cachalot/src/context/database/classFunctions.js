@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc,deleteDoc } from "firebase/firestore";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -97,9 +97,11 @@ export const classes = {
                                 await getDoc(userRef)
                                     .then(async (doc) => {
                                         if (doc.exists()) {
+                                            const date = new Date();
+                                            const dateJoin = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
                                             await setDoc(userClassesRef, {
                                                 username: doc.data().username,
-                                                dateJoin: new Date(),
+                                                dateJoin: dateJoin,
                                                 exercises: {
                                                     exoDone: 0,
                                                     exoStarted: 0,
@@ -153,6 +155,8 @@ export const classes = {
 
     //Get les infos de la classe et des éléves
     getClassInfo: async (room) => {
+        const user = auth.currentUser;
+        let userInClass = false;
         //On get les bonnes collections et documents
         const docRef = doc(db, "classes", room);
         const docRefUsers = collection(db, "classes/" + room + "/users");
@@ -161,10 +165,6 @@ export const classes = {
         const docSnap = await getDoc(docRef);
         const dataClasse = docSnap.data();
 
-        const dataInfoClasse = {
-            name: dataClasse.name,
-            datte : dataClasse.dateCreation,
-        }
 
         const docRefAdmin = doc(db, "users", dataClasse.admin.uid);
         const docSnapAdmin = await getDoc(docRefAdmin);
@@ -173,15 +173,21 @@ export const classes = {
             photo: docSnapAdmin.data().photo,
             ...dataClasse.admin
         }
+        if(dataClasse.admin.uid === user.uid){
+            userInClass = true;
+        }
 
         //On prend les infos des éléves
         const docSnapUsers = await getDocs(docRefUsers);
         const dataUsers = await Promise.all(
             docSnapUsers.docs.map(async (docUser) => {
+                if (docUser.id === user.uid) {
+                    userInClass = true;
+                }
                 const docRefDataUser = doc(db, "users", docUser.id);
                 const docSnapDataUser = await getDoc(docRefDataUser);
                 const dataUser = {
-                    id : docUser.id,
+                    id: docUser.id,
                     displayName: docSnapDataUser.data().displayName,
                     photo: docSnapDataUser.data().photo,
                     ...docUser.data(),
@@ -190,19 +196,61 @@ export const classes = {
             })
         );
 
-        return {dataInfoClasse, dataUsers, dataAdmin };
+        return { dataUsers, dataAdmin, userInClass };
     },
 
     getUserInfo: async (uid, classId) => {
         const docRef = doc(db, "users", uid);
         const docRefClass = doc(db, "classes", classId, "users", uid);
+        const docClass = doc(db, "classes", classId);
+
+        const docAdminSnap = await getDoc(docClass);
         const docSnap = await getDoc(docRef);
-        const docSnapClass = await getDoc(docRefClass);
-        const dataUser = {
-            displayName: docSnap.data().displayName,
-            photo: docSnap.data().photo,
-            ...docSnapClass.data()
+        if (docAdminSnap.data().admin.uid === uid) {
+            const newDate = docAdminSnap.data().dateCreation.toDate();
+            const dataUser = {
+                displayName: docSnap.data().displayName,
+                photo: docSnap.data().photo,
+                date : newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear(),
+                username: docAdminSnap.data().admin.username
+            }
+            return dataUser;
         }
-        return dataUser;
+        else {
+            const docSnapClass = await getDoc(docRefClass);
+            const dataUser = {
+                displayName: docSnap.data().displayName,
+                photo: docSnap.data().photo,
+                ...docSnapClass.data()
+            }
+            return dataUser;
+        }
+
     },
-}
+
+    myAdmin: async (adminId) => {
+        const user = auth.currentUser;
+        if (adminId === user.uid) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    },
+
+    //exclure un eleve 
+    deleteUser: async (classId, userId) => {
+        console.log(classId, userId);
+        const docRef = doc(db, "classes", classId, "users", userId);
+        await deleteDoc(docRef);
+        const docRefUser = doc(db, "users", userId, "classesJoined", classId);
+        await deleteDoc(docRefUser);
+    },
+
+    //Charger le nom de la classe
+    getClassName: async (classId) => {
+        const docRef = doc(db, "classes", classId);
+        const docSnap = await getDoc(docRef);
+        return docSnap.data().name;
+    },
+    }
