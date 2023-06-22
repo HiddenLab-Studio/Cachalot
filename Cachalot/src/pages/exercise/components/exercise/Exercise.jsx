@@ -14,6 +14,7 @@ import Navbar from "../../../../components/navbar/Navbar.jsx";
 // Styled Components
 import {Container, MainContainer} from "../../../../components/utils/ui/GlobalStyle.js";
 import ExerciseDefault from "./subComponents/default/ExerciseDefault.jsx";
+import ExerciseCatalog from "./subComponents/catalog/ExerciseCatalog.jsx";
 
 const ExerciseContainer = styled(Container)``;
 const Content = styled.section`
@@ -57,7 +58,7 @@ const Exercise = () => {
                                         <CreateExercise auth={auth} />
                                     :
                                         path === "catalog" ?
-                                                <div>Catalog</div>
+                                                <ExerciseCatalog auth={auth} />
                                             :
                                                 <ExerciseDefault auth={auth} id={path} />
 
@@ -66,22 +67,6 @@ const Exercise = () => {
                     </ExerciseContainer>
                 </MainContainer>
             )
-            /*switch (path) {
-                case "create":
-                    return <CreateExercise auth={auth} />
-                case "catalog":
-                    return (
-                        <div>
-                            <h1>catalog</h1>
-                        </div>
-                    )
-                default:
-                    return (
-                        <div>
-                            <h1>default</h1>
-                        </div>
-                    )
-            }*/
         }
     }
 }

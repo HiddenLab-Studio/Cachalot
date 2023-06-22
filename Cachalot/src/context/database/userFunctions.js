@@ -105,7 +105,27 @@ export const user = {
             await updateDoc(userRef, {
                 userExercise : {
                     ...userExercise,
-                    exerciseDoneList : [...userDone, exerciseId]
+                    exerciseDoneList: [...userDone, exerciseId],
+                    totalExerciseDone: userExercise.totalExerciseDone + 1
+                }
+            }).then(() => {
+                result = true;
+            });
+        }
+        return result;
+    },
+
+    addTrainingDone: async (currentUser) => {
+        let result = false;
+        if (currentUser !== null) {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            const userExercise = userDoc.data().userExercise;
+            // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
+            await updateDoc(userRef, {
+                userExercise : {
+                    ...userExercise,
+                    totalTrainingDone: userExercise.totalTrainingDone + 1
                 }
             }).then(() => {
                 result = true;

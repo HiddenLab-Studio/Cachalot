@@ -65,15 +65,21 @@ const ExerciseDefault = ({auth, id}) => {
                         return alert("Vous n'avez pas sélectionné de réponse");
                     } else {
                         let amountOfIncorrectAnswers = 0;
+                        let amountOfCorrectAnswers = 0;
+                        let countCorrectAnswers = 0;
+                        exerciseData.answers.forEach((answer) => {
+                            if(answer.isValid) countCorrectAnswers++;
+                        });
                         selectedAnswer.forEach((answer) => {
                             if(!exerciseData.answers[answer].isValid) {
                                 document.getElementById(answer).style.backgroundColor = "#e74c3c";
                                 amountOfIncorrectAnswers++
                             } else {
                                 document.getElementById(answer).style.backgroundColor = "#2ecc71";
+                                amountOfCorrectAnswers++;
                             }
                         });
-                        if (amountOfIncorrectAnswers === 0) {
+                        if (amountOfIncorrectAnswers === 0 && amountOfCorrectAnswers === countCorrectAnswers) {
                             // check if the user hasn't already complete the exercise
                             let exerciseId = window.location.pathname.split("/")[2];
                             console.log(userData.userExercise.exerciseDoneList);

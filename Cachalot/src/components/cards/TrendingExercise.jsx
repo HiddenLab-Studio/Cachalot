@@ -102,6 +102,16 @@ export const TrendingExerciseContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  
+  .no__exercise__found {
+    display: flex;
+    justify-content: center;
+    span {
+      font-size: var(--fs-s);
+      font-family: "Din_Round_Med", sans-serif;
+      color: ${props => props.theme.subText};
+    }
+  }
 
   @media (max-width: 550px) {
     
@@ -171,64 +181,74 @@ const TrendingExercise = ({amount}) => {
     if(isLoading){
         return null;
     } else {
-        return (
-            <TrendingExerciseContainer>
-                <GridContainer>
-                    {exerciseList.map((exercise, index) => {
-                        if (index < amount){
-                            if(exercise !== undefined) {
-                                return (
-                                    <Link to={"/exercise/" + exercise.id} key={exercise.id}>
-                                        <div className="card">
-                                            <div>
-                                                <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
-                                            </div>
-                                            <div className="exercise__info__container">
-                                                <div tw="flex flex-row items-center">
-                                                    <h2>{exercise.title}</h2>
+        if(exerciseList.length === 0){
+            return (
+                <TrendingExerciseContainer>
+                    <div className="no__exercise__found">
+                        <span>Aucune exercice pour le moment !</span>
+                    </div>
+                </TrendingExerciseContainer>
+            )
+        } else {
+            return (
+                <TrendingExerciseContainer>
+                    <GridContainer>
+                        {exerciseList.map((exercise, index) => {
+                            if (index < amount){
+                                if(exercise !== undefined) {
+                                    return (
+                                        <Link to={"/exercise/" + exercise.id} key={exercise.id}>
+                                            <div className="card">
+                                                <div>
+                                                    <img src={"../../../static/img/icons/" + (index + 1).toString() + ".png"} alt=""/>
+                                                </div>
+                                                <div className="exercise__info__container">
+                                                    <div tw="flex flex-row items-center">
+                                                        <h2>{exercise.title}</h2>
+                                                        {
+                                                            !isOnMobile ?
+                                                                <div tw="flex justify-end grow-[1]">
+                                                                    <span>#{exercise.id}</span>
+                                                                </div>
+                                                                :
+                                                                null
+                                                        }
+
+                                                    </div>
                                                     {
                                                         !isOnMobile ?
-                                                            <div tw="flex justify-end grow-[1]">
-                                                                <span>#{exercise.id}</span>
-                                                            </div>
+                                                            <span>{exercise.description}</span>
                                                             :
                                                             null
                                                     }
 
-                                                </div>
-                                                {
-                                                    !isOnMobile ?
-                                                            <span>{exercise.description}</span>
-                                                        :
-                                                            null
-                                                }
-
-                                                <div className="stats__container">
-                                                    <div>
+                                                    <div className="stats__container">
+                                                        <div>
                                              <span>
                                                  Par @{exercise.username} {!isOnMobile ? "le " + exercise.dateCreation : null}
                                              </span>
-                                                    </div>
-                                                    <div className="like">
-                                                        <FcLike />
-                                                        <span>{exercise.like}</span>
+                                                        </div>
+                                                        <div className="like">
+                                                            <FcLike />
+                                                            <span>{exercise.like}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div tw="flex justify-end grow-[1]">
+                                                    <FaChevronRight />
+                                                </div>
                                             </div>
-                                            <div tw="flex justify-end grow-[1]">
-                                                <FaChevronRight />
-                                            </div>
-                                        </div>
-                                    </Link>
-                                )
-                            } else {
-                                return null;
+                                        </Link>
+                                    )
+                                } else {
+                                    return null;
+                                }
                             }
-                        }
-                    })}
-                </GridContainer>
-            </TrendingExerciseContainer>
-        )
+                        })}
+                    </GridContainer>
+                </TrendingExerciseContainer>
+            )
+        }
     }
 
 }

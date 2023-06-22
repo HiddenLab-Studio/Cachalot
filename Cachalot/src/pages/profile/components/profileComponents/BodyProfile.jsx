@@ -100,11 +100,11 @@ const BodyProfile = ({isSearch, data}) => {
                             alt= "Search some friends"
                         />
                         <ButtonCard
-                            title= "Rejoindre une classe"
+                            title= "Mes classes"
                             desc= "Apprendre à plusieurs, c'est encore mieux !"
                             imageURL= "../../../../../static/img/icons/class.png"
-                            link= "/class"
-                            alt= "Join a class"
+                            link= "/my-class"
+                            alt= "Your classes"
                         />
                         <ButtonCard
                             title="Entrainements"

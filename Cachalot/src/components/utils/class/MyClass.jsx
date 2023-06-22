@@ -46,9 +46,6 @@ const MyClass = () => {
                                 <DescSpan
                                     desc="Ce panel vous permet de voir les classes auxquelles vous êtes inscrit."
                                 />
-                                <button onClick={() => cache.xpCache.addXp(10)}>
-                                    ajouter de xp
-                                </button>
                             </MyClassMainTitleContainer>
                             <ClassPanel auth={auth} />
                         </Content>

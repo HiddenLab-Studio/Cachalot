@@ -98,7 +98,6 @@ export async function firebaseRegister(data) {
                 age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,
                 lastLogin: dateTime,
-                //photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
                 photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
                 accountCreationDate: dateTime,
                 rank : {
@@ -115,7 +114,8 @@ export async function firebaseRegister(data) {
                     totalTrainingDone: 0,
                     // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                     exerciseDoneList: [],
-                    myExerciseList: []
+                    myExerciseList: [],
+                    exerciseLikedList: []
                 }
             }).then(() => {
                 result.showOverlay = false;
@@ -221,7 +221,8 @@ export async function firebaseGoogleLogin() {
                             totalTrainingDone: 0,
                             // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                             exerciseDoneList: [],
-                            myExerciseList: []
+                            myExerciseList: [],
+                            exerciseLikedList: []
                         }
                     }).then(() => {
                         result.showOverlay = false;

@@ -44,8 +44,10 @@ const CreationSwiper = (props) => {
             case "french":
                 setExerciseType("french");
                 break;
+            case "other":
+                setExerciseType("other");
+                break;
             case "create":
-                console.info(list.photo);
                 let exerciseData = {
                     title: title,
                     desc: desc,
@@ -54,8 +56,6 @@ const CreationSwiper = (props) => {
                     answers: list.answers,
                     photo: list.photo.name !== undefined ? URL.createObjectURL(list.photo) : undefined
                 }
-                console.log(exerciseData);
-
                 auth.exercise.createExercise(auth.currentUser, exerciseData).then((r) => {
                     console.info(r);
                     if(r.code){
@@ -65,7 +65,6 @@ const CreationSwiper = (props) => {
                         setError("Une erreur est survenue lors de la création de l'exercice");
                     }
                 });
-
                 break;
         }
     }
@@ -79,7 +78,6 @@ const CreationSwiper = (props) => {
                 setDesc(e.target.value);
                 break;
         }
-        console.log(title, desc);
     }
 
     async function handlePagination(page, previous = false) {
@@ -113,7 +111,6 @@ const CreationSwiper = (props) => {
                             if(isEachFieldValid){
                                 if(AtLeastOneAnswer){
                                     setList(tmpList);
-                                    console.info(list);
                                     setCurrentStep(page);
                                 } else {
                                     setError("Veuillez ajouter au moins une réponse !");
@@ -144,7 +141,7 @@ const CreationSwiper = (props) => {
                         />
                     </div>
                     <ExerciseTypeCardContainer>
-                        <GridContainer tw="grid grid-cols-2 gap-[32px]">
+                        <GridContainer>
                             <ExerciseTypeCard current={exerciseType === "math"}  onClick={() => handleClick("math")}>
                                 <img src="../../../../../../../static/img/icons/math.png" alt="Math"/>
                                 <span>Mathématiques</span>
@@ -152,6 +149,10 @@ const CreationSwiper = (props) => {
                             <ExerciseTypeCard current={exerciseType === "french"} onClick={() => handleClick("french")}>
                                 <img src="../../../../../../../static/img/icons/french.png" alt="Français"/>
                                 <span>Français</span>
+                            </ExerciseTypeCard>
+                            <ExerciseTypeCard current={exerciseType === "other"} onClick={() => handleClick("other")}>
+                                <img src="../../../../../../../static/img/icons/other.png" alt="Autre"/>
+                                <span>Autre</span>
                             </ExerciseTypeCard>
                         </GridContainer>
                     </ExerciseTypeCardContainer>

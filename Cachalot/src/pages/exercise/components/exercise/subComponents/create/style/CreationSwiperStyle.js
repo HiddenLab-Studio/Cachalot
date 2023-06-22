@@ -125,9 +125,8 @@ export const ExerciseTypeCard = styled.div`
 
 export const GridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  width: 50%;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
   @media (max-width: 768px) {
     grid-template-columns: repeat(1, 100%);
   }
@@ -172,8 +171,6 @@ export const NextStepContainer = styled.div`
   }  
 `;
 export const PreviousStepContainer = styled(NextStepContainer)``;
-
-
 
 export const CreationSwiperContainer = styled.div`
   position: relative;

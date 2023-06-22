@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, updateDoc, where} from "firebase/firestore";
 import firebaseConfigClient from "../../services/firebase.config.js";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 
@@ -82,9 +82,13 @@ export const exercise = {
     },
 
 
-    getExerciseByLike: async (amount) => {
+    getExerciseByLike: async (amount = undefined) => {
         const exerciseRef = collection(db, "exercises");
-        const exerciseQuery = query(exerciseRef, orderBy("like", "desc"), limit(amount));
+        let exerciseQuery;
+
+        if(amount !== undefined) exerciseQuery = query(exerciseRef, orderBy("like", "desc"), limit(amount));
+        else exerciseQuery = query(exerciseRef, orderBy("like", "desc"));
+
         const exerciseSnapshot = await getDocs(exerciseQuery);
         const exerciseList = [];
         exerciseSnapshot.forEach((doc) => {
@@ -117,6 +121,29 @@ export const exercise = {
         });
     },
 
+    getUserExercises: async (currentUser) => {
+        const userRef = doc(db, "users", currentUser.uid);
+        const userDoc = await getDoc(userRef);
+        const userExerciseList = userDoc.data().userExercise.myExerciseList;
+        const exerciseList = [];
+        for (const exerciseId of userExerciseList) {
+            const result = await exercise.getExerciseById(exerciseId);
+            exerciseList.push({id: exerciseId, ...result});
+        }
+        return exerciseList;
+    },
 
+    getExerciseByType: async (type) => {
+        // We get all exercises from the database
+        const exerciseRef = collection(db, "exercises");
+        // We check if the field type from the exercise is equal to the type parameter
+        const exerciseQuery = query(exerciseRef, orderBy("type"), where("type", "==", type));
+        const exerciseSnapshot = await getDocs(exerciseQuery);
+        const exerciseList = [];
+        exerciseSnapshot.forEach((doc) => {
+            exerciseList.push({id : doc.id, ...doc.data()});
+        });
+        return exerciseList;
+    }
 
 }
