@@ -35,7 +35,7 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement tw="flex flex-row">
                         <img src="../../../../../static/img/icons/flameStreak.svg" alt="Flame"/>
                         <div>
-                            <span>0</span>
+                            <span>{userData.cumulatedDays}</span>
                             <h2>Jours d'affilée</h2>
                         </div>
                     </GridElement>

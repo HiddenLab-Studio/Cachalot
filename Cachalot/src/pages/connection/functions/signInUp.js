@@ -100,6 +100,7 @@ export async function firebaseRegister(data) {
                 lastLogin: dateTime,
                 photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
                 accountCreationDate: dateTime,
+                cumulatedDays: 0,
                 rank : {
                     math : 1,
                     french : 1,
@@ -148,8 +149,24 @@ export async function firebaseLogin(data) {
             const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
             const dateTime = date + " " + time;
 
-            // On met à jour les informations de l'utilisateur
+            // We retrieve lastLogin from user document in database
             const userDocRef = doc(db, "users", user.uid);
+            getDoc(userDocRef).then((doc) => {
+                const userDoc = doc.data();
+                const lastLogin = userDoc.lastLogin;
+                // We retrieve the day from lastLogin
+                const lastLoginDay = lastLogin.split(" ")[0].split("/")[0];
+                //console.log(lastLoginDay, dt.getDate().toString());
+                if(lastLoginDay !== dt.getDate().toString()){
+                    // We increment the cumulatedDays (need to get the user document first)
+                    const cumulatedDays = userDoc.cumulatedDays;
+                    updateDoc(userDocRef, {
+                        cumulatedDays: cumulatedDays + 1
+                    })
+                }
+            });
+
+            // On met à jour les informations de l'utilisateur
             updateDoc(userDocRef, {
                 lastLogin: dateTime
             }).then(() => {
@@ -207,6 +224,7 @@ export async function firebaseGoogleLogin() {
                         age: 0,
                         lastLogin: dateTime,
                         accountCreationDate: dateTime,
+                        cumulatedDays: 0,
                         rank : {
                             math : 1,
                             french : 1,
