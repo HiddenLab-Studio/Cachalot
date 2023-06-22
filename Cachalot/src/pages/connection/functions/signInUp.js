@@ -209,9 +209,14 @@ export async function firebaseGoogleLogin() {
 
             const displayName = user.displayName.split(" ")[0];
             let username = displayName;
-            while (!await verificationUsername(username)) {
-                username = displayName + Math.floor(Math.random() * 100000);
+
+            let result = await isUsernameAvailable(username);
+            while (!result) {
+                username = displayName + Math.floor(Math.random() * 10000);
+                result = await isUsernameAvailable(username);
             }
+            console.log(result);
+            console.log(username);
 
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
@@ -243,7 +248,7 @@ export async function firebaseGoogleLogin() {
                             exerciseLikedList: []
                         }
                     }).then(() => {
-                        result.showOverlay = false;
+                        console.log("User created!");
                     })
                 } else {
                     result.showOverlay = false;
@@ -260,11 +265,21 @@ export async function firebaseGoogleLogin() {
 }
 
 
-async function verificationUsername(username) {
+async function isUsernameAvailable(username) {
     let result = false;
-    const usersCollection = collection(db, "users");
-    const usersDoc = await getDocs(usersCollection);
-    const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
-    fetchedUsers.includes(username) ? result = false : result = true;
+    // get all username from database
+    const usersRef = collection(db, "users");
+    const usersSnapshot = await getDocs(usersRef);
+    let users = [];
+    usersSnapshot.forEach((doc) => {
+        users.push(doc.data().username);
+    });
+    // check if username is already taken
+    if(users.includes(username)){
+        console.log("Username already taken")
+    } else {
+        console.log("Username not taken")
+        result = true;
+    }
     return result;
 }
