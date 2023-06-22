@@ -62,7 +62,7 @@ const ExerciseDefault = ({auth, id}) => {
             case "submit":
                 if(!exerciseFinished.complete){
                     if(selectedAnswer.length === 0){
-                        return alert("Vous n'avez pas sélectionné de réponse");
+                        setExerciseFinished({correct: false, complete: false})
                     } else {
                         let amountOfIncorrectAnswers = 0;
                         let amountOfCorrectAnswers = 0;
