@@ -113,72 +113,12 @@ app.post('/api/getNewFrenchExercise', (req, res) => {
     res.json({ isCorrect: isCorrect2 });
   });
 
-
-app.post('/api/getXpCache', async (req, res) => {
-    let id = req.body.id;
-    let retrievedData = undefined;
-    console.info("[INFO] user " + id + " request data from the server!")
-    if (cacheManager.getUserFromXpCache(id) === null) {
-        // retrieve user xp data from the database
-        const userRef = doc(db, "users", id);
-        await getDoc(userRef).then((doc) => {
-            if (doc.exists()) {
-                console.log("[INFO] user data retrieved successfully!");
-                // add data to the cache
-                cacheManager.setUserToXpCache(id, doc.data().userXp);
-                // set the retrieved data
-                retrievedData = doc.data().userXp;
-            } else {
-                console.log("[ERROR] user data not found!");
-            }
-        }).catch((error) => {
-            console.log("[ERROR] Error getting user data:", error);
-        });
-    } else {
-        console.log("[INFO] user " + id + " already in the cache!");
-        retrievedData = cacheManager.getUserFromXpCache(id);
-    }
-    res.send({data: retrievedData});
-})
-
-app.post('/api/updateXpCache', async (req, res) => {
-    let id = req.body.id;
-    let data = req.body.data;
-    let isUpdated = false;
-    console.info("[INFO] user " + id + " request data from the server!")
-    if (cacheManager.getUserFromXpCache(id) !== null) {
-        cacheManager.setUserToXpCache(id, data);
-        isUpdated = true;
-    }
-    res.send({isUpdated: isUpdated});
-})
-
-
-const scheduledJob = new CronJob('*/30 * * * *', async () => {
+const utils = require("./cache/function/utils");
+const cacheRouter = require("./cache/router/cacheRouter");
+app.use("/api/cache", cacheRouter);
+const scheduledJob = new CronJob('*/1 * * * *', async () => {
     console.log("[INFO] scheduled job started!");
-    // Push xp cache to the database for each users' data
-    let users = cacheManager.getAllUserIdFromXpCache();
-    if(users.length !== 0){
-        for (let i = 0; i < users.length; i++) {
-            let id = users[i];
-            let userRef = doc(db, "users", id);
-            let data = cacheManager.getUserFromXpCache(id);
-            if(data.isUpdated){
-                data.isUpdated = false;
-                await updateDoc(userRef, {
-                    userXp: data
-                }).then(() => {
-                    console.log("[INFO] user " + id + " data updated successfully!");
-                }).catch((error) => {
-                    console.log("[ERROR] Error updating user data:", error);
-                });
-            } else {
-                console.log("[INFO] user " + id + " data not updated cause never changed!");
-            }
-        }
-    } else {
-        console.log("[INFO] no user in the cache!");
-    }
+    await utils.updateDatabase();
 });
 
 // Lancement du serveur
@@ -188,7 +128,6 @@ server.listen(app.get("port"), () => {
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
     console.log("[INFO] Server started successfully!");
-
     // start the scheduled job
     scheduledJob.start();
 })

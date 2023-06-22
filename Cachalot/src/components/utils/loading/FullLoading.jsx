@@ -54,8 +54,13 @@ const FullLoading = ({setIsLoading}) => {
         if(auth.currentUser instanceof Object) {
             console.info("Retrieving user data from cache...")
             cache.xpCache.loadData(auth.currentUser.uid).then(r => {
-                cache.isUserCached = true;
-                setIsLoading(!cache.isUserCached);
+                console.log(r);
+                cache.questCache.loadData(auth.currentUser.uid).then(res => {
+                    console.log(res);
+                    cache.isUserCached = true;
+                    setIsLoading(!cache.isUserCached);
+                })
+
             });
         }
     }, [auth.currentUser]);

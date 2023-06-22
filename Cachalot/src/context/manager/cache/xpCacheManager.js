@@ -29,7 +29,7 @@ const xpCacheManager = {
             isUserCached = true;
             uid = id;
             let result = undefined;
-            await axios.post("http://localhost:4000/api/getXpCache", JSON.stringify({
+            await axios.post("http://localhost:4000/api/cache/getXpCache", JSON.stringify({
                 id: uid,
             }), {
                 headers: {"Content-Type": "application/json"}
@@ -73,7 +73,7 @@ const xpCacheManager = {
     updateNodeCache: async (id) => {
         let result = undefined;
         if(xpCache.isUpdated){
-            await axios.post("http://localhost:4000/api/updateXpCache", JSON.stringify({
+            await axios.post("http://localhost:4000/api/cache/updateXpCache", JSON.stringify({
                 id: id,
                 data: xpCache,
             }), {

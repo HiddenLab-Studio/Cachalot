@@ -2,7 +2,7 @@ let cacheManager = (function(){
 
     let cache = {
         xp: new Map(),
-        friends: new Map(),
+        quest: new Map(),
     }
 
     return {
@@ -23,12 +23,26 @@ let cacheManager = (function(){
             return keys;
         },
 
-        setFriendsCache: (id, data) => cache.friends.set(id, data),
-        getFriendsCache: (id) => cache.friends.get(id),
+        setUserToQuestCache: (id, data) => cache.quest.set(id, data),
+        getUserFromQuestCache: (id) => {
+            let data = cache.quest.get(id);
+            if(data === undefined){
+                return null;
+            }
+            return data;
+        },
+
+        getAllUserIdFromQuestCache: () => {
+            let keys = [];
+            for(let key of cache.quest.keys()){
+                keys.push(key);
+            }
+            return keys;
+        },
 
         clearCache: () => {
             cache.xp.clear();
-            cache.friends.clear();
+            cache.quest.clear();
         }
     }
 })();

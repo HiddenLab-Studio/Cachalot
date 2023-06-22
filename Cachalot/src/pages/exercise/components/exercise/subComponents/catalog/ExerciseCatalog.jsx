@@ -77,7 +77,6 @@ const ExerciseCatalog = ({auth}) => {
         console.info("Rendering ExerciseCatalog.jsx...")
         setIsLoading(true);
         auth.exercise.getUserExercises(auth.currentUser).then((r) => {
-            console.log(r);
             setUserExerciseList(r);
             setIsLoading(false);
         });
@@ -139,50 +138,6 @@ const ExerciseCatalog = ({auth}) => {
             }
         }
     }
-
 }
-
-/*
-
-                            <CommunityExerciseContainer>
-                                <div className="title">
-                                    <h3>Exercices de la communauté</h3>
-                                </div>
-                                <SorterContainer>
-                                    <SorterElement tag={"like"} current={sorter}>
-                                        <FcLike onClick={() => setSorter("like")}/>
-                                    </SorterElement>
-                                    <SorterElement tag={"french"} current={sorter}>
-                                        <img src="../../../../../../../static/img/icons/french.png" alt="Sort by type french" onClick={() => setSorter("french")}/>
-                                    </SorterElement>
-                                    <SorterElement tag={"math"} current={sorter}>
-                                        <img src="../../../../../../../static/img/icons/math.png" alt="Sort by type math" onClick={() => setSorter("math")}/>
-                                    </SorterElement>
-                                    <SorterElement tag={"other"} current={sorter}>
-                                        <img src="../../../../../../../static/img/icons/other.png" alt="Sort by type other" onClick={() => setSorter("other")}/>
-                                    </SorterElement>
-                                </SorterContainer>
-                            </CommunityExerciseContainer>
-                            <ExerciseCatalogContainer>
-                                {
-                                    exerciseList.map((exercise, index) => {
-                                        return (
-                                            <ExerciseCatalogCard
-                                                key={index}
-                                                id={exercise.id}
-                                                title={exercise.title}
-                                                description={exercise.description}
-                                                type={exercise.type}
-                                                like={exercise.like}
-                                                date={exercise.dateCreation}
-                                                author={exercise.username}
-                                            />
-                                        )
-                                    })
-                                }
-                            </ExerciseCatalogContainer>
-
-
- */
 
 export default ExerciseCatalog;

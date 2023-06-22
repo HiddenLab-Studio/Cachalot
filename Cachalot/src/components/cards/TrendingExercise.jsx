@@ -171,7 +171,7 @@ const TrendingExercise = ({amount}) => {
 
     useEffect(() => {
         exercise.getExerciseByLike(amount).then((res) => {
-                console.log(res);
+                //console.log(res);
                 setExerciseList(res);
                 setIsLoading(false);
             }

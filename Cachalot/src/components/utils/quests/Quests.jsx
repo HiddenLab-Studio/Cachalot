@@ -31,7 +31,7 @@ const Quests = () => {
     const cache = useCache();
 
     // State
-    const [isLoading, setIsLoading] = React.useState(!cache.isUserCached);
+    const [isLoading, setIsLoading] = React.useState(true);
 
     if(typeof auth.currentUser === "number") {
         return <ConnectionHomePage />
@@ -39,12 +39,28 @@ const Quests = () => {
         if(isLoading) {
             return <FullLoading setIsLoading={setIsLoading} />
         } else {
+
+            const userQuest = cache.questCache.getCache();
+            console.log(userQuest);
+
             return (
                 <MainContainer>
                     <Navbar />
                     <QuestsContainer>
                         <Content>
                             <h1>Quests</h1>
+                            {
+                                userQuest.currentQuest.map((quest, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <h2>{quest.name}</h2>
+                                            <p>{quest.type}</p>
+                                            <p>{quest.reward}</p>
+                                            <p>{quest.current}/{quest.amount}</p>
+                                        </div>
+                                    )
+                                })
+                            }
                         </Content>
                     </QuestsContainer>
                 </MainContainer>

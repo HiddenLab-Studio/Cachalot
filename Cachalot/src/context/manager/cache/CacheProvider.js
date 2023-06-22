@@ -3,6 +3,7 @@ import {createContext, useContext} from "react";
 // Cache Managers
 import friendsCacheManager from "./FriendsCacheManager.js";
 import xpCacheManager from "./xpCacheManager.js";
+import questCacheManager from "./questCacheManager.js";
 
 const CacheContext = createContext(undefined);
 
@@ -19,6 +20,7 @@ const CacheProvider = ({ children }) => {
 
         friendsCache: friendsCacheManager,
         xpCache: xpCacheManager,
+        questCache: questCacheManager,
 
         setIsUserCached: (value) => functions.isUserCached = value,
         isUserCached: false,

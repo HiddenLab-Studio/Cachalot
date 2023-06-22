@@ -156,7 +156,7 @@ export async function firebaseLogin(data) {
                 const lastLogin = userDoc.lastLogin;
                 // We retrieve the day from lastLogin
                 const lastLoginDay = lastLogin.split(" ")[0].split("/")[0];
-                //console.log(lastLoginDay, dt.getDate().toString());
+                console.log(lastLoginDay, dt.getDate().toString());
                 if(lastLoginDay !== dt.getDate().toString()){
                     // We increment the cumulatedDays (need to get the user document first)
                     const cumulatedDays = userDoc.cumulatedDays;
