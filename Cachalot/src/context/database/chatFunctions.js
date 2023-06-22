@@ -22,7 +22,7 @@ export const chat = {
         date: hour,
       }
       //On ajoute le message dans la collection messages
-      await addDoc(collection(db, room), data).then(() => {
+      await addDoc(collection(db, "classes", room , "messages"), data).then(() => {
         //On vide le champ de message
         result = true;
       })
@@ -35,7 +35,7 @@ export const chat = {
 
 
   getMessage: (room, callback) => {
-    const messagesCollection = collection(db, room);
+    const messagesCollection = collection(db, "classes", room , "messages");
     const messageQuery = query(messagesCollection, orderBy("date", "asc"));
     const unsubscribe = onSnapshot(messageQuery, (snapshot) => {
       snapshot.docChanges().forEach(async (change) => {
