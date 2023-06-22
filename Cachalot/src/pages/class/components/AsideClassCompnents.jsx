@@ -8,17 +8,17 @@ import ClassInfoUsers from "./subComponents/ClassInfoUsers.jsx";
 
 // Styled Components
 import {
-    AsideTrainingContainer,
+    AsideClassContainer,
 } from "../styles/AsideClassStyle.js";   
 
 const AsideClass = ({auth}) => {
 
 
     return (
-        <AsideTrainingContainer>
-            <ClassChatContainer auth={auth} />
+        <AsideClassContainer>
             <ClassInfoUsers auth={auth} />
-        </AsideTrainingContainer>
+            <ClassChatContainer auth={auth} />
+        </AsideClassContainer>
     )
 }
 

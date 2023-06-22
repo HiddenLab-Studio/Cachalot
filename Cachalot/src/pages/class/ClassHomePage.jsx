@@ -10,14 +10,12 @@ import Navbar from "../../components/navbar/Navbar.jsx";
 import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 
-
-import ClassTitle from "./components/subComponents/ClassTitle.jsx";
-import AsideClass from './components/asideClass.jsx';
+import AsideClass from './components/AsideClassCompnents.jsx';
+import BodyClass from './components/BodyClassComponents.jsx';
 
 
 // Styled Components
 import { MainContainer, Container } from "../../components/utils/ui/GlobalStyle.js";
-
 
 export const ClassContainer = styled(Container)``;
 export const Content = styled.section`
@@ -57,7 +55,7 @@ const ClassHomePage = () => {
                     <Navbar />
                     <ClassContainer>
                         <Content>
-                            <ClassTitle auth={auth} />
+                            <BodyClass auth={auth} />
                             <AsideClass auth={auth}/>      
                         </Content>
                     </ClassContainer>

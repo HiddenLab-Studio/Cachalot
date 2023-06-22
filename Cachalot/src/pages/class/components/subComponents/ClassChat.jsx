@@ -64,7 +64,7 @@ const ClassChatContainer = ({ auth }) => {
 
     return (
         <ChatContainerWrapper>
-            <div className="fixed items-center bg-white rounded-lg shadow-md px-4 border-2 border-gray-300">
+            <div className=" items-center bg-white rounded-lg shadow-md px-4 border-2 border-gray-300">
                 <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.4rem" }} className="text-2xl font-bold text-gray-800 mb-4 pt-2 pb-2 border-b-2">Chat</h1>
 
                 <div className="max-h-40 overflow-y-auto h-40 pb-2 flex flex-col-reverse">
