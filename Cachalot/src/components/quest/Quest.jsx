@@ -69,11 +69,11 @@ const Quest = ({amountOfQuestToDisplay}) => {
 
                                                 </div>
                                                 <ChestImage
-                                                    isFinished={q.current === q.amount}
+                                                    isFinished={q.current >= q.amount}
                                                     src={!questList[index] ? "../../../static/img/icons/chestQuest.svg" : "../../../static/img/icons/chestOpen.svg"}
                                                     alt="Chest"
                                                     onClick={() => {
-                                                        if(q.current === q.amount && !q.isClaimed) {
+                                                        if(q.current >= q.amount && !q.isClaimed) {
                                                             console.log("can claim");
                                                             cache.questCache.claimReward(index).then(r => {
                                                                 if(r) {

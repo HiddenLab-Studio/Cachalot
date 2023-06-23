@@ -28,7 +28,7 @@
     "current": 0,
     "amount": 10,
     "reward": 10,
-    "type": "onExerciseCompleted",
+    "type": "onTrainingCompleted",
     "isClaimed": false
   },
   {
@@ -36,7 +36,7 @@
     "current": 0,
     "amount": 25,
     "reward": 25,
-    "type": "onExerciseCompleted",
+    "type": "onTrainingCompleted",
     "isClaimed": false
   }
 ]

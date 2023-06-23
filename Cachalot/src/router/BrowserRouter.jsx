@@ -20,6 +20,7 @@ import MathExercise from "../pages/exercise/components/training/MathExercise.jsx
 import MyClass from "../components/utils/class/MyClass.jsx";
 import FullLoading from "../components/utils/loading/FullLoading.jsx";
 import Exercise from "../pages/exercise/components/exercise/Exercise.jsx";
+import FrenchExercise from "../pages/exercise/components/training/FrenchExercise.jsx";
 
 // 3️⃣ Router singleton created
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
     { path: "/training", element: <ExerciseHomePage/> },
     { path: "/exercise/:id",  element: <Exercise /> },
     { path: "/training/math",  element: <MathExercise /> },
+    { path: "/training/french",  element: <FrenchExercise /> },
     // Ranked Page
     { path: "/ranked", element: <FindLeagueHomePage /> },
     { path: "/ranked/:discipline/:id", element: <LeagueHomePage /> },

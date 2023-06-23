@@ -88,7 +88,7 @@ export const friendsCacheManager = {
 
     getFriendsCache: () => friendsCache,
     isFriendsCacheEmpty: () => friendsCache.follower.length === 0 && friendsCache.following.length === 0,
-    clearFriendsCache: () => {
+    clearCache: () => {
         friendsCache = {
             following: [],
             follower: [],

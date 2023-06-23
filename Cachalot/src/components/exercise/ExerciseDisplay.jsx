@@ -1,6 +1,8 @@
 import {data, mathFunctions} from "../../pages/exercise/functions/MathExerciseGenerator.js";
 import React, {useEffect, useState} from "react";
 import { styled } from "twin.macro";
+import {frenchFunctions} from "../../pages/exercise/functions/FrenchExerciseGenerator.js";
+import {useCache} from "../../context/manager/cache/CacheProvider.js";
 
 const ExerciseDisplayContainer = styled.div`
   display: flex;
@@ -41,6 +43,7 @@ const ExerciseDisplayContainer = styled.div`
   }
 `;
 const ExerciseDisplay = ({exercise, setExercise}) => {
+    const cache = useCache();
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -66,8 +69,11 @@ const ExerciseDisplay = ({exercise, setExercise}) => {
             let result = await mathFunctions.getSolution();
             document.getElementById("value").value = "";
             if (result) {
-                await mathFunctions.getExercise();
-                setExercise(data.currentExercise)
+                await mathFunctions.getExercise().then(() => {
+                    cache.questCache.updateQuestProgress("onTrainingCompleted").then(() => {
+                        setExercise(data.currentExercise)
+                    });
+                });
             }
         }
     }

@@ -23,6 +23,7 @@ export const QuestProgressBarContainer = styled.div`
 
     .progress__bar__fill {
       width: ${props => props.progress};
+      max-width: 100%;
       position: absolute;
       top: 0;
       left: 0;

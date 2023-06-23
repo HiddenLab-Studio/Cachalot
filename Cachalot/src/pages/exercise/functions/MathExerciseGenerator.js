@@ -6,7 +6,8 @@ export let data = {
     validClassType: ["CP", "CE1", "CE2", "CM1", "CM2", "all"],                            //Tableau contenant les niveaux valides
     currentExercise: undefined,                                                           //Variable qui contient l'exercice actuel
     currentExerciseType: "all",                                                           //Variable qui contient le type d'exercice actuel
-    currentLevel: "all",                                                                  //Variable qui contient le niveau actuel (classe)
+    currentLevel: "all",
+    exerciseType: "math"
 }
 
 // Objet qui contient les fonctions propres à l'exercice de mathématiques
@@ -20,7 +21,7 @@ export const mathFunctions = {
 
     // Fonction qui récupère un exercice
     getExercise: async () => {
-        await axios.post("http://localhost:4000/api/getExercise", JSON.stringify(data), {
+        await axios.post("http://localhost:4000/api/exercise/getExercise", JSON.stringify(data), {
             headers: {"Content-Type": "application/json"}
         }).then((response) => {
             //console.log(response.data);
@@ -67,7 +68,7 @@ export const mathFunctions = {
         //console.log(exercise, answer);
         //console.log(data.currentExercise, document.getElementById("value").value);
         let result = undefined;
-        await axios.post("http://localhost:4000/api/getSolution", JSON.stringify({
+        await axios.post("http://localhost:4000/api/exercise/getSolution", JSON.stringify({
             exercise: currentExercise !== undefined ? currentExercise : data.currentExercise,
             answer: currentAnswer !== undefined ? currentAnswer : document.getElementById("value").value
         }), {
@@ -82,7 +83,7 @@ export const mathFunctions = {
 
     getExercises: async (amount, type, niveau) => {
         let result = undefined;
-        await axios.post("http://localhost:4000/api/getExercises", JSON.stringify({
+        await axios.post("http://localhost:4000/api/exercise/getExercises", JSON.stringify({
             type: type,
             amount: amount,
             currentLevel: niveau

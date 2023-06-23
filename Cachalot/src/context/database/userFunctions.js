@@ -3,6 +3,9 @@ import {signOut} from "firebase/auth";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 import axios from "axios";
+import questCacheManager from "../manager/cache/questCacheManager.js";
+import friendsCacheManager from "../manager/cache/FriendsCacheManager.js";
+import xpCacheManager from "../manager/cache/xpCacheManager.js";
 const { auth, db, storage } = firebaseConfigClient();
 
 export const user = {
@@ -11,6 +14,9 @@ export const user = {
         if (currentUser !== null) {
             await signOut(auth).then(r => {
                 console.log('Sign-out successful.');
+                questCacheManager.clearCache();
+                friendsCacheManager.clearCache();
+                xpCacheManager.clearCache();
                 result = true;
             }).catch((error) => {
                 console.error(error);
