@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, setDoc,deleteDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc,deleteDoc , updateDoc} from "firebase/firestore";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -238,6 +238,18 @@ export const classes = {
         }
     },
 
+    myAdminWithClassId: async (classId) => {
+        const user = auth.currentUser;
+        const docRef = doc(db, "classes", classId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.data().admin.uid === user.uid) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    },
+
     //exclure un eleve 
     deleteUser: async (classId, userId) => {
         console.log(classId, userId);
@@ -253,4 +265,12 @@ export const classes = {
         const docSnap = await getDoc(docRef);
         return docSnap.data().name;
     },
-    }
+
+    //Change le nom de la classe
+    updateClassName: async (classId, newName) => {
+        const docRef = doc(db, "classes", classId);
+        await updateDoc(docRef, {
+            name: newName
+        });
+    },
+}

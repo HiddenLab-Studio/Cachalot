@@ -43,7 +43,7 @@ const ClassInfoUsers = ({ auth }) => {
     return (
         <ClassInfoUsersWrapper>
             {admin && (
-                    <div className="px-4 py-2 bg-white rounded-lg border-2 border-gray-300 shadow-md w-full ">
+                    <div className="px-4 py-2 bg-white rounded-lg border-2 border-gray-300 shadow-md w-full h-full ">
                         <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-md text-gray-800 font-semibold mb-2 pb-1 border-b-2">Professeur</h3>
                         <ul className="list-inside pb-2" id="adminList">
                             <div onClick={() => (setSelectedUserId(admin.uid), handleClick(event))} key={admin.username} className="flex items-center text-gray-800 rounded-lg space-x-2 py-1 hover:bg-gray-200 hover:shadow-md transition duration-200 transform hover:scale-105">
