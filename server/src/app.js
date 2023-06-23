@@ -75,7 +75,7 @@ app.post('/api/getExercises', (req, res) => {
 })
 
 app.post('/api/getSolution', (req, res) => {
-    console.log("[POST] user send data to the server !")
+    //console.log("[POST] user send data to the server !")
     let currentExercise = req.body.exercise;
     let answer = req.body.answer;
     console.log(currentExercise);
@@ -100,9 +100,8 @@ app.post('/api/getNewFrenchExercise', (req, res) => {
     
     res.send(data);
   });
-  
   //On récupère la réponse du client et on vérifie si elle est correcte
-  app.post('/api/getSolutionFrench', (req, res) => {
+app.post('/api/getSolutionFrench', (req, res) => {
     const exerciseId = req.body.exerciseId;
     const answer = req.body.answer;
   
