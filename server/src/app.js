@@ -116,18 +116,25 @@ app.post('/api/getNewFrenchExercise', (req, res) => {
 const utils = require("./cache/function/utils");
 const cacheRouter = require("./cache/router/cacheRouter");
 app.use("/api/cache", cacheRouter);
-const scheduledJob = new CronJob('*/1 * * * *', async () => {
+const scheduledJob = new CronJob('*/30 * * * *', async () => {
     console.log("[INFO] scheduled job started!");
     await utils.updateDatabase();
 });
 
+const NewQuestOfTheDay = new CronJob('0 0 * * *', async () => {
+    console.log("[INFO] scheduled job started!");
+    await utils.updateQuestOfTheDay();
+});
+
 // Lancement du serveur
 const server = http.createServer(app);
-server.listen(app.get("port"), () => {
+server.listen(app.get("port"), async () => {
     process.stdout.write('\x1B[2J\x1B[0f');
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
     console.log("[INFO] Server started successfully!");
     // start the scheduled job
     scheduledJob.start();
+    NewQuestOfTheDay.start();
+    //await utils.updateQuestOfTheDay();
 })

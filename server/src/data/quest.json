@@ -1,17 +1,41 @@
 [
   {
-    "name": "Réussir un exercice",
+    "name": "Terminer 2 exercices",
     "current": 0,
-    "amount": 1,
+    "amount": 2,
+    "reward": 5,
+    "type": "onExerciseCompleted",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 4 exercices",
+    "current": 0,
+    "amount": 4,
     "reward": 10,
     "type": "onExerciseCompleted",
     "isClaimed": false
   },
   {
-    "name": "Réussir deux exercices",
+    "name": "Terminer 6 exercices",
     "current": 0,
-    "amount": 2,
-    "reward": 20,
+    "amount": 6,
+    "reward": 15,
+    "type": "onExerciseCompleted",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 10 entrainements",
+    "current": 0,
+    "amount": 10,
+    "reward": 10,
+    "type": "onExerciseCompleted",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 25 entrainements",
+    "current": 0,
+    "amount": 25,
+    "reward": 25,
     "type": "onExerciseCompleted",
     "isClaimed": false
   }
