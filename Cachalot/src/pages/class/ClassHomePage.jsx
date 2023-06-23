@@ -25,6 +25,7 @@ export const Content = styled.section`
   margin: 0 auto;
   padding: 25px;
   gap: 32px;
+  min-height: 100vh;
 
   @media (min-width: 768px) and (max-width: 1050px) {
     max-width: 768px;
