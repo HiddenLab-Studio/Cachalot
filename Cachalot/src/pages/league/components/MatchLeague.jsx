@@ -194,16 +194,18 @@ const MatchContainer = ({ auth }) => {
       {/* AFFICHAGE DE L'ATTENTE D'UN JOUEUR */}
       <div id="waitingGame" className={gameState === "waiting" ? " mt-8 flex flex-row items-center justify-center h-screen" : "mt-8 hidden"}>
         <div className="flex flex-col items-center">
-          <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2.5rem" }} className="text-2xl mb-4">En attente d'un joueur</h2>
-          <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.2rem" }} className="mb-4 text-center">
+          <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2.5rem", color: "#3c3c3c" }} className="text-2xl mb-4">En attente d'un joueur</h2>
+          <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.2rem", color: "#3c3c3c" }} className="mb-4 text-center">
             Vous êtes en attente d'une partie de {discipline === "french" ? "Français" : "Mathématiques"} <span id="waitingGameDiscipline"></span>
           </p>
           <button
-            id="leaveGameByQueue"
-            className="py-2 px-4 bg-red-500 text-white rounded"
+            id="leaveGameByFinished"
+            className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-1/2"
             onClick={handleLeaveGameByQueueClick}
+            style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
           >
-            Annuler
+            Quitter
+
           </button>
         </div>
 
@@ -221,13 +223,13 @@ const MatchContainer = ({ auth }) => {
                 : "hidden"
             }
           >
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center border-b-4">
 
               <div className="px-10">
                 <div className={
                   playerState.myState === true && playerState.newState === true
-                    ? "mb-8 px-10 rounded-lg border-4 border-green-500 "
-                    : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"
+                    ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
+                    : "mb-8 px-10 rounded-lg border-4  border-[#e5e5e5] border-b-8 w-max-60 w-60"
                 }>
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -236,12 +238,14 @@ const MatchContainer = ({ auth }) => {
                       id="yourPhotoStarting"
                       className="rounded-full h-20 w-20 mb-2 border-2"
                     />
-                    <h2 className="text-3xl font-bold" id="yourNameStarting">
-                      {yourInfo.name}
+                    <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                      {yourInfo.name.length > 10
+                        ? yourInfo.name.slice(0, 10) + "..."
+                        : yourInfo.name}
                     </h2>
-                    <div className="flex items-center py-2">
-                      <img src={rankedIcon} className="w-20 h-20" alt="Ranked Icon" />
-                      <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-2xl mb-4 text-gray-700">{ranked}</h2>
+                    <div className="flex flex-row justify-center py-2">
+                      <img src={rankedIcon} className="w-10 h-10" alt="Ranked Icon" />
+                      <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.4rem" }} className=" text-gray-700 text-center ">{ranked}</h2>
                     </div>
                   </div>
                 </div>
@@ -250,8 +254,8 @@ const MatchContainer = ({ auth }) => {
               <div className="px-10">
                 <div className={
                   playerState.myState === false && playerState.newState === true
-                    ? "mb-8 px-10 rounded-lg border-4 border-green-500 "
-                    : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"
+                    ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
+                    : "mb-8 px-10 rounded-lg border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"
                 }>
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -260,12 +264,14 @@ const MatchContainer = ({ auth }) => {
                       id="yourPhotoStarting"
                       className="rounded-full h-20 w-20 mb-2 border-2"
                     />
-                    <h2 className="text-3xl font-bold" id="yourNameStarting">
-                      {otherInfo.name}
+                    <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                      {otherInfo.name.length > 10
+                        ? otherInfo.name.slice(0, 10) + "..."
+                        : otherInfo.name}
                     </h2>
-                    <div className="flex items-center py-2">
-                      <img src={rankedIcon} className="w-20 h-20" alt="Ranked Icon" />
-                      <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-2xl mb-4 text-gray-700">{ranked}</h2>
+                    <div className="flex flex-row justify-center py-2">
+                      <img src={rankedIcon} className="w-10 h-10" alt="Ranked Icon" />
+                      <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.4rem" }} className=" text-gray-700 text-center ">{ranked}</h2>
                     </div>
                   </div>
                 </div>
@@ -273,11 +279,12 @@ const MatchContainer = ({ auth }) => {
 
 
             </div>
-            <div className="flex justify-center items-center flex-row">
+            <div className="flex justify-center items-center flex-row pt-4">
               <div className="px-2">
                 <button
                   id="playerReady"
-                  className={playerState.myState === true && playerState.newState === true ? "py-3 px-6 bg-red-500 text-white rounded" : "py-3 px-6 bg-green-500 text-white rounded"}
+                  className={"bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-40"}
+                  style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                   onClick={handleGameReadyClick}
                 >
                   {playerState.myState === true && playerState.newState === true ? "Annuler" : "Prêt"}
@@ -285,11 +292,13 @@ const MatchContainer = ({ auth }) => {
               </div>
               <div className="px-2">
                 <button
-                  id="playerReady"
-                  className="py-3 px-6 bg-red-500 text-white rounded"
+                  id="leaveGameByFinished"
+                  className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-40"
                   onClick={handleLeaveGameByQueueClick}
+                  style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                 >
-                  Quitter la partie
+                  Quitter
+
                 </button>
               </div>
             </div>
@@ -302,10 +311,15 @@ const MatchContainer = ({ auth }) => {
           <div
             id="playingGame"
             className={gameState === "playing" ? "flex flex-col items-center justify-center h-screen" : "hidden"}>
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center border-b-4">
 
               <div className="px-10">
-                <div className={myBadAnimation === false ? (myAnimation === false ? "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md" : "mb-8 px-10 rounded-lg border-4 border-green-500") : "mb-8 px-10 rounded-lg border-4 border-red-500"}>
+                <div className={myBadAnimation === false ?
+                  (myAnimation === false ?
+                    "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
+                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500") :
+                  "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-red-500"}
+                >
                   <div className="flex flex-col items-center py-3 ">
                     <img
                       src={yourInfo.photo}
@@ -313,11 +327,13 @@ const MatchContainer = ({ auth }) => {
                       id="yourPhotoStarting"
                       className="rounded-full h-20 w-20 mb-2 border-2"
                     />
-                    <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                      {yourInfo.name}
+                    <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                      {yourInfo.name.length > 10
+                        ? yourInfo.name.slice(0, 10) + "..."
+                        : yourInfo.name}
                     </h2>
                     <div className="flex items-center py-2">
-                      <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{myPlayerScore === null ? yourInfo.score : myPlayerScore} / 10</p>
+                      <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{myPlayerScore === null ? yourInfo.score : myPlayerScore} / 10</p>
                     </div>
                   </div>
                 </div>
@@ -327,7 +343,10 @@ const MatchContainer = ({ auth }) => {
 
 
               <div className="px-10">
-                <div className={otherAnimation === false ? "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md" : "mb-8 px-10 rounded-lg border-4 border-green-500"}>
+                <div className={otherAnimation === false ?
+                  "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
+                  "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500"}
+                >
                   <div className="flex flex-col items-center py-3 ">
                     <img
                       src={otherInfo.photo}
@@ -335,11 +354,13 @@ const MatchContainer = ({ auth }) => {
                       id="yourPhotoStarting"
                       className="rounded-full h-20 w-20 mb-2 border-2"
                     />
-                    <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                      {otherInfo.name}
+                    <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                      {otherInfo.name.length > 10
+                        ? otherInfo.name.slice(0, 10) + "..."
+                        : otherInfo.name}
                     </h2>
                     <div className="flex items-center py-2">
-                      <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{otherPlayerScore === null ? otherInfo.score : otherPlayerScore} / 10</p>
+                      <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{otherPlayerScore === null ? otherInfo.score : otherPlayerScore} / 10</p>
                     </div>
                   </div>
                 </div>
@@ -349,28 +370,31 @@ const MatchContainer = ({ auth }) => {
 
 
 
-            <div className="flex items-center flex-col mb-4">
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="exercise" className="text-2xl font-bold">
+            <div className="flex items-center flex-col mb-4 pt-4">
+              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                 Quel est le résultat de :
               </p>
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="exercise" className="text-2xl font-bold">
+              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                 {exercise === null ? yourInfo.exercise : exercise}
               </p>
             </div>
 
 
 
-            <form onSubmit={handleSubmitResponse} className="flex items-center">
-              <input
-                style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }}
-                type="text"
-                placeholder="Votre réponse"
-                value={response}
-                onChange={handleChanges}
-                onKeyDown={handleKeyDown}
-                className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="ml-4 bg-blue-500 text-white px-4 py-2 rounded">
+            <form onSubmit={handleSubmitResponse} className="flex flex-col justify-center">
+              <div className="flex flex-row items-center pb-4">
+                <input
+                  style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c" }}
+                  type="text"
+                  placeholder="Votre réponse"
+                  value={response}
+                  onChange={handleChanges}
+                  onKeyDown={handleKeyDown}
+                  className="flex-grow border border-[#e5e5e5] rounded-lg bg-[#f7f7f7] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a78ff]"
+                />
+              </div>
+
+              <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
                 Envoyer
               </button>
             </form>
@@ -386,10 +410,14 @@ const MatchContainer = ({ auth }) => {
 
           <div className={gameState === "finished" ? "flex flex-col items-center justify-center h-screen" : "hidden"} id="finishedGame">
             <div className="flex items-center mb-6">
-              <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center border-b-4">
 
                 <div className="px-10">
-                  <div className={myWinner === true ? "mb-8 px-10 rounded-lg border-4 border-green-500" : "mb-8 px-10 rounded-lg border-4 border-red-500"}>
+                  <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.5rem" }} className={myWinner === true ? "text-3xl text-green-500 mb-4 " : "text-3xl text-red-500 mb-4"}> {myWinner === true ? "Gagnant" : "Perdant"} </h1>
+                  <div className={myWinner === true ?
+                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500" :
+                    "mb-8 px-10 rounded-lg border-4 border-red-500 border-b-8 w-max-60 w-60"
+                  }>
                     <div className="flex flex-col items-center py-3 ">
                       <img
                         src={yourInfo.photo}
@@ -397,11 +425,13 @@ const MatchContainer = ({ auth }) => {
                         id="yourPhotoStarting"
                         className="rounded-full h-20 w-20 mb-2 border-2"
                       />
-                      <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                        {yourInfo.name}
+                      <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                        {yourInfo.name.length > 10
+                          ? yourInfo.name.slice(0, 10) + "..."
+                          : yourInfo.name}
                       </h2>
                       <div className="flex items-center py-2">
-                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{myPlayerScore} / 10</p>
+                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{myPlayerScore} / 10</p>
                       </div>
                     </div>
                   </div>
@@ -411,7 +441,12 @@ const MatchContainer = ({ auth }) => {
 
 
                 <div className="px-10">
-                  <div className={myWinner === false ? "mb-8 px-10 rounded-lg border-4 border-green-500" : "mb-8 px-10 rounded-lg border-4 border-red-500"}>
+                  <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.5rem" }} className={myWinner === true ? "text-3xl text-red-500 mb-4 " : "text-3xl text-green-500 mb-4"}> {myWinner === true ? "Perdant" : "Gagnant"} </h1>
+
+                  <div className={myWinner === false ?
+                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500" :
+                    "mb-8 px-10 rounded-lg border-4 border-red-500 border-b-8 w-max-60 w-60"}
+                  >
                     <div className="flex flex-col items-center py-3 ">
                       <img
                         src={otherInfo.photo}
@@ -419,25 +454,28 @@ const MatchContainer = ({ auth }) => {
                         id="yourPhotoStarting"
                         className="rounded-full h-20 w-20 mb-2 border-2"
                       />
-                      <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                        {otherInfo.name}
+                      <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                        {otherInfo.name.length > 10
+                          ? otherInfo.name.slice(0, 10) + "..."
+                          : otherInfo.name}
                       </h2>
                       <div className="flex items-center py-2">
-                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{otherPlayerScore} / 10</p>
+                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{otherPlayerScore} / 10</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={myWinner === true ? "text-3xl text-green-500 mb-4" : "text-3xl text-red-500 mb-4"}> {myWinner === true ? "Tu as gagné" : "Tu as perdu"} </h1>
+
             <button
               id="leaveGameByFinished"
-              className="py-2 px-4 bg-red-500 text-white rounded mt-8"
+              className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-1/2"
               onClick={handleLeaveGameByQueueClick}
               style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
             >
               Quitter
+
             </button>
 
           </div>

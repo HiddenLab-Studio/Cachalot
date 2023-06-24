@@ -22,7 +22,6 @@ const Content = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 25px;
   overflow-y: hidden;
 `;
 

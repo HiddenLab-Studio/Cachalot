@@ -198,16 +198,18 @@ const ClassGameContainer = ({ auth }) => {
             {gameState === "waiting" && (
                 <div id="waitingGame" className=" mt-8 flex flex-row items-center justify-center h-screen">
                     <div className="flex flex-col items-center">
-                        <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2.5rem" }} className="text-2xl mb-4">En attente d'un joueur</h2>
-                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.2rem" }} className="mb-4 text-center">
+                        <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2.5rem", color: "#3c3c3c" }} className="text-2xl mb-4">En attente d'un joueur</h2>
+                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.2rem", color: "#3c3c3c" }} className="mb-4 text-center">
                             Vous êtes en attente d'une partie de {discipline === "french" ? "Français" : "Mathématiques"} <span id="waitingGameDiscipline"></span>
                         </p>
                         <button
-                            id="leaveGameByQueue"
-                            className="py-2 px-4 bg-red-500 text-white rounded"
+                            id="leaveGameByFinished"
+                            className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-1/2"
                             onClick={handleLeaveGame}
+                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                         >
-                            Annuler
+                            Quitter
+
                         </button>
                     </div>
 
@@ -223,16 +225,18 @@ const ClassGameContainer = ({ auth }) => {
                                 {allUsers.map(user => user && (
                                     <div key={user.id} className="px-10">
                                         <div className={usersState[user.id] === true
-                                            ? "mb-8 px-10 rounded-lg border-4 border-green-500"
-                                            : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"}>
+                                            ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
+                                            : "mb-8 px-10 rounded-lg border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"}>
                                             <div className="flex flex-col items-center py-3 ">
                                                 <img
                                                     src={user.photo}
                                                     alt={`${user.displayName} Photo`}
                                                     className="rounded-full h-20 w-20 mb-2 border-2"
                                                 />
-                                                <h2 className="text-3xl font-bold">
-                                                    {user.displayName}
+                                                <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold">
+                                                    {user.displayName.length > 10
+                                                        ? user.displayName.slice(0, 10) + "..."
+                                                        : user.displayName}
                                                 </h2>
                                             </div>
                                         </div>
@@ -243,18 +247,20 @@ const ClassGameContainer = ({ auth }) => {
                             <div className={userWatching === false ? "px-10" : "hidden"}>
                                 <div className={
                                     usersState[myUser.id] === true
-                                        ? "mb-8 px-10 rounded-lg border-4 border-green-500 "
-                                        : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"
+                                        ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
+                                        : "mb-8 px-10 rounded-lg border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"
                                 }>
-                                    <div className="flex flex-col items-center py-3 ">
+                                    <div style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="flex flex-col items-center py-3 ">
                                         <img
                                             src={myUser.photo}
                                             alt="Your Photo"
                                             id="yourPhotoStarting"
                                             className="rounded-full h-20 w-20 mb-2 border-2"
                                         />
-                                        <h2 className="text-3xl font-bold" id="yourNameStarting">
-                                            {myUser.displayName}
+                                        <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                                            {myUser.displayName.length > 10
+                                                ? myUser.displayName.slice(0, 10) + "..."
+                                                : myUser.displayName}
                                         </h2>
                                     </div>
                                 </div>
@@ -264,16 +270,18 @@ const ClassGameContainer = ({ auth }) => {
                             <div className=" flex flex-col pr-2 ">
                                 <button
                                     id="playerReady"
-                                    className={usersState[myUser.id] === true ? "py-3 px-6 bg-red-500 text-white rounded" : "py-3 px-6 bg-green-500 text-white rounded"}
+                                    className={"bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-40"}
+                                    style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                                     onClick={handleGameReadyClick}
                                 >
                                     {usersState[myUser.id] ? "Annuler" : "Prêt"}
                                 </button>
                             </div>
                             <button
-                                id="leaveGameByStarting"
-                                className="py-3 px-6 bg-red-500 text-white rounded"
+                                id="leaveGameByFinished"
+                                className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-40"
                                 onClick={handleLeaveGame}
+                                style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                             >
                                 Quitter
                             </button>
@@ -290,71 +298,80 @@ const ClassGameContainer = ({ auth }) => {
                     className="flex flex-col items-center justify-center h-screen">
                     <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className={userWatching === true ? "fixed top-0" : "hidden"}>Spectateur</h1>
                     <div className="flex flex-col items-center">
-                        <div className="flex flex-row items-center">
-                            {allUsers.map(user => user && (
-                                <div key={user.id} className="px-10">
-                                    <div className={animation[user.id] === true ? "mb-8 px-10 rounded-lg border-4 border-green-500" : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"}>
-                                        <div className="flex flex-col items-center py-3 ">
-                                            <img
-                                                src={user.photo}
-                                                alt="Your Photo"
-                                                id="yourPhotoStarting"
-                                                className="rounded-full h-20 w-20 mb-2 border-2"
-                                            />
-                                            <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                                                {user.displayName}
-                                            </h2>
-                                            <div className="flex items-center py-2">
-                                                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{usersScore[user.id] != undefined ? usersScore[user.id] + "/" + numManche : user.score + "/" + numManche} </p>
+                        <div className="flex flex-col items-center border-b-4">
+                            <div className="flex flex-row items-center ">
+                                {allUsers.map(user => user && (
+                                    <div key={user.id} className="px-10">
+                                        <div className={animation[user.id] === true ? "mb-8 px-10 rounded-lg border-4 border-4 border-green-500 border-b-8 w-max-60 w-60" : "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"}>
+                                            <div className="flex flex-col items-center py-3 ">
+                                                <img
+                                                    src={user.photo}
+                                                    alt="Your Photo"
+                                                    id="yourPhotoStarting"
+                                                    className="rounded-full h-20 w-20 mb-2 border-2"
+                                                />
+                                                <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                                                    {user.displayName.length > 10
+                                                        ? user.displayName.slice(0, 10) + "..."
+                                                        : user.displayName}
+                                                </h2>
+                                                <div className="flex items-center py-2">
+                                                    <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{usersScore[user.id] != undefined ? usersScore[user.id] + "/" + numManche : user.score + "/" + numManche} </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
 
-                        <div className={userWatching === false ? "px-10" : "hidden"}>
-                            <div className={badAnimation[myUser.id] === true ? "mb-8 px-10 rounded-lg border-4 border-red-500" : (animation[myUser.id] === true ? "mb-8 px-10 rounded-lg border-4 border-green-500" : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md")}>
-                                <div className="flex flex-col items-center py-3 ">
-                                    <img
-                                        src={myUser.photo}
-                                        alt="Your Photo"
-                                        id="yourPhotoStarting"
-                                        className="rounded-full h-20 w-20 mb-2 border-2"
-                                    />
-                                    <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
-                                        {myUser.displayName}
-                                    </h2>
-                                    <div className="flex items-center py-2">
-                                        <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{usersScore[myUser.id] != undefined ? usersScore[myUser.id] + "/" + numManche : myUser.score + "/" + numManche}</p>
+                            <div className={userWatching === false ? "px-10" : "hidden"}>
+                                <div className={badAnimation[myUser.id] === true ? "mb-8 px-10 rounded-lg border-4 border-4 border-red-500 border-b-8 w-max-60 w-60" : (animation[myUser.id] === true ? "mb-8 px-10 rounded-lg border-4 border-4 border-green-500 border-b-8 w-max-60 w-60" : "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60")}>
+                                    <div className="flex flex-col items-center py-3 ">
+                                        <img
+                                            src={myUser.photo}
+                                            alt="Your Photo"
+                                            id="yourPhotoStarting"
+                                            className="rounded-full h-20 w-20 mb-2 border-2"
+                                        />
+                                        <h2 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} className="text-3xl font-bold" id="yourNameStarting">
+                                            {myUser.displayName.length > 10
+                                                ? myUser.displayName.slice(0, 10) + "..."
+                                                : myUser.displayName}
+                                        </h2>
+                                        <div className="flex items-center py-2">
+                                            <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1rem" }} id="otherScorePlaying">{usersScore[myUser.id] != undefined ? usersScore[myUser.id] + "/" + numManche : myUser.score + "/" + numManche}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div className={userWatching === false ? "" : "hidden"}>
-                            <div className="flex items-center flex-col mb-4">
-                                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="exercise" className="text-2xl font-bold">
+                            <div className="flex items-center flex-col mb-4 pt-4">
+                                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                                     Quel est le résultat de :
                                 </p>
-                                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="exercise" className="text-2xl font-bold">
+                                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                                     {exercise === null ? myUser.exercise : exercise}
                                 </p>
                             </div>
 
 
 
-                            <form onSubmit={handleSubmitResponse} className="flex items-center">
-                                <input
-                                    style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }}
-                                    type="text"
-                                    value={response}
-                                    onChange={handleChanges}
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="Votre réponse"
-                                    className="flex-grow border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="ml-4 bg-blue-500 text-white px-4 py-2 rounded">
+                            <form onSubmit={handleSubmitResponse} className="flex flex-col justify-center">
+                                <div className="flex flex-row items-center pb-4">
+                                    <input
+                                        style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c" }}
+                                        type="text"
+                                        placeholder="Votre réponse"
+                                        value={response}
+                                        onChange={handleChanges}
+                                        onKeyDown={handleKeyDown}
+                                        className="flex-grow border border-[#e5e5e5] rounded-lg bg-[#f7f7f7] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a78ff]"
+                                    />
+                                </div>
+
+                                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
                                     Envoyer
                                 </button>
                             </form>
@@ -369,12 +386,15 @@ const ClassGameContainer = ({ auth }) => {
                 <div className="flex flex-col items-center justify-center h-screen" id="finishedGame">
                     <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className={userWatching === true ? "fixed top-0" : "hidden"}>Spectateur</h1>
                     <div className="flex items-center mb-6">
-                        <div className="flex flex-row items-center">
+                        <div className="flex flex-col items-center w-full">
 
                             {classement.map((user, index) => (
-                                <div key={user.id} className="px-10">
-                                    <div className={index === 0 ? "mb-8 px-10 rounded-lg border-4 border-[#ffd700]" : (index === 1 ? "mb-8 px-10 rounded-lg border-4 border-[#c0c0c0] shadow-md" : (index === 2 ? "mb-8 px-10 rounded-lg border-4 border-[#C49C48] shadow-md" : "mb-8 px-10 rounded-lg border-4 border-gray-200 shadow-md"))}>
-                                        <div className="flex flex-col items-center py-3 ">
+                                <div key={user.id}>
+                                    <div className={index === 0 ? "mb-8 rounded-lg border-2 border-[#ffd700] border-b-4" : (index === 1 ? "mb-8 rounded-lg border-2 border-[#c0c0c0] border-b-4" : (index === 2 ? "mb-8 rounded-lg border-2 border-[#C49C48]  border-b-4" : "mb-8 rounded-lg border-2 border-gray-200 border-b-4"))}>
+                                        <div className="flex flex-row w-full justify-between items-center py-3 ">
+                                            <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={`pl-1 pr-4 ${index === 0 ? "text-3xl font-bold text-[#ffd700]" : (index === 1 ? "text-3xl font-bold text-[#c0c0c0]" : (index === 2 ? "text-3xl font-bold text-[#C49C48]" : "text-3xl font-bold text-gray-200"))}`}>
+                                                {index + 1}.
+                                            </h1>
                                             <img
                                                 src={user.photo}
                                                 alt="Your Photo"
@@ -393,16 +413,17 @@ const ClassGameContainer = ({ auth }) => {
                             ))}
                         </div>
                     </div>
-                    <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={classement[0].id === myUser.id ? "text-3xl text-[#ffd700] mb-4" : (classement[1].id === myUser.id ? "text-3xl text-[#c0c0c0] mb-4" : (classement[2].id === myUser.id ? "text-3xl text-[#C49C48] mb-4" : "text-3xl text-gray-200 mb-4"))}> {
+                    {/*<h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={classement[0].id === myUser.id ? "text-3xl text-[#ffd700] mb-4" : (classement[1].id === myUser.id ? "text-3xl text-[#c0c0c0] mb-4" : (classement[2].id === myUser.id ? "text-3xl text-[#C49C48] mb-4" : "text-3xl text-gray-200 mb-4"))}> {
                         classement[0].id === myUser.id ? "Bravo vous avez gagné !" : (classement[1].id === myUser.id ? "Vous êtes deuxième !" : (classement[2].id === myUser.id ? "Vous êtes troisième !" : "Vous avez perdu !"))
-                    } </h1>
+                    } </h1>*/}
                     <button
                         id="leaveGameByFinished"
-                        className="py-2 px-4 bg-red-500 text-white rounded mt-8"
+                        className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-1/2"
                         onClick={handleLeaveGame}
                         style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                     >
                         Quitter
+
                     </button>
 
                 </div>

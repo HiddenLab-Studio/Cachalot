@@ -251,6 +251,19 @@ export const classes = {
         }
     },
 
+
+    myAdminWithClassId: async (classId) => {
+        const user = auth.currentUser;
+        const docRef = doc(db, "classes", classId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.data().admin.uid === user.uid) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    },
+
     //exclure un eleve 
     deleteUser: async (classId, userId) => {
         console.log(classId, userId);
@@ -282,11 +295,14 @@ export const classes = {
         const docRefGames = collection(db, "classes", classId, "games");
         const docRefGamesData = await getDocs(docRefGames);
 
-        const docRefNewGame = doc(db, "classes/" + classId + "/games", "game" + (docRefGamesData.docs.length + 1));
+        const classeCode = await classes.createCodeGame(classId);
+
+        const docRefNewGame = doc(db, "classes/" + classId + "/games", classeCode);
 
         if (docRefGamesData.docs.length < 5) {
             await setDoc(docRefNewGame, {
                 nbrPlayers: nbrPlayers,
+                nbrCurrentPlayers: 0,
                 nbrManches: nbrManches,
                 level: level,
                 discipline: discipline,
@@ -300,29 +316,53 @@ export const classes = {
 
     },
 
+    createCodeGame: async (classId) => {
+        const classeCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const doicRef = doc(db, "classes", classId, "games", classeCode);
+        await getDoc(doicRef).then(async (doc) => {
+            if (doc.exists()) {
+                console.log("Code déjà existante");
+                await classes.createCode(classId);
+            }
+        })
+        return classeCode;
+    },
+
     getAllGames: (classId, callback) => {
         const docRefGames = collection(db, "classes", classId, "games");
 
         const unsubscribe = onSnapshot(docRefGames, (docSnapshot) => {
 
             docSnapshot.docChanges().forEach(async (change) => {
-                const docRefGameUsers = collection(db, "classes", classId, "games", change.doc.id, "users");
-                const docRefGameUsersData = await getDocs(docRefGameUsers);
                 if (change.type === "added") {
                     const data = {
                         id: change.doc.id,
-                        nbrPlayersInGame: docRefGameUsersData.docs.length,
                         ...change.doc.data(),
                     }
 
-                    callback(data);
+                    callback(data, "added");
 
+                }
+                if (change.type === "modified") {
+                    const data = {
+                        id: change.doc.id,
+                        ...change.doc.data(),
+                    }
+                    callback(data, "modified");
+                }
+                if (change.type === "removed") {
+                    callback(change.doc.id, "removed");
                 }
             })
         })
 
         return unsubscribe;
 
+    },
+
+    deleteGame: async (classId, gameId) => {
+        const docRef = doc(db, "classes", classId, "games", gameId);
+        await deleteDoc(docRef);
     },
 
     joinGame: async (classId, gameId) => {
@@ -348,14 +388,15 @@ export const classes = {
 
                 if (!docRefGameUserData.exists()) {
                     if (docRefGameUsersData.docs.length + 1 === docRefGameData.data().nbrPlayers) {
-                        
-                            await setDoc(docRefGameUser, {
-                                displayName: UserData.data().displayName,
-                                photo: UserData.data().photo,
-                                score: 0,
-                                ready: false,
-                            }).then(async () => {
-                                updateDoc(docRefGame, {
+
+                        await setDoc(docRefGameUser, {
+                            displayName: UserData.data().displayName,
+                            photo: UserData.data().photo,
+                            score: 0,
+                            ready: false,
+                        }).then(async () => {
+                            updateDoc(docRefGame, {
+                                nbrCurrentPlayers: docRefGameUsersData.docs.length + 1,
                                 state: "starting",
                             }).then(() => {
                                 result = true;
@@ -368,6 +409,10 @@ export const classes = {
                             photo: UserData.data().photo,
                             score: 0,
                             ready: false,
+                        }).then(() => {
+                            updateDoc(docRefGame, {
+                                nbrCurrentPlayers: docRefGameUsersData.docs.length + 1,
+                            })
                         }).then(() => {
                             result = true;
                         })
@@ -398,15 +443,15 @@ export const classes = {
                             exercices: exercices
                         })
                     }
-                   
+
                     callback("starting", docSnapshot.data().nbrManches);
                 }
- 
+
                 if (state === "playing") {
                     callback("playing", docSnapshot.data().nbrManches);
                 }
                 if (state === "finished") {
-                    callback("finished",docSnapshot.data().nbrManches);
+                    callback("finished", docSnapshot.data().nbrManches);
                 }
             }
         });
@@ -426,7 +471,7 @@ export const classes = {
                     if (docGameData.data().state === "starting") {
                         if (change.doc.data().ready == true) {
                             const exercise = await classes.getExercise(classId, gameId, 0);
-                                await updateDoc(change.doc.ref, {
+                            await updateDoc(change.doc.ref, {
                                 exercise: exercise,
                             })
                             const readyData = docSnapshot.docs.map(doc => doc.data().ready);
@@ -454,7 +499,7 @@ export const classes = {
                         }
                         else {
                             const user = auth.currentUser;
-                            await callback(change.doc.id, change.doc.data().score,docGameData.data().state, change.doc.data().exercise, change.doc.id === user.uid);
+                            await callback(change.doc.id, change.doc.data().score, docGameData.data().state, change.doc.data().exercise, change.doc.id === user.uid);
                         }
                     }
                 }
@@ -479,14 +524,22 @@ export const classes = {
             await deleteDoc(docPlayer);
             if (docGameData.data().state == "waiting") {
                 console.log("waiting");
-                await deleteDoc(docPlayer);
-                result = true;
+                await updateDoc(docGame, {
+                    nbrCurrentPlayers: docGameData.data().nbrCurrentPlayers - 1,
+                }).then(async () => {
+                    await deleteDoc(docPlayer);
+                }).then(() => {
+                    result = true;
+                })
             }
             if (docGameData.data().state == "starting") {
                 await deleteDoc(docPlayer);
                 await updateDoc(docGame, {
+                    nbrCurrentPlayers: docGameData.data().nbrCurrentPlayers - 1,
+                }).then(async () => {
+                    await updateDoc(docGame, {
                     state: "waiting"
-                }).then(() => {
+                })}).then(() => {
                     result = true;
                 })
             }
@@ -530,7 +583,7 @@ export const classes = {
         return { usersInfo, myUserInfo, userWatching };
     },
 
-    setPlayerReady : async (classId, gameId, userId, NewUserState) => {
+    setPlayerReady: async (classId, gameId, userId, NewUserState) => {
         let result = false;
         console.log(classId, gameId, userId, NewUserState);
         const docRef = doc(db, "classes", classId, "games", gameId, "users", userId);
@@ -600,7 +653,7 @@ export const classes = {
         const classement = docSnapshot.docs.map(doc => {
             const data = {
                 id: doc.id,
-               ...doc.data()
+                ...doc.data()
             }
             return data;
         });

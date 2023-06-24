@@ -124,25 +124,25 @@ function ClassCreateGameContainer({ auth }) {
         <CreateGameContainerWrapper>
             {myAdmin === true && (
                 <>
-                    <div className="w-full border-2 border-gray-300 shadow-md rounded-lg">
+                    <div className="w-full border-2 border-[#e5e5e5] border-b-4 rounded-lg">
                         <div className="flex px-2 flex-col justify-between items-center rounded-t-lg">
                             <div className="w-full pt-2 pb-1 border-b-2">
-                                <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }}>Céation d'une partie</h1>
+                                <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" ,color:"#3c3c3c"}}>Céation d'une partie</h1>
                             </div>
                             <form className="flex flex-col w-full pb-2">
                                 <div className="flex flex-row items-center pt-2">
-                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="pr-2">Niveau de la partie:</h3>
-                                    <div className="flex flex-row items-center shadow-md border-2 rounded-lg">
+                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" ,color:"#3c3c3c"}} className="pr-2">Niveau de la partie:</h3>
+                                    <div className="flex flex-row items-center border-[#e5e5e5] border-b-4 border-2 rounded-lg">
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }}
                                             className="p-1"
                                             onClick={() => handleGameLevelChange('previous')}
                                         >
                                             &lt;
                                         </button>
-                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center" }}>{gameLevel}</span>
+                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center",color:"#3c3c3c" }}>{gameLevel}</span>
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" ,color:"#3c3c3c"}}
                                             className="p-1"
                                             onClick={() => handleGameLevelChange('next')}
                                         >
@@ -152,18 +152,18 @@ function ClassCreateGameContainer({ auth }) {
                                 </div>
 
                                 <div className="flex flex-row items-center pt-2">
-                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="pr-2">Nombre de joueurs:</h3>
-                                    <div className="flex flex-row items-center border-2 rounded-lg shadow-md">
+                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" ,color:"#3c3c3c"}} className="pr-2">Nombre de joueurs:</h3>
+                                    <div className="flex flex-row items-center border-2 rounded-lg border-[#e5e5e5] border-b-4">
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" ,color:"#3c3c3c"}}
                                             className="p-1"
                                             onClick={() => handleNumPlayersChange('decrease')}
                                         >
                                             &lt;
                                         </button>
-                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center" }}>{numPlayers}</span>
+                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center" ,color:"#3c3c3c"}}>{numPlayers}</span>
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }}
                                             className="p-1"
                                             onClick={() => handleNumPlayersChange('increase')}
                                         >
@@ -173,18 +173,18 @@ function ClassCreateGameContainer({ auth }) {
                                 </div>
 
                                 <div className="flex flex-row items-center pt-2">
-                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="pr-2">Nombre de manches:</h3>
-                                    <div className="flex flex-row items-center border-2 rounded-lg shadow-md">
+                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" ,color:"#3c3c3c"}} className="pr-2">Nombre de manches:</h3>
+                                    <div className="flex flex-row items-center border-2 rounded-lg border-[#e5e5e5] border-b-4">
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }}
                                             className="p-1"
                                             onClick={() => handleNumRoundsChange('decrease')}
                                         >
                                             &lt;
                                         </button>
-                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center" }}>{numRounds}</span>
+                                        <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", minWidth: "40px", textAlign: "center" ,color:"#3c3c3c"}}>{numRounds}</span>
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }}
                                             className="p-1"
                                             onClick={() => handleNumRoundsChange('increase')}
                                         >
@@ -195,10 +195,10 @@ function ClassCreateGameContainer({ auth }) {
 
 
                                 <div className="flex flex-row items-center pt-2">
-                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="pr-2">Choix de la discipline:</h3>
-                                    <div className="flex flex-row border-2 rounded-lg shadow-md">
+                                    <h3 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem",color:"#3c3c3c" }} className="pr-2">Choix de la discipline:</h3>
+                                    <div className="flex flex-row border-2 rounded-lg border-[#e5e5e5] border-b-4">
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }} 
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }} 
                                             className="p-1"
                                             onClick={() => handleDisciplineChange('previous')}
                                         >
@@ -206,7 +206,7 @@ function ClassCreateGameContainer({ auth }) {
                                         </button>
                                         <img src={`../../../../static/img/icons/${discipline}.png`} className=" w-9 h-9" />
                                         <button
-                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center" }}
+                                            style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem", textAlign: "center",color:"#3c3c3c" }}
                                             className="p-1"
                                             onClick={() => handleDisciplineChange('next')}
                                         >
@@ -216,8 +216,8 @@ function ClassCreateGameContainer({ auth }) {
                                 </div>
 
 
-                                <button className={`w-full shadow-md py-2 mt-2 ${errors === false && gameCreated === false ? "bg-[#0a78ff] text-white rounded-md hover:bg-blue-600" : "hidden"}`} style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} onClick={() => handleCreateGame()}>Création de la partie</button>
-                                <button className={`w-full shadow-md py-2 mt-2 ${errors === false && gameCreated === false ? "hidden" : (errors === true && gameCreated === false ? "bg-red-500 text-white rounded-md hover:bg-red-600" : "bg-green-500 text-white rounded-md hover:bg-green-600")}`} style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} onClick={() => changeStateCreateGame()}>{errors === true && gameCreated === false ? "Trop de parties créées" : "Partie Créée"}</button>
+                                <button className={`w-full shadow-md py-2 mt-2 ${errors === false && gameCreated === false ? "bg-[#0a78ff] text-white rounded-md border-[#e5e5e5] border-2 border-b-4" : "hidden"}`} style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem"  }} onClick={() => handleCreateGame()}>Création de la partie</button>
+                                <button className={`w-full shadow-md py-2 mt-2 ${errors === false && gameCreated === false ? "hidden" : (errors === true && gameCreated === false ? "bg-red-500 text-white rounded-md border-[#1899d6] border-2 border-b-4" : "bg-green-500 border-[#1899d6] border-2 border-b-4 text-white rounded-md")}`} style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} onClick={() => changeStateCreateGame()}>{errors === true && gameCreated === false ? "Trop de parties créées" : "Partie Créée"}</button>
                             </form>
                         </div>
                     </div>

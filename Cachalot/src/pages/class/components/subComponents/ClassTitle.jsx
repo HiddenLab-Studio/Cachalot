@@ -55,7 +55,7 @@ const ClassTitle = ({ auth }) => {
                 <div className="flex flex-row border-b-2 w-full">
                     <img src="../../../static/img/icons/class.png" className="pr-2" />
                     <div className="flex flex-row items-center">
-                        <h1 onClick={myAdmin === true ? () => setTitleInput(true) : console.log("rien")} style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2rem" }} className={`hover:text-gray-500 ${titleInput === true ? "hidden" : ""}`}>{ClassName}</h1>
+                        <h1 onClick={myAdmin === true ? () => setTitleInput(true) : console.log("rien")} style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2rem" ,color:"#3c3c3c"}} className={`hover:text-gray-600 ${titleInput === true ? "hidden" : ""}`}>{ClassName}</h1>
                         <OutsideClickHandler onOutsideClick={() => setTitleInput(false)}>
                             <input
                                 type="text"
