@@ -453,7 +453,8 @@ export const classes = {
 
                         }
                         else {
-                            await callback(change.doc.id, change.doc.data().score,docGameData.data().state, change.doc.data().exercise );
+                            const user = auth.currentUser;
+                            await callback(change.doc.id, change.doc.data().score,docGameData.data().state, change.doc.data().exercise, change.doc.id === user.uid);
                         }
                     }
                 }

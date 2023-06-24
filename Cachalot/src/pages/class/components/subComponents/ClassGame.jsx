@@ -62,7 +62,7 @@ const ClassGameContainer = ({ auth }) => {
         }
     };
 
-    const handleUserSateChange = async (idChange, newState, stateGame, exercise) => {
+    const handleUserSateChange = async (idChange, newState, stateGame, exercise, myUserChange) => {
         //On récupère si le user est ready ou pas pour l'affichage
         if (stateGame === "starting") {
             await setUsersState(prevState => ({
@@ -72,7 +72,7 @@ const ClassGameContainer = ({ auth }) => {
 
         }
         if (stateGame === "playing") {
-            if (myUser.id === idChange) {
+            if (myUserChange === true) {
                 console.log("exercise", exercise);
                 await setExercise(exercise);
             }
