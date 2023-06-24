@@ -53,16 +53,17 @@ const xpCacheManager = {
         }
     },
 
+    setData: async(id, data) => {
+        xpCache = data
+        await xpCacheManager.updateNodeCache(uid).then(() => console.info("xpCache updated!"));
+    },
+
     addXp: (xp) => {
         if(!xpCache.isUpdated) xpCache.isUpdated = true;
         xpCache.currentXp += xp
         xpCache.cumulatedXp += xp;
         checkLvlUp(xpCache.currentLvl);
-        xpCacheManager.updateNodeCache(uid).then(r =>
-            console.info("xpCache updated: " + r)
-        );
-        //console.info(getRequiredXp(xpCache.currentLvl) - xpCache.currentXp + " xp avant le prochain niveau");
-        //xpCacheManager.test();
+        xpCacheManager.updateNodeCache(uid).then(() => console.info("xpCache updated!"));
     },
 
     getRequiredXp: (lvl) => getRequiredXp(lvl),
@@ -87,6 +88,15 @@ const xpCacheManager = {
             xpCache.isUpdated = false;
         }
         return result;
+    },
+
+    clearCache: () => {
+        xpCache = {
+            currentXp: 0,
+            currentLvl: 1,
+            cumulatedXp: 0,
+            isUpdated: false,
+        };
     }
 
 }

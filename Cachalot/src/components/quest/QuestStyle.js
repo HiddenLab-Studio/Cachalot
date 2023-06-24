@@ -23,6 +23,7 @@ export const QuestProgressBarContainer = styled.div`
 
     .progress__bar__fill {
       width: ${props => props.progress};
+      max-width: 100%;
       position: absolute;
       top: 0;
       left: 0;
@@ -80,7 +81,6 @@ export const QuestListContainer = styled.div`
         .title {
           display: flex;
           flex-direction: row;
-          align-items: center;
 
           h2 {
             font-family: "Din_Round_Med", sans-serif;

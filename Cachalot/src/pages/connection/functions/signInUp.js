@@ -7,6 +7,8 @@ const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
 
 import xpCacheManager from "../../../context/manager/cache/xpCacheManager.js";
+import questCacheManager from "../../../context/manager/cache/questCacheManager.js";
+import friendsCacheManager from "../../../context/manager/cache/FriendsCacheManager.js";
 
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
@@ -157,29 +159,33 @@ export async function firebaseLogin(data) {
 
             // We retrieve lastLogin from user document in database
             const userDocRef = doc(db, "users", user.uid);
-            getDoc(userDocRef).then((doc) => {
+            getDoc(userDocRef).then(async (doc) => {
                 const userDoc = doc.data();
-                const lastLogin = userDoc.lastLogin;
+                const lastLogin = doc.data().lastLogin;
                 // We retrieve the day from lastLogin
                 const lastLoginDay = lastLogin.split(" ")[0].split("/")[0];
                 console.log(lastLoginDay, dt.getDate().toString());
-                if(lastLoginDay !== dt.getDate().toString()){
+                if (lastLoginDay !== dt.getDate().toString()) {
                     // We increment the cumulatedDays (need to get the user document first)
                     const cumulatedDays = userDoc.cumulatedDays;
-                    updateDoc(userDocRef, {
+                    await updateDoc(userDocRef, {
                         cumulatedDays: cumulatedDays + 1
                     })
                 }
+
+                await xpCacheManager.setData(user.uid, doc.data().userXp);
+                await questCacheManager.setData(user.uid, doc.data().userQuest);
+
             });
 
             // On met à jour les informations de l'utilisateur
             updateDoc(userDocRef, {
                 lastLogin: dateTime
-            }).then(() => {
-                xpCacheManager.loadData(user.uid);
+            }).then(async () => {
                 result.showOverlay = false;
                 result.code = "valid";
             })
+
         }).catch((error) => {
             // Si il y a une erreur
             console.log(error.code)

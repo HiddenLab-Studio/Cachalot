@@ -40,7 +40,6 @@ if(app.get("env") === "production"){
     app.set("trust proxy", 1);
 }
 
-// home page
 app.get('/', (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'application/json'
@@ -49,69 +48,8 @@ app.get('/', (req, res) => {
     res.end();
 })
 
-app.get('/test', (req, res) => {
-    console.log("[REQUEST] user request data from the server!")
-    res.send(JSON.stringify("request processed successfully!"))
-})
-
-app.post('/api/getExercise', (req, res) => {
-    console.log("[POST] user send data to the server !")
-    let currentExerciseType = req.body.currentExerciseType;
-    let currentLevel = req.body.currentLevel;
-    const exercise = generateRandomExercise(currentExerciseType, currentLevel);
-    res.send({exercise: exercise});
-})
-
-app.post('/api/getExercises', (req, res) => {
-    console.log("[POST] user send data to the server !")
-    let type = req.body.type;
-    let currentLevel = req.body.currentLevel;
-    let amount = req.body.amount;
-    let exerciseList = [];
-    for (let i = 0; i < amount; i++) {
-        exerciseList.push(generateRandomExercise("all", currentLevel));
-    }
-    res.send({exercises: exerciseList});
-})
-
-app.post('/api/getSolution', (req, res) => {
-    console.log("[POST] user send data to the server !")
-    let currentExercise = req.body.exercise;
-    let answer = req.body.answer;
-    console.log(currentExercise);
-    let isCorrect = getUserInputAndCheckSolution(answer, currentExercise);
-    res.send({isCorrect: isCorrect});
-})
-
-
-//FRANCAIS
-//On envoie un exercice aléatoire au client
-app.post('/api/getNewFrenchExercise', (req, res) => {
-    const exerciseLevel = req.body.currentLevel;
-  
-    exercise = getExercicesFromJSON(exerciseLevel);
-  
-    const data = {
-      exerciseId: exercise.id,
-      exerciseType: exercise.type,
-      exerciseQuestion: exercise.question,
-      exerciseSentence: exercise.phrase,
-    }
-    
-    res.send(data);
-  });
-  
-  //On récupère la réponse du client et on vérifie si elle est correcte
-  app.post('/api/getSolutionFrench', (req, res) => {
-    const exerciseId = req.body.exerciseId;
-    const answer = req.body.answer;
-  
-    //On verifie la solution
-    let isCorrect2 = getUserInputAndCheckSolutionFrench(answer, exerciseId);
-  
-    // Données à envoyer au client
-    res.json({ isCorrect: isCorrect2 });
-  });
+const exerciseRouter = require("./router/exerciseRouter");
+app.use("/api/exercise", exerciseRouter);
 
 const utils = require("./cache/function/utils");
 const cacheRouter = require("./cache/router/cacheRouter");

@@ -4,7 +4,7 @@ import {data, mathFunctions} from "../../../functions/MathExerciseGenerator.js";
 const classPermissionData = [
     {
         class: ["CM1", "CM2", "all"],
-        permission: ["addition", "soustraction", "multiplication", "league", "all"]
+        permission: ["addition", "soustraction", "multiplication", "division", "all"]
     },
     {
         class: ["CP"],
@@ -18,12 +18,11 @@ const classPermissionData = [
 
 const SelectorType = ({setState, exerciseType}) => {
     let classPermission = classPermissionData.find(element => element.class.includes(data.currentLevel)).permission;
-    console.log(classPermission);
-
+    //console.log(classPermission);
     if(!classPermission.includes(exerciseType)) {
-        console.info("exerciseType not found");
+        //console.info("exerciseType not found");
         setState("exerciseType", classPermission[0]);
-        document.getElementById("addition").style.backgroundColor = "grey";
+        document.getElementById("addition").style.backgroundColor = "#f1f1f1";
     }
 
     return (

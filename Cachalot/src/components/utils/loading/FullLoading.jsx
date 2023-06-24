@@ -58,7 +58,7 @@ const FullLoading = ({setIsLoading}) => {
                 cache.questCache.loadData(auth.currentUser.uid).then(res => {
                     console.log(res);
                     cache.isUserCached = true;
-                    setIsLoading(!cache.isUserCached);
+                    if(setIsLoading !== undefined) setIsLoading(!cache.isUserCached);
                 })
 
             });

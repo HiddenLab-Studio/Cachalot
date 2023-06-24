@@ -40,12 +40,17 @@ const questCacheManager = {
         }
     },
 
+    setData: async(id, data) => {
+        questCache = data
+        await questCacheManager.updateNodeCache(uid).then(() => console.info("questCache updated!"));
+    },
+
     getCache: () => questCache,
 
     claimReward: async (id) => {
         let result = false;
         let quest = questCache.currentQuest[id];
-        if(quest.current === quest.amount){
+        if(quest.current >= quest.amount){
             quest.isClaimed = true;
             questCache.totalQuestDone++;
             questCache.isUpdated = true;
@@ -74,10 +79,23 @@ const questCacheManager = {
                 }
                 console.log(questCache);
                 break;
+            case "onTrainingCompleted":
+                console.log(questCache);
+                for(let i = 0; i < questCache.currentQuest.length; i++){
+                    if(questCache.currentQuest[i].type === "onTrainingCompleted"){
+                        questCache.currentQuest[i].current++;
+                        questCache.isUpdated = true;
+                    }
+                }
+                console.log(questCache);
+                break;
             default:
                 console.error("Unknown quest type!");
                 break;
         }
+
+        await questCacheManager.updateNodeCache(uid);
+
     },
 
     updateNodeCache: async (id) => {
@@ -97,6 +115,14 @@ const questCacheManager = {
             questCache.isUpdated = false;
         }
         return result;
+    },
+
+    clearCache: () => {
+        questCache = {
+            currentQuest: [],
+            totalQuestDone: 0,
+            isUpdated: false,
+        };
     }
 
 }

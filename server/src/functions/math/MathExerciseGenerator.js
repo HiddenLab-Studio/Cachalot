@@ -112,7 +112,7 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
             }
             var operator = "*";
             break;
-        case "league":
+        case "division":
 
             switch (levelSelected) {
                 case "CM1":
@@ -144,7 +144,7 @@ function generateRandomExercise(operatorUsed = "all", levelSelected = "all") {
 
 
 function selectRandomOperator(levelSelected) {
-    var operators = ["addition", "soustraction", "multiplication", "league"];
+    var operators = ["addition", "soustraction", "multiplication", "division"];
     switch (levelSelected) {
         case "CP":
             return operators[generateRandomNumber(0, 1)];

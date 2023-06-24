@@ -21,14 +21,12 @@ function getExercicesFromJSON(Level) {
     loadExercisesFromJSON();
     const exercises = getExerciseByLevel(Level);
     const randomIndex = Math.floor(Math.random() * exercises.length);
-    const randomExercise = exercises[randomIndex];
-    return randomExercise;
+    return exercises[randomIndex];
 }
 
 
 //On vient prendre la solution de l'exercice et on défini un arrondi acceptable pour la réponse utilisateur (2 chiffres après la virgule)
 function AllowedSolution(solution) {
-    console.log(solution);
     const normalizeString = (str) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
     return normalizeString(solution);
@@ -38,12 +36,8 @@ function AllowedSolution(solution) {
 
 //On vient comparer la solution de l'exercice avec la réponse de l'utilisateur
 function checkSolution(solution, userSolution) {
-    if (solution == userSolution || AllowedSolution(solution) == AllowedSolution(userSolution)) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    console.log(solution, userSolution)
+    return solution === userSolution || AllowedSolution(solution) === AllowedSolution(userSolution);
 }
 
 
@@ -52,8 +46,7 @@ function getUserInputAndCheckSolutionFrench(answer, exerciseId) {
 
     console.log(answer, exerciseId)
     console.log(exercisesJSON[exerciseId].reponse)
-    solution = exercisesJSON[exerciseId].reponse;
-
+    let solution = exercisesJSON[exerciseId].reponse;
     if (checkSolution(solution, answer)) {
         //Bonne réponse
         return true;

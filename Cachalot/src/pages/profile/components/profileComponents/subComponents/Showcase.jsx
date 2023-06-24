@@ -56,24 +56,23 @@ const Showcase = ({isSearch, data}) => {
     return (
         <ShowcaseContainer>
             <FollowButton isSearch={isSearch} data={data} />
-            {
-                !isOnMobile ?
-                    <BadgeContainer>
-                        {test.map((badge, index) => {
-                            return (
-                                <div key={index}>
-                                    <img src={badge} alt="badge" />
-                                </div>
-                            )
-                        })}
-                    </BadgeContainer>
-                    :
-                    null
-            }
         </ShowcaseContainer>
     )
 }
-
+/*{
+    !isOnMobile ?
+        <BadgeContainer>
+            {test.map((badge, index) => {
+                return (
+                    <div key={index}>
+                        <img src={badge} alt="badge" />
+                    </div>
+                )
+            })}
+        </BadgeContainer>
+        :
+        null
+}*/
 /*
 
             {!isSearch ?

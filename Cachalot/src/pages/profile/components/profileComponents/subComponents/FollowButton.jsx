@@ -79,14 +79,16 @@ const FollowButton = ({ isSearch, data }) => {
     }, []);
 
     if (!isSearch) {
-        return (
-            <ButtonContainer>
+        /*
+        <ButtonContainer>
                 <button>
                     <FaEdit/>
                     <span>Modifier la vitrine</span>
                 </button>
             </ButtonContainer>
-        )
+
+         */
+        return null;
     } else {
         if (isFollowing) {
             return (

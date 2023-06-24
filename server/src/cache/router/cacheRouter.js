@@ -72,6 +72,7 @@ router.post('/updateXpCache', async (req, res) => {
     let id = req.body.id;
     let data = req.body.data;
     let isUpdated = false;
+    console.log(data);
     console.info("[INFO] user " + id + " request data from the server!")
     if (cacheManager.getUserFromXpCache(id) !== null) {
         cacheManager.setUserToXpCache(id, data);

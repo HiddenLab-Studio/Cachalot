@@ -41,8 +41,6 @@ const MatchContainer = ({ auth }) => {
   const [ranked, setRanked] = useState(false);
   const [rankedIcon, setRankedIcon] = useState("");
 
-
-
   // Gestion du game state
   const handleGameStateChange = async (newState) => {
 
