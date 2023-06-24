@@ -2,16 +2,16 @@ import React, {useEffect} from 'react';
 import { styled } from "twin.macro";
 
 // Components
-import Navbar from "../../navbar/Navbar.jsx";
+import Navbar from "../../components/navbar/Navbar.jsx";
 
 // Styled Components
 import {
     Container,
     MainContainer
-} from "../ui/GlobalStyle.js";
-import loadXpCache from "../../../utils/onLoading.js";
-import {useAuth} from "../../../context/AuthContext.js";
-import Loading from "../loading/Loading.jsx";
+} from "../../components/utils/ui/GlobalStyle.js";
+import loadXpCache from "../../utils/onLoading.js";
+import {useAuth} from "../../context/AuthContext.js";
+import Loading from "../../components/utils/loading/Loading.jsx";
 
 const AboutContainer = styled(Container)``;
 const Content = styled.div`
@@ -20,7 +20,7 @@ const Content = styled.div`
   padding: 25px;
 `
 
-const About = () => {
+const AboutHomePage = () => {
     // State
     const [isLoading, setIsLoading] = React.useState(true);
 
@@ -50,4 +50,4 @@ const About = () => {
     }
 }
 
-export default About;
+export default AboutHomePage;

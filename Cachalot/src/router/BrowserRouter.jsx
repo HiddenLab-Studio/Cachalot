@@ -9,9 +9,9 @@ import ExerciseHomePage from "../pages/exercise/TrainingHomePage.jsx";
 import ProfileHomePage from "../pages/profile/ProfileHomePage.jsx";
 import SearchUser from "../pages/profile/components/SearchUser.jsx";
 import Loading from "../components/utils/loading/Loading.jsx";
-import About from "../components/utils/about/About.jsx";
+import AboutHomePage from "../pages/about/AboutHomePage.jsx";
 import Settings from "../components/utils/settings/Settings.jsx";
-import Quests from "../components/utils/quests/Quests.jsx";
+import QuestHomePage from "../pages/quests/QuestHomePage.jsx";
 import FindLeagueHomePage from "../pages/league/FindLeagueHomePage.jsx";
 import LeagueHomePage from "../pages/league/LeagueHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     { path: "/ranked", element: <FindLeagueHomePage /> },
     { path: "/ranked/:discipline/:id", element: <LeagueHomePage /> },
     // Quest Page
-    { path: "/quest", element: <Quests /> },
+    { path: "/quest", element: <QuestHomePage /> },
     // Profile Page
     { path: "/profile", element: <ProfileHomePage isSearching={false} /> },
     { path: "/profile/:user", element: <ProfileHomePage isSearching={true} /> },
@@ -51,8 +51,8 @@ const router = createBrowserRouter([
     { path: "/class/:id/:discipline/:idgame", element: <ClassGameHomePage /> },
     // Settings Page
     { path: "/settings", element: <Settings /> },
-    // About Page
-    { path: "/about", element: <About /> },
+    // AboutHomePage Page
+    { path: "/about", element: <AboutHomePage /> },
 
     // 404
     {path: "*", element: <div>Oupsss une erreur est survenue !</div>},

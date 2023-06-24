@@ -1,20 +1,65 @@
 import React, { useEffect, useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
-import tw from "twin.macro";
+import tw, {styled} from "twin.macro";
 import "./../../styles/class.css"
 import ClassInfoUser from "./ClassInfoUser";
+import {FaStar} from "react-icons/fa6";
 
 // Styled components
-const ClassInfoUsersWrapper = tw.div`flex flex-col space-y-4`;
+const ElementContainer = styled.div`
+  ${tw`flex flex-row items-center gap-[8px] p-[8px]`};
+  transition: all 0.1s ease-in-out;
+  span {
+    font-family: "Din_Round_Med", sans-serif;
+    font-size: var(--fs-sm);
+    color: ${props => props.theme.text};
+  }
+  img {
+    max-width: unset;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: ${props => props.theme.buttonBgHover};
+    border-radius: 12px;
+    transform: scale(1.025);
+    transition: all 0.2s ease-in-out;
+  }
+`;
+const ClassInfoUsersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid ${props => props.theme.borderRightColor};
+  border-bottom: 4px solid ${props => props.theme.borderRightColor};
+  border-radius: 12px;
+  padding: 16px;
+  
+  h3 {
+    font-family: "Din_Round_Bold", sans-serif;
+    font-size: var(--fs-m);
+    color: ${props => props.theme.text};
+    border-bottom: 2px solid ${props => props.theme.borderRightColor};
+  }
+  
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+`;
 
 const ClassInfoUsers = ({ auth }) => {
-
     const classId = window.location.pathname.split("/")[2];
 
     //Liste des utilisateurs
     const [users, setUsers] = useState([]);
     const [admin, setAdmin] = useState([]);
-    
 
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
@@ -41,27 +86,26 @@ const ClassInfoUsers = ({ auth }) => {
     }, []);
 
     return (
-        <ClassInfoUsersWrapper>
+        <ClassInfoUsersContainer>
             {admin && (
-                    <div className="px-4 py-2 bg-white rounded-lg border-2 border-gray-300 shadow-md w-full h-full ">
-                        <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-md text-gray-800 font-semibold mb-2 pb-1 border-b-2">Professeur</h3>
-                        <ul className="list-inside pb-2" id="adminList">
-                            <div onClick={() => (setSelectedUserId(admin.uid), handleClick(event))} key={admin.username} className="flex items-center text-gray-800 rounded-lg space-x-2 py-1 hover:bg-gray-200 hover:shadow-md transition duration-200 transform hover:scale-105">
-                                <div className="flex items-center pl-2">
-                                    <img src={admin.photo} alt="Personne 1" className="w-8 h-8 rounded-full" />
+                    <div className="">
+                        <h3>Professeur</h3>
+                        <ul tw="my-[12px]" id="adminList">
+                            <ElementContainer onClick={() => (setSelectedUserId(admin.uid), handleClick(event))} key={admin.username}>
+                                <img src={admin.photo} alt="Admin"/>
+                                <span>{admin.displayName}</span>
+                                <div tw="flex justify-end grow-[1] text-[#f1c40f]">
+                                    <FaStar />
                                 </div>
-                                <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="text-gray-800">{admin.displayName}</span>
-                            </div>
+                            </ElementContainer>
                         </ul>
-                        <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-md text-gray-800 font-semibold mb-2 pb-1 border-b-2">Elèves</h3>
-                        <ul className="list-inside py-1" id="eleveList">
+                        <h3>Élèves</h3>
+                        <ul tw="mt-[12px]" id="eleveList">
                             {users.map((user) => (
-                                <div onClick={() => (setSelectedUserId(user.id), handleClick(event))} key={user.username} className="flex items-center rounded-lg space-x-2 py-1 hover:bg-gray-200 hover:shadow-md transition duration-200 transform hover:scale-105 ">
-                                    <div className="flex items-center pl-2">
-                                        <img src={user.photo} alt="Personne 1" className="w-8 h-8 rounded-full" />
-                                    </div>
+                                <ElementContainer onClick={() => (setSelectedUserId(user.id), handleClick(event))} key={user.username}>
+                                    <img src={user.photo} alt="Personne 1" className="w-8 h-8 rounded-full" />
                                     <span style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="text-gray-800">{user.displayName}</span>
-                                </div>
+                                </ElementContainer>
                             ))}
                         </ul>
                     </div>
@@ -69,7 +113,7 @@ const ClassInfoUsers = ({ auth }) => {
             <OutsideClickHandler onOutsideClick={() => setSelectedUserId(null)}>
                 {selectedUserId != null && popupPosition != null && <ClassInfoUser auth={auth} userId={selectedUserId} admin={admin} position={popupPosition} />}
             </OutsideClickHandler>
-        </ClassInfoUsersWrapper>
+        </ClassInfoUsersContainer>
 
     );
 };

@@ -14,8 +14,6 @@ import {
 
 const AsideClass = ({auth}) => {
 
-
-
     return (
         <AsideClassContainer>
             <ClassInfoUsers auth={auth} />
