@@ -1,4 +1,5 @@
-import { collection, doc, getDoc, getDocs, setDoc,deleteDoc , updateDoc} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy } from "firebase/firestore";
+import { mathFunctions } from "../../pages/exercise/functions/MathExerciseGenerator.js";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -173,7 +174,7 @@ export const classes = {
             photo: docSnapAdmin.data().photo,
             ...dataClasse.admin
         }
-        if(dataClasse.admin.uid === user.uid){
+        if (dataClasse.admin.uid === user.uid) {
             userInClass = true;
         }
 
@@ -211,7 +212,7 @@ export const classes = {
             const dataUser = {
                 displayName: docSnap.data().displayName,
                 photo: docSnap.data().photo,
-                date : newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear(),
+                date: newDate.getDate() + "/" + (newDate.getMonth() + 1) + "/" + newDate.getFullYear(),
                 username: docAdminSnap.data().admin.username
             }
             return dataUser;
@@ -266,11 +267,348 @@ export const classes = {
         return docSnap.data().name;
     },
 
-    //Change le nom de la classe
+    //Change le nom de la classe A RETRAVAILLER
     updateClassName: async (classId, newName) => {
         const docRef = doc(db, "classes", classId);
         await updateDoc(docRef, {
             name: newName
         });
     },
+
+
+    //CREATION D'UNE PARTIE
+    createGame: async (classId, nbrPlayers, nbrManches, level, discipline) => {
+        let result = false;
+        const docRefGames = collection(db, "classes", classId, "games");
+        const docRefGamesData = await getDocs(docRefGames);
+
+        const docRefNewGame = doc(db, "classes/" + classId + "/games", "game" + (docRefGamesData.docs.length + 1));
+
+        if (docRefGamesData.docs.length < 5) {
+            await setDoc(docRefNewGame, {
+                nbrPlayers: nbrPlayers,
+                nbrManches: nbrManches,
+                level: level,
+                discipline: discipline,
+                state: "waiting",
+                dateCreation: new Date(),
+            }).then(() => {
+                result = true;
+            })
+        }
+        return result;
+
+    },
+
+    getAllGames: (classId, callback) => {
+        const docRefGames = collection(db, "classes", classId, "games");
+
+        const unsubscribe = onSnapshot(docRefGames, (docSnapshot) => {
+
+            docSnapshot.docChanges().forEach(async (change) => {
+                const docRefGameUsers = collection(db, "classes", classId, "games", change.doc.id, "users");
+                const docRefGameUsersData = await getDocs(docRefGameUsers);
+                if (change.type === "added") {
+                    const data = {
+                        id: change.doc.id,
+                        nbrPlayersInGame: docRefGameUsersData.docs.length,
+                        ...change.doc.data(),
+                    }
+
+                    callback(data);
+
+                }
+            })
+        })
+
+        return unsubscribe;
+
+    },
+
+    joinGame: async (classId, gameId) => {
+        let result = false;
+        const user = auth.currentUser;
+        const docRefUser = doc(db, "users", user.uid);
+        const UserData = await getDoc(docRefUser);
+
+        const docRefGame = doc(db, "classes", classId, "games", gameId);
+        const docRefGameData = await getDoc(docRefGame);
+
+        const discipline = docRefGameData.data().discipline;
+
+        if (docRefGameData.data().state === "waiting") {
+
+            const docRefGameUsers = collection(db, "classes", classId, "games", gameId, "users");
+            const docRefGameUsersData = await getDocs(docRefGameUsers);
+
+            if (docRefGameUsersData.docs.length < docRefGameData.data().nbrPlayers) {
+
+                const docRefGameUser = doc(db, "classes", classId, "games", gameId, "users", user.uid);
+                const docRefGameUserData = await getDoc(docRefGameUser);
+
+                if (!docRefGameUserData.exists()) {
+                    if (docRefGameUsersData.docs.length + 1 === docRefGameData.data().nbrPlayers) {
+                        
+                            await setDoc(docRefGameUser, {
+                                displayName: UserData.data().displayName,
+                                photo: UserData.data().photo,
+                                score: 0,
+                                ready: false,
+                            }).then(async () => {
+                                updateDoc(docRefGame, {
+                                state: "starting",
+                            }).then(() => {
+                                result = true;
+                            })
+                        })
+
+                    } else {
+                        await setDoc(docRefGameUser, {
+                            displayName: UserData.data().displayName,
+                            photo: UserData.data().photo,
+                            score: 0,
+                            ready: false,
+                        }).then(() => {
+                            result = true;
+                        })
+                    }
+                }
+
+            }
+        }
+        return { result, discipline };
+    },
+
+
+
+    //On récupère les infos de la partie et on les envoies à la page
+    onStateGame: (discipline, gameId, classId, callback) => {
+        console.log(discipline, gameId, classId);
+        const docRef = doc(db, "classes/" + classId + "/games/" + gameId);
+        const unsubscribe = onSnapshot(docRef, async (docSnapshot) => {
+            if (docSnapshot.exists()) {
+                let state = docSnapshot.data().state;
+                if (state === "waiting") {
+                    callback("waiting");
+                }
+                if (state === "starting") {
+                    if (docSnapshot.data().exercices == undefined) {
+                        const exercices = await mathFunctions.getExercises(docSnapshot.data().nbrManches, discipline, docSnapshot.data().level);
+                        await updateDoc(docRef, {
+                            exercices: exercices
+                        })
+                    }
+                   
+                    callback("starting", docSnapshot.data().nbrManches);
+                }
+ 
+                if (state === "playing") {
+                    callback("playing", docSnapshot.data().nbrManches);
+                }
+                if (state === "finished") {
+                    callback("finished",docSnapshot.data().nbrManches);
+                }
+            }
+        });
+        return unsubscribe;
+    },
+
+    onStatePlayer: async (discipline, classId, gameId, callback) => {
+        const docRef = collection(db, "classes", classId, "games", gameId, "users");
+        const docGame = doc(db, "classes", classId, "games", gameId);
+
+        const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
+            docSnapshot.docChanges().forEach(async (change) => {
+
+                if (change.type === "modified") {
+                    const docGameData = await getDoc(docGame);
+
+                    if (docGameData.data().state === "starting") {
+                        if (change.doc.data().ready == true) {
+                            const exercise = await classes.getExercise(classId, gameId, 0);
+                                await updateDoc(change.doc.ref, {
+                                exercise: exercise,
+                            })
+                            const readyData = docSnapshot.docs.map(doc => doc.data().ready);
+                            if (readyData.every(ready => ready == true)) {
+                                await updateDoc(docGame, {
+                                    state: "playing",
+                                })
+                            } else {
+                                callback(change.doc.id, change.doc.data().ready, docGameData.data().state, change.doc.data().exercise);
+                            }
+                        }
+                        else {
+
+                            callback(change.doc.id, change.doc.data().ready, docGameData.data().state);
+                        }
+
+                    } else if (docGameData.data().state === "playing") {
+                        if (change.doc.data().score >= docGameData.data().nbrManches) {
+                            console.log("FINISHED");
+                            const docGame = doc(db, "classes", classId, "games", gameId);
+                            await updateDoc(docGame, {
+                                state: "finished"
+                            })
+
+                        }
+                        else {
+                            await callback(change.doc.id, change.doc.data().score,docGameData.data().state, change.doc.data().exercise );
+                        }
+                    }
+                }
+            });
+        });
+        return unsubscribe;
+
+    },
+
+    leaveGame: async (classId, gameId) => {
+        let result = false;
+        const user = auth.currentUser;
+
+        const docGame = doc(db, "classes", classId, "games", gameId)
+        const docGameData = await getDoc(docGame);
+
+        const docPlayer = doc(db, "classes", classId, "games", gameId, "users", user.uid);
+        const docPlayerData = await getDoc(docPlayer);
+        console.log(docGameData.data().state);
+
+        if (docPlayerData.exists()) {
+            await deleteDoc(docPlayer);
+            if (docGameData.data().state == "waiting") {
+                console.log("waiting");
+                await deleteDoc(docPlayer);
+                result = true;
+            }
+            if (docGameData.data().state == "starting") {
+                await deleteDoc(docPlayer);
+                await updateDoc(docGame, {
+                    state: "waiting"
+                }).then(() => {
+                    result = true;
+                })
+            }
+            if (docGameData.data().state == "finished") {
+                await deleteDoc(docPlayer);
+                const docRef = collection(db, "classes", classId, "games", gameId, "users");
+                const docSnapshot = await getDocs(docRef);
+                if (docSnapshot.docs.length == 0) {
+                    await deleteDoc(docGame);
+                }
+                result = true;
+            }
+        }
+        return result;
+
+    },
+
+    getAllUsersInGame: async (classId, gameId) => {
+        const userId = auth.currentUser.uid;
+        let userWatching = false;
+        let myUserInfo = {};
+
+        const docRef = collection(db, "classes", classId, "games", gameId, "users");
+        const docSnapshot = await getDocs(docRef);
+        const usersInfo = docSnapshot.docs.map(doc => {
+            if (doc.id == userId) {
+                myUserInfo = { id: doc.id, ...doc.data() }
+                return
+            } else {
+                return { id: doc.id, ...doc.data() }
+            }
+        });
+        // Vérifier si le user est bien dans la partie
+        // Pour tous les users, vérifier si le user est dans la partie
+        if (usersInfo.find(user => user && user.id == userId) || myUserInfo.id == userId) {
+            userWatching = false;
+        } else {
+            userWatching = true;
+        }
+
+        return { usersInfo, myUserInfo, userWatching };
+    },
+
+    setPlayerReady : async (classId, gameId, userId, NewUserState) => {
+        let result = false;
+        console.log(classId, gameId, userId, NewUserState);
+        const docRef = doc(db, "classes", classId, "games", gameId, "users", userId);
+        await updateDoc(docRef, {
+            ready: NewUserState,
+        }).then(() => {
+            result = true;
+        })
+        return result;
+    },
+
+    getExercise: async (classId, gameId, score) => {
+        const docGame = doc(db, "classes", classId, "games", gameId);
+        const docGameData = await getDoc(docGame);
+        const exercise = docGameData.data().exercices[score];
+        return exercise;
+    },
+
+    checkResponse: async (exercice, value) => {
+        console.log(exercice, value);
+        let result = false;
+        const solution = await mathFunctions.getSolution(exercice, value);
+        console.log(solution);
+        if (solution) {
+            result = true;
+        }
+        return result;
+
+    },
+
+    sendResponse: async (classId, gameId, exercise, response, score) => {
+        let result = false;
+
+        const responseCheck = await classes.checkResponse(exercise, response);
+        if (responseCheck) {
+            const user = auth.currentUser;
+            const docPlayer = doc(db, "classes", classId, "games", gameId, "users", user.uid);
+            const docPlayerData = await getDoc(docPlayer);
+            if (docPlayerData.exists()) {
+                const exercise = await classes.getExercise(classId, gameId, (docPlayerData.data().score + score));
+                if (exercise == undefined) {
+                    await updateDoc(docPlayer, {
+                        score: docPlayerData.data().score + score,
+                    }).then(() => {
+                        result = true;
+                    })
+                } else {
+                    await updateDoc(docPlayer, {
+                        score: docPlayerData.data().score + score,
+                        exercise: exercise,
+                    }).then(() => {
+                        result = true;
+                    })
+                }
+            }
+        } else {
+            result = false;
+        }
+        return result;
+    },
+
+    //getClassement
+    getClassement: async (classId, gameId) => {
+        const docRef = collection(db, "classes", classId, "games", gameId, "users");
+        const classementUsers = query(docRef, orderBy("score", "desc"));
+        const docSnapshot = await getDocs(classementUsers);
+        const classement = docSnapshot.docs.map(doc => {
+            const data = {
+                id: doc.id,
+               ...doc.data()
+            }
+            return data;
+        });
+        return classement;
+    }
+
+
+
+
+
+
 }

@@ -26,7 +26,8 @@
     "react-outside-click-handler": "^1.3.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "^6.11.2",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "tailwind": "^4.0.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.21.5",

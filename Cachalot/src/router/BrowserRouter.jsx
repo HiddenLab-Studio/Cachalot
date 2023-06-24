@@ -16,6 +16,7 @@ import FindLeagueHomePage from "../pages/league/FindLeagueHomePage.jsx";
 import LeagueHomePage from "../pages/league/LeagueHomePage.jsx";
 import Class from "../components/utils/class/Class.jsx";
 import ClassHomePage from "../pages/class/ClassHomePage.jsx";
+import ClassGameHomePage from "../pages/class/ClassGameHomePage.jsx";
 import MathExercise from "../pages/exercise/components/training/MathExercise.jsx";
 import MyClass from "../components/utils/class/MyClass.jsx";
 import FullLoading from "../components/utils/loading/FullLoading.jsx";
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
     { path: "/class", element: <Class /> },
     { path: "/my-class", element: <MyClass /> },
     { path: "/class/:id", element: <ClassHomePage /> },
+    { path: "/class/:id/:discipline/:idgame", element: <ClassGameHomePage /> },
     // Settings Page
     { path: "/settings", element: <Settings /> },
     // About Page

@@ -50,6 +50,7 @@ const ClassChatContainer = ({ auth }) => {
                     const dateB = moment(b.date, 'DD/MM/YYYY | HH:mm:ss');
                     return dateA - dateB;
                 });
+  
                 return sortedMessages;
             });
         });
@@ -69,7 +70,7 @@ const ClassChatContainer = ({ auth }) => {
                 <div className="items-center bg-white rounded-lg shadow-md px-4 border-2 border-gray-300">
                     <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.4rem" }} className="text-2xl font-bold text-gray-800 mb-4 pt-2 pb-2 border-b-2">Chat</h1>
 
-                    <div className="max-h-40 overflow-y-auto h-40 pb-2 flex flex-col-reverse">
+                    <div className="max-h-40 overflow-y-auto pb-2 flex flex-col-reverse">
                         {[...messages].reverse().map((message) => (
                             <div
                                 key={message.id}
@@ -100,7 +101,7 @@ const ClassChatContainer = ({ auth }) => {
                             tw="flex-grow border border-gray-300 rounded px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             style={{ fontFamily: "'DIN Round Pro', sans-serif", fontSize: "0.9rem" }}
                         />
-                        <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "0.9rem" }} type="submit" tw="ml-4 bg-blue-500 text-white px-4 py-2 rounded">
+                        <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "0.9rem" }} type="submit" tw="ml-4 bg-[#0a78ff] text-white px-4 py-2 rounded">
                             Envoyer
                         </button>
                     </form>
