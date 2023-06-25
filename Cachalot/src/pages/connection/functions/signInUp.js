@@ -125,6 +125,12 @@ export async function firebaseRegister(data) {
                     exerciseDoneList: [],
                     myExerciseList: [],
                     exerciseLikedList: []
+                },
+                works : {
+                    1206 : {
+                        done : false,
+                        date : "12/06/2021",
+                    },
                 }
             }).then(() => {
                 result.showOverlay = false;
@@ -264,6 +270,12 @@ export async function firebaseGoogleLogin() {
                             exerciseDoneList: [],
                             myExerciseList: [],
                             exerciseLikedList: []
+                        },
+                        works : {
+                            1206 : {
+                                done : false,
+                                date : "12/06/2021",
+                            },
                         }
                     }).then(() => {
                         console.log("User created!");

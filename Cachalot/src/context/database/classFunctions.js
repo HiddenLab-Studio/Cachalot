@@ -1,5 +1,6 @@
 import { collection, doc, getDoc, getDocs, setDoc, deleteDoc, updateDoc, onSnapshot, query, orderBy } from "firebase/firestore";
 import { mathFunctions } from "../../pages/exercise/functions/MathExerciseGenerator.js";
+import { frenchFunctions } from "../../pages/exercise/functions/FrenchExerciseGenerator.js";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db, storage } = firebaseConfigClient();
@@ -523,7 +524,7 @@ export const classes = {
 
                     if (docGameData.data().state === "starting") {
                         if (change.doc.data().ready == true) {
-                            const exercise = await classes.getExercise(classId, gameId, 0);
+                            const exercise = await classes.getExercise(classId, gameId, 0, discipline);
                             await updateDoc(change.doc.ref, {
                                 exercise: exercise,
                             })
@@ -668,35 +669,67 @@ export const classes = {
         return result;
     },
 
-    getExercise: async (classId, gameId, score) => {
+    getExercise: async (classId, gameId, score, discipline) => {
         const docGame = doc(db, "classes", classId, "games", gameId);
         const docGameData = await getDoc(docGame);
-        const exercise = docGameData.data().exercices[score];
-        return exercise;
+        if (discipline == "math") {
+            const exercise = docGameData.data().exercices[score];
+            return exercise;
+        } else {
+            if (docGameData.data().exercices[score] == undefined) {
+                return undefined;
+            }
+            else {
+                if (docGameData.data().exercices[score].phrase == undefined) {
+                    const exercise = {
+                        question: docGameData.data().exercices[score].question,
+                        id: docGameData.data().exercices[score].id,
+                        reponse: docGameData.data().exercices[score].reponse,
+                    }
+                    return exercise;
+                } else {
+                    const exercise = {
+                        question: docGameData.data().exercices[score].question,
+                        phrase: docGameData.data().exercices[score].phrase,
+                        id: docGameData.data().exercices[score].id,
+                        reponse: docGameData.data().exercices[score].reponse,
+                    }
+                    return exercise;
+                }
+            }
+        }
     },
 
-    checkResponse: async (exercice, value) => {
+    checkResponse: async (exercice, value,discipline) => {
         console.log(exercice, value);
         let result = false;
-        const solution = await mathFunctions.getSolution(exercice, value);
-        console.log(solution);
-        if (solution) {
-            result = true;
+        if (discipline == "math") {
+            const solution = await mathFunctions.getSolution(exercice, value);
+            console.log(solution);
+            if (solution) {
+                result = true;
+            }
+        } else {
+            const solution = await frenchFunctions.getSolution(exercice, value, discipline);
+            console.log(solution);
+            if (solution) {
+                result = true;
+            }
         }
         return result;
 
     },
 
-    sendResponse: async (classId, gameId, exercise, response, score) => {
+    sendResponse: async (classId, gameId, exercise, response, score, discipline) => {
         let result = false;
 
-        const responseCheck = await classes.checkResponse(exercise, response);
+        const responseCheck = await classes.checkResponse(exercise, response, discipline);
         if (responseCheck) {
             const user = auth.currentUser;
             const docPlayer = doc(db, "classes", classId, "games", gameId, "users", user.uid);
             const docPlayerData = await getDoc(docPlayer);
             if (docPlayerData.exists()) {
-                const exercise = await classes.getExercise(classId, gameId, (docPlayerData.data().score + score));
+                const exercise = await classes.getExercise(classId, gameId, (docPlayerData.data().score + score), discipline);
                 if (exercise == undefined) {
                     await updateDoc(docPlayer, {
                         score: docPlayerData.data().score + score,
@@ -732,6 +765,12 @@ export const classes = {
         });
         return classement;
     },
+
+
+
+
+
+
 
 
     //DEVOIRS
