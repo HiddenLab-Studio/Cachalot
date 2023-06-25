@@ -23,6 +23,7 @@ router.post('/getExercise', (req, res) => {
     }
     res.send({exercise: exercise});
 })
+
 router.post('/getExercises', (req, res) => {
     console.log("[POST] user send data to the server !")
     let type = req.body.type;
@@ -39,13 +40,15 @@ router.post('/getExercises', (req, res) => {
         case "french":
             console.log("french")
             for (let i = 0; i < amount; i++) {
-                exerciseList.push(getExercicesFromJSON(currentLevel));
+                exerciseList.push(getExercicesFromJSON());
             }
+            let onlyInputExercise = exerciseList.filter((exercise) => exercise.type === "INPUT");
+            exerciseList = onlyInputExercise;
             break;
         default:
                 break;
     }
-
+    console.log(exerciseList)
     res.send({exercises: exerciseList});
 })
 router.post('/getSolution', (req, res) => {
