@@ -29,9 +29,23 @@ router.post('/getExercises', (req, res) => {
     let currentLevel = req.body.currentLevel;
     let amount = req.body.amount;
     let exerciseList = [];
-    for (let i = 0; i < amount; i++) {
-        exerciseList.push(generateRandomExercise("all", currentLevel));
+
+    switch (type) {
+        case "math":
+            for (let i = 0; i < amount; i++) {
+                exerciseList.push(generateRandomExercise("all", currentLevel));
+            }
+            break;
+        case "french":
+            console.log("french")
+            for (let i = 0; i < amount; i++) {
+                exerciseList.push(getExercicesFromJSON(currentLevel));
+            }
+            break;
+        default:
+                break;
     }
+
     res.send({exercises: exerciseList});
 })
 router.post('/getSolution', (req, res) => {

@@ -48,9 +48,7 @@ export const Content = styled.section`
   @media (min-width: 0px) and (max-width: 1050px) {
     flex-direction: column;
   }
-  
 `
-
 const ClassHomePage = () => {
     // Context
     const auth = useAuth();
