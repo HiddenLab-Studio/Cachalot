@@ -9,10 +9,9 @@ import {
     Container,
     MainContainer
 } from "../../components/utils/ui/GlobalStyle.js";
-import loadXpCache from "../../utils/onLoading.js";
-import {useAuth} from "../../context/AuthContext.js";
-import Loading from "../../components/utils/loading/Loading.jsx";
 import DescSpan from "../../components/utils/ui/DescSpan.jsx";
+import {useCache} from "../../context/manager/cache/CacheProvider.js";
+import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 
 const AboutContainer = styled(Container)``;
 const Content = styled.div`
@@ -22,21 +21,13 @@ const Content = styled.div`
 `
 
 const AboutHomePage = () => {
+    // Context
+    const cache = useCache();
     // State
-    const [isLoading, setIsLoading] = React.useState(true);
-
-    const auth = useAuth()
-
-    useEffect(() => {
-        if (auth.currentUser instanceof Object) {
-            loadXpCache(auth.currentUser, setIsLoading)
-        } else {
-            setIsLoading(false)
-        }
-    }, [auth.currentUser])
+    const [isLoading, setIsLoading] = React.useState(!cache.isUserCached);
 
     if(isLoading) {
-        return <Loading />
+        return <FullLoading setIsLoading={setIsLoading} />
     } else {
         return (
             <MainContainer>
