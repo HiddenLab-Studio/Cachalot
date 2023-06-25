@@ -169,7 +169,7 @@ export const user = {
             const userRef = doc(db, "users", currentUser.uid);
             const userDoc = await getDoc(userRef);
             const userWorks = userDoc.data().works;
-            if (userWorks[exerciseId] !== undefined) {
+            if (userWorks[exerciseId] === undefined) {
                 return result;
             }
             else {
