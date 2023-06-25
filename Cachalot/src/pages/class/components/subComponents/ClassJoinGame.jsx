@@ -107,7 +107,7 @@ function ClassJoinGameContainer({ auth }) {
                                     <img src={`../../../../static/img/icons/${allGames[currentGame].discipline}.png`} className="w-20" />
                                 </div>
 
-                                <div className='flex flex-row w-full py-3 justify-between bg-gray-200 rounded-lg  shadow-inner'>
+                                <div className='flex flex-row w-full py-3 justify-between bg-gray-100 rounded-lg  shadow-inner'>
                                     <div className="flex flex-col pl-2">
                                         <div className="flex flex-row items-center">
                                             <p style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.5rem" }} className='text-[#3c3c3c]'>{"Game " + (allGames[currentGame].id)}</p>
@@ -119,8 +119,10 @@ function ClassJoinGameContainer({ auth }) {
 
                                     </div>
                                     <div className="flex flex-col justify-center px-3">
-                                        <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="hover:text-[#0a78ff] rounded-lg p-1 text-white" onClick={() => handleJoinGame(allGames[currentGame].id)}>{allGames[currentGame].nbrPlayersInGame === allGames[currentGame].nbrPlayers ? "Regarder" : "Rejoindre"}</button>
-                                        <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className={myAdminGames === true ? "hover:text-red-500 rounded-lg p-1 text-white" : "hidden"} onClick={() => handleDeleteGame(allGames[currentGame].id)}>{"Supprimer"}</button>
+                                        <div  className={myAdminGames === true ? "pb-2" : ""}>
+                                            <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 px-4 rounded-lg w-full" onClick={() => handleJoinGame(allGames[currentGame].id)}>{allGames[currentGame].nbrPlayersInGame === allGames[currentGame].nbrPlayers ? "Regarder" : "Rejoindre"}</button>
+                                        </div>
+                                        <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1rem" }} className={myAdminGames === true ? "bg-white border-2 border-[#e5e5e5] border-b-4 text-red-500 py-2 px-4 rounded-lg w-full" : "hidden"} onClick={() => handleDeleteGame(allGames[currentGame].id)}>{"Supprimer"}</button>
                                     </div>
                                 </div>
                             </div>

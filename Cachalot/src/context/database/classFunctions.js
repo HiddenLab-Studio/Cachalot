@@ -274,11 +274,72 @@ export const classes = {
 
     //Change le nom de la classe A RETRAVAILLER
     updateClassName: async (classId, newName) => {
+        const user = auth.currentUser;
         const docRef = doc(db, "classes", classId);
+        const docRerAdmin = doc(db, "users", user.uid, "classesAdmin", classId);
+
+        const getRefUsers = collection(db, "classes", classId, "users");
+        const getRefUsersData = await getDocs(getRefUsers);
+        const users = getRefUsersData.docs.map(doc => doc.id);
+
         await updateDoc(docRef, {
             name: newName
-        });
+        }).then(async () => {
+            await updateDoc(docRerAdmin, {
+                name: newName
+            })
+        }).then(async () => {
+            await Promise.all(
+                users.map(async (user) => {
+                    const docRefUser = doc(db, "users", user, "classesJoined", classId);
+                    await updateDoc(docRefUser, {
+                        name: newName
+                    })
+                })
+            )
+        })
     },
+
+    //delete la classe
+    deleteClass: async (classId) => {
+        let result = false;
+        const user = auth.currentUser;
+        const docRef = doc(db, "classes", classId);
+        const docRefAdmin = doc(db, "users", user.uid, "classesAdmin", classId);
+
+        const docRefUsers = collection(db, "classes", classId, "users");
+        const docRefUsersData = await getDocs(docRefUsers);
+        const users = docRefUsersData.docs.map(doc => doc.id);
+
+        await deleteDoc(docRefAdmin).then(async () => {
+            ;
+            await Promise.all(
+                users.map(async (user) => {
+                    const docRefUser = doc(db, "users", user, "classesJoined", classId);
+                    await deleteDoc(docRefUser);
+                })
+            )
+        }).then(async () => {
+            await deleteDoc(docRef);
+        }).then(() => {
+            result = true;
+        })
+        return result;
+    },
+
+    leaveClass: async (classId) => {
+        let result = false;
+        const user = auth.currentUser;
+        const docRef = doc(db, "classes", classId, "users", user.uid);
+        const docRefUser = doc(db, "users", user.uid, "classesJoined", classId);
+        await deleteDoc(docRef).then(async () => {
+            await deleteDoc(docRefUser);
+        }).then(() => {
+            result = true;
+        })
+        return result;
+    },
+
 
 
     //CREATION D'UNE PARTIE
@@ -530,8 +591,9 @@ export const classes = {
                     nbrCurrentPlayers: docGameData.data().nbrCurrentPlayers - 1,
                 }).then(async () => {
                     await updateDoc(docGame, {
-                    state: "waiting"
-                })}).then(() => {
+                        state: "waiting"
+                    })
+                }).then(() => {
                     result = true;
                 })
             }
@@ -560,7 +622,7 @@ export const classes = {
                     gamesDone: docRefData.data().games.gamesDone + 1,
                     gamesWin: winner ? docRefData.data().games.gamesWin + 1 : docRefData.data().games.gamesWin,
                 }
-            }).then (() => {
+            }).then(() => {
                 result = true;
             })
         }
@@ -669,7 +731,113 @@ export const classes = {
             return data;
         });
         return classement;
-    }
+    },
+
+
+    //DEVOIRS
+
+    createWork: async (classId, name, desc, date, exercises) => {
+        let result = false;
+        const workId = await classes.createCodeWork(classId);
+        const docRefWork = doc(db, "classes", classId, "works", workId);
+
+        const allUsers = collection(db, "classes", classId, "users");
+        const allUsersData = await getDocs(allUsers);
+
+        if (exercises === "" || name === "" || desc === "" || date === "") {
+            return result;
+        }
+        else {
+            await setDoc(docRefWork, {
+                name: name,
+                date: date,
+                desc: desc,
+                exercisesCode: exercises,
+            }).then(async () => {
+                await Promise.all(
+                    allUsersData.docs.map(async (user) => {
+                        const docRefUser = doc(db, "users", user.id);
+                        const docRefUserData = await getDoc(docRefUser);
+                        const data = {
+                            done: false,
+                            date: date,
+                        }
+                        await updateDoc(docRefUser, {
+                            works: {
+                                [exercises]: data,
+                                ...docRefUserData.data().works,
+                            }
+                        }).then(() => {
+                            result = true;
+
+
+                        })
+                    })
+                )
+            })
+
+        }
+        return result;
+    },
+
+
+    createCodeWork: async (classId) => {
+        const workCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+        const doicRef = doc(db, "classes", classId, "works", workCode);
+        await getDoc(doicRef).then(async (doc) => {
+            if (doc.exists()) {
+                console.log("Code déjà existante");
+                await classes.createCodeWork(classId);
+            }
+        })
+        return workCode;
+    },
+
+    getAllWorks: (classId, callback) => {
+        const docRefWorks = collection(db, "classes", classId, "works");
+
+        const unsubscribe = onSnapshot(docRefWorks, (docSnapshot) => {
+
+            docSnapshot.docChanges().forEach(async (change) => {
+
+                if (change.type === "added") {
+                    const admin = await classes.myAdminWithClassId(classId)
+                    if (admin === true) {
+                        const data = {
+                            id: change.doc.id,
+                            ...change.doc.data(),
+                        }
+                        callback(data, "added");
+                    } else {
+                        const user = auth.currentUser;
+                        const docRefUser = doc(db, "users", user.uid);
+                        const docRefUserData = await getDoc(docRefUser);
+
+                        const data = {
+                            exerciceDone: docRefUserData.data().works[change.doc.data().exercisesCode].done,
+                            id: change.doc.id,
+                            ...change.doc.data(),
+                        }
+
+                        callback(data, "added");
+
+                    }
+                }
+                if (change.type === "removed") {
+                    callback(change.doc.id, "removed");
+                }
+            })
+        })
+
+        return unsubscribe;
+
+    },
+
+    deleteWork: async (classId, workId) => {
+        const docRef = doc(db, "classes", classId, "works", workId);
+        await deleteDoc(docRef);
+    },
+
 
 
 

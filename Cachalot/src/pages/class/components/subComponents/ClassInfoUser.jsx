@@ -132,8 +132,6 @@ const ClassInfoUser = ({ auth, userId, admin, position }) => {
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Rôle </p>
                                         <p style={{ fontFamily: "'DIN Round Pro mdi', sans-serif", fontSize: "0.8rem" }} className="mt-2 text-gray-600">Élève</p>
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Statistiques</p>
-                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.exercises.exoDone > 1 ? `Exercices terminés : ${userInfos.exercises.exoDone}` : "Exercice terminé : 0"} </p>
-                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.exercises.exoStarted != 0 ? `Pourcentage de réussite : ${userInfos.exercises.exoDone * 100 / userInfos.exercises.exoStarted} %` : "Pourcentage de réussite : 0%"}</p>
                                         <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.games.gamesDone > 1 ? `Parties terminées : ${userInfos.games.gamesDone}` : `Partie terminée : ${userInfos.games.gamesDone}`} </p>
                                         <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.games.gamesWin > 1 ? `Parties gagnées : ${userInfos.games.gamesWin}` :`Partie gagnée : ${userInfos.games.gamesWin}` }</p>
                                     </div>

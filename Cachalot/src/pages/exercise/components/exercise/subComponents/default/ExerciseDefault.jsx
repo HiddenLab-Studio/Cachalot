@@ -92,6 +92,7 @@ const ExerciseDefault = ({auth, id}) => {
                                     });
                                 });
                             } else {
+                                auth.user.addWorksDone(auth.currentUser, exerciseId)
                                 setExerciseFinished({correct: true, complete: true});
                             }
                         } else {

@@ -1,5 +1,5 @@
-import {collection, doc, getDoc, getDocs, updateDoc} from "firebase/firestore";
-import {signOut} from "firebase/auth";
+import { collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 import firebaseConfigClient from "../../services/firebase.config.js";
 import axios from "axios";
@@ -31,14 +31,14 @@ export const user = {
             let userRef = collection(db, "users", currentUser.uid, "classesJoined");
             await getDocs(userRef).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    result.push({code: doc.id, data: doc.data()});
+                    result.push({ code: doc.id, data: doc.data() });
                 });
             });
 
             userRef = collection(db, "users", currentUser.uid, "classesAdmin");
             await getDocs(userRef).then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    result.push({code: doc.id, data: doc.data()});
+                    result.push({ code: doc.id, data: doc.data() });
                 });
             });
         }
@@ -55,9 +55,9 @@ export const user = {
             const userLikes = userExercise.exerciseLikedList;
             // add the exerciseId to the field userExercise.exerciseLikedList inside userExercise object
             await updateDoc(userRef, {
-                userExercise : {
+                userExercise: {
                     ...userExercise,
-                    exerciseLikedList : [...userLikes, exerciseId]
+                    exerciseLikedList: [...userLikes, exerciseId]
                 }
             }).then(() => {
                 // update exerciseData.like in the database
@@ -82,9 +82,9 @@ export const user = {
             const userLikes = userExercise.exerciseLikedList;
             // remove the exerciseId to the field userExercise.exerciseLikedList inside userExercise object
             await updateDoc(userRef, {
-                userExercise : {
+                userExercise: {
                     ...userExercise,
-                    exerciseLikedList : userLikes.filter((id) => id !== exerciseId)
+                    exerciseLikedList: userLikes.filter((id) => id !== exerciseId)
                 }
             }).then(() => {
                 // update exerciseData.like in the database
@@ -107,16 +107,39 @@ export const user = {
             const userDoc = await getDoc(userRef);
             const userExercise = userDoc.data().userExercise;
             const userDone = userExercise.exerciseDoneList;
+            const userWorks = userDoc.data().works;
+            console.log(userWorks[exerciseId])
             // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
-            await updateDoc(userRef, {
-                userExercise : {
-                    ...userExercise,
-                    exerciseDoneList: [...userDone, exerciseId],
-                    totalExerciseDone: userExercise.totalExerciseDone + 1
-                }
-            }).then(() => {
-                result = true;
-            });
+            if (userWorks[exerciseId] !== undefined) {
+                console.log("works")
+                await updateDoc(userRef, {
+                    userExercise: {
+                        ...userExercise,
+                        exerciseDoneList: [...userDone, exerciseId],
+                        totalExerciseDone: userExercise.totalExerciseDone + 1
+                    },
+                    works: {
+                        ...userWorks,
+                        [exerciseId]: {
+                            done: true,
+                            date: userWorks[exerciseId].date
+                        }
+                    }
+                }).then(() => {
+                    result = true;
+                });
+            }
+            else {
+                await updateDoc(userRef, {
+                    userExercise: {
+                        ...userExercise,
+                        exerciseDoneList: [...userDone, exerciseId],
+                        totalExerciseDone: userExercise.totalExerciseDone + 1
+                    }
+                }).then(() => {
+                    result = true;
+                });
+            }
         }
         return result;
     },
@@ -129,7 +152,7 @@ export const user = {
             const userExercise = userDoc.data().userExercise;
             // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
             await updateDoc(userRef, {
-                userExercise : {
+                userExercise: {
                     ...userExercise,
                     totalTrainingDone: userExercise.totalTrainingDone + 1
                 }
@@ -138,6 +161,30 @@ export const user = {
             });
         }
         return result;
-    }
+    },
+
+    addWorksDone: async (currentUser, exerciseId) => {
+        let result = false;
+        if (currentUser !== null) {
+            const userRef = doc(db, "users", currentUser.uid);
+            const userDoc = await getDoc(userRef);
+            const userWorks = userDoc.data().works;
+            // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
+            await updateDoc(userRef, {
+                works: {
+                    ...userWorks,
+                    [exerciseId]: {
+                        done: true,
+                        date: userWorks[exerciseId].date
+                    }
+                }
+            }
+            ).then(() => {
+                result = true;
+            });
+        }
+        return result;
+    },
+
 
 }
