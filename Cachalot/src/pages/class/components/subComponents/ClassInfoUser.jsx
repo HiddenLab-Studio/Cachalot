@@ -82,7 +82,7 @@ const ClassInfoUser = ({ auth, userId, admin, position }) => {
                                 <div className="rounded-lg bg-white">
                                     <div className="text-left px-3 pb-3 pt-2">
                                         <div className="flex flex-col border-b-2 border-gray-100 pb-2">
-                                            <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-gray-800 text-sm font-semibold">{userInfos.displayName}</h3>
+                                            <p style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-gray-800 text-sm font-semibold">{userInfos.displayName}</p>
                                             <a style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "0.8rem" }} href={`/profile/${userInfos.username}`}>@{userInfos.username}</a>
                                         </div>
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Création de la classe </p>
@@ -124,7 +124,7 @@ const ClassInfoUser = ({ auth, userId, admin, position }) => {
                                 <div className="rounded-lg bg-white">
                                     <div className="text-left px-3 pb-3 pt-2">
                                         <div className="flex flex-col border-b-2 border-gray-100 pb-2">
-                                            <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }} className="text-gray-800 text-sm font-semibold">{userInfos.displayName}</h3>
+                                            <p style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" }}>{userInfos.displayName}</p>
                                             <a style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "0.8rem" }} href={`/profile/${userInfos.username}`}>@{userInfos.username}</a>
                                         </div>
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Membre depuis </p>
@@ -132,8 +132,10 @@ const ClassInfoUser = ({ auth, userId, admin, position }) => {
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Rôle </p>
                                         <p style={{ fontFamily: "'DIN Round Pro mdi', sans-serif", fontSize: "0.8rem" }} className="mt-2 text-gray-600">Élève</p>
                                         <p style={{ fontFamily: "'DIN Round Pro Bold', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">Statistiques</p>
-                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">{userInfos.exercises.exoDone > 1 ? `Exercices terminés : ${userInfos.exercises.exoDone}` : "Exercice terminé : 0"} </p>
-                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-2 text-gray-600">{userInfos.exercises.exoStarted != 0 ? `Pourcentage de réussite : ${userInfos.exercises.exoDone * 100 / userInfos.exercises.exoStarted} %` : "Pourcentage de réussite : 0%"}</p>
+                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.exercises.exoDone > 1 ? `Exercices terminés : ${userInfos.exercises.exoDone}` : "Exercice terminé : 0"} </p>
+                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.exercises.exoStarted != 0 ? `Pourcentage de réussite : ${userInfos.exercises.exoDone * 100 / userInfos.exercises.exoStarted} %` : "Pourcentage de réussite : 0%"}</p>
+                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.games.gamesDone > 1 ? `Parties terminées : ${userInfos.games.gamesDone}` : `Partie terminée : ${userInfos.games.gamesDone}`} </p>
+                                        <p style={{ fontFamily: "'DIN Round Pro ', sans-serif", fontSize: "0.9rem" }} className="mt-1 text-gray-600">{userInfos.games.gamesWin > 1 ? `Parties gagnées : ${userInfos.games.gamesWin}` :`Partie gagnée : ${userInfos.games.gamesWin}` }</p>
                                     </div>
                                     <div className={myAdmin === true && wantToExclure === false ? "py-2 px-2" : "hidden"}>
                                         <button style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1rem" }} onClick={() => setWantToExclure(true)} className="w-full bg-gray-300 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">

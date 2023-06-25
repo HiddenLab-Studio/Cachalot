@@ -40,6 +40,8 @@ const ClassGameContainer = ({ auth }) => {
 
     const [classement, setClassement] = useState([]);
 
+    const [myAdmin, setMyAdmin] = useState(false);
+
 
     // GAME STATE
     const handleGameStateChange = async (newState, nbrManche) => {
@@ -94,12 +96,26 @@ const ClassGameContainer = ({ auth }) => {
         }
     };
 
-    const handleLeaveGame = async () => {
-        const result = await auth.classes.leaveGame(classId, gameId);
-        if (result === true) {
-            window.location.href = `/class/${classId}`;
-        } else {
-            console.log("error");
+    const handleLeaveGame = async (winner) => {
+        if (gameState === "finished" && myAdmin === false) {
+            const pushData = await auth.classes.addWin(classId, gameId, winner);
+            if (pushData === true) {
+                const result = await auth.classes.leaveGame(classId, gameId);
+                if (result === true) {
+                    window.location.href = `/class/${classId}`;
+                } else {
+                    console.log("error");
+                }
+            } else {
+                console.log("error dans data push");
+            }
+        }else {
+            const result = await auth.classes.leaveGame(classId, gameId);
+            if (result === true) {
+                window.location.href = `/class/${classId}`;
+            } else {
+                console.log("error");
+            }
         }
     };
 
@@ -179,11 +195,17 @@ const ClassGameContainer = ({ auth }) => {
         setClassement(result);
     };
 
+    const handleGetAdmin = async () => {
+        const result = await auth.classes.myAdminWithClassId(classId);
+        setMyAdmin(result);
+    };
+
 
 
     useEffect(() => {
         const unsubscribe = auth.classes.onStateGame(discipline, gameId, classId, handleGameStateChange);
         // Clean up the subscription when the component unmounts
+        handleGetAdmin() 
         return () => {
             unsubscribe();
         };
@@ -419,7 +441,7 @@ const ClassGameContainer = ({ auth }) => {
                     <button
                         id="leaveGameByFinished"
                         className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg w-1/2"
-                        onClick={handleLeaveGame}
+                        onClick={() => handleLeaveGame((myUser.id === classement[0].id))}
                         style={{ fontFamily: "'DIN Round Pro medi', sans-serif" }}
                     >
                         Quitter

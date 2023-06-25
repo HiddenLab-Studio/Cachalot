@@ -107,6 +107,10 @@ export const classes = {
                                                     exoDone: 0,
                                                     exoStarted: 0,
                                                 },
+                                                games: {
+                                                    gamesDone: 0,
+                                                    gamesWin: 0,
+                                                },
                                             }).then(() => {
                                                 result.isJoined = true;
                                             });
@@ -251,18 +255,6 @@ export const classes = {
         }
     },
 
-
-    myAdminWithClassId: async (classId) => {
-        const user = auth.currentUser;
-        const docRef = doc(db, "classes", classId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.data().admin.uid === user.uid) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    },
 
     //exclure un eleve 
     deleteUser: async (classId, userId) => {
@@ -556,6 +548,25 @@ export const classes = {
         return result;
 
     },
+
+    addWin: async (classId, gameId, winner) => {
+        let result = false;
+        const userId = auth.currentUser.uid;
+        const docRef = doc(db, "classes", classId, "users", userId);
+        const docRefData = await getDoc(docRef);
+        if (docRefData.exists()) {
+            await updateDoc(docRef, {
+                games: {
+                    gamesDone: docRefData.data().games.gamesDone + 1,
+                    gamesWin: winner ? docRefData.data().games.gamesWin + 1 : docRefData.data().games.gamesWin,
+                }
+            }).then (() => {
+                result = true;
+            })
+        }
+        return result;
+    },
+
 
     getAllUsersInGame: async (classId, gameId) => {
         const userId = auth.currentUser.uid;
