@@ -43,7 +43,19 @@ router.post('/getExercises', (req, res) => {
                 exerciseList.push(getExercicesFromJSON());
             }
             let onlyInputExercise = exerciseList.filter((exercise) => exercise.type === "INPUT");
-            exerciseList = onlyInputExercise;
+            let objectList = [];
+            for (let i = 0; i < onlyInputExercise.length; i++) {
+                //phrase question / id
+                let tmp = {
+                    id: exerciseList[i].id,
+                    exercise: {
+                        question: exerciseList[i].question,
+                        phrase: exerciseList[i].phrase
+                    }
+                }
+                objectList.push(tmp);
+            }
+            exerciseList = objectList;
             break;
         default:
                 break;
