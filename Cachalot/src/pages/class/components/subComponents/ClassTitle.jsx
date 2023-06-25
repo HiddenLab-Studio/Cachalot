@@ -12,6 +12,7 @@ const ClassTitle = ({ auth }) => {
 
     const [titleInput, setTitleInput] = useState(false);
     const [newClassName, setNewClassName] = useState("");
+    const [badName, setBadName] = useState(false);
     const [myAdmin, setAdmin] = useState(null);
 
     const classId = window.location.pathname.split("/")[2];
@@ -32,11 +33,23 @@ const ClassTitle = ({ auth }) => {
     //Click sur entrer 
     const handleKeyDown = async (event) => {
         if (event.key === "Enter") {
-            console.log(newClassName);
-            await auth.classes.updateClassName(classId, newClassName);
-            window.location.reload();
+            if(newClassName === "" || newClassName.length > 19){
+                console.log("bad name");
+                handleAnimationBadName();
+            }else{
+                await auth.classes.updateClassName(classId, newClassName);
+                window.location.reload();
+            }
         }
     };
+
+    const handleAnimationBadName = () => {
+        setBadName(true);
+        setTimeout(() => {
+            setBadName(false);
+        }, 2000);
+    };
+            
 
     const handleInputChange = (e) => {
         setNewClassName(e.target.value);
@@ -54,12 +67,12 @@ const ClassTitle = ({ auth }) => {
 
                 <div className="flex flex-row border-b-2 w-full">
                     <img src="../../../static/img/icons/class.png" className="pr-2" />
-                    <div className="flex flex-row items-center">
-                        <h1 onClick={myAdmin === true ? () => setTitleInput(true) : console.log("rien")} style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2rem" ,color:"#3c3c3c"}} className={`hover:text-gray-600 ${titleInput === true ? "hidden" : ""}`}>{ClassName}</h1>
+                    <div className="flex flex-row w-full items-center justify-between">
+                        <h1 onClick={myAdmin === true ? () => setTitleInput(true) : console.log("rien")} style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2rem" ,color:"#3c3c3c"}} className={`hover:text-gray-400 ${titleInput === true ? "hidden" : ""}`}>{ClassName}</h1>
                         <OutsideClickHandler onOutsideClick={() => setTitleInput(false)}>
                             <input
                                 type="text"
-                                className={titleInput === true ? "w-1/2 block" : "hidden"}
+                                className={titleInput === true ? (badName === false ? " w-4/6 border border-[#e5e5e5] rounded-lg bg-[#f7f7f7] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a78ff]" : "w-4/6 border border-red-500 rounded-lg bg-[#f7f7f7] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500") : "hidden"}
                                 onChange={handleInputChange}
                                 onKeyDown={handleKeyDown}
                                 value={newClassName}
@@ -67,8 +80,7 @@ const ClassTitle = ({ auth }) => {
                                 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "2rem" }}
                             />
                         </OutsideClickHandler>
-
-                        <span style={{ fontFamily: "'DIN Round Pro', sans-serif", fontSize: "0.9rem" }} className="text-gray-500 pl-2">#{classId}</span>
+                        <span style={{ fontFamily: "'DIN Round Pro', sans'serif", fontSize: "0.9rem", fontStyle: "italic"}} className="text-gray-500 pl-2">#{classId}</span>
                     </div>
                 </div>
 
