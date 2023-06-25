@@ -513,32 +513,34 @@ const ClassGameContainer = ({ auth }) => {
             {
                 gameState === "finished" && allUsers.length > 0 && myUser != {} && numManche != 0 && classement.length > 0 && (
 
-                    <div className="flex flex-col items-center justify-center h-screen" id="finishedGame">
+                    <div className="flex flex-col items-center justify-center w-[60rem] h-screen" id="finishedGame">
                         <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className={userWatching === true ? "fixed top-0" : "hidden"}>Spectateur</h1>
-                        <div className="flex items-center mb-6">
+                        <div className="flex items-center mb-6 w-full">
                             <div className="flex flex-col items-center w-full">
 
                                 {classement.map((user, index) => (
                                     <div key={user.id}>
-                                        <div className={index === 0 ? "mb-8 rounded-lg border-2 border-[#ffd700] border-b-4" : (index === 1 ? "mb-8 rounded-lg border-2 border-[#c0c0c0] border-b-4" : (index === 2 ? "mb-8 rounded-lg border-2 border-[#C49C48]  border-b-4" : "mb-8 rounded-lg border-2 border-gray-200 border-b-4"))}>
-                                            <div className="flex flex-row w-full justify-between items-center py-3 ">
-                                                <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={`pl-1 pr-4 ${index === 0 ? "text-3xl font-bold text-[#ffd700]" : (index === 1 ? "text-3xl font-bold text-[#c0c0c0]" : (index === 2 ? "text-3xl font-bold text-[#C49C48]" : "text-3xl font-bold text-gray-200"))}`}>
-                                                    {index + 1}.
-                                                </h1>
+                                        <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} className={`pl-1 pr-4 ${index === 0 ? "text-3xl font-bold text-[#ffd700]" : (index === 1 ? "text-3xl font-bold text-[#c0c0c0]" : (index === 2 ? "text-3xl font-bold text-[#C49C48]" : "text-3xl font-bold text-gray-200"))}`}>
+                                            {index + 1}.
+                                        </h1>
+                                        <div className={index === 0 ? "w-[60rem] mb-8 rounded-lg border-2 border-[#ffd700] border-b-4" : (index === 1 ? "w-[60rem] mb-8 rounded-lg border-2 border-[#c0c0c0] border-b-4" : (index === 2 ? "w-[60rem] mb-8 rounded-lg border-2 border-[#C49C48]  border-b-4" : "w-[60rem] mb-8 rounded-lg border-2 border-gray-200 border-b-4"))}>
+
+                                            <div className="flex flex-row w-full justify-between items-center py-2 px-2">
                                                 <img
                                                     src={user.photo}
                                                     alt="Your Photo"
                                                     id="yourPhotoStarting"
-                                                    className="rounded-full h-20 w-20 mb-2 border-2"
+                                                    className="rounded-full h-20 w-20 border-2"
                                                 />
                                                 <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", }} className="text-3xl font-bold" id="yourNameStarting">
                                                     {user.displayName}
                                                 </h2>
-                                                <div className="flex items-center py-2">
+                                                <div className="flex items-center py-2 pr-6">
                                                     <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} id="otherScorePlaying">{user.score + "/" + numManche}</p>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 ))}
                             </div>
