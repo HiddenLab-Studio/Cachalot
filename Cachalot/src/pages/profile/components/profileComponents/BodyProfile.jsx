@@ -78,10 +78,6 @@ const BodyProfile = ({isSearch, data}) => {
                         </div>
                     </GridElement>
                 </GridContainer>
-                <h1>Succès</h1>
-                <SuccessContainer>
-                    WIP
-                </SuccessContainer>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
                 <h1 className="title">Amis</h1>
