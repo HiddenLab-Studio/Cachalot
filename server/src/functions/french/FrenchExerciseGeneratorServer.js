@@ -64,6 +64,7 @@ function getExerciseByLevel(level) {
     
     let exercisesByLevel = undefined;
     //On sélectionne la partie du JSON qui nous intéresse en fonction du niveau (slice permet de prendre uniquement entre le premier index inclus et le deuxième index exclus)
+
     switch (level) {
         case "CP":
             exercisesByLevel = exercises.slice(0, 21);
@@ -84,7 +85,6 @@ function getExerciseByLevel(level) {
             exercisesByLevel = exercises.slice(0, 191);
             break;
     }
-
 
     return exercisesByLevel;
 }
