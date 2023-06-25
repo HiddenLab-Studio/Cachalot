@@ -3,7 +3,7 @@ import tw, { styled } from "twin.macro";
 import { Link } from "react-router-dom";
 
 // Context
-import { useCache } from "../../../../context/manager/cache/FriendsCacheManager.js";
+import { useCache } from "../../../../context/manager/cache/CacheProvider.js";
 
 // Icons
 import {
@@ -181,13 +181,9 @@ const ProfileInformationContainer = styled.div`
 import Showcase from "./subComponents/Showcase.jsx";
 
 const ProfileInformation = ({isSearch, data}) => {
-    const cacheManager = useCache();
-
-    //console.log(data);
+    // Props data
     const userData = isSearch ? data.searchedUser.userData : data.currentUserData;
-    const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
-    const currentXp = isSearch ? data.searchedUser.userData.userXp.currentXp : data.currentUserData.userXp.currentXp;
-
+    const userFriends = isSearch ? data.searchedUser.userFriends : data.userFriends;
     // Responsive
     const isOnMobile = useMediaQuery({ query: '(max-width: 768px)' });
 
@@ -229,14 +225,14 @@ const ProfileInformation = ({isSearch, data}) => {
                 isSearch ?
                         <Showcase
                             isSearch={isSearch}
-                            data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                            data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: userFriends}}
                         />
                     :
                         null
                 :
                 <Showcase
                     isSearch={isSearch}
-                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                    data={isSearch ? {currentUserData: data.currentUserData, searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: userFriends}}
                 />
             }
         </ProfileInformationContainer>

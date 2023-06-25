@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
@@ -15,7 +15,7 @@ import {useMediaQuery} from "react-responsive";
 
 const BodyTraining = ({auth}) => {
     // State
-    const [amountOfExerciseToShow, setAmountOfExerciseToShow] = React.useState(3);
+    const [amountOfExerciseToShow, setAmountOfExerciseToShow] = useState(3);
 
     // Refs
     const amountOfExerciseToShowRef = useRef();
@@ -27,6 +27,7 @@ const BodyTraining = ({auth}) => {
         if(inputValue + num <= 9 && inputValue + num >= 1) {
             setAmountOfExerciseToShow(inputValue + num);
             amountOfExerciseToShowRef.current.innerText = inputValue + num;
+            console.log(amountOfExerciseToShow);
         }
     }
 
@@ -77,20 +78,11 @@ const BodyTraining = ({auth}) => {
                         </InputNumberContainer>
                 }
             </div>
-            <TrendingExercise amount={amountOfExerciseToShow} />
+
+            <TrendingExercise amount={amountOfExerciseToShow} auth={auth} />
 
         </BodyTrainingContainer>
     )
 }
-
-/*
-
-            <div className="training__note__container">
-                <span>
-                    * Pour chaque entrainement terminé, vous gagnez des points d'expérience.
-                </span>
-            </div>
-
- */
 
 export default BodyTraining;

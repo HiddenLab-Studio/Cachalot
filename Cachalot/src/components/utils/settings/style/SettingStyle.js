@@ -1,33 +1,58 @@
 import tw, { styled } from 'twin.macro';
 import {Container} from "../../ui/GlobalStyle.js";
 
+export const DisconnectButton = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: all 100ms ease-in-out;
+  font-size: var(--fs-ss);
+  padding: 0 16px;
+  color: ${props => props.theme.cachalotColor};
+  background-color: ${props => props.theme.buttonBgHover};
+  border: 2px solid ${props => props.theme.borderRightColor};
+  border-radius: 12px;
+  width: inherit;
+  height: 48px;
+  outline: none;
+  text-transform: uppercase;
+  font-family: "Din_Round_Bold", sans-serif;
+  &:hover {
+    cursor: pointer;
+    background-color: ${props => props.theme.buttonBgHover};
+  }
+`;
+export const Button = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  transition: all 100ms ease-in-out;
+  font-size: var(--fs-ss);
+  padding: 0 16px;
+  color: ${props => props.change === true ? props.theme.cachalotColor : props.theme.subText};
+  background-color: ${props => props.change === true ? "white" : props.theme.buttonBgHover};
+  border: 2px solid ${props => props.theme.borderRightColor};
+  border-radius: 12px;
+  width: inherit;
+  height: 48px;
+  outline: none;
+  text-transform: uppercase;
+  font-family: "Din_Round_Bold", sans-serif;
+  &:hover {
+    cursor: ${props => props.change === true ? "pointer" : "not-allowed"};
+    background-color: ${props => props.theme.buttonBgHover};
+  }
+`;
 export const ApplyChangesButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  
-  button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    transition: all 100ms ease-in-out;
-    font-size: var(--fs-ss);
-    padding: 0 16px;
-    color: ${props => props.change === true ? props.theme.cachalotColor : props.theme.subText};
-    background-color: ${props => props.change === true ? "white" : props.theme.buttonBgHover};
-    border: 2px solid ${props => props.theme.borderRightColor};
-    border-radius: 12px;
-    width: inherit;
-    height: 48px;
-    outline: none;
-    text-transform: uppercase;
-    font-family: "Din_Round_Bold", sans-serif;
-    &:hover {
-      cursor: pointer;
-      background-color: ${props => props.theme.buttonBgHover};
-    }
-  }
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 `
 export const SettingsContainer = styled(Container)``;
 export const Content = styled.div`
@@ -78,6 +103,13 @@ export const Content = styled.div`
           }
         }
       }
+    }
+  }
+  
+  @media (max-width: 550px) {
+    tr {
+      flex-direction: column !important;
+      align-items: flex-start !important;
     }
   }
 

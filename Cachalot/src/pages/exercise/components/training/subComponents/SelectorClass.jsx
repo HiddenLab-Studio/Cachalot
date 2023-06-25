@@ -9,7 +9,7 @@ const SelectorClass = ({setState}) => {
                     <button id={type === "all" ? "all_class" : type} key={type} onClick={(event) => {
                         mathFunctions.selectClassType(type).then(() => {
                             mathFunctions.updateView(event);
-                            console.log(data.currentExercise);
+                            //console.log(data.currentExercise);
                             setState("exercise", data.currentExercise);
                         });
                     }}>

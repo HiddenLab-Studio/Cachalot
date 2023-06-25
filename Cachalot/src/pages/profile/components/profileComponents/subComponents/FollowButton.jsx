@@ -6,7 +6,7 @@ import {
     FaMinusCircle
 } from "react-icons/fa";
 import {useAuth} from "../../../../../context/AuthContext.js";
-import {useCache} from "../../../../../context/manager/cache/FriendsCacheManager.js";
+import {useCache} from "../../../../../context/manager/cache/CacheProvider.js";
 import {useMediaQuery} from "react-responsive";
 
 const ButtonContainer = styled.div`
@@ -79,14 +79,16 @@ const FollowButton = ({ isSearch, data }) => {
     }, []);
 
     if (!isSearch) {
-        return (
-            <ButtonContainer>
+        /*
+        <ButtonContainer>
                 <button>
                     <FaEdit/>
                     <span>Modifier la vitrine</span>
                 </button>
             </ButtonContainer>
-        )
+
+         */
+        return null;
     } else {
         if (isFollowing) {
             return (
@@ -95,7 +97,7 @@ const FollowButton = ({ isSearch, data }) => {
                         let result = await auth.utils.unfollowUser(data.searchedUser.userData);
                         if (result) {
                             // On update le cache pour ne plus afficher l'utilisateur dans la liste des abonnements
-                            cacheManager.removeFriends("following", data.searchedUser.userData.username);
+                            cacheManager.friendsCache.removeFriends("following", data.searchedUser.userData.username);
                             setIsFollowing(false);
                         } else {
                             console.error("Failed to unfollow user!");
@@ -113,12 +115,12 @@ const FollowButton = ({ isSearch, data }) => {
                         let result = await auth.utils.followUser(data.searchedUser.userData);
                         if (result) {
                             // On update le cache pour afficher l'utilisateur dans la liste des abonnements
-                            cacheManager.addFriends("following", {
+                            cacheManager.friendsCache.addFriends("following", {
                                 displayName: data.searchedUser.userData.displayName,
                                 username: data.searchedUser.userData.username,
                                 photo: data.searchedUser.userData.photo
                             });
-                            console.log(cacheManager.getFriendsCache());
+                            console.log(cacheManager.friendsCache.getFriendsCache());
                             setIsFollowing(true);
                         } else {
                             console.error("Failed to follow user!");

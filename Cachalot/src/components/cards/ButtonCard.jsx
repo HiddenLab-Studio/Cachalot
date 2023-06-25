@@ -1,11 +1,46 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import tw, { styled } from "twin.macro";
 
 // Icons
 import { FaChevronRight } from "react-icons/fa";
-import {Link} from "react-router-dom";
 
-const CardInformationContainer = styled.div``;
+const ChevronRightWrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: end;
+  margin-left: 12px;
+  svg {
+    color: ${props => props.theme.iconColor};
+  }
+`;
+
+const CardInformationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  h1 {
+    font-size: var(--fs-sm);
+    font-family: "Din_Round_Bold", sans-serif;
+    color: ${props => props.theme.text};
+  }
+  span {
+    font-family: "Din_Round_Med", sans-serif;
+    font-size: var(--fs-ss);
+    color: #afafaf;
+  }
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  img {
+    height: 64px;
+    width: 64px;
+  }
+`;
+
 const ButtonCardContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,65 +50,9 @@ const ButtonCardContainer = styled.div`
   border-radius: 12px;
   width: 100%;
   padding: 16px;
-  
-  ${CardInformationContainer} {
-    display: flex;
-    flex-direction: column;
-    h1 {
-      font-size: var(--fs-sm);
-      font-family: "Din_Round_Bold", sans-serif;
-      color: ${props => props.theme.text};
-      /*max-width: 80%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;*/
-    }
-
-    span {
-      font-family: "Din_Round_Med", sans-serif;
-      font-size: var(--fs-ss);
-      color: #afafaf;
-    }
-  }
-
-  img {
-    height: 64px;
-    width: 64px;
-  }
-
-  svg {
-    color: ${props => props.theme.iconColor};
-  }
-
   &:hover {
     cursor: pointer;
     background-color: ${props => props.theme.buttonBgHover};
-  }
-
-  @media (max-width: 768px) {
-    justify-content: center;
-    align-items: center;
-    .exercise__catalog, .exercise__creation {
-      img {
-        height: 32px !important;
-        width: 32px !important;
-      }
-    }
-
-    .quest__container {
-      .container {
-        h1 {
-          font-size: var(--fs-xs) !important;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 500px) {
-    span {
-      max-width: 95%;
-      word-break: break-word;
-    }
   }
 `;
 
@@ -81,16 +60,16 @@ const ButtonCard = ({ title, desc, imageURL, alt, link }) => {
     return (
         <Link to={link}>
             <ButtonCardContainer>
-                <div className="flex flex-row items-center gap-[12px]">
+                <ContentContainer>
                     <img src={imageURL} alt={alt}/>
                     <CardInformationContainer>
                         <h1>{title}</h1>
                         <span>{desc}</span>
                     </CardInformationContainer>
-                </div>
-                <div tw="flex grow-[1] justify-end">
+                </ContentContainer>
+                <ChevronRightWrapper>
                     <FaChevronRight />
-                </div>
+                </ChevronRightWrapper>
             </ButtonCardContainer>
         </Link>
     )

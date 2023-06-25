@@ -1,56 +1,58 @@
-import React, {useEffect, useState} from "react";
-import {useMediaQuery} from "react-responsive";
-import tw from "twin.macro";
+import React, { useState } from "react";
 
 // Context
 import { useAuth } from "../../../context/AuthContext.js";
+import { useCache  } from "../../../context/manager/cache/CacheProvider.js";
 
 // Components
-import Loading from "../loading/Loading.jsx";
 import Navbar from "../../navbar/Navbar.jsx";
+import FullLoading from "../loading/FullLoading.jsx";
+import ConnectionHomePage from "../../../pages/connection/ConnectionHomePage.jsx";
+import ClassPanel from "./subComponents/ClassPanel.jsx";
 
 // Styled Components
 import {MainContainer} from "../ui/GlobalStyle.js";
 import {
     MyClassContainer,
-    Content
+    Content, MyClassMainTitleContainer, Title
 } from "./style/MyClassStyle.js";
-import ClassPanel from "./subComponents/ClassPanel.jsx";
+import DescSpan from "../ui/DescSpan.jsx"
+
 
 const MyClass = () => {
-
-    const auth = useAuth()
-    const isOnMobile = useMediaQuery({query: "(max-width: 768px)"});
+    // Context
+    const auth = useAuth();
+    const cache = useCache();
 
     // State
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(!cache.isUserCached);
 
-    useEffect(() => {
-        if(auth.currentUser instanceof Object || typeof auth.currentUser === "number") setIsLoading(false);
-    }, [auth.currentUser])
-
-    if(isLoading) {
-        return <Loading />
-    } else if(auth.currentUser instanceof Object) {
-        return (
-            <MainContainer>
-                <Navbar />
-                <MyClassContainer>
-                    <Content>
-                        <div className="title__container">
-                            <h1>Mes classes</h1>
-                            <span>
-                                Ce panel vous permet de venir gérer vos classes mais également pouvoir quitter
-                                les classes dans lesquelles vous êtes.
-                            </span>
-                        </div>
-                        <ClassPanel auth={auth} />
-                    </Content>
-                </MyClassContainer>
-            </MainContainer>
-        )
-    } else if(typeof auth.currentUser === "number") {
-        window.location.pathname = "/profile";
+    if(typeof auth.currentUser === "number") {
+        return <ConnectionHomePage />
+    } else {
+        if(isLoading) {
+            return <FullLoading setIsLoading={setIsLoading} />
+        } else {
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <MyClassContainer>
+                        <Content>
+                            <MyClassMainTitleContainer className="title__container">
+                                <Title tw="flex flex-row items-center gap-[8px]">
+                                    <img src="../../../../static/img/icons/class.png" alt=""/>
+                                    <h1>Mes classes</h1>
+                                </Title>
+                                <DescSpan
+                                    desc="Ce panel vous permet de voir les classes auxquelles vous êtes inscrit."
+                                />
+                            </MyClassMainTitleContainer>
+                            <ClassPanel auth={auth} />
+                        </Content>
+                    </MyClassContainer>
+                </MainContainer>
+            )
+        }
     }
 }
 

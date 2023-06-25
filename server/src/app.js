@@ -10,6 +10,19 @@ const dotenv = require("dotenv").config({path: "./.env"});
 //const compression = require("compression");
 const bodyParser = require("body-parser");
 const {generateRandomExercise, getUserInputAndCheckSolution} = require("./functions/math/MathExerciseGenerator");
+const {getExercicesFromJSON, getUserInputAndCheckSolutionFrench} = require("./functions/french/FrenchExerciseGeneratorServer");
+
+// Firebase
+const firebaseConfigClient = require("./config/firebase.config");
+const { auth, db , storage } = firebaseConfigClient();
+const { doc, getDoc, getDocs, updateDoc } = require("firebase/firestore");
+
+// cache
+const cacheManager = require("./cache/cacheManager");
+
+// Scheduler
+const CronJob = require('cron').CronJob;
+
 
 // Configuration du serveur
 app.use(express.static(path.join(__dirname, "..")));
@@ -27,7 +40,6 @@ if(app.get("env") === "production"){
     app.set("trust proxy", 1);
 }
 
-// home page
 app.get('/', (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'application/json'
@@ -36,32 +48,31 @@ app.get('/', (req, res) => {
     res.end();
 })
 
-app.get('/test', (req, res) => {
-    console.log("[REQUEST] user request data from the server!")
-    res.send(JSON.stringify("request processed successfully!"))
-})
+const exerciseRouter = require("./router/exerciseRouter");
+app.use("/api/exercise", exerciseRouter);
 
-app.post('/api/getExercise', (req, res) => {
-    console.log("[POST] user send data to the server !")
-    let currentExerciseType = req.body.currentExerciseType;
-    let currentLevel = req.body.currentLevel;
-    const exercise = generateRandomExercise(currentExerciseType, currentLevel);
-    res.send({exercise: exercise});
-})
+const utils = require("./cache/function/utils");
+const cacheRouter = require("./cache/router/cacheRouter");
+app.use("/api/cache", cacheRouter);
+const scheduledJob = new CronJob('*/30 * * * *', async () => {
+    console.log("[INFO] scheduled job started!");
+    await utils.updateDatabase();
+});
 
-app.post('/api/getSolution', (req, res) => {
-    console.log("[POST] user send data to the server !")
-    let currentExercise = req.body.exercise;
-    let answer = req.body.answer;
-    console.log(currentExercise);
-    let isCorrect = getUserInputAndCheckSolution(answer, currentExercise);
-    res.send({isCorrect: isCorrect});
-})
+const NewQuestOfTheDay = new CronJob('0 0 * * *', async () => {
+    console.log("[INFO] scheduled job started!");
+    await utils.updateQuestOfTheDay();
+});
 
 // Lancement du serveur
 const server = http.createServer(app);
-server.listen(app.get("port"), () => {
+server.listen(app.get("port"), async () => {
     process.stdout.write('\x1B[2J\x1B[0f');
     console.log("[INFO] Server " + app.get("title") + " started on port: " + app.get("port"));
     console.log("[INFO] Server environnement: " + app.get("env"));
+    console.log("[INFO] Server started successfully!");
+    // start the scheduled job
+    scheduledJob.start();
+    NewQuestOfTheDay.start();
+    //await utils.updateQuestOfTheDay();
 })

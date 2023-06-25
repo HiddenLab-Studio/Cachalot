@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'DIN Round Pro';
+    src: url('../../../../../static/fonts/DINRoundPro.woff2') format('woff2'),
+         url('../../../../../static/fonts/DINRoundPro.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'DIN Round Pro bold';
+    src: url('../../../../../static/fonts/DINRoundPro-bold.woff2') format('woff2'),
+         url('../../../../../static/fonts/DINRoundPro-bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'DIN Round Pro Medi';
+    src: url('../../../../../static/fonts/DINRoundPro-Medi.woff2') format('woff2'),
+         url('../../../../../static/fonts/DINRoundPro-Medi.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  

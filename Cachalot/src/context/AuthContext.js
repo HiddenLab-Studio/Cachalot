@@ -9,6 +9,9 @@ import { user } from "./database/userFunctions.js";
 import { utils } from "./database/utilsFunctions.js";
 import { classes } from "./database/classFunctions.js";
 import { update } from "./database/updateFunctions.js";
+import { chat } from "./database/chatFunctions.js";
+import { league } from "./database/leagueFunctions.js";
+import {exercise} from "./database/exerciseFunctions.js";
 const { auth, db } = firebaseConfigClient();
 
 // Context
@@ -18,7 +21,7 @@ export const useAuth = () => {
     return useContext(AuthContext);
 }
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userData, setUserData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +62,9 @@ export const AuthProvider = ({ children }) => {
         utils,
         classes,
         update,
+        chat,
+        league,
+        exercise
     }
 
     return (
@@ -67,5 +73,7 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+
+export default AuthProvider;
 
 

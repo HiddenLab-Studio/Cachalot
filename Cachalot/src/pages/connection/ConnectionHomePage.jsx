@@ -1,5 +1,4 @@
 import React from "react";
-import tw, { styled } from "twin.macro";
 
 // Styled components
 import {
@@ -17,7 +16,6 @@ const ConnectionHomePage = () => {
             <SignInUp />
         </MainContainer>
     )
-
 }
 
 export default ConnectionHomePage;

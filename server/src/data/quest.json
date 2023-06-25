@@ -1,0 +1,47 @@
+[
+  {
+    "name": "Terminer 2 exercices",
+    "current": 0,
+    "amount": 2,
+    "reward": 5,
+    "type": "onExerciseCompleted",
+    "image": "exercise.png",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 4 exercices",
+    "current": 0,
+    "amount": 4,
+    "reward": 10,
+    "type": "onExerciseCompleted",
+    "image": "exercise.png",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 6 exercices",
+    "current": 0,
+    "amount": 6,
+    "reward": 15,
+    "type": "onExerciseCompleted",
+    "image": "exercise.png",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 10 entrainements",
+    "current": 0,
+    "amount": 10,
+    "reward": 10,
+    "type": "onTrainingCompleted",
+    "image": "dumbbell.png",
+    "isClaimed": false
+  },
+  {
+    "name": "Terminer 25 entrainements",
+    "current": 0,
+    "amount": 25,
+    "reward": 25,
+    "type": "onTrainingCompleted",
+    "image": "dumbbell.png",
+    "isClaimed": false
+  }
+]

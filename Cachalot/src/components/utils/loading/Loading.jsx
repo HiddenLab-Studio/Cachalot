@@ -46,7 +46,7 @@ const Content = styled.div`
   }
 `
 
-const Loading = () => {
+const Loading = (props) => {
     return (
         <MainContainer>
             <Navbar />

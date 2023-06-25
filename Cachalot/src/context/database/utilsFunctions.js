@@ -112,7 +112,12 @@ export const utils = {
             console.log(error);
         });
         return result;
-    }
+    },
 
+    getUserXp: async (id) => {
+        const userRef = doc(db, "users", id);
+        const userSnapshot = await getDoc(userRef);
+        return userSnapshot.data().userXp;
+    },
 
 }

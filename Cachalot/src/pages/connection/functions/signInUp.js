@@ -6,6 +6,10 @@ import firebaseConfigClient from "../../../services/firebase.config.js";
 const { auth, db } = firebaseConfigClient();
 const provider = new GoogleAuthProvider();
 
+import xpCacheManager from "../../../context/manager/cache/xpCacheManager.js";
+import questCacheManager from "../../../context/manager/cache/questCacheManager.js";
+import friendsCacheManager from "../../../context/manager/cache/FriendsCacheManager.js";
+
 export const errorManager = {
     getErrorDisplayMessage: (result) => {
         if(errorManager.validCode.includes(result)){
@@ -96,18 +100,37 @@ export async function firebaseRegister(data) {
                 age: data.age !== "" ? parseInt(data.age) : 0,
                 email: data.email,
                 lastLogin: dateTime,
-                //photo: "https://firebasestorage.googleapis.com/v0/b/projetbe-512f9.appspot.com/o/NinjaFace.png?alt=media&token=0b575eb1-2138-43ef-818d-9b25a23f626e",
                 photo: "https://marketplace.canva.com/EAFEits4-uw/1/0/800w/canva-boy-cartoon-gamer-animated-twitch-profile-photo-r0bPCSjUqg0.jpg",
                 accountCreationDate: dateTime,
-                userXp: {
-                    currentLvl: 1,
-                    currentXp: 0,
+                cumulatedDays: 0,
+                rank : {
+                    math : 1,
+                    french : 1,
                 },
-                userEx: {
+                userQuest: {
+                    currentQuest: [],
+                    totalQuestDone: 0,
+                    isUpdated: false
+                },
+                userXp: {
+                    currentXp: 0,
+                    currentLvl: 1,
+                    cumulatedXp: 0,
+                    isUpdated: false
+                },
+                userExercise: {
                     totalExerciseDone: 0,
                     totalTrainingDone: 0,
                     // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                     exerciseDoneList: [],
+                    myExerciseList: [],
+                    exerciseLikedList: []
+                },
+                works : {
+                    1206 : {
+                        done : false,
+                        date : "12/06/2021",
+                    },
                 }
             }).then(() => {
                 result.showOverlay = false;
@@ -129,7 +152,6 @@ export async function firebaseLogin(data) {
         code: undefined
     };
 
-
     await signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
             // On récupère les informations de l'utilisateur
@@ -141,14 +163,35 @@ export async function firebaseLogin(data) {
             const time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
             const dateTime = date + " " + time;
 
-            // On met à jour les informations de l'utilisateur
+            // We retrieve lastLogin from user document in database
             const userDocRef = doc(db, "users", user.uid);
+            getDoc(userDocRef).then(async (doc) => {
+                const userDoc = doc.data();
+                const lastLogin = doc.data().lastLogin;
+                // We retrieve the day from lastLogin
+                const lastLoginDay = lastLogin.split(" ")[0].split("/")[0];
+                console.log(lastLoginDay, dt.getDate().toString());
+                if (lastLoginDay !== dt.getDate().toString()) {
+                    // We increment the cumulatedDays (need to get the user document first)
+                    const cumulatedDays = userDoc.cumulatedDays;
+                    await updateDoc(userDocRef, {
+                        cumulatedDays: cumulatedDays + 1
+                    })
+                }
+
+                await xpCacheManager.setData(user.uid, doc.data().userXp);
+                await questCacheManager.setData(user.uid, doc.data().userQuest);
+
+            });
+
+            // On met à jour les informations de l'utilisateur
             updateDoc(userDocRef, {
                 lastLogin: dateTime
-            }).then(() => {
+            }).then(async () => {
                 result.showOverlay = false;
                 result.code = "valid";
             })
+
         }).catch((error) => {
             // Si il y a une erreur
             console.log(error.code)
@@ -184,9 +227,14 @@ export async function firebaseGoogleLogin() {
 
             const displayName = user.displayName.split(" ")[0];
             let username = displayName;
-            while (!await verificationUsername(username)) {
-                username = displayName + Math.floor(Math.random() * 100000);
+
+            let result = await isUsernameAvailable(username);
+            while (!result) {
+                username = displayName + Math.floor(Math.random() * 10000);
+                result = await isUsernameAvailable(username);
             }
+            console.log(result);
+            console.log(username);
 
             //setup le doc avec les infos de l'utilisateur
             await getDoc(docRef).then((docSnap) => {
@@ -199,18 +247,38 @@ export async function firebaseGoogleLogin() {
                         age: 0,
                         lastLogin: dateTime,
                         accountCreationDate: dateTime,
-                        userXp: {
-                            currentLvl: 1,
-                            currentXp: 0,
+                        cumulatedDays: 0,
+                        userQuest: {
+                            currentQuest: [],
+                            totalQuestDone: 0,
+                            isUpdated: false
                         },
-                        userEx: {
+                        rank : {
+                            math : 1,
+                            french : 1,
+                        },
+                        userXp: {
+                            currentXp: 0,
+                            currentLvl: 1,
+                            cumulatedXp: 0,
+                            isUpdated: false
+                        },
+                        userExercise: {
                             totalExerciseDone: 0,
                             totalTrainingDone: 0,
                             // Id des exercices terminés pour ne pas donner de l'expérience à chaque fois
                             exerciseDoneList: [],
+                            myExerciseList: [],
+                            exerciseLikedList: []
+                        },
+                        works : {
+                            1206 : {
+                                done : false,
+                                date : "12/06/2021",
+                            },
                         }
                     }).then(() => {
-                        result.showOverlay = false;
+                        console.log("User created!");
                     })
                 } else {
                     result.showOverlay = false;
@@ -227,11 +295,21 @@ export async function firebaseGoogleLogin() {
 }
 
 
-async function verificationUsername(username) {
+async function isUsernameAvailable(username) {
     let result = false;
-    const usersCollection = collection(db, "users");
-    const usersDoc = await getDocs(usersCollection);
-    const fetchedUsers = usersDoc.docs.map(doc => doc.data().username);
-    fetchedUsers.includes(username) ? result = false : result = true;
+    // get all username from database
+    const usersRef = collection(db, "users");
+    const usersSnapshot = await getDocs(usersRef);
+    let users = [];
+    usersSnapshot.forEach((doc) => {
+        users.push(doc.data().username);
+    });
+    // check if username is already taken
+    if(users.includes(username)){
+        console.log("Username already taken")
+    } else {
+        console.log("Username not taken")
+        result = true;
+    }
     return result;
 }

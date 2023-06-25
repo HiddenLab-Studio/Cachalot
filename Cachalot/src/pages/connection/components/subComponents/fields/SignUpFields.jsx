@@ -38,7 +38,7 @@ const SignUpFields = forwardRef( (props, ref) => {
             <input placeholder="E-mail" onChange={(e) => setEmail(e.target.value)}/>
             <InputWithRevealPassword>
                 <input ref={passwordInput} placeholder="Mot de passe" onChange={(e) => setPassword(e.target.value)}/>
-                <button onClick={() => setIsPasswordRevealed(!isPasswordRevealed)}>AFFICHER</button>
+                <button onClick={() => setIsPasswordRevealed(!isPasswordRevealed)}>{isPasswordRevealed ? "CACHER" : "AFFICHER"}</button>
             </InputWithRevealPassword>
         </FieldContainer>
     )

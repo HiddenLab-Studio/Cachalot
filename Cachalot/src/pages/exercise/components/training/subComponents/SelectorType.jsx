@@ -18,12 +18,11 @@ const classPermissionData = [
 
 const SelectorType = ({setState, exerciseType}) => {
     let classPermission = classPermissionData.find(element => element.class.includes(data.currentLevel)).permission;
-    console.log(classPermission);
-
+    //console.log(classPermission);
     if(!classPermission.includes(exerciseType)) {
-        console.info("exerciseType not found");
+        //console.info("exerciseType not found");
         setState("exerciseType", classPermission[0]);
-        document.getElementById("addition").style.backgroundColor = "grey";
+        document.getElementById("addition").style.backgroundColor = "#f1f1f1";
     }
 
     return (

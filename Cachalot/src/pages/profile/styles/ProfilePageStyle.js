@@ -8,6 +8,13 @@ export const BodyProfileAsideContainer = styled.aside`
   flex: 0 0 auto;
   width: 400px;
   transition: all 0.1s ease-in-out;
+
+  .title {
+    font-family: "Din_Round_Bold", sans-serif;
+    font-size: var(--fs-sl);
+    color: ${props => props.theme.text};
+  }
+  
 `
 
 export const SuccessContainer = styled.div``
@@ -18,6 +25,13 @@ export const BodyProfileSectionContainer = styled.section`
   flex-direction: column;
   flex-grow: 2;
   gap: 16px;
+
+
+  h1 {
+    font-family: "Din_Round_Bold", sans-serif;
+    font-size: var(--fs-sl);
+    color: ${props => props.theme.text};
+  }
   
   ${GridContainer} {
     display: grid;
@@ -57,12 +71,6 @@ export const BodyProfileContainer = styled.div`
   flex-direction: row;
   gap: 32px;
   margin-top: 24px;
-  
-  h1 {
-    font-family: "Din_Round_Bold", sans-serif;
-    font-size: var(--fs-sl);
-    color: ${props => props.theme.text};
-  }
 `
 
 export const Content = styled.div`
@@ -94,7 +102,7 @@ export const ProfileContainer = styled(Container)`
     }
   }
   
-  @media (min-width: 768px) and (max-width: 900px) {
+  @media (min-width: 768px) and (max-width: 950px) {
     ${Content} {
       ${BodyProfileContainer} {
         flex-direction: column;

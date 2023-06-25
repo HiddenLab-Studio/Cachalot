@@ -1,9 +1,6 @@
 import React from "react";
 import tw from "twin.macro";
 
-// Context
-import {useCache} from "../../../../context/manager/cache/FriendsCacheManager.js";
-
 // Styled components
 import {
     BodyProfileAsideContainer,
@@ -15,20 +12,20 @@ import {
 } from "../../styles/ProfilePageStyle.js";
 
 // Components
-import { Link } from "react-router-dom";
 import Subscribers from "./subComponents/Subscribers.jsx";
-
-// Icons
-import { FaChevronRight } from "react-icons/fa";
 import ButtonCard from "../../../../components/cards/ButtonCard.jsx";
-
+import xpCacheManager from "../../../../context/manager/cache/xpCacheManager.js";
+import {useCache} from "../../../../context/manager/cache/CacheProvider.js";
 
 const BodyProfile = ({isSearch, data}) => {
-    const cacheManager = useCache();
+    const cache = useCache();
 
-    //console.info("BodyProfile data:");
-    //console.log(data)
+    // data
     let userData = isSearch ? data.searchedUser.userData : data.currentUserData;
+    let userXp = isSearch ? data.searchedUser.userData.userXp : cache.xpCache.getXpCache();
+    let userFriends = isSearch ? data.searchedUser.userFriends : data.userFriends;
+
+    //console.log(userData);
 
     return (
         <BodyProfileContainer>
@@ -38,46 +35,55 @@ const BodyProfile = ({isSearch, data}) => {
                     <GridElement tw="flex flex-row">
                         <img src="../../../../../static/img/icons/flameStreak.svg" alt="Flame"/>
                         <div>
-                            <span>0</span>
+                            <span>{userData.cumulatedDays}</span>
                             <h2>Jours d'affilée</h2>
                         </div>
                     </GridElement>
                     <GridElement>
-                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <img src="../../../../../static/img/icons/dumbbell.png" alt="Dumbbell"/>
                         <div>
-                            <span>{userData.userEx.totalTrainingDone}</span>
-                            <h2>Entrainement terminés</h2>
+                            <span>{userData.userExercise.totalTrainingDone}</span>
+                            <h2>Entrainements terminés</h2>
                         </div>
                     </GridElement>
                     <GridElement>
-                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <img src="../../../../../static/img/icons/chest.png" alt="Quest"/>
                         <div>
-                            <span>{userData.userXp.currentXp}</span>
-                            <h2>Xp gagnés</h2>
+                            <span>{userData.userQuest.totalQuestDone}</span>
+                            <h2>Quêtes terminées</h2>
                         </div>
                     </GridElement>
                     <GridElement>
-                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <img src="../../../../../static/img/icons/exercise.png" alt="Exercise"/>
                         <div>
-                            <span>{userData.userEx.totalExerciseDone}</span>
+                            <span>{userData.userExercise.totalExerciseDone}</span>
                             <h2>Exercices terminés</h2>
                         </div>
                     </GridElement>
                 </GridContainer>
                 <h1>Expérience</h1>
-                <div>
-
-                </div>
-                <h1>Succès</h1>
-                <SuccessContainer>
-
-                </SuccessContainer>
+                <GridContainer className="gridContainer">
+                    <GridElement tw="flex flex-row">
+                        <img src="../../../../../static/img/icons/xp.png" alt="Xp"/>
+                        <div>
+                            <span>{userXp.currentXp}</span>
+                            <h2>Xp actuels ({userXp.currentXp}/{cache.xpCache.getRequiredXp(userXp.currentLvl)})</h2>
+                        </div>
+                    </GridElement>
+                    <GridElement>
+                        <img src="../../../../../static/img/icons/spark.svg" alt="Flame"/>
+                        <div>
+                            <span>{userXp.cumulatedXp}</span>
+                            <h2>Xp cumulés</h2>
+                        </div>
+                    </GridElement>
+                </GridContainer>
             </BodyProfileSectionContainer>
             <BodyProfileAsideContainer>
-                <h1>Amis</h1>
+                <h1 className="title">Amis</h1>
                 <Subscribers
                     isSearch={isSearch}
-                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: cacheManager.getFriendsCache()}}
+                    data={isSearch ? {currentUserData: data.currentUserData , searchedUser: data.searchedUser} : {currentUserData: data.currentUserData, userFriends: userFriends}}
                 />
 
                 {!isSearch ?
@@ -90,21 +96,30 @@ const BodyProfile = ({isSearch, data}) => {
                             alt= "Search some friends"
                         />
                         <ButtonCard
-                            title= "Rejoindre une classe"
+                            title= "Mes classes"
                             desc= "Apprendre à plusieurs, c'est encore mieux !"
                             imageURL= "../../../../../static/img/icons/class.png"
-                            link= "/class"
-                            alt= "Join a class"
+                            link= "/my-class"
+                            alt= "Your classes"
+                        />
+                        <ButtonCard
+                            title="Entrainements"
+                            desc="Rien de mieux que de s'entrainer pour progresser !"
+                            imageURL="../../../../static/img/icons/dumbbell.png"
+                            alt="Training"
+                            link="/training"
                         />
                     </>
                     :
-                    <ButtonCard
-                        title= "Trouver des amis"
-                        desc= "Chercher d'autres membres de la communauté"
-                        imageURL= "../../../../../static/img/icons/find.png"
-                        link= "/user-search"
-                        alt= "Search some friends"
-                    />
+                    <>
+                        <ButtonCard
+                            title= "Trouver des amis"
+                            desc= "Chercher d'autres membres de la communauté"
+                            imageURL= "../../../../../static/img/icons/find.png"
+                            link= "/user-search"
+                            alt= "Search some friends"
+                        />
+                    </>
                 }
             </BodyProfileAsideContainer>
         </BodyProfileContainer>

@@ -57,9 +57,9 @@ export const BodyTrainingContainer = styled.div`
     gap: 24px;
 
       .grid__container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
       .card {
         display: flex;
         flex-direction: column;

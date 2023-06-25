@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import tw from "twin.macro";
 
 // Context
-import { useCache } from "../../../../../context/manager/cache/FriendsCacheManager.js";
+import { useCache } from "../../../../../context/manager/cache/CacheProvider.js";
 
 // Styled components
 import {
@@ -22,7 +22,7 @@ const Subscribers = ({isSearch, data}) => {
     const [followingSection, setFollowingSection] = useState(true);
 
     //console.log("Subscribers data: ", data);
-    const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.getFriendsCache();
+    const userFriends = isSearch ? data.searchedUser.userFriends : cacheManager.friendsCache.getFriendsCache();
 
     //console.log("userFriends: ", userFriends)
 

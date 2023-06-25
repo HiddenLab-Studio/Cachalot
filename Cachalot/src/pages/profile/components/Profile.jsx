@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// Context
-import { useCache } from "../../../context/manager/cache/FriendsCacheManager.js";
-
 // Components
 import Loading from "../../../components/utils/loading/Loading.jsx";
 import Navbar from "../../../components/navbar/Navbar.jsx";
@@ -19,6 +16,7 @@ import {
 import {
     MainContainer
 } from "../../../components/utils/ui/GlobalStyle.js";
+import ConnectionHomePage from "../../connection/ConnectionHomePage.jsx";
 
 
 const Profile = (props) => {
@@ -26,7 +24,8 @@ const Profile = (props) => {
 
     // Context
     const auth = props.auth;
-    const cacheManager = useCache();
+    const cache = props.cache;
+    const friendsCache = cache.friendsCache;
 
     // States
     const [searchedUser, setSearchedUser] = useState(null);
@@ -39,10 +38,10 @@ const Profile = (props) => {
         // Functions
         const getUserFriends = async (id) => {
             // if the cache is empty, load the data from the database
-            if(cacheManager.isFriendsCacheEmpty()){
+            if(friendsCache.isFriendsCacheEmpty()){
                 let result = await auth.utils.getUserFriends(id);
                 //console.log(result);
-                cacheManager.setFriendsCache(result.follower, result.following);
+                friendsCache.setFriendsCache(result.follower, result.following);
                 return result;
             } else {
                 // if the cache is not empty, load the data from the cache
@@ -60,19 +59,20 @@ const Profile = (props) => {
         let searchedUser = window.location.pathname.split("/")[2];
         if(searchedUser !== undefined && searchedUser.length > 0) {
             console.info("searching for user: " + searchedUser + "...");
-            console.log("Friends cache: ", cacheManager.getFriendsCache());
+            console.log("Friends cache: ", friendsCache.getFriendsCache());
             // if the searched user is the current user, redirect to the current user's profile
             if(auth.userData === null || auth.userData.username === searchedUser) {
                 navigate("/profile")
             } else {
                 searchingUser(searchedUser).then(r => {
-                    console.log(r)
+                    //console.log(r)
                     setIsLoading(false);
                 } );
             }
         } else {
             // if the user is not searching for another user, load the user's friends
             getUserFriends(auth.currentUser.uid).then((result) => {
+                //console.log(friendsCache.getFriendsCache());
                 console.info("Friends loaded successfully!");
                 setIsLoading(false);
             });
@@ -87,40 +87,45 @@ const Profile = (props) => {
 
     }, [window.location.pathname]);
 
-    if(isLoading) {
-        return <Loading />
-    } else if(userNotFound) {
-        // TODO: CREATE A USER_NOT_FOUND COMPONENT
-        return (
-            <MainContainer>
-                <Navbar />
-                <ProfileContainer>
-                    <Content>
-                        <div>User not found!</div>
-                    </Content>
-                </ProfileContainer>
-            </MainContainer>
-        )
+    if(auth.currentUser === "number"){
+        return <ConnectionHomePage />
     } else {
-        //console.info("searchedUser: " + searchedUser);
-        return (
-            <MainContainer>
-                <Navbar />
-                <ProfileContainer>
-                    <Content>
-                        <ProfileInformation
-                            isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
-                        />
-                        <BodyProfile
-                            isSearch={searchedUser !== null}
-                            data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cacheManager.getFriendsCache()}}
-                        />
-                    </Content>
-                </ProfileContainer>
-            </MainContainer>
-        )
+        if(isLoading) {
+            return <Loading />
+        } else if(userNotFound) {
+            // TODO: CREATE A USER_NOT_FOUND COMPONENT
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <ProfileContainer>
+                        <Content>
+                            <div>User not found!</div>
+                        </Content>
+                    </ProfileContainer>
+                </MainContainer>
+            )
+        } else {
+            //console.info("searchedUser: " + searchedUser);
+            return (
+                <MainContainer>
+                    <Navbar />
+                    <ProfileContainer>
+                        <Content>
+                            <ProfileInformation
+                                isSearch={searchedUser !== null}
+                                data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cache.friendsCache.getFriendsCache()}}
+                            />
+                            <BodyProfile
+                                isSearch={searchedUser !== null}
+                                data={searchedUser !== null ? {currentUserData: auth.userData , searchedUser: searchedUser} : {currentUserData: auth.userData, userFriends: cache.friendsCache.getFriendsCache()}}
+                            />
+                        </Content>
+                    </ProfileContainer>
+                </MainContainer>
+            )
+        }
     }
+
 }
 
 export default Profile;

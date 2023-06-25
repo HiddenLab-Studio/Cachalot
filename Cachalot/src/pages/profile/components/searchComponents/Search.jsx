@@ -26,7 +26,6 @@ const Search = ({auth}) => {
         }
     }, [])
 
-
     async function handleKeyDown(e) {
         if (e.key === "Enter") {
             let value = document.getElementById("searchInput").value.toLowerCase();
