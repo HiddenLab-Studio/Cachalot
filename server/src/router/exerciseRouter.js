@@ -39,7 +39,7 @@ router.post('/getExercises', async (req, res) => {
             break;
         case "french":
             console.log("french")
-            while (exerciseList.length < 10) {
+            while (exerciseList.length < amount) {
                 let exercise = await getExercicesFromJSON();
                 if (exercise.type === "INPUT") {
                     exerciseList.push(exercise);
