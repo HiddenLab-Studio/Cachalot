@@ -32,6 +32,7 @@ export const frenchFunctions = {
     },
 
     getSolution: async (exercise = undefined, answer, type) => {
+        console.log(exercise, answer, type);
         if(answer === null) return false;
         console.log(exercise, answer, type);
         let currentExercise = exercise !== undefined ? exercise : data.currentExercise;

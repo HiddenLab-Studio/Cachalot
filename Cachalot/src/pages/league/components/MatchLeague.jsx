@@ -29,7 +29,9 @@ const MatchContainer = ({ auth }) => {
   const [myWinner, setMyWinner] = useState(null);
 
   //Reponse de l'utilisateur
-  const [exercise, setExercise] = useState(null);
+  const [frenchExercise, setFrenchExercise] = useState([]);
+  const [mathExercise, setMathExercise] = useState([]);
+
   const [response, setResponse] = useState("");
   //Animation Bonne  rep
   const [myAnimation, setMyAnimation] = useState(false);
@@ -56,8 +58,6 @@ const MatchContainer = ({ auth }) => {
         const infoSort = await auth.league.infoSort(usersInfo);
         setYourInfo(infoSort.myInfo);
         setOtherInfo(infoSort.otherInfo);
-
-        console.log(infoSort.myInfo);
         const unsubscribe = auth.league.onStatePlayer(discipline, gameId, handlePlayerStateChange);
         return () => {
           unsubscribe();
@@ -88,16 +88,29 @@ const MatchContainer = ({ auth }) => {
     }
     //On récupère le score des joueurs pour l'affichage
     else if (GameState === "playing") {
-      if (myState === true) {
-        await setExercise(exercise);
-        await setMyPlayerScore(newState);
-        handleResponseAnimation(myState);
-      }
-      else {
-        await setOtherPlayerScore(newState);
-        handleResponseAnimation(myState);
+      if (discipline === "math") {
+        if (myState === true) {
+          await setMathExercise(exercise);
+          await setMyPlayerScore(newState);
+          handleResponseAnimation(myState);
+        }
+        else {
+          await setOtherPlayerScore(newState);
+          handleResponseAnimation(myState);
+        }
+      } else {
+        if (myState === true) {
+          await setFrenchExercise(exercise);
+          await setMyPlayerScore(newState);
+          handleResponseAnimation(myState);
+        }
+        else {
+          await setOtherPlayerScore(newState);
+          handleResponseAnimation(myState);
+        }
       }
     }
+
   };
 
   //Leave game by queue click event handler
@@ -133,14 +146,23 @@ const MatchContainer = ({ auth }) => {
     if (inputMessage == "") return;
 
     let currentExercise = null;
-    console.log(exercise);
-    if (exercise === null) {
-      currentExercise = yourInfo.exercise;
+    if (discipline === "math") {
+      if (mathExercise.length === 0) {
+        currentExercise = yourInfo.exercise;
+      }
+      else {
+        currentExercise = mathExercise;
+      }
+      console.log(currentExercise);
+    } else {
+      if (frenchExercise.length === 0) {
+        currentExercise = yourInfo.exercise;
+      }
+      else {
+        currentExercise = frenchExercise;
+      }
+      console.log(currentExercise);
     }
-    else {
-      currentExercise = exercise;
-    }
-    console.log(currentExercise);
 
     //On envoie la réponse
     const responsePush = await auth.league.sendResponse(discipline, gameId, currentExercise, inputMessage, 1);
@@ -214,7 +236,7 @@ const MatchContainer = ({ auth }) => {
         <img src="../../../../static/img/gif/sommeil.gif" className="flex items-center w-1/5" />
       </div>
 
-      {yourInfo && otherInfo && (
+      {yourInfo && otherInfo && gameState === "starting" && (
         <>
           {/*AFFICHAGE DU LOBBY */}
           <div
@@ -306,10 +328,13 @@ const MatchContainer = ({ auth }) => {
             </div>
           </div>
 
+        </>
+      )}
 
 
-
-          {/*AFFICHE DE LA GAME */}
+      {/*AFFICHE DE LA GAME */}
+      {yourInfo != null && otherInfo != null && gameState === "playing" && yourInfo.exercise != undefined && (
+        <>
           <div
             id="playingGame"
             className={gameState === "playing" ? "flex flex-col items-center justify-center h-screen" : "hidden"}>
@@ -371,23 +396,25 @@ const MatchContainer = ({ auth }) => {
 
 
 
+            { discipline === "math" ? (
             <div className={discipline === "math" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                 Quel est le résultat de :
               </p>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                {exercise === null ? yourInfo.exercise : exercise}
+                {mathExercise.length === 0 ? yourInfo.exercise : mathExercise}
               </p>
-            </div>
+            </div>) : (
 
             <div className={discipline === "french" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                Conjuguez le verbe au passé composé :
+                {frenchExercise.length === 0 ? yourInfo.exercise.question : frenchExercise.question}
               </p>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                {yourInfo.exercise.phrase}
+                {frenchExercise.length != 0 ? frenchExercise.phrase : yourInfo.exercise.phrase}
               </p>
-            </div>
+            </div>)}
+
 
 
 

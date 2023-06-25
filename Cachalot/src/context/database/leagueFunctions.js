@@ -3,6 +3,7 @@ import firebaseConfigClient from "../../services/firebase.config.js";
 const { auth, db } = firebaseConfigClient();
 
 import { mathFunctions } from "../../pages/exercise/functions/MathExerciseGenerator.js";
+import { frenchFunctions } from "../../pages/exercise/functions/FrenchExerciseGenerator.js";
 import ranks from "../../data/rank.json";
 
 
@@ -152,8 +153,6 @@ export const league = {
                         await updateDoc(docRef, {
                             exercices: exercices
                         })
-
-
                     }
                     callback("starting");
                 }
@@ -211,6 +210,7 @@ export const league = {
                         }
                         else {
                             const user = auth.currentUser;
+                            console.log(change.doc.data().exercise);
                             await callback(change.doc.id === user.uid, change.doc.data().score, docGameData.data().state, change.doc.data().exercise);
                         }
                     }
@@ -313,13 +313,21 @@ export const league = {
 
     //PLAYING
     //On regarde si la réponse est bonne ( A MODIFIER)
-    checkResponse: async (exercice, value) => {
+    checkResponse: async (exercice, value, discipline) => {
         console.log(exercice, value);
         let result = false;
-        const solution = await mathFunctions.getSolution(exercice, value);
-        console.log(solution);
-        if (solution) {
-            result = true;
+        if (discipline == "math") {
+            const solution = await mathFunctions.getSolution(exercice, value);
+            console.log(solution);
+            if (solution) {
+                result = true;
+            }
+        } else {
+            const solution = await frenchFunctions.getSolution(exercice, value, discipline);
+            console.log(solution);
+            if (solution) {
+                result = true;
+            }
         }
         return result;
 
@@ -327,15 +335,16 @@ export const league = {
 
     sendResponse: async (discipline, gameId, exercise, response, score) => {
         let result = false;
-
-        const responseCheck = await league.checkResponse(exercise, response);
+        console.log("ici");
+        const responseCheck = await league.checkResponse(exercise, response, discipline);
         if (responseCheck) {
             const user = auth.currentUser;
             const docPlayer = doc(db, "league", discipline, "games", gameId, "players", user.uid);
             const docPlayerData = await getDoc(docPlayer);
             if (docPlayerData.exists()) {
                 const exercise = await league.getExercise(discipline, gameId, (docPlayerData.data().score + score));
-                if (exercise == undefined) {
+                console.log(exercise);
+                if (exercise == undefined || exercise.length == 0) {
                     await updateDoc(docPlayer, {
                         score: docPlayerData.data().score + score,
                     }).then(() => {
@@ -445,14 +454,32 @@ export const league = {
     getExercise: async (discipline, gameId, score) => {
         const docGame = doc(db, "league", discipline, "games", gameId);
         const docGameData = await getDoc(docGame);
-        let exercise = "";
-        if(discipline == "math"){
-            exercise = docGameData.data().exercices[score];
+        if (discipline == "math") {
+            const exercise = docGameData.data().exercices[score];
+            return exercise;
+        } else {
+            if (docGameData.data().exercices[score] == undefined) {
+                return undefined;
+            }
+            else {
+                if (docGameData.data().exercices[score].phrase == undefined) {
+                    const exercise = {
+                        question: docGameData.data().exercices[score].question,
+                        id: docGameData.data().exercices[score].id,
+                        reponse: docGameData.data().exercices[score].reponse,
+                    }
+                    return exercise;
+                } else {
+                    const exercise = {
+                        question: docGameData.data().exercices[score].question,
+                        phrase: docGameData.data().exercices[score].phrase,
+                        id: docGameData.data().exercices[score].id,
+                        reponse: docGameData.data().exercices[score].reponse,
+                    }
+                    return exercise;
+                }
+            }
         }
-        else{
-            exercise = docGameData.data().exercices[score].exercise;
-        }
-        return exercise;
     },
 
     getLevel: async (rank) => {
