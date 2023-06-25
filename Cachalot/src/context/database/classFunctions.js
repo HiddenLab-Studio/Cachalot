@@ -877,6 +877,23 @@ export const classes = {
         await deleteDoc(docRef);
     },
 
+    // getUsersWork : async (classId, workId) => {
+    //     const docRef = collection(db, "classes", classId, "users");
+    //     const docSnapshot = await getDocs(docRef);
+    //     const users = await docSnapshot.docs.map(a => async () => {
+    //         const docRefUser = doc(db, "users", a.id);
+    //         const docRefUserData = await getDoc(docRefUser);
+    //         console.log(docRefUserData.data().works[workId].done);
+    //         if(docRefUserData.data().works[workId].done === true){
+    //             const data = {
+    //                 id: a.id,
+    //                 ...a.data()
+    //             }
+    //         }
+    //         return data;
+    //     });
+    //     return users;
+    // }
 
 
 

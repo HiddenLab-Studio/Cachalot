@@ -4,6 +4,7 @@ import moment from 'moment';
 import "./../../styles/class.css"
 import { connectStorageEmulator } from "firebase/storage";
 import { all } from "axios";
+import { Stage, Layer, Rect, Circle, Line } from "react-konva";
 
 
 
@@ -42,6 +43,11 @@ const ClassGameContainer = ({ auth }) => {
     const [classement, setClassement] = useState([]);
 
     const [myAdmin, setMyAdmin] = useState(false);
+
+    const [lines, setLines] = useState([]);
+    const [isDrawing, setIsDrawing] = useState(false);
+
+    const [dessin, setDessin] = useState(false);
 
 
     // GAME STATE
@@ -85,6 +91,7 @@ const ClassGameContainer = ({ auth }) => {
                     [idChange]: newState
                 }));
                 handleResponseAnimation(idChange);
+                handleClear();
             } else {
                 if (myUserChange === true) {
                     console.log("exercise", exercise);
@@ -95,6 +102,7 @@ const ClassGameContainer = ({ auth }) => {
                     [idChange]: newState
                 }));
                 handleResponseAnimation(idChange);
+                handleClear();
             }
 
         }
@@ -222,6 +230,34 @@ const ClassGameContainer = ({ auth }) => {
         const result = await auth.classes.myAdminWithClassId(classId);
         setMyAdmin(result);
     };
+
+    const handleMouseDown = (event) => {
+        if (event.evt.button === 0) { // Vérifie que le bouton enfoncé est le bouton gauche de la souris
+            const pos = event.target.getStage().getPointerPosition();
+            setLines([...lines, { points: [pos.x, pos.y] }]);
+            setIsDrawing(true);
+        }
+    };
+
+    const handleMouseMove = (event) => {
+        if (!isDrawing) return;
+
+        const pos = event.target.getStage().getPointerPosition();
+        const updatedLines = [...lines];
+        const lastLine = updatedLines[updatedLines.length - 1];
+        lastLine.points = lastLine.points.concat([pos.x, pos.y]);
+
+        setLines(updatedLines);
+    };
+
+    const handleMouseUp = () => {
+        setIsDrawing(false);
+    };
+
+    const handleClear = () => {
+        setLines([]);
+    };
+
 
 
 
@@ -426,11 +462,46 @@ const ClassGameContainer = ({ auth }) => {
                                         className="flex-grow border border-[#e5e5e5] rounded-lg bg-[#f7f7f7] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#0a78ff]"
                                     />
                                 </div>
-
-                                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
-                                    Envoyer
-                                </button>
+                                <div className="flex flex-row items-center justify-center">
+                                    <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="w-5/6 bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
+                                        Envoyer
+                                    </button>
+                                    <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="w- 1/6 bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/3891/3891874.png" className="w-6 h-6" onClick={() => setDessin(!dessin)} />
+                                    </button>
+                                </div>
                             </form>
+                            <div className={dessin === true ? "pt-2" : "hidden"}>
+                                <div className="flex flex-row items-center justify-center rounded-lg border-2 border-b-4 border-[#e5e5e5]">
+
+                                    <Stage
+                                        width={400}
+                                        height={200}
+                                        onMouseDown={handleMouseDown}
+                                        onMouseMove={handleMouseMove}
+                                        onMouseUp={handleMouseUp}
+
+                                    >
+                                        <Layer>
+                                            {lines.map((line, index) => (
+                                                <Line
+                                                    key={index}
+                                                    points={line.points}
+                                                    stroke="#0a78ff"
+                                                    strokeWidth={2}
+                                                    bg="white"
+
+                                                />
+                                            ))}
+                                        </Layer>
+                                    </Stage>
+
+                                </div>
+                                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} onClick={handleClear} className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg justify-end">
+                                    Effacer
+                                </button>
+
+                            </div>
                         </div>
 
                     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import tw from "twin.macro";
 import "./style/league.css";
 import { user } from "../../../context/database/userFunctions";
+import { Stage, Layer, Rect, Circle, Line } from "react-konva";
 
 // Styled components
 const MatchContainerWrapper = tw.div`flex flex-col space-y-4`;
@@ -42,6 +43,11 @@ const MatchContainer = ({ auth }) => {
   //rank
   const [ranked, setRanked] = useState(false);
   const [rankedIcon, setRankedIcon] = useState("");
+
+  const [lines, setLines] = useState([]);
+  const [isDrawing, setIsDrawing] = useState(false);
+
+  const [dessin, setDessin] = useState(false);
 
   // Gestion du game state
   const handleGameStateChange = async (newState) => {
@@ -202,6 +208,32 @@ const MatchContainer = ({ auth }) => {
     setRankedIcon(ranked.image);
   };
 
+  const handleMouseDown = (event) => {
+    if (event.evt.button === 0) { // Vérifie que le bouton enfoncé est le bouton gauche de la souris
+      const pos = event.target.getStage().getPointerPosition();
+      setLines([...lines, { points: [pos.x, pos.y] }]);
+      setIsDrawing(true);
+    }
+  };
+
+  const handleMouseMove = (event) => {
+    if (!isDrawing) return;
+
+    const pos = event.target.getStage().getPointerPosition();
+    const updatedLines = [...lines];
+    const lastLine = updatedLines[updatedLines.length - 1];
+    lastLine.points = lastLine.points.concat([pos.x, pos.y]);
+
+    setLines(updatedLines);
+  };
+
+  const handleMouseUp = () => {
+    setIsDrawing(false);
+  };
+
+  const handleClear = () => {
+    setLines([]);
+  };
 
   // Récupération du game state en temps réel
   useEffect(() => {
@@ -396,24 +428,24 @@ const MatchContainer = ({ auth }) => {
 
 
 
-            { discipline === "math" ? (
-            <div className={discipline === "math" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                Quel est le résultat de :
-              </p>
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                {mathExercise.length === 0 ? yourInfo.exercise : mathExercise}
-              </p>
-            </div>) : (
+            {discipline === "math" ? (
+              <div className={discipline === "math" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
+                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                  Quel est le résultat de :
+                </p>
+                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                  {mathExercise.length === 0 ? yourInfo.exercise : mathExercise}
+                </p>
+              </div>) : (
 
-            <div className={discipline === "french" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                {frenchExercise.length === 0 ? yourInfo.exercise.question : frenchExercise.question}
-              </p>
-              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
-                {frenchExercise.length != 0 ? frenchExercise.phrase : yourInfo.exercise.phrase}
-              </p>
-            </div>)}
+              <div className={discipline === "french" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
+                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                  {frenchExercise.length === 0 ? yourInfo.exercise.question : frenchExercise.question}
+                </p>
+                <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                  {frenchExercise.length != 0 ? frenchExercise.phrase : yourInfo.exercise.phrase}
+                </p>
+              </div>)}
 
 
 
@@ -431,10 +463,46 @@ const MatchContainer = ({ auth }) => {
                 />
               </div>
 
-              <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
-                Envoyer
-              </button>
+              <div className="flex flex-row items-center justify-center">
+                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="w-5/6 bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
+                  Envoyer
+                </button>
+                <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} type="submit" className="w- 1/6 bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg">
+                  <img src="https://cdn-icons-png.flaticon.com/512/3891/3891874.png" className="w-6 h-6" onClick={() => setDessin(!dessin)} />
+                </button>
+              </div>
             </form>
+            <div className={dessin === true ? "pt-2" : "hidden"}>
+              <div className="flex flex-row items-center justify-center rounded-lg border-2 border-b-4 border-[#e5e5e5]">
+
+                <Stage
+                  width={400}
+                  height={200}
+                  onMouseDown={handleMouseDown}
+                  onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+
+                >
+                  <Layer>
+                    {lines.map((line, index) => (
+                      <Line
+                        key={index}
+                        points={line.points}
+                        stroke="#0a78ff"
+                        strokeWidth={2}
+                        bg="white"
+
+                      />
+                    ))}
+                  </Layer>
+                </Stage>
+
+              </div>
+              <button style={{ fontFamily: "'DIN Round Pro medi', sans-serif", }} onClick={handleClear} className="bg-white border-2 border-[#e5e5e5] border-b-4 text-[#0a78ff] py-2 rounded-lg justify-end">
+                Effacer
+              </button>
+
+            </div>
           </div>
 
         </>
