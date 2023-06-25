@@ -56,6 +56,8 @@ const MatchContainer = ({ auth }) => {
         const infoSort = await auth.league.infoSort(usersInfo);
         setYourInfo(infoSort.myInfo);
         setOtherInfo(infoSort.otherInfo);
+
+        console.log(infoSort.myInfo);
         const unsubscribe = auth.league.onStatePlayer(discipline, gameId, handlePlayerStateChange);
         return () => {
           unsubscribe();
@@ -369,13 +371,21 @@ const MatchContainer = ({ auth }) => {
 
 
 
-
-            <div className="flex items-center flex-col mb-4 pt-4">
+            <div className={discipline === "math" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                 Quel est le résultat de :
               </p>
               <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
                 {exercise === null ? yourInfo.exercise : exercise}
+              </p>
+            </div>
+
+            <div className={discipline === "french" ? "flex items-center flex-col mb-4 pt-4" : "hidden"}>
+              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                Conjuguez le verbe au passé composé :
+              </p>
+              <p style={{ fontFamily: "'DIN Round Pro medi', sans-serif", color: "#3c3c3c", fontSize: "1.5rem" }} id="exercise" className="text-2xl font-bold">
+                {yourInfo.exercise.phrase}
               </p>
             </div>
 

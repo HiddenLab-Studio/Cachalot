@@ -169,19 +169,24 @@ export const user = {
             const userRef = doc(db, "users", currentUser.uid);
             const userDoc = await getDoc(userRef);
             const userWorks = userDoc.data().works;
-            // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
-            await updateDoc(userRef, {
-                works: {
-                    ...userWorks,
-                    [exerciseId]: {
-                        done: true,
-                        date: userWorks[exerciseId].date
+            if (userWorks[exerciseId] !== undefined) {
+                return result;
+            }
+            else {
+                // add the exerciseId to the field userExercise.exerciseDoneList inside userExercise object
+                await updateDoc(userRef, {
+                    works: {
+                        ...userWorks,
+                        [exerciseId]: {
+                            done: true,
+                            date: userWorks[exerciseId].date
+                        }
                     }
                 }
+                ).then(() => {
+                    result = true;
+                });
             }
-            ).then(() => {
-                result = true;
-            });
         }
         return result;
     },

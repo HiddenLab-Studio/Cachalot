@@ -152,6 +152,8 @@ export const league = {
                         await updateDoc(docRef, {
                             exercices: exercices
                         })
+
+
                     }
                     callback("starting");
                 }
@@ -358,23 +360,23 @@ export const league = {
     getWinner: async (discipline, gameId, usersInfo) => {
         let winner = false
         const user = auth.currentUser;
-        if(usersInfo[0].id == user.uid){
-            if(usersInfo[0].score > usersInfo[1].score){
-                await league.updateRank(discipline, gameId,usersInfo[0], usersInfo[1]);
+        if (usersInfo[0].id == user.uid) {
+            if (usersInfo[0].score > usersInfo[1].score) {
+                await league.updateRank(discipline, gameId, usersInfo[0], usersInfo[1]);
                 winner = true;
             }
-            else{
-                await league.updateRank(discipline, gameId,usersInfo[1], usersInfo[0]);
+            else {
+                await league.updateRank(discipline, gameId, usersInfo[1], usersInfo[0]);
                 winner = false;
             }
         }
-        else{
-            if(usersInfo[1].score > usersInfo[0].score){
-                await league.updateRank(discipline, gameId,usersInfo[1], usersInfo[0]);
+        else {
+            if (usersInfo[1].score > usersInfo[0].score) {
+                await league.updateRank(discipline, gameId, usersInfo[1], usersInfo[0]);
                 winner = true;
             }
-            else{
-                await league.updateRank(discipline, gameId,usersInfo[0], usersInfo[1]);
+            else {
+                await league.updateRank(discipline, gameId, usersInfo[0], usersInfo[1]);
                 winner = false;
             }
         }
@@ -428,7 +430,7 @@ export const league = {
                     await updateDoc(docLooser, {
                         rank: {
                             [discipline]: docLooserData.data().rank[discipline] - 1,
-                            "math": docLooserData.data().rank["math"] 
+                            "math": docLooserData.data().rank["math"]
                         }
                     })
                 }
@@ -443,7 +445,13 @@ export const league = {
     getExercise: async (discipline, gameId, score) => {
         const docGame = doc(db, "league", discipline, "games", gameId);
         const docGameData = await getDoc(docGame);
-        const exercise = docGameData.data().exercices[score];
+        let exercise = "";
+        if(discipline == "math"){
+            exercise = docGameData.data().exercices[score];
+        }
+        else{
+            exercise = docGameData.data().exercices[score].exercise;
+        }
         return exercise;
     },
 
