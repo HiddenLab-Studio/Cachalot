@@ -2,19 +2,12 @@ import React, { useEffect, useState } from "react";
 
 // Context
 import { useAuth } from "../../context/AuthContext.js";
+import {useCache} from "../../context/manager/cache/CacheProvider.js";
 
 // Components
+import FullLoading from "../../components/utils/loading/FullLoading.jsx";
 import ConnectionHomePage from "../connection/ConnectionHomePage.jsx";
 import Profile from "./components/Profile.jsx";
-import Loading from "../../components/utils/loading/Loading.jsx";
-import loadXpCache from "../../utils/onLoading.js";
-import {MainContainer} from "../../components/utils/ui/GlobalStyle.js";
-import Navbar from "../../components/navbar/Navbar.jsx";
-import {AsideContainer, ContentContainer, MainSection} from "../home/HomeStyle.js";
-import TrendingExercise from "../../components/cards/TrendingExercise.jsx";
-import {Link} from "react-router-dom";
-import FullLoading from "../../components/utils/loading/FullLoading.jsx";
-import {useCache} from "../../context/manager/cache/CacheProvider.js";
 
 const ProfileHomePage = ({isSearching}) => {
     // Context

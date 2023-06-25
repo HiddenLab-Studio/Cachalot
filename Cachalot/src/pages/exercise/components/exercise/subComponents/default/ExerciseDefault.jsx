@@ -49,28 +49,28 @@ const ExerciseDefault = ({auth, id}) => {
         });
     }, []);
 
-    function handleClick(type, e = undefined) {
+    async function handleClick(type, e = undefined) {
         switch (type) {
             case "imageZoom":
                 setImageZoom(!imageZoom);
                 break;
             case "select":
-                if(selectedAnswer.includes(e.target.id)) setSelectedAnswer(selectedAnswer.filter((item) => item !== e.target.id));
+                if (selectedAnswer.includes(e.target.id)) setSelectedAnswer(selectedAnswer.filter((item) => item !== e.target.id));
                 else setSelectedAnswer([...selectedAnswer, e.target.id]);
                 break;
             case "submit":
-                if(!exerciseFinished.complete){
-                    if(selectedAnswer.length === 0){
+                if (!exerciseFinished.complete) {
+                    if (selectedAnswer.length === 0) {
                         setExerciseFinished({correct: false, complete: false})
                     } else {
                         let amountOfIncorrectAnswers = 0;
                         let amountOfCorrectAnswers = 0;
                         let countCorrectAnswers = 0;
                         exerciseData.answers.forEach((answer) => {
-                            if(answer.isValid) countCorrectAnswers++;
+                            if (answer.isValid) countCorrectAnswers++;
                         });
                         selectedAnswer.forEach((answer) => {
-                            if(!exerciseData.answers[answer].isValid) {
+                            if (!exerciseData.answers[answer].isValid) {
                                 document.getElementById(answer).style.backgroundColor = "#e74c3c";
                                 amountOfIncorrectAnswers++
                             } else {
@@ -82,7 +82,7 @@ const ExerciseDefault = ({auth, id}) => {
                             // check if the user hasn't already complete the exercise
                             let exerciseId = window.location.pathname.split("/")[2];
                             console.log(userData.userExercise.exerciseDoneList);
-                            if(!userData.userExercise.exerciseDoneList.includes(exerciseId.toString())){
+                            if (!userData.userExercise.exerciseDoneList.includes(exerciseId.toString())) {
                                 auth.user.addExerciseDone(auth.currentUser, exerciseId).then(r => {
                                     //console.log(r);
                                     cache.questCache.updateQuestProgress("onExerciseCompleted").then(r => {
@@ -92,8 +92,8 @@ const ExerciseDefault = ({auth, id}) => {
                                     });
                                 });
                             } else {
-                                auth.user.addWorksDone(auth.currentUser, exerciseId)
                                 setExerciseFinished({correct: true, complete: true});
+                                await auth.user.addWorksDone(auth.currentUser, exerciseId);
                             }
                         } else {
                             setExerciseFinished({correct: false, complete: true});
@@ -102,14 +102,14 @@ const ExerciseDefault = ({auth, id}) => {
                 } else {
                     setSelectedAnswer([]);
                     setExerciseFinished({correct: false, complete: false});
-                    for(let i = 0; i < exerciseData.answers.length; i++){
+                    for (let i = 0; i < exerciseData.answers.length; i++) {
                         document.getElementById(i).style.backgroundColor = "";
                     }
                 }
                 break
             case "like":
                 let exerciseId = window.location.pathname.split("/")[2];
-                if(!isLiked){
+                if (!isLiked) {
                     auth.user.likeExercise(auth.currentUser, exerciseId).then(r => {
                         setIsLiked(true);
                     });
