@@ -29,8 +29,8 @@ export const BodyContainer = styled.section`
   justify-content: start;
 
   h1 {
-    font-family: "Din_Round_Med", sans-serif;
-    font-size: var(--fs-sl);
+    font-family: "Din_Round_Bold", sans-serif;
+    font-size: var(--fs-l);
     color: ${props => props.theme.text};
   }
   

@@ -12,6 +12,7 @@ import {
 import loadXpCache from "../../utils/onLoading.js";
 import {useAuth} from "../../context/AuthContext.js";
 import Loading from "../../components/utils/loading/Loading.jsx";
+import DescSpan from "../../components/utils/ui/DescSpan.jsx";
 
 const AboutContainer = styled(Container)``;
 const Content = styled.div`
@@ -42,7 +43,9 @@ const AboutHomePage = () => {
                 <Navbar />
                 <AboutContainer>
                     <Content>
-                        <h1>About</h1>
+                        <DescSpan
+                            desc="Cachalot est une plateforme d'entrainement aux mathématiques et au français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté."
+                        />
                     </Content>
                 </AboutContainer>
             </MainContainer>
