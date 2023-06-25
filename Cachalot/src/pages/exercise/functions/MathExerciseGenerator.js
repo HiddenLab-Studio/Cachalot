@@ -97,5 +97,4 @@ export const mathFunctions = {
         return result.exercises;
     },
         
-
 }
