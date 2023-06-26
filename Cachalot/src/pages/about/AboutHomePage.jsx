@@ -36,7 +36,7 @@ const AboutHomePage = () => {
                 <AboutContainer>
                     <Content>
                         <DescSpan
-                            desc="Cachalot est une plateforme d'entrainement aux mathématiques et au français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté."
+                            desc="Cachalot est une plateforme d'entrainement de mathématiques et de français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté."
                         />
                     </Content>
                 </AboutContainer>
@@ -52,7 +52,7 @@ const AboutHomePage = () => {
                     <AboutContainer>
                         <Content>
                             <DescSpan
-                                desc="Cachalot est une plateforme d'entrainement aux mathématiques et au français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté."
+                                desc="Cachalot est une plateforme d'entrainement de mathématiques et de français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté."
                             />
                         </Content>
                     </AboutContainer>

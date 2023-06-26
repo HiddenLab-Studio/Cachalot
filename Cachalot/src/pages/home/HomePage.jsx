@@ -44,7 +44,7 @@ const HomePage = () => {
                                     <h1>Bienvenue sur Cachalot</h1>
                                 </div>
                                 <DescSpan
-                                    desc="Cachalot est une plateforme d'entrainement aux mathématiques et au français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté.
+                                    desc="Cachalot est une plateforme d'entrainement de mathématiques et de français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté.
                                      pas encore de compte ? Inscrivez-vous dès maintenant !"
                                 />
                             </div>
@@ -115,7 +115,7 @@ const HomePage = () => {
                                         <h1>Bienvenue sur Cachalot</h1>
                                     </div>
                                     <DescSpan
-                                        desc="Cachalot est une plateforme d'entrainement aux mathématiques et au français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté.
+                                        desc="Cachalot est une plateforme d'entrainement de mathématiques et de français. Vous pouvez y trouver des exercices de mathématiques et de français mais aussi en créer et les partager avec la communauté.
                                      pas encore de compte ? Inscrivez-vous dès maintenant !"
                                     />
                                 </div>
