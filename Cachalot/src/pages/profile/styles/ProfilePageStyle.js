@@ -18,7 +18,9 @@ export const BodyProfileAsideContainer = styled.aside`
 `
 
 export const SuccessContainer = styled.div``
-export const GridElement = styled.div``
+export const GridElement = styled.div`
+  background-color: white;
+`
 export const GridContainer = styled.div``
 export const BodyProfileSectionContainer = styled.section`
   display: flex;

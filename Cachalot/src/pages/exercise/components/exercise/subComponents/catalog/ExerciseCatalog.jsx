@@ -18,6 +18,7 @@ const AllExerciseContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: white;
   .no__exercise__found {
     display: flex;
     width: 100%;
@@ -34,6 +35,7 @@ const UserExerciseContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background-color: white;
   h3 {
     font-family: "Din_Round_Bold", sans-serif;
     color: ${props => props.theme.text};

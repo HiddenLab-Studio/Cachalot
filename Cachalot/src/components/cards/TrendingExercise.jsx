@@ -19,6 +19,7 @@ const GridContainer = styled.div`
     
     .card {
       display: flex;
+      background-color: white;
       flex-direction: row;
       align-items: center;
       width: 100%;

@@ -58,6 +58,7 @@ const MessageContainer = styled.div`
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
+  
   margin: 12px 0;
   max-height: 250px;
   overflow-y: auto;
@@ -95,6 +96,7 @@ const Form = styled.form`
 `;
 const ChatContainerWrapper = styled.div`
   display: flex;
+  background-color: white;
   flex-direction: column;
   justify-content: center;
   width: 100%;

@@ -45,6 +45,7 @@ const ButtonCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: white;
   border: 2px solid ${props => props.theme.borderRightColor};
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;

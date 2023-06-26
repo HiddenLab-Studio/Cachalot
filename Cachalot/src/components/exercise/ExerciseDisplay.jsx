@@ -32,6 +32,7 @@ const ExerciseDisplayContainer = styled.div`
     color: ${props => props.theme.cachalotColor};
     border: 2px solid ${props => props.theme.borderRightColor};
     border-bottom: 4px solid ${props => props.theme.borderRightColor};
+    background-color: white;
     border-radius: 12px;
     padding: 12px;
     transition: all 0.2s ease-in-out;

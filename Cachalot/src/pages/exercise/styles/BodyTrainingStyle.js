@@ -8,6 +8,7 @@ export const InputNumberContainer = styled.div`
   flex-grow: 1;
   
   div {
+    background-color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -102,6 +103,7 @@ export const BodyTrainingContainer = styled.div`
     justify-content: center;
     flex-direction: row;
     gap: 16px;
+    
     
     .exercise__catalog, .exercise__creation {
       display: flex;

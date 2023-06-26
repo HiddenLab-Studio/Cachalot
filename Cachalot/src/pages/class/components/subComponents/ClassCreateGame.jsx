@@ -124,7 +124,7 @@ function ClassCreateGameContainer({ auth }) {
         <CreateGameContainerWrapper>
             {myAdmin === true && (
                 <>
-                    <div className="w-full border-2 border-[#e5e5e5] border-b-4 rounded-lg">
+                    <div className="w-full border-2 border-[#e5e5e5] border-b-4 rounded-lg bg-white">
                         <div className="flex px-2 flex-col justify-between items-center rounded-t-lg">
                             <div className="w-full pt-2 pb-1 border-b-2">
                                 <h1 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem" ,color:"#3c3c3c"}}>Céation d'une partie</h1>

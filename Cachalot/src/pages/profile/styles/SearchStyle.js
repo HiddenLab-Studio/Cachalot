@@ -58,6 +58,7 @@ export const Content = styled.div`
       align-items: center;
       border: 2px solid ${props => props.theme.borderRightColor};
       border-radius: 12px;
+      background-color: white;
       min-height: auto;
       //max-height: 512px;
       width: calc(100% - 64px);
@@ -76,6 +77,7 @@ export const Content = styled.div`
           flex-grow: 1;
           
           ${InformationContainer} {
+            
             display: flex;
             flex-grow: 1;
             gap: 16px;

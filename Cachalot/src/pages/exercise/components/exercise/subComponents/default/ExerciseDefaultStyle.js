@@ -36,6 +36,7 @@ export const GridElement = styled.div`
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;
   padding: 16px;
+  background-color: white;
   
   // text
   font-family: "Din_Round", sans-serif;
@@ -123,6 +124,7 @@ export const ExerciseDefaultContainer = styled.div`
     width: 100%;
     justify-content: center;
     button {
+        background-color: white;
         width: 100%;
         max-width: 256px;
         height: 48px;

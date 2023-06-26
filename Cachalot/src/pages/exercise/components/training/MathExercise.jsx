@@ -25,6 +25,7 @@ const Content = styled.section`
 
     button {
       font-family: "Din_Round_Med", sans-serif;
+      background-color: white;
       color: ${props => props.theme.text};
       border: 2px solid ${props => props.theme.borderRightColor};
       border-bottom: 4px solid ${props => props.theme.borderRightColor};
@@ -50,6 +51,7 @@ const Content = styled.section`
     }
 
     button {
+      background-color: white;
       font-family: "Din_Round_Med", sans-serif;
       color: ${props => props.theme.text};
       border: 2px solid ${props => props.theme.borderRightColor};

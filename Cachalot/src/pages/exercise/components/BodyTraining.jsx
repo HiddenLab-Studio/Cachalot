@@ -46,13 +46,13 @@ const BodyTraining = ({auth}) => {
             <div className="training__choice__container">
                 <div className="grid__container">
                     <Link to="/training/math">
-                        <div className="card">
+                        <div className="card bg-white">
                             <img src="../../../../static/img/icons/math.png" alt="Math"/>
                             <span>Mathématiques</span>
                         </div>
                     </Link>
                     <Link to="/training/french">
-                        <div className="card">
+                        <div className="card bg-white">
                             <img src="../../../../static/img/icons/french.png" alt="Français"/>
                             <span>Français</span>
                         </div>

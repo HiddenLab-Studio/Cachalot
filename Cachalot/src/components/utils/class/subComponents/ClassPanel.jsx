@@ -15,6 +15,7 @@ const GridContainer = styled.div`
     width: 100%;
 `;
 const PanelContainer = styled.div`
+  background-color: white;
   display: flex;
   flex-direction: column;
   width: 100%;

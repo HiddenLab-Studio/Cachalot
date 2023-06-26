@@ -19,6 +19,7 @@ export const ChoosePanelContainer = styled.div`
   border-radius: 12px;
   min-height: auto;
   max-height: 512px;
+  background-color: white;
   
   .followingOrFollowerSection {
     display: flex;

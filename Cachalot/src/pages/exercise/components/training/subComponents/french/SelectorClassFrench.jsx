@@ -9,7 +9,8 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 64px;
+  width: 64px; 
+  background-color: white;
   border: 2px solid ${props => props.theme.borderRightColor};
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;

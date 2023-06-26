@@ -15,6 +15,7 @@ const ButtonContainer = styled.div`
   justify-content: end;
 
   button {
+    background-color: white;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -24,7 +25,6 @@ const ButtonContainer = styled.div`
     font-size: var(--fs-ss);
     padding: 0 16px;
     color: ${props => props.theme.subText};
-    background-color: white;
     border: 2px solid ${props => props.theme.borderRightColor};
     border-bottom: 4px solid ${props => props.theme.borderRightColor};
     border-radius: 12px;

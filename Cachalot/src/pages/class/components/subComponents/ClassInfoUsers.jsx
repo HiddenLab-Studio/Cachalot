@@ -29,6 +29,7 @@ const ElementContainer = styled.div`
   }
 `;
 const ClassInfoUsersContainer = styled.div`
+  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;

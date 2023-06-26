@@ -89,7 +89,7 @@ function ClassJoinGameContainer({ auth }) {
     return (
         <JoinGameContainerWrapper>
             {allGames.length > 0 && myAdminGames != null && (
-                <div className="flex flex-col pt-2 ">
+                <div className="flex flex-col pt-2 bg-white ">
                     <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem", color: "#3c3c3c" }} className="pr-2 pb-2">
                         Rejoindre une partie
                     </h3>

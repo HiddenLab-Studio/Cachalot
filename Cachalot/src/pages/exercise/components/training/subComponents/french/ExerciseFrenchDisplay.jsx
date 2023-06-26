@@ -6,6 +6,7 @@ import {mathFunctions} from "../../../../functions/MathExerciseGenerator.js";
 import {useCache} from "../../../../../../context/manager/cache/CacheProvider.js";
 
 const ButtonYesOrNo = styled.button`
+  background-color: white;
   width: 25%;
   font-family: "Din_Round_Med", sans-serif;
   color: ${props => props.theme.cachalotColor};
@@ -66,6 +67,7 @@ const ExerciseContainer = styled.div`
     display: flex;
     justify-content: center;
     button {
+      background-color: white;
       width: 50%;
       font-family: "Din_Round_Med", sans-serif;
       color: ${props => props.theme.cachalotColor};

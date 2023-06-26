@@ -160,6 +160,7 @@ export const QuestContainer = styled.div`
   border: 2px solid ${props => props.theme.borderRightColor};
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;
+  background-color: white;
 
   .quest__separator {
     border-bottom: 2px solid ${props => props.theme.borderRightColor};

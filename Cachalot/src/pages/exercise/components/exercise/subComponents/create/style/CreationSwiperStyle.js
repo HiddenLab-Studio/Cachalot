@@ -5,6 +5,7 @@ export const SubmitButtonContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  background-color: white;
   gap: 16px;
   border: 2px solid ${props => props.theme.inputBorder};
   border-bottom: 4px solid ${props => props.theme.inputBorder};
@@ -97,6 +98,7 @@ export const ErrorContainer = styled.div`
 ;`
 
 export const ExerciseTypeCard = styled.div`
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,7 +106,7 @@ export const ExerciseTypeCard = styled.div`
   border: 2px solid ${props => props.theme.borderRightColor};
   border-bottom: 4px solid ${props => props.theme.borderRightColor};
   border-radius: 12px;
-  background-color: ${props => props.current === true ? props.theme.buttonBgHover : "transparent"};
+  background-color: ${props => props.current === true ? props.theme.buttonBgHover : "white"};
 
   img {
     height: 64px;
@@ -133,6 +135,7 @@ export const GridContainer = styled.div`
 `;
 
 export const ExerciseTypeCardContainer = styled.div`
+  
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -181,6 +184,7 @@ export const CreationSwiperContainer = styled.div`
   border-radius: 12px;
   padding: 16px;
   gap: 24px;
+  background-color: white;
   
   h1 {
     font-family: "Din_Round_Bold", sans-serif;

@@ -118,7 +118,7 @@ const ClassWork = ({ auth }) => {
 
             {myAdmin != null && allWorks.length > 0 && (
                 <>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col bg-white">
                         <h3 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "1.2rem", color: "#3c3c3c" }} className="pr-2 pb-2">Devoirs</h3>
                         <div className="flex flex-row w-full justify-between border-2 border-[#e5e5e5] border-b-4 rounded-lg">
                             <div className="flex flex-col w-full px-2 py-2">
@@ -177,7 +177,7 @@ const ClassWork = ({ auth }) => {
             )}
             {myAdmin === true && (
                 <>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col bg-white">
                         <h3
                             style={{
                                 fontFamily: "'DIN Round Pro bold', sans-serif",

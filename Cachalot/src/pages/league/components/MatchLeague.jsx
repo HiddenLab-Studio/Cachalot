@@ -284,8 +284,8 @@ const MatchContainer = ({ auth }) => {
               <div className="px-10">
                 <div className={
                   playerState.myState === true && playerState.newState === true
-                    ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
-                    : "mb-8 px-10 rounded-lg border-4  border-[#e5e5e5] border-b-8 w-max-60 w-60"
+                    ? "mb-8 px-10 rounded-lg bg-white border-4 border-b-8 border-green-500 w-max-60 w-60"
+                    : "mb-8 px-10 rounded-lg bg-white border-4  border-[#e5e5e5] border-b-8 w-max-60 w-60"
                 }>
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -310,8 +310,8 @@ const MatchContainer = ({ auth }) => {
               <div className="px-10">
                 <div className={
                   playerState.myState === false && playerState.newState === true
-                    ? "mb-8 px-10 rounded-lg border-4 border-b-8 border-green-500 w-max-60 w-60"
-                    : "mb-8 px-10 rounded-lg border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"
+                    ? "mb-8 px-10 rounded-lg bg-white border-4 border-b-8 border-green-500 w-max-60 w-60"
+                    : "mb-8 px-10 rounded-lg bg-white border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60"
                 }>
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -375,9 +375,9 @@ const MatchContainer = ({ auth }) => {
               <div className="px-10">
                 <div className={myBadAnimation === false ?
                   (myAnimation === false ?
-                    "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
-                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500") :
-                  "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-red-500"}
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-b-8 w-max-60 w-60 border-green-500") :
+                  "mb-8 px-10 rounded-lg border-4 bg-white border-b-8 w-max-60 w-60 border-red-500"}
                 >
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -403,8 +403,8 @@ const MatchContainer = ({ auth }) => {
 
               <div className="px-10">
                 <div className={otherAnimation === false ?
-                  "mb-8 px-10 rounded-lg border-4 border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
-                  "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500"}
+                  "mb-8 px-10 rounded-lg border-4 bg-white border-4 border-[#e5e5e5] border-b-8 w-max-60 w-60" :
+                  "mb-8 px-10 rounded-lg border-4 bg-white border-b-8 w-max-60 w-60 border-green-500"}
                 >
                   <div className="flex flex-col items-center py-3 ">
                     <img
@@ -473,7 +473,7 @@ const MatchContainer = ({ auth }) => {
               </div>
             </form>
             <div className={dessin === true ? "pt-2" : "hidden"}>
-              <div className="flex flex-row items-center justify-center rounded-lg border-2 border-b-4 border-[#e5e5e5]">
+              <div className="flex flex-row items-center justify-center rounded-lg border-2 border-b-4 border-[#e5e5e5] bg-white">
 
                 <Stage
                   width={400}
@@ -490,7 +490,7 @@ const MatchContainer = ({ auth }) => {
                         points={line.points}
                         stroke="#0a78ff"
                         strokeWidth={2}
-                        bg="white"
+                        background-color="white"
 
                       />
                     ))}
@@ -520,8 +520,8 @@ const MatchContainer = ({ auth }) => {
                 <div className="px-10">
                   <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.5rem" }} className={myWinner === true ? "text-3xl text-green-500 mb-4 " : "text-3xl text-red-500 mb-4"}> {myWinner === true ? "Gagnant" : "Perdant"} </h1>
                   <div className={myWinner === true ?
-                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500" :
-                    "mb-8 px-10 rounded-lg border-4 border-red-500 border-b-8 w-max-60 w-60"
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-b-8 w-max-60 w-60 border-green-500" :
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-red-500 border-b-8 w-max-60 w-60"
                   }>
                     <div className="flex flex-col items-center py-3 ">
                       <img
@@ -549,8 +549,8 @@ const MatchContainer = ({ auth }) => {
                   <h1 style={{ fontFamily: "'DIN Round Pro medi', sans-serif", fontSize: "1.5rem" }} className={myWinner === true ? "text-3xl text-red-500 mb-4 " : "text-3xl text-green-500 mb-4"}> {myWinner === true ? "Perdant" : "Gagnant"} </h1>
 
                   <div className={myWinner === false ?
-                    "mb-8 px-10 rounded-lg border-4 border-b-8 w-max-60 w-60 border-green-500" :
-                    "mb-8 px-10 rounded-lg border-4 border-red-500 border-b-8 w-max-60 w-60"}
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-b-8 w-max-60 w-60 border-green-500" :
+                    "mb-8 px-10 rounded-lg border-4 bg-white border-red-500 border-b-8 w-max-60 w-60"}
                   >
                     <div className="flex flex-col items-center py-3 ">
                       <img

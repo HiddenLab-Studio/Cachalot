@@ -7,6 +7,7 @@ const Button = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  
   gap: 10px;
   transition: all 100ms ease-in-out;
   font-size: var(--fs-ss);
@@ -14,7 +15,7 @@ const Button = styled.button`
   
   
   color: ${props => props.len === undefined ? props.theme.cachalotColor : props.len !== 0 ? props.theme.cachalotColor : props.theme.subText};
-  background-color: ${props => props.len === undefined ? "unset" : props.len === 0 ? props.theme.buttonBgHover : "unset"};
+  background-color: ${props => props.len === undefined ? "white" : props.len === 0 ? props.theme.buttonBgHover : "white"};
   border: 2px solid ${props => props.theme.borderRightColor};
   
   
