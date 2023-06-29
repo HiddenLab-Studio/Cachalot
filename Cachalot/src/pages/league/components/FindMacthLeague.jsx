@@ -78,7 +78,7 @@ const FindMatchContainer = ({ auth }) => {
         </div>
         {/* Explication du mode Ranked */}
         <div id="explication" className="w-full md:w-1/2 flex flex-col items-center md:items-start p-8 space-y-4">
-          <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "3rem" ,color:"#3c3c3c"}} className="text-gray-700">Ranked</h2>
+          <h2 style={{ fontFamily: "'DIN Round Pro bold', sans-serif", fontSize: "3rem" ,color:"#3c3c3c"}} className="text-gray-700">LIGUE</h2>
           <p style={{ fontFamily: "'DIN Round Pro', sans-serif", fontSize: "1rem", textAlign: "left" ,color:"#afafaf"}} className="text-gray-500">
             Les duels classés en mathématiques et en français sont des compétitions où le niveau varie selon le rang des participants, offrant ainsi des défis stimulants et l'opportunité de mesurer ses compétences. C'est l'occasion parfaite de mettre en pratique ses connaissances et de progresser dans la matière choisie.
           </p>
